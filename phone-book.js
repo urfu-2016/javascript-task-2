@@ -17,7 +17,7 @@ var phoneBook = {};
  *  @returns {Bool}
  */
 function checkPhone(phone) {
-    var re = /(\d)\1{2}(\d)\2{2}(\d)\3{1}(\d)\4{1}/;
+    var re = /(5)\1{2}(\d)\2{2}(\d)\3{1}(\d)\4{1}/;
     if (phone.match(re) === null) {
 
         return false;
