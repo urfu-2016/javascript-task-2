@@ -175,7 +175,7 @@ exports.importFromCsv = function (csv) {
     var n = 0;
     var isFalse = 0;
     csvArray.forEach(function (elem) {
-        if (elem.split(';').length > 3 &&
+        if (elem.split(';').length > 3 ||
            elem.split(';').length < 2) {
             isFalse = 1;
         }
