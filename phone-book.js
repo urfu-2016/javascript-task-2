@@ -87,7 +87,6 @@ function findPhones(query) {
  *  @returns {Bool}
  */
 exports.add = function (phone, name, email) {
-
     if (!checkPhone(phone)) {
 
         return false;
@@ -97,17 +96,14 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-
     if (phone in phoneBook) {
 
         return false;
     }
-
     if (!name) {
 
         return false;
     }
-
 
     phoneBook[phone] = {
         name: name,
@@ -229,22 +225,18 @@ exports.importFromCsv = function (csv) {
     if (!csv) {
         return 0;
     }
+    var n = 0;
     var contactList = csv.split('\n');
     for (var i = 0; i < contactList.length; i++) {
         var data = contactList[i].split(';');
         if (!checkCsvDataLength(data)) {
-            contactList.splice(i, 1);
-            i -= 1;
             continue;
         }
-        var name = data[0];
-        var phone = data[1];
-        var email = data[2];
-        if (!(module.exports.update(phone, name, email) ||
-            module.exports.add(phone, name, email))) {
-            contactList.splice(i, 1);
+        if (module.exports.add(data[1], data[0], data[2]) ||
+            module.exports.update(data[1], data[0], data[2])) {
+            n++;
         }
     }
 
-    return contactList.length;
+    return n;
 };
