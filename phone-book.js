@@ -5,6 +5,7 @@
  * Реализован метод importFromCsv
  */
 exports.isStar = false;
+
 /**
  * Телефонная книга
  */
