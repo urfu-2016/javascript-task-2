@@ -16,6 +16,7 @@ var phoneBook = {};
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool} – удалось ли добавить запись
  */
 
 function isCorrectPhone(phone) {
@@ -36,6 +37,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool} – удалось ли обновить запись
  */
 exports.update = function (phone, name, email) {
     if (!(phone in phoneBook) || !name) {
@@ -118,6 +120,7 @@ function getPrettyFindResultForPhones(phones) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} – количество удаленных записей
  */
 exports.findAndRemove = function (query) {
     var contactsToRemove = internalFind(query);
@@ -129,6 +132,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {String[]} – найденные записи в книге
  */
 exports.find = function (query) {
     if (!query) {
