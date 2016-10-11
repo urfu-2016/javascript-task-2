@@ -148,7 +148,7 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
     return csv.split('\n').map(line => {
         const parts = line.split(';');
-        if (parts.length !== 3) {
+        if (parts.length !== 3 || parts.length !== 2) {
             return false;
         }
         return exports.add(parts[1], parts[0], parts[2]) ||
