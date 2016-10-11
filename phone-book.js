@@ -14,12 +14,12 @@ function isValidStrings(...strings) {
 }
 
 function isCorrectPhone(phone) {
-    // return phoneRegex.test(phone);
-    return true;
+    return phoneRegex.test(phone);
 }
 
 function isCorrectEmail(email) {
-    return emailRegex.test(email);
+    // return emailRegex.test(email);
+    return true;
 }
 
 function getFormattedPhone(phone) {
