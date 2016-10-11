@@ -145,7 +145,11 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
+    if (phoneBook[phone].name === name &&
+        phoneBook[phone].email === email) {
 
+        return false;
+    }
     phoneBook[phone] = {
         name: name,
         email: email
@@ -214,15 +218,11 @@ exports.importFromCsv = function (csv) {
             break;
         }
         var data = contactList[i].split(';');
-        if (data.length < 2 || data.length > 3) {
-            contactList.splice(i, 1);
-            continue;
-        }
         var name = data[0];
         var phone = data[1];
         var email = data[2];
         if (!(module.exports.update(phone, name, email) ||
-         module.exports.add(phone, name, email))) {
+            module.exports.add(phone, name, email))) {
             contactList.splice(i, 1);
         }
     }
