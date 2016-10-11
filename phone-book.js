@@ -1,6 +1,6 @@
 'use strict';
 
-exports.isStar = false;
+exports.isStar = true;
 
 var phoneBook = {
     phoneNumbers: [],
@@ -19,7 +19,8 @@ function compareNumeric(a, b) {
     }
 }
 
-function isValidNumber(phone) {
+function isValidNumber(phoneNumber) {
+    var phone = phoneNumber.replace(/\s+/g, '');
 
     return (phone.length === 10 &&
             phone[0] === phone[1] &&
