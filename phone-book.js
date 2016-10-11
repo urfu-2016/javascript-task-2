@@ -139,8 +139,9 @@ exports.importFromCsv = function (csv) {
     var csvArray = csv.split('\n');
     for (var index = 0; index < csvArray.length; index++) {
         var data = csvArray[index].split(';');
-        if (this.add(data[1], data[0], data[2]) ||
-            this.update(data[1], data[0], data[2])) {
+        if ((data.length > 1 && data.length < 4 && isValid(data[1], data[0])) &&
+            (this.add(data[1], data[0], data[2]) ||
+            this.update(data[1], data[0], data[2]))) {
             count++;
         }
     }
