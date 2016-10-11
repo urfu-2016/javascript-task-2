@@ -13,37 +13,29 @@ var phoneBook;
 
 /**
  * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
  */
-exports.add = function (phone, name, email) {
+exports.add = function () {
     return true;
 };
 
 /**
  * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
  */
-exports.update = function (phone, name, email) {
+exports.update = function () {
     return true;
 };
 
 /**
  * Удаление записей по запросу из телефонной книги
- * @param {String} query
  */
-exports.findAndRemove = function (query) {
+exports.findAndRemove = function () {
     return [];
 };
 
 /**
  * Поиск записей по запросу в телефонной книге
- * @param {String} query
  */
-exports.find = function (query) {
+exports.find = function () {
     return [];
 };
 
