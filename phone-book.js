@@ -27,10 +27,19 @@ function getFormattedPhone(phone) {
     return `+7 (${phonePattern[1]}) ${phonePattern[2]}-${phonePattern[3]}-${phonePattern[4]}`;
 }
 
-function isCorrectInput(name, phone, email) {
+function isCorrectInput(phone, name, email) {
     return isValidStrings(name, phone) &&
         isCorrectPhone(phone) &&
         (email === undefined || (isValidStrings(email) && isCorrectEmail(email)));
+}
+
+function entryToKey(entry) {
+    return entry.name + entry.phone + (entry.hasOwnProperty('email') ? entry.email : '');
+}
+
+function entryToString(entry) {
+    return `${entry.name}, ${getFormattedPhone(entry.phone)}` +
+        (entry.hasOwnProperty('email') ? `, ${entry.email}` : '');
 }
 
 /**
@@ -47,10 +56,11 @@ exports.isStar = true;
  * @returns {bool}
  */
 exports.add = function (phone, name, email = undefined) {
-    if (!isCorrectInput(name, phone, email) || exports.find(phone).length !== 0) {
+    if (!isCorrectInput(phone, name, email) || exports.find(phone).length !== 0) {
         return false;
     }
-    phoneBook[[name, phone, email].join('')] = { name, phone: getFormattedPhone(phone), email };
+    const entry = { name, phone, email };
+    phoneBook[entryToKey(entry)] = entry;
 
     return true;
 };
@@ -63,7 +73,7 @@ exports.add = function (phone, name, email = undefined) {
  * @returns {bool}
  */
 exports.update = function (phone, name, email = undefined) {
-    if (!isCorrectInput(name, phone, email)) {
+    if (!isCorrectInput(phone, name, email)) {
         return false;
     }
     const keys = findKeys(phone);
@@ -71,12 +81,15 @@ exports.update = function (phone, name, email = undefined) {
         return false;
     }
     keys.forEach(key => {
-        phoneBook[key].name = name;
+        const entry = phoneBook[key];
+        Reflect.deleteProperty(phoneBook, key);
+        entry.name = name;
         if (email === undefined) {
-            Reflect.deleteProperty(phoneBook[key], 'email');
+            Reflect.deleteProperty(entry, 'email');
         } else {
-            phoneBook[key].email = email;
+            entry.email = email;
         }
+        phoneBook[entryToKey(entry)] = entry;
     });
 
     return true;
@@ -100,7 +113,9 @@ function findKeys(query) {
  */
 exports.findAndRemove = function (query) {
     const keys = findKeys(query);
-    keys.forEach(key => Reflect.deleteProperty(phoneBook, key));
+    keys.forEach(key => {
+        Reflect.deleteProperty(phoneBook, key);
+    });
 
     return keys.length;
 };
@@ -123,9 +138,7 @@ exports.find = function (query) {
 
             return 0;
         })
-        .map(entry => entry.hasOwnProperty('email') ?
-            `${entry.name}, ${entry.phone}, ${entry.email}` :
-            `${entry.name}, ${entry.phone}`);
+        .map(entryToString);
 };
 
 /**
@@ -143,8 +156,10 @@ exports.importFromCsv = function (csv) {
         if (parts.length !== 3) {
             return false;
         }
-
-        return module.exports.add(...parts);
+        return exports.add(parts[1], parts[0], parts[2]) ||
+            exports.update(parts[1], parts[0], parts[2]);
     })
-    .reduce((acc, value) => acc + (value ? 1 : 0), 0);
+    .reduce((acc, value) => {
+        return acc + (value ? 1 : 0);
+    }, 0);
 };
