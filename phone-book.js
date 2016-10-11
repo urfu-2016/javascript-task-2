@@ -1,6 +1,6 @@
 'use strict';
 
-exports.isStar = false;
+exports.isStar = true;
 
 var phoneBook = {
     phoneNumbers: [],
@@ -28,7 +28,8 @@ function isValidNumber(phoneNumber) {
             phone[3] === phone[4] &&
             phone[4] === phone[5] &&
             phone[6] === phone[7] &&
-            phone[8] === phone[9]);
+            phone[8] === phone[9]) &&
+            /^\d{10}$/.test(phone);
 }
 
 function makeNumber(phone) {
