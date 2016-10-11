@@ -168,13 +168,14 @@ exports.find = function (query) {
 };
 
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
+    if (typeof csv !== 'string') {
+
+        return 0;
+    }
     var csvArray = csv.split('\n');
     var n = 0;
     csvArray.forEach(function (elem) {
-        if (elem.split(';').length === 3 || elem.split(';').length === 2) {
+        if (elem.split(';').length === 3 || elem.split(';').length === 2){
             var name = elem.split(';')[0];
             var phone = elem.split(';')[1];
             var email = elem.split(';')[2];
