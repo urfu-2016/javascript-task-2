@@ -179,7 +179,7 @@ exports.importFromCsv = function (csv) {
             var name = elem.split(';')[0];
             var phone = elem.split(';')[1];
             var email = elem.split(';')[2];
-            if (name != '' && phone != '' && email != '') {
+            if (name !== '' && phone !== '' && email !== '') {
                 if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
                     n++;
                 }
