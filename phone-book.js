@@ -2,23 +2,7 @@
 
 exports.isStar = false;
 
-var phoneBook = {};
-
-function getObjectValues(obj) {
-    return Object.keys(obj).map(
-        function (el) {
-            return obj[el];
-        }
-    );
-}
-
-function isStringInContact(contact, string) {
-    return contact.split(', ').some(
-        function (el) {
-            return el.indexOf(string) !== -1;
-        }
-    );
-}
+var phoneBook = [];
 
 function isValidPhone(phone) {
     return /^(\d)\1{2}(\d)\2{2}(\d)\3{1}(\d)\4{1}$/.test(phone);
@@ -39,71 +23,97 @@ function formatPhone(phone) {
            '-' + phone.substring(8, 10);
 }
 
-function formatContact(phone, name, email) {
-    var result = name + ', ' + formatPhone(phone);
-    if (email !== undefined) {
-        result += ', ' + email;
+function getContactByPhone(phone) {
+    return phoneBook.find(
+        function (element) {
+            return element.phone === phone;
+        }
+    );
+}
+
+function formatContact(contact) {
+    var result = contact.name + ', ' + formatPhone(contact.phone);
+    if (contact.email !== undefined) {
+        result += ', ' + contact.email;
     }
 
     return result;
 }
 
+function isStringInContact(contact, string) {
+    return contact.phone.indexOf(string) !== -1 ||
+           contact.name.indexOf(string) !== -1 ||
+           contact.email !== undefined &&
+           contact.email.indexOf(string) !== -1;
+}
+
 exports.add = function (phone, name, email) {
     if (!checkInput(phone, name, email) ||
-        phoneBook[phone] !== undefined) {
+        getContactByPhone(phone) !== undefined) {
         return false;
     }
 
-    phoneBook[phone] = formatContact(phone, name, email);
+    phoneBook.push({
+        'phone': phone,
+        'name': name,
+        'email': email
+    });
 
     return true;
 };
 
 exports.update = function (phone, name, email) {
-    if (!checkInput(phone, name, email) ||
-        phoneBook[phone] === undefined) {
+    if (!checkInput(phone, name, email)) {
         return false;
     }
 
-    phoneBook[phone] = formatContact(phone, name, email);
+    var contact = getContactByPhone(phone);
+    if (contact === undefined) {
+        return false;
+    }
+
+    contact.name = name;
+    contact.email = email;
 
     return true;
 };
 
 exports.findAndRemove = function (query) {
-    var originalLength = Object.keys(phoneBook).length;
     if (query === '*' || query === '') {
-        phoneBook = {};
+        var result = phoneBook.length;
+        phoneBook = [];
 
-        return originalLength;
+        return result;
     }
     if (typeof query !== 'string') {
         return 0;
     }
 
-    for (var phone in phoneBook) {
-        if (isStringInContact(phoneBook[phone], query)) {
-            delete phoneBook[phone];
+    var originalLength = phoneBook.length;
+    phoneBook = phoneBook.filter(
+        function (element) {
+            return !isStringInContact(element, query);
         }
-    }
+    );
 
-    return originalLength - Object.keys(phoneBook).length;
+    return originalLength - phoneBook.length;
 };
 
 exports.find = function (query) {
     if (query === '*' || query === '') {
-        return getObjectValues(phoneBook).sort();
+        return phoneBook.map(formatContact).sort();
     }
     if (typeof query !== 'string') {
         return [];
     }
 
-    return getObjectValues(phoneBook)
+    return phoneBook
         .filter(
-            function (el) {
-                return isStringInContact(el, query);
+            function (element) {
+                return isStringInContact(element, query);
             }
         )
+        .map(formatContact)
         .sort();
 };
 
