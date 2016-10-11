@@ -79,13 +79,13 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
-    if (query === '*' || query === '') {
+    if (query === '*') {
         var result = phoneBook.length;
         phoneBook = [];
 
         return result;
     }
-    if (typeof query !== 'string') {
+    if (typeof query !== 'string' || query === '') {
         return 0;
     }
 
@@ -100,10 +100,10 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    if (query === '*' || query === '') {
+    if (query === '*') {
         return phoneBook.map(formatContact).sort();
     }
-    if (typeof query !== 'string') {
+    if (typeof query !== 'string' || query === '') {
         return [];
     }
 
