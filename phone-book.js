@@ -127,18 +127,18 @@ exports.importFromCsv = function (csv) {
         return 0;
     }
 
-    var added = 0;
     csv = csv.split('\n');
+    var changed = {};
     for (var i = 0; i < csv.length; i++) {
-        var parts = csv[i].split(';', 3);
+        var parts = csv[i].split(';');
         if (parts.length > 3) {
             continue;
         }
 
         if (addOrUpdate(parts[1], parts[0], parts[2])) {
-            added++;
+            changed[parts[1]] = true;
         }
     }
 
-    return added;
+    return Object.keys(changed).length;
 };
