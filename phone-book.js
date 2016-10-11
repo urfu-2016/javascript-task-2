@@ -20,9 +20,7 @@ var phoneBook = [];
  * @returns {boolean|*}
  */
 var isValid = function (phone, name) {
-    return /^\d{10}$/gi.test(phone) &&
-        name &&
-        /^[\wА-я]+$/gi.test(name);
+    return /^\d{10}$/gi.test(phone) && name;
 };
 
 /**
@@ -141,9 +139,8 @@ exports.importFromCsv = function (csv) {
     var csvArray = csv.split('\n');
     for (var index = 0; index < csvArray.length; index++) {
         var data = csvArray[index].split(';');
-        if (isValid(data[1], data[0]) &&
-            (this.add(data[1], data[0], data[2]) ||
-            this.update(data[1], data[0], data[2]))) {
+        if (this.add(data[1], data[0], data[2]) ||
+            this.update(data[1], data[0], data[2])) {
             count++;
         }
     }
