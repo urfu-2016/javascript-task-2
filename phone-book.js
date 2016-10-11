@@ -9,11 +9,10 @@ function isValidPhone(phone) {
 }
 
 function checkInput(phone, name, email) {
-    return typeof phone === 'string' &&
-           isValidPhone(phone) &&
-           typeof name === 'string' &&
+    return typeof phone === 'string' && isValidPhone(phone) &&
+           typeof name === 'string' && name !== '' &&
            (email === undefined ||
-            typeof email === 'string');
+            typeof email === 'string' && email !== '');
 }
 
 function formatPhone(phone) {
@@ -127,8 +126,8 @@ exports.importFromCsv = function (csv) {
         return 0;
     }
 
+    var added = 0;
     csv = csv.split('\n');
-    var changed = {};
     for (var i = 0; i < csv.length; i++) {
         var parts = csv[i].split(';');
         if (parts.length > 3) {
@@ -136,9 +135,9 @@ exports.importFromCsv = function (csv) {
         }
 
         if (addOrUpdate(parts[1], parts[0], parts[2])) {
-            changed[parts[1]] = true;
+            added++;
         }
     }
 
-    return Object.keys(changed).length;
+    return added;
 };
