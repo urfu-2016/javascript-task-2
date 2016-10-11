@@ -39,7 +39,7 @@ function entryToString(entry) {
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Добавление записи в телефонную книгу
