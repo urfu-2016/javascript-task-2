@@ -12,9 +12,21 @@ function getObjectValues(obj) {
     );
 }
 
+function isStringInContact(contact, string) {
+    return contact.split(', ').some(
+        function (el) {
+            return el.indexOf(string) !== -1;
+        }
+    );
+}
+
+function isValidPhone(phone) {
+    return /^(\d)\1{2}(\d)\2{2}(\d)\3{1}(\d)\4{1}$/.test(phone);
+}
+
 function checkInput(phone, name, email) {
     return typeof phone === 'string' &&
-           /^\d{10}$/.test(phone) &&
+           isValidPhone(phone) &&
            typeof name === 'string' &&
            (email === undefined ||
             typeof email === 'string');
@@ -70,7 +82,7 @@ exports.findAndRemove = function (query) {
     }
 
     for (var phone in phoneBook) {
-        if (phoneBook[phone].indexOf(query) !== -1) {
+        if (isStringInContact(phoneBook[phone], query)) {
             delete phoneBook[phone];
         }
     }
@@ -89,7 +101,7 @@ exports.find = function (query) {
     return getObjectValues(phoneBook)
         .filter(
             function (el) {
-                return el.indexOf(query) !== -1;
+                return isStringInContact(el, query);
             }
         )
         .sort();
