@@ -65,7 +65,7 @@ function queryAppropriate(query, phone) {
 }
 
 function findPhones(query) {
-    if (query === '') {
+    if (query === '' || query === undefined) {
         return [];
     }
     query = new RegExp('(.*)' + query + '(.*)');
@@ -214,16 +214,15 @@ exports.importFromCsv = function (csv) {
             break;
         }
         var data = contactList[i].split(';');
+        if (data.length !== 3) {
+            contactList.splice(i, 1);
+            continue;
+        }
         var name = data[0];
         var phone = data[1];
         var email = data[2];
-        var ret = true;
-        if (phone in phoneBook) {
-            ret = ret && module.exports.update(phone, name, email);
-        } else {
-            ret = ret && module.exports.add(phone, name, email);
-        }
-        if (!ret) {
+        if (!(module.exports.update(phone, name, email) ||
+         module.exports.add(phone, name, email))) {
             contactList.splice(i, 1);
         }
     }
