@@ -4,10 +4,7 @@
  * Телефонная книга
  */
 const phoneBook = {}; // Здесь вы храните записи как хотите
-
 const phoneRegex = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
-const emailRegex = new RegExp(['^(([^<>()\\[\\]\\.,;:\\s@\\"]+(\\.[^<>()\\[\\]\\.,;:\\s@\\"]+)*)|',
-    '(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'].join(''), 'i');
 
 function isValidStrings(...strings) {
     return strings.every(s => typeof s === 'string' && s !== '');
@@ -15,11 +12,6 @@ function isValidStrings(...strings) {
 
 function isCorrectPhone(phone) {
     return phoneRegex.test(phone);
-}
-
-function isCorrectEmail(email) {
-    // return emailRegex.test(email);
-    return true;
 }
 
 function getFormattedPhone(phone) {
@@ -47,7 +39,7 @@ function entryToString(entry) {
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /**
  * Добавление записи в телефонную книгу
@@ -140,15 +132,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     return findKeys(query)
         .map(key => phoneBook[key])
-        .sort((x, y) => {
-            if (x.name < y.name) {
-                return -1;
-            } else if (x.name > y.name) {
-                return 1;
-            }
-
-            return 0;
-        })
+        .sort((x, y) => x.name.localeCompare(y.name))
         .map(entryToString);
 };
 
