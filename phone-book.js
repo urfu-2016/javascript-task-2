@@ -130,12 +130,11 @@ exports.importFromCsv = function (csv) {
     var added = 0;
     csv = csv.split('\n');
     for (var i = 0; i < csv.length; i++) {
-        var parts = csv[i].split(';');
+        var parts = csv[i].split(';', 3);
         if (parts.length > 3) {
             continue;
         }
 
-        parts[2] = parts[2] === '' ? undefined : parts[2];
         if (addOrUpdate(parts[1], parts[0], parts[2])) {
             added++;
         }
