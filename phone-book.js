@@ -79,8 +79,8 @@ exports.update = function (phone, name, email) {
 
 function toUpdateSingleContact(person, phone, name, email) {
     if (person.phone === phone) {
-        person.email = email;
-        if (name) {
+        if (!checkInputAdd(phone, name, email)) {
+            person.email = email;
             person.name = name;
         }
 
