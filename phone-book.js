@@ -18,8 +18,7 @@ var phoneBook = [];
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
-    var regExp = /[^0-9]/;
-    if (regExp.test(phone) || phone.length !== 10 || !name) {
+    if (checkInputAdd(phone, name, email)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -36,6 +35,30 @@ exports.add = function (phone, name, email) {
 
     return true;
 };
+
+function checkInputAdd(phone, name, email) {
+    var regExp = /[^0-9]/;
+    if (regExp.test(phone) || phone.length !== 10 || !name || toCountChar('@', email) !== 1 ||
+        toCountChar('.', email) < 1) {
+        return true;
+    }
+
+    return false;
+}
+
+function toCountChar(char, string) {
+    if (typeof string === 'undefined') {
+        return 1;
+    }
+    var countChar = 0;
+    for (var i = 0; i < string.length; i++) {
+        if (string[i] === char) {
+            countChar++;
+        }
+    }
+
+    return countChar;
+}
 
 /*
  * Обновление записи в телефонной книге
