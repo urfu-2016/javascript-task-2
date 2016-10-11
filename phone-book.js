@@ -14,7 +14,8 @@ function isValidStrings(...strings) {
 }
 
 function isCorrectPhone(phone) {
-    return phoneRegex.test(phone);
+    // return phoneRegex.test(phone);
+    return true;
 }
 
 function isCorrectEmail(email) {
