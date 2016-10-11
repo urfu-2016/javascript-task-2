@@ -20,7 +20,7 @@ function compareNumeric(a, b) {
 }
 
 function isValidNumber(phoneNumber) {
-    if (phoneNumber.length != 10) {
+    if (phoneNumber.length !== 10) {
 
         return false;
     }
@@ -34,6 +34,21 @@ function isValidNumber(phoneNumber) {
             phone[6] === phone[7] &&
             phone[8] === phone[9] &&
             /^\d{10}$/.test(phone));
+}
+
+function checkTypes(phone, name, email) {
+    if (phone === undefined || name === undefined || !isValidNumber(phone)) {
+
+        return false;
+    }
+    if (typeof phone !== 'string' ||
+        typeof name !== 'string' ||
+        (typeof email !== 'string' && email !== undefined)) {
+
+            return false;
+        }
+
+    return true;
 }
 
 function makeNumber(phone) {
@@ -72,16 +87,10 @@ function helpFind(query) {
 
 exports.add = function (phone, name, email) {
     var isRepeat = 0;
-    if (phone === undefined || name === undefined || !isValidNumber(phone)) {
+    if (!checkTypes(phone, name, email)) {
 
         return false;
     }
-    if (typeof phone !== 'string' || 
-        typeof name !== 'string' || 
-        (typeof email !== 'string' && email !== undefined)) {
-
-        return false
-        }
     phoneBook.phoneNumbers.forEach(function (elem) {
         if (elem === phone) {
             isRepeat = 1;
@@ -99,16 +108,10 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if (phone === undefined || name === undefined || !isValidNumber(phone)) {
+    if (!checkTypes(phone, name, email)) {
 
         return false;
     }
-    if (typeof phone !== 'string' || 
-        typeof name !== 'string' || 
-        (typeof email !== 'string' && email !== undefined)) {
-
-        return false
-        }
     var updateIndex = -1;
     phoneBook.phoneNumbers.forEach(function (elem, index) {
         if (elem === phone) {
