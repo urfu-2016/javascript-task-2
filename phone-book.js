@@ -109,6 +109,10 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
+    if (query === undefined || query === '') {
+
+        return 0;
+    }
     var foundIndexes = helpFind(query);
     foundIndexes.sort(compareNumeric);
     foundIndexes.forEach(function (elem) {
@@ -123,6 +127,10 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var foundIndexes = [];
     var foundNotes = [];
+    if (query === undefined || query === '') {
+
+        return foundNotes;
+    }
     if (query === '*') {
         var i;
         for (i = 0; i < phoneBook.phoneNumbers.length; i++) {
