@@ -50,7 +50,7 @@ exports.add = function (phone, name, email = undefined) {
     if (!isCorrectInput(name, phone, email) || exports.find(phone).length !== 0) {
         return false;
     }
-    phoneBook[[name, phone, email].join('')] = { name, 'phone': getFormattedPhone(phone), email };
+    phoneBook[[name, phone, email].join('')] = { name, phone: getFormattedPhone(phone), email };
 
     return true;
 };
@@ -123,9 +123,9 @@ exports.find = function (query) {
 
             return 0;
         })
-        .map(entry => entry.hasOwnProperty('email')
-            ? `${entry.name}, ${entry.phone}, ${entry.email}`
-            : `${entry.name}, ${entry.phone}`);
+        .map(entry => entry.hasOwnProperty('email') ?
+            `${entry.name}, ${entry.phone}, ${entry.email}` :
+            `${entry.name}, ${entry.phone}`);
 };
 
 /**
