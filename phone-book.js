@@ -72,6 +72,7 @@ function toUpdateSingleContact(person, phone, name, email) {
  * @param {String} query
  */
 exports.findAndRemove = function (query) {
+    query = query.toLowerCase();
     var countDelete = 0;
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone.indexOf(query) !== -1 ||
@@ -83,6 +84,7 @@ exports.findAndRemove = function (query) {
             i--;
         }
     }
+    console.info(phoneBook);
 
     return countDelete;
 };
@@ -92,6 +94,7 @@ exports.findAndRemove = function (query) {
  * @param {String} query
  */
 exports.find = function (query) {
+    query = query.toLowerCase();
     var result = [];
     if (typeof query === 'undefined') {
         return;
@@ -129,7 +132,7 @@ function toFindSingleContact(person, query, result) {
     return result;
 }
 
-/**
+/*
  * Импорт записей из csv-формата
  * @star
  * @param {String} csv
