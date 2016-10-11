@@ -42,6 +42,14 @@ function makeNumber(phone) {
         '-' + phone.substring(6, 8) + '-' + phone.substring(8, 10);
 }
 
+function checkEmpty(phone, name, email) {
+    if (phone === '' || name === '' || email === '') {
+
+        return true;
+    }
+
+    return false;
+} 
 /**
  * Заполняет массив индексами из массивов в которых найдено совпадение
  * @param {String} query
@@ -76,6 +84,10 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
+    if (checkEmpty(phone, name, email)) {
+
+        return false;
+    }
     phoneBook.phoneNumbers.forEach(function (elem) {
         if (elem === phone) {
             isRepeat = 1;
@@ -94,6 +106,10 @@ exports.add = function (phone, name, email) {
 
 exports.update = function (phone, name, email) {
     if (phone === undefined || name === undefined || !isValidNumber(phone)) {
+
+        return false;
+    }
+    if (checkEmpty(phone, name, email)) {
 
         return false;
     }
@@ -179,10 +195,8 @@ exports.importFromCsv = function (csv) {
             var name = elem.split(';')[0];
             var phone = elem.split(';')[1];
             var email = elem.split(';')[2];
-            if (name !== '' && phone !== '' && email !== '') {
-                if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
-                    n++;
-                }
+            if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
+                n++;
             }
         }
     });
