@@ -130,10 +130,12 @@ exports.importFromCsv = function (csv) {
             continue;
         }
 
-        if (!exports.add(parts[1], parts[0], parts[2])) {
-            added += exports.update(parts[1], parts[0], parts[2]) === true ? 1 : 0;
-        } else {
-            added += 1;
+        if (parts[2] == '') {
+            parts[2] = undefined;
+        }
+        if (this.add(parts[1], parts[0], parts[2]) ||
+            this.update(parts[1], parts[0], parts[2])) {
+            added++;
         }
     }
 
