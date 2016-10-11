@@ -222,11 +222,11 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    if (!csv) {
+        return 0;
+    }
     var contactList = csv.split('\n');
-    for (var i in contactList) {
-        if (!i) {
-            break;
-        }
+    for (var i = 0; i < contactList.length; i++) {
         var data = contactList[i].split(';');
         if (!checkCsvDataLength(data)) {
             contactList.splice(i, 1);
