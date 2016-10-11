@@ -36,17 +36,6 @@ function isValidNumber(phoneNumber) {
             /^\d{10}$/.test(phone));
 }
 
-function checkTypes(phone, name, email) {
-    if (typeof phone !== 'string' ||
-        typeof name !== 'string' ||
-        (typeof email !== 'string' && email !== undefined)) {
-
-        return false;
-    }
-
-    return true;
-}
-
 function makeNumber(phone) {
 
     return '+7 (' + phone.substring(0, 3) + ') ' + phone.substring(3, 6) +
@@ -87,10 +76,6 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-    if (!checkTypes(phone, name, email)) {
-
-        return false;
-    }
     phoneBook.phoneNumbers.forEach(function (elem) {
         if (elem === phone) {
             isRepeat = 1;
@@ -112,10 +97,6 @@ exports.update = function (phone, name, email) {
 
         return false;
     }
-    if (!checkTypes(phone, name, email)) {
-
-        return false;
-    }
     var updateIndex = -1;
     phoneBook.phoneNumbers.forEach(function (elem, index) {
         if (elem === phone) {
@@ -134,11 +115,19 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
+    var foundIndexes = [];
     if (query === undefined || query === '') {
 
         return 0;
     }
-    var foundIndexes = helpFind(query);
+    if (query === '*') {
+        var i;
+        for (i = 0; i < phoneBook.phoneNumbers.length; i++) {
+            foundIndexes.push(i);
+        }
+    } else {
+        foundIndexes = helpFind(query);
+    }
     foundIndexes.sort(compareNumeric);
     foundIndexes.forEach(function (elem) {
         phoneBook.phoneNumbers.splice(elem, 1);
