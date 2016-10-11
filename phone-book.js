@@ -165,11 +165,15 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var phones = findPhones(query);
+    var phonesToDelete = [];
     for (var i in phones) {
         if (i) {
             var phone = phones[i];
-            delete phoneBook[phone];
+            phonesToDelete.push(phone);
         }
+    }
+    for (var j = 0; j < phonesToDelete.length; j++) {
+        delete phoneBook[phonesToDelete[j]];
     }
 
     return phones.length;
@@ -230,6 +234,7 @@ exports.importFromCsv = function (csv) {
         var data = contactList[i].split(';');
         if (!checkCsvDataLength(data)) {
             contactList.splice(i, 1);
+            i -= 1;
             continue;
         }
         var name = data[0];
