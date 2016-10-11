@@ -86,11 +86,13 @@ exports.find = function (query) {
         return [];
     }
 
-    return getObjectValues(phoneBook).filter(
-        function (el) {
-            return el.indexOf(query) !== -1;
-        }
-    ).sort();
+    return getObjectValues(phoneBook)
+        .filter(
+            function (el) {
+                return el.indexOf(query) !== -1;
+            }
+        )
+        .sort();
 };
 
 exports.importFromCsv = function (csv) {
