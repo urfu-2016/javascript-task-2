@@ -14,7 +14,7 @@ function isValidStrings(...strings) {
 }
 
 function isCorrectPhone(phone) {
-    return phoneRegex.test(phone.replace(/\s/g, ''));
+    return phoneRegex.test(phone);
 }
 
 function isCorrectEmail(email) {
@@ -159,7 +159,5 @@ exports.importFromCsv = function (csv) {
         return exports.add(parts[1], parts[0], parts[2]) ||
             exports.update(parts[1], parts[0], parts[2]);
     })
-    .reduce((acc, value) => {
-        return acc + (value ? 1 : 0);
-    }, 0);
+    .reduce((acc, value) => acc + value ? 1 : 0, 0);
 };
