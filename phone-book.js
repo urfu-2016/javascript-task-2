@@ -1,14 +1,7 @@
 'use strict';
 
-/**
- * Сделано задание на звездочку
- * Реализован метод importFromCsv
- */
 exports.isStar = false;
 
-/**
- * Телефонная книга
- */
 var phoneBook = [];
 
 function checkInput(phone, name, email) {
@@ -50,12 +43,6 @@ function isStringInContact(contact, string) {
            contact.email.indexOf(string) !== -1;
 }
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.add = function (phone, name, email) {
     if (!checkInput(phone, name, email) ||
         getContactByPhone(phone) !== undefined) {
@@ -71,12 +58,6 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.update = function (phone, name, email) {
     if (!checkInput(phone, name, email)) {
         return false;
@@ -93,10 +74,6 @@ exports.update = function (phone, name, email) {
     return true;
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
 exports.findAndRemove = function (query) {
     if (query === '*' || query === '') {
         var result = phoneBook.length;
@@ -118,10 +95,6 @@ exports.findAndRemove = function (query) {
     return originalLength - phoneBook.length;
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 exports.find = function (query) {
     if (query === '*' || query === '') {
         return phoneBook.map(formatContact).sort();
@@ -140,16 +113,6 @@ exports.find = function (query) {
         .sort();
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
-
     return csv.split('\n').length;
 };
