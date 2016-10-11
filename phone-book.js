@@ -60,7 +60,10 @@ exports.add = function (phone, name, email = undefined) {
     if (!isCorrectInput(phone, name, email) || exports.find(phone).length !== 0) {
         return false;
     }
-    const entry = { name, phone, email };
+    const entry = { name, phone };
+    if (email !== undefined) {
+        entry.email = email;
+    }
     phoneBook[entryToKey(entry)] = entry;
 
     return true;
