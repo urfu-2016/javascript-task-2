@@ -78,7 +78,7 @@ function internalFind(query) {
         return Object.keys(phoneBook);
     }
 
-    return Object.keys(phoneBook).filter(getFilterForQuery);
+    return Object.keys(phoneBook).filter(getFilterForQuery(query));
 }
 
 // как же тяжело без лямбд...
