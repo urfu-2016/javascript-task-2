@@ -32,6 +32,7 @@ function isCorrectInput(phone, name, email) {
     return isValidStrings(name, phone) &&
         isCorrectPhone(phone) &&
         name !== '' &&
+        email !== '' &&
         (email === undefined || isValidStrings(email));
 }
 
