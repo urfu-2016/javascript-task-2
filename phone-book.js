@@ -96,7 +96,14 @@ exports.update = function (phone, name, email = undefined) {
 };
 
 function normalizeQuery(query) {
-    return query === '*' ? '' : query;
+    if (query === '*') {
+        return '';
+    }
+    if (query === '') {
+        return '\0';
+    }
+
+    return query;
 }
 
 function findKeys(query) {
