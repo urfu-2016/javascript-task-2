@@ -15,12 +15,12 @@ var phoneBook = [];
 
 /**
  * Валидация входных данных
- * @param {String} phone
- * @param {String} name
- * @returns {boolean|*}
+ * @param {Array} args
+ * @param {String} email
+ * @returns {boolean}
  */
-var isValid = function (phone, name) {
-    return /^\d{10}$/gi.test(phone) && name;
+var isValid = function (args, email) {
+    return /^\d{10}$/gi.test(email || args[0]) && args.length > 1 && args.length < 4;
 };
 
 /**
@@ -46,7 +46,7 @@ var getRecords = function (query) {
  * @returns {boolean}
  */
 exports.add = function (phone, name, email) {
-    if (isValid(phone, name)) {
+    if (isValid(arguments)) {
         var records = getRecords(phone);
         if (records.length === 0) {
             phoneBook.push({
@@ -72,7 +72,7 @@ exports.add = function (phone, name, email) {
  * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
-    if (isValid(phone, name)) {
+    if (isValid(arguments)) {
         var records = getRecords(phone);
         if (records.length === 1) {
             var index = phoneBook.indexOf(records[0]);
@@ -139,8 +139,9 @@ exports.importFromCsv = function (csv) {
     var csvArray = csv.split('\n');
     for (var index = 0; index < csvArray.length; index++) {
         var data = csvArray[index].split(';');
-        if (this.add(data[1], data[0], data[2]) ||
-            this.update(data[1], data[0], data[2])) {
+        if (isValid(data, data[1]) &&
+            (this.add(data[1], data[0], data[2]) ||
+            this.update(data[1], data[0], data[2]))) {
             count++;
         }
     }

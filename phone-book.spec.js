@@ -53,6 +53,7 @@ describe('phone-book', function () {
                 'Григорий;5554440044;grisha@example.com',
                 'Алексей;5551110011;alex@example.com',
                 'Валерий;5553330033;valera@example.com',
+                'Валерий;5553330033;123;valera@example.com',
                 'Неизвестный;3330033;unknown@example.com'
             ].join('\n');
             assert.strictEqual(phoneBook.importFromCsv(csv), 4);
