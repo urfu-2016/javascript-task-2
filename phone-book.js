@@ -20,7 +20,7 @@ var phoneBook = [];
  * @returns {boolean|*}
  */
 var isValid = function (phone, name) {
-    return /\d{10}/gi.test(phone) && name;
+    return /^\d{10}$/gi.test(phone) && name;
 };
 
 /**
