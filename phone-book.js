@@ -33,8 +33,8 @@ function checkPhone(phone) {
  */
 function formatPhone(phone) {
 
-    return "+7 (" + phone.slice(0, 3) + ") " +
-        phone.slice(3, 6) + "-" + phone.slice(6, 8) + "-" + phone.slice(8, 10);
+    return '+7 (' + phone.slice(0, 3) + ') ' +
+        phone.slice(3, 6) + '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
 }
 
 
@@ -51,10 +51,10 @@ function queryAppropriate(query, phone) {
 }
 
 function findPhones(query) {
-    if (query === "") {
+    if (query === '') {
         return [];
     }
-    query = new RegExp("(.*)" + query + "(.*)");
+    query = new RegExp('(.*)' + query + '(.*)');
     var result = [];
     for (var phone in phoneBook) {
         if (phone && queryAppropriate(query, phone)) {
@@ -166,7 +166,7 @@ exports.find = function (query) {
         if (email) {
             list.push(email);
         }
-        result.push(list.join(", "));
+        result.push(list.join(', '));
     }
 
     return result.sort();
@@ -182,12 +182,12 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    var contactList = csv.split("\n");
+    var contactList = csv.split('\n');
     for (var i in contactList) {
         if (!i) {
             break;
         }
-        var data = contactList[i].split(";");
+        var data = contactList[i].split(';');
         var name = data[0];
         var phone = data[1];
         var email = data[2];
