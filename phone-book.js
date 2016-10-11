@@ -194,5 +194,4 @@ exports.importFromCsv = function (csv) {
     });
 
     return n;
-    }
 };
