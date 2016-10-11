@@ -10,7 +10,7 @@ const emailRegex = new RegExp(['^(([^<>()\\[\\]\\.,;:\\s@\\"]+(\\.[^<>()\\[\\]\\
     '(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'].join(''), 'i');
 
 function isValidStrings(...strings) {
-    return strings.every(s => typeof s === 'string');
+    return strings.every(s => typeof s === 'string' && s !== '');
 }
 
 function isCorrectPhone(phone) {
@@ -31,8 +31,6 @@ function getFormattedPhone(phone) {
 function isCorrectInput(phone, name, email) {
     return isValidStrings(name, phone) &&
         isCorrectPhone(phone) &&
-        name !== '' &&
-        email !== '' &&
         (email === undefined || isValidStrings(email));
 }
 
