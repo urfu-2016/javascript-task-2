@@ -19,7 +19,7 @@ var phoneBook = [];
  */
 exports.add = function (phone, name, email) {
     var regExp = /[^0-9]/;
-    if (regExp.test(phone) || phone.length !== 10 || typeof name === 'undefined') {
+    if (regExp.test(phone) || phone.length !== 10 || !name) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -57,7 +57,7 @@ exports.update = function (phone, name, email) {
 function toUpdateSingleContact(person, phone, name, email) {
     if (person.phone === phone) {
         person.email = email;
-        if (typeof name !== 'undefined') {
+        if (name) {
             person.name = name;
         }
 
@@ -72,7 +72,6 @@ function toUpdateSingleContact(person, phone, name, email) {
  * @param {String} query
  */
 exports.findAndRemove = function (query) {
-    query = query.toLowerCase();
     var countDelete = 0;
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone.indexOf(query) !== -1 ||
@@ -84,7 +83,6 @@ exports.findAndRemove = function (query) {
             i--;
         }
     }
-    console.info(phoneBook);
 
     return countDelete;
 };
@@ -94,7 +92,6 @@ exports.findAndRemove = function (query) {
  * @param {String} query
  */
 exports.find = function (query) {
-    query = query.toLowerCase();
     var result = [];
     if (typeof query === 'undefined') {
         return;
@@ -105,7 +102,7 @@ exports.find = function (query) {
 
     return result.sort(
         function (a, b) {
-            if (a <= b) {
+            if (a < b) {
                 return -1;
             }
 
