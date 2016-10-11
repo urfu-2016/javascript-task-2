@@ -1,6 +1,6 @@
 'use strict';
 
-exports.isStar = false;
+exports.isStar = true;
 
 var phoneBook = [];
 
@@ -118,5 +118,24 @@ exports.find = function (query) {
 };
 
 exports.importFromCsv = function (csv) {
-    return csv.split('\n').length;
+    if (typeof csv !== 'string') {
+        return 0;
+    }
+
+    var added = 0;
+    csv = csv.split('\n');
+    for (var i = 0; i < csv.length; i++) {
+        var parts = csv[i].split(';');
+        if (parts.length > 3) {
+            continue;
+        }
+
+        if (!exports.add(parts[1], parts[0], parts[2])) {
+            added += exports.update(parts[1], parts[0], parts[2]) === true ? 1 : 0;
+        } else {
+            added += 1;
+        }
+    }
+
+    return added;
 };
