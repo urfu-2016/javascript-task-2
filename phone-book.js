@@ -117,6 +117,11 @@ exports.find = function (query) {
         .sort();
 };
 
+function addOrUpdate(phone, name, email) {
+    return exports.add(phone, name, email) ||
+           exports.update(phone, name, email);
+}
+
 exports.importFromCsv = function (csv) {
     if (typeof csv !== 'string') {
         return 0;
@@ -130,11 +135,8 @@ exports.importFromCsv = function (csv) {
             continue;
         }
 
-        if (parts[2] == '') {
-            parts[2] = undefined;
-        }
-        if (this.add(parts[1], parts[0], parts[2]) ||
-            this.update(parts[1], parts[0], parts[2])) {
+        parts[2] = parts[2] === '' ? undefined : parts[2];
+        if (addOrUpdate(parts[1], parts[0], parts[2])) {
             added++;
         }
     }
