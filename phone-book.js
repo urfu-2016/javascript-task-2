@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /*
  * Телефонная книга
@@ -57,7 +57,7 @@ exports.update = function (phone, name, email) {
 function toUpdateSingleContact(person, phone, name, email) {
     if (person.phone === phone) {
         person.email = email;
-        if (typeof name !== 'undefined') {
+        if (name) {
             person.name = name;
         }
 
@@ -93,6 +93,9 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
+    if (typeof query === 'undefined') {
+        return;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         result = toFindSingleContact(phoneBook[i], query, result);
     }
