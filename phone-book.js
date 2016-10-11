@@ -37,16 +37,12 @@ function isValidNumber(phoneNumber) {
 }
 
 function checkTypes(phone, name, email) {
-    if (phone === undefined || name === undefined || !isValidNumber(phone)) {
-
-        return false;
-    }
     if (typeof phone !== 'string' ||
         typeof name !== 'string' ||
         (typeof email !== 'string' && email !== undefined)) {
 
-            return false;
-        }
+        return false;
+    }
 
     return true;
 }
@@ -87,6 +83,10 @@ function helpFind(query) {
 
 exports.add = function (phone, name, email) {
     var isRepeat = 0;
+    if (phone === undefined || name === undefined || !isValidNumber(phone)) {
+
+        return false;
+    }
     if (!checkTypes(phone, name, email)) {
 
         return false;
@@ -108,6 +108,10 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
+    if (phone === undefined || name === undefined || !isValidNumber(phone)) {
+
+        return false;
+    }
     if (!checkTypes(phone, name, email)) {
 
         return false;
