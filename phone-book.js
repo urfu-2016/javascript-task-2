@@ -7,12 +7,8 @@
 exports.isStar = false;
 
 /**
- * Телефонная книга
- */
-var phoneBook;
-
-/**
  * Добавление записи в телефонную книгу
+ * @returns {Boolean}
  */
 exports.add = function () {
     return true;
@@ -20,6 +16,7 @@ exports.add = function () {
 
 /**
  * Обновление записи в телефонной книге
+ * @returns {Boolean}
  */
 exports.update = function () {
     return true;
@@ -27,6 +24,7 @@ exports.update = function () {
 
 /**
  * Удаление записей по запросу из телефонной книги
+ * @returns {Array}
  */
 exports.findAndRemove = function () {
     return [];
@@ -34,6 +32,7 @@ exports.findAndRemove = function () {
 
 /**
  * Поиск записей по запросу в телефонной книге
+ * @returns {Array}
  */
 exports.find = function () {
     return [];
