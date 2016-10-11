@@ -9,16 +9,92 @@ exports.isStar = true;
 /**
  * Телефонная книга
  */
-var phoneBook;
+var phoneBook = {};
+
+/**
+ * Проверка телефонного номера по формату  5556667788
+ * @param {String} phone
+ *  @returns {Bool}
+ */
+function checkPhone(phone) {
+    var re = /[0-9]{10}/;
+    if (phone.match(re) === null) {
+
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Перевод из формата  5556667788 в +7 (555) 666-77-88
+ * @param {String} phone
+ *  @returns {String}
+ */
+function formatPhone(phone) {
+
+    return "+7 (" + phone.slice(0, 3) + ") " +
+        phone.slice(3, 6) + "-" + phone.slice(6, 8) + "-" + phone.slice(8, 10);
+}
+
+
+function queryAppropriate(query, phone) {
+    var email = phoneBook[phone].email;
+    var name = phoneBook[phone].name;
+    if (phone.match(query) || (email && email.match(query)) ||
+        name.match(query)) {
+
+        return true;
+    }
+
+    return false;
+}
+
+function findPhones(query) {
+    if (query === "") {
+        return [];
+    }
+    query = new RegExp("(.*)" + query + "(.*)");
+    var result = [];
+    for (var phone in phoneBook) {
+        if (phone && queryAppropriate(query, phone)) {
+            result.push(phone);
+        }
+    }
+
+    return result;
+}
 
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ *  @returns {Bool}
  */
 exports.add = function (phone, name, email) {
 
+    if (!checkPhone(phone)) {
+
+        return false;
+    }
+    if (phone in phoneBook) {
+
+        return false;
+    }
+
+    if (!name) {
+
+        return false;
+    }
+
+
+    phoneBook[phone] = {
+        name: name,
+        email: email
+    };
+
+    return true;
 };
 
 /**
@@ -26,25 +102,74 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+  *  @returns {Bool}
  */
-exports.update = function (phone, name, email) {
 
+exports.update = function (phone, name, email) {
+    if (!checkPhone(phone)) {
+
+        return false;
+    }
+    if (!(phone in phoneBook)) {
+
+        return false;
+    }
+
+    if (!name) {
+        return false;
+    }
+
+
+    phoneBook[phone] = {
+        name: name,
+        email: email
+    };
+
+    return true;
 };
 
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number}
  */
 exports.findAndRemove = function (query) {
+    var phones = findPhones(query);
+    for (var i in phones) {
+        if (i) {
+            var phone = phones[i];
+            delete phoneBook[phone];
+        }
+    }
 
+    return phones.length;
 };
 
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+  * @returns {Array}
  */
 exports.find = function (query) {
+    var result = [];
+    var phones = findPhones(query);
+    for (var i in phones) {
+        if (!i) {
+            break;
+        }
+        var phone = phones[i];
+        var email = phoneBook[phone].email;
+        var name = phoneBook[phone].name;
+        var list = [];
+        list.push(name);
+        list.push(formatPhone(phone));
+        if (email) {
+            list.push(email);
+        }
+        result.push(list.join(", "));
+    }
 
+    return result.sort();
 };
 
 /**
@@ -57,6 +182,25 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    var contactList = csv.split("\n");
+    for (var i in contactList) {
+        if (!i) {
+            break;
+        }
+        var data = contactList[i].split(";");
+        var name = data[0];
+        var phone = data[1];
+        var email = data[2];
+        var ret = true;
+        if (phone in phoneBook) {
+            ret = ret && module.exports.update(phone, name, email);
+        } else {
+            ret = ret && module.exports.add(phone, name, email);
+        }
+        if (!ret) {
+            contactList.splice(i, 1);
+        }
+    }
 
-    return csv.split('\n').length;
+    return contactList.length;
 };
