@@ -214,7 +214,7 @@ exports.importFromCsv = function (csv) {
             break;
         }
         var data = contactList[i].split(';');
-        if (data.length !== 3) {
+        if (data.length < 2 || data.length > 3) {
             contactList.splice(i, 1);
             continue;
         }
