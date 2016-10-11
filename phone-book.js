@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /**
  * Телефонная книга
@@ -18,7 +18,7 @@ var phoneBook;
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
-
+    return true;
 };
 
 /**
@@ -28,7 +28,7 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  */
 exports.update = function (phone, name, email) {
-
+    return true;
 };
 
 /**
@@ -36,7 +36,7 @@ exports.update = function (phone, name, email) {
  * @param {String} query
  */
 exports.findAndRemove = function (query) {
-
+    return [];
 };
 
 /**
@@ -44,7 +44,7 @@ exports.findAndRemove = function (query) {
  * @param {String} query
  */
 exports.find = function (query) {
-
+    return [];
 };
 
 /**
