@@ -4,8 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
-
+exports.isStar = false;
 /**
  * Телефонная книга
  */
@@ -218,6 +217,10 @@ exports.importFromCsv = function (csv) {
             break;
         }
         var data = contactList[i].split(';');
+        if (data.length < 2) {
+            contactList.splice(i, 1);
+            continue;
+        }
         var name = data[0];
         var phone = data[1];
         var email = data[2];
