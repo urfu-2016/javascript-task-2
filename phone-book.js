@@ -2,7 +2,15 @@
 
 exports.isStar = false;
 
-var phoneBook = [];
+var phoneBook = {};
+
+function getObjectValues(obj) {
+    return Object.keys(obj).map(
+        function (el) {
+            return obj[el];
+        }
+    );
+}
 
 function checkInput(phone, name, email) {
     return typeof phone === 'string' &&
@@ -19,98 +27,70 @@ function formatPhone(phone) {
            '-' + phone.substring(8, 10);
 }
 
-function getContactByPhone(phone) {
-    return phoneBook.find(
-        function (element) {
-            return element.phone === phone;
-        }
-    );
-}
-
-function formatContact(contact) {
-    var result = contact.name + ', ' + formatPhone(contact.phone);
-    if (contact.email !== undefined) {
-        result += ', ' + contact.email;
+function formatContact(phone, name, email) {
+    var result = name + ', ' + formatPhone(phone);
+    if (email !== undefined) {
+        result += ', ' + email;
     }
 
     return result;
 }
 
-function isStringInContact(contact, string) {
-    return contact.phone.indexOf(string) !== -1 ||
-           contact.name.indexOf(string) !== -1 ||
-           contact.email !== undefined &&
-           contact.email.indexOf(string) !== -1;
-}
-
 exports.add = function (phone, name, email) {
     if (!checkInput(phone, name, email) ||
-        getContactByPhone(phone) !== undefined) {
+        phoneBook[phone] !== undefined) {
         return false;
     }
 
-    phoneBook.push({
-        'phone': phone,
-        'name': name,
-        'email': email
-    });
+    phoneBook[phone] = formatContact(phone, name, email);
 
     return true;
 };
 
 exports.update = function (phone, name, email) {
-    if (!checkInput(phone, name, email)) {
+    if (!checkInput(phone, name, email) ||
+        phoneBook[phone] === undefined) {
         return false;
     }
 
-    var contact = getContactByPhone(phone);
-    if (contact === undefined) {
-        return false;
-    }
-
-    contact.name = name;
-    contact.email = email;
+    phoneBook[phone] = formatContact(phone, name, email);
 
     return true;
 };
 
 exports.findAndRemove = function (query) {
+    var originalLength = Object.keys(phoneBook).length;
     if (query === '*' || query === '') {
-        var result = phoneBook.length;
-        phoneBook = [];
+        phoneBook = {};
 
-        return result;
+        return originalLength;
     }
     if (typeof query !== 'string') {
         return 0;
     }
 
-    var originalLength = phoneBook.length;
-    phoneBook = phoneBook.filter(
-        function (element) {
-            return !isStringInContact(element, query);
+    for (var phone in phoneBook) {
+        if (phoneBook[phone].indexOf(query) !== -1) {
+            delete phoneBook[phone];
         }
-    );
+    }
 
-    return originalLength - phoneBook.length;
+    return originalLength - Object.keys(phoneBook).length;
 };
 
 exports.find = function (query) {
     if (query === '*' || query === '') {
-        return phoneBook.map(formatContact).sort();
+        return getObjectValues(phoneBook).sort();
     }
     if (typeof query !== 'string') {
         return [];
     }
 
-    return phoneBook
-        .filter(
-            function (element) {
-                return isStringInContact(element, query);
-            }
-        )
-        .map(formatContact)
-        .sort();
+    return getObjectValues(phoneBook).filter(
+        function (el) {
+            return el.indexOf(query) !== -1;
+        }
+    ).sort();
 };
 
 exports.importFromCsv = function (csv) {
