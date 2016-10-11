@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /*
  * Телефонная книга
@@ -116,7 +116,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    if (typeof query === 'undefined') {
+    if (!query) {
         return;
     }
     for (var i = 0; i < phoneBook.length; i++) {
