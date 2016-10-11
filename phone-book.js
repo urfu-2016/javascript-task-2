@@ -43,17 +43,17 @@ function makeNumber(phone) {
  */
 function helpFind(query) {
     var foundIndexes = [];
-    phoneBook.phoneNumbers.forEach( function(elem, index) {
+    phoneBook.phoneNumbers.forEach(function (elem, index) {
         if (elem.indexOf(query) !== -1) {
             foundIndexes.push(index);
         }
     });
-    phoneBook.names.forEach( function(elem, index) {
+    phoneBook.names.forEach(function (elem, index) {
         if ((elem.indexOf(query) !== -1) && (!(index in foundIndexes))) {
             foundIndexes.push(index);
         }
     });
-    phoneBook.emails.forEach( function(elem, index) {
+    phoneBook.emails.forEach(function (elem, index) {
         if (elem !== undefined) {
             if ((elem.indexOf(query) !== -1) && (!(index in foundIndexes))) {
                 foundIndexes.push(index);
@@ -69,7 +69,7 @@ exports.add = function (phone, name, email) {
     if (phone === undefined || name === undefined || !isValidNumber(phone)) {
         return false;
     }
-    phoneBook.phoneNumbers.forEach( function(elem) {
+    phoneBook.phoneNumbers.forEach(function (elem) {
         if (elem === phone) {
             isRepeat = 1;
         }
@@ -91,7 +91,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var updateIndex = -1;
-    phoneBook.phoneNumbers.forEach( function(elem, index) {
+    phoneBook.phoneNumbers.forEach(function (elem, index) {
         if (elem === phone) {
             updateIndex = index;
         }
@@ -110,7 +110,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var foundIndexes = helpFind(query);
     foundIndexes.sort(compareNumeric);
-    foundIndexes.forEach( function(elem) {
+    foundIndexes.forEach(function (elem) {
         phoneBook.phoneNumbers.splice(elem, 1);
         phoneBook.names.splice(elem, 1);
         phoneBook.emails.splice(elem, 1);
@@ -130,13 +130,13 @@ exports.find = function (query) {
     } else {
         foundIndexes = helpFind(query);
     }
-    foundIndexes.forEach( function(elem) {
+    foundIndexes.forEach(function (elem) {
         if (phoneBook.emails[elem] !== undefined) {
-            foundNotes.push(phoneBook.names[elem] + ', ' + 
-            makeNumber(phoneBook.phoneNumbers[elem]) + ', ' 
-            + phoneBook.emails[elem]);
+            foundNotes.push(phoneBook.names[elem] + ', ' +
+            makeNumber(phoneBook.phoneNumbers[elem]) + ', ' +
+            phoneBook.emails[elem]);
         } else {
-            foundNotes.push(phoneBook.names[elem] + ', ' + 
+            foundNotes.push(phoneBook.names[elem] + ', ' +
             makeNumber(phoneBook.phoneNumbers[elem]));
         }
     });
@@ -150,7 +150,7 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
     var csvArray = csv.split('\n');
     var n = 0;
-    csvArray.forEach( function(elem) {
+    csvArray.forEach(function (elem) {
         var name = elem.split(';')[0];
         var phone = elem.split(';')[1];
         var email = elem.split(';')[2];
@@ -160,4 +160,4 @@ exports.importFromCsv = function (csv) {
     });
 
     return n;
-}
+};
