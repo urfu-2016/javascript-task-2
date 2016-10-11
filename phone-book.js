@@ -31,7 +31,8 @@ function getFormattedPhone(phone) {
 function isCorrectInput(phone, name, email) {
     return isValidStrings(name, phone) &&
         isCorrectPhone(phone) &&
-        (email === undefined || (isValidStrings(email) && isCorrectEmail(email)));
+        name !== '' &&
+        (email === undefined || isValidStrings(email));
 }
 
 function entryToKey(entry) {
@@ -163,12 +164,12 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     return csv.split('\n').map(line => {
-        const parts = line.replace(/\r/, '').split(';');
+        const parts = line.split(';');
         if (parts.length !== 3) {
             return false;
         }
         return exports.add(parts[1], parts[0], parts[2]) ||
             exports.update(parts[1], parts[0], parts[2]);
     })
-    .reduce((acc, value) => acc + (value ? 1 : 0), 0);
+    .reduce((acc, value) => acc + value, 0);
 };
