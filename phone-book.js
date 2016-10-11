@@ -26,6 +26,20 @@ function checkPhone(phone) {
     return true;
 }
 
+function checkEmail(email) {
+    if (!email) {
+
+        return true;
+    }
+    var re = /[\wа-я.-]+@[a-zа-я0-9]+[a-zа-я0-9.-]*[a-zа-я0-9]+\.[a-zа-я]+/i;
+    if (email.match(re) === null) {
+
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * Перевод из формата  5556667788 в +7 (555) 666-77-88
  * @param {String} phone
@@ -78,6 +92,12 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
+
+    if (!checkEmail(email)) {
+
+        return false;
+    }
+
     if (phone in phoneBook) {
 
         return false;
@@ -110,6 +130,12 @@ exports.update = function (phone, name, email) {
 
         return false;
     }
+
+    if (!checkEmail(email)) {
+
+        return false;
+    }
+
     if (!(phone in phoneBook)) {
 
         return false;
