@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -202,6 +202,16 @@ exports.find = function (query) {
     return result.sort();
 };
 
+
+function checkCsvDataLength(data) {
+    if (data.length < 2 || data.length > 3) {
+
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * Импорт записей из csv-формата
  * @star
@@ -218,7 +228,7 @@ exports.importFromCsv = function (csv) {
             break;
         }
         var data = contactList[i].split(';');
-        if (data.length < 2) {
+        if (!checkCsvDataLength(data)) {
             contactList.splice(i, 1);
             continue;
         }
