@@ -49,7 +49,8 @@ function checkEmpty(phone, name, email) {
     }
 
     return false;
-} 
+}
+
 /**
  * Заполняет массив индексами из массивов в которых найдено совпадение
  * @param {String} query
