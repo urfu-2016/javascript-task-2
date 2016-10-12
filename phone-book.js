@@ -21,7 +21,7 @@ function checkPhone(phone) {
 
         return false;
     }
-    var re = /[0-9]{10}/;
+    var re = /^(\d)\1{2}(\d)\2{2}(\d)\3(\d)\4$/;
     if (!phone.match(re)) {
 
         return false;
