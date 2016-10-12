@@ -17,6 +17,10 @@ var phoneBook = {};
  *  @returns {Bool}
  */
 function checkPhone(phone) {
+    if (!phone) {
+
+        return false;
+    }
     var re = /[0-9]{10}/;
     if (!phone.match(re)) {
 
