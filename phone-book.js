@@ -154,7 +154,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    if (email && email == '') {
+    if (email && email === '') {
 
         return false;
     }
