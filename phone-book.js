@@ -1,7 +1,5 @@
 'use strict';
 
-var util = require('util');
-
 /**
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
@@ -102,6 +100,12 @@ exports.findAndRemove = function (query) {
     return records.length;
 };
 
+var phoneFormat = function (phone) {
+    phone = /(\d{3})(\d{3})(\d{2})(\d{2})/gi.exec(phone);
+
+    return '+7 (' + phone[1] + ') ' + phone[2] + '-' + phone[3] + '-' + phone[4];
+};
+
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
@@ -111,13 +115,9 @@ exports.find = function (query) {
     var records = query === '*' ? getRecords('') : getRecords(query);
 
     return records.map(function (record) {
-        var phone = /(\d{3})(\d{3})(\d{2})(\d{2})/gi.exec(record.phone);
-        var line = util.format('%s, %s', record.name,
-            util.format('+7 (%s) %s-%s-%s',
-                phone[1], phone[2], phone[3], phone[4]
-            ));
+        var line = record.name.concat(', ', phoneFormat(record.phone));
 
-        return record.email !== '' ? util.format('%s, %s', line, record.email) : line;
+        return record.email !== '' ? line.concat(', ', record.email) : line;
     }).sort();
 };
 
