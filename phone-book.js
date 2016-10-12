@@ -75,10 +75,14 @@ exports.update = function (phone, name, email) {
 
 exports.findAndRemove = function (query) {
     var oldLen = phoneBook.length;
-    phoneBook = phoneBook.filter(
-        function (value) {
-            return !searchToQuery(value, query);
-        });
+    if (query === '*') {
+        phoneBook = [];
+    } else {
+        phoneBook = phoneBook.filter(
+            function (value) {
+                return !searchToQuery(value, query);
+            });
+    }
     var newLen = phoneBook.length;
 
     return oldLen - newLen;
@@ -103,16 +107,20 @@ exports.find = function (query) {
     .sort();
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
+    if (typeof csv !== 'string' || csv === '') {
 
-    return csv.split('\n').length;
+        return 0;
+    }
+    var contacts = csv.split('\n').filter(
+        function (contact) {
+            contact = contact.split(';');
+
+            return exports.add(contact[1], contact[0], contact[2]) ||
+                exports.update(contact[1], contact[0], contact[2]);
+
+        });
+
+
+    return contacts.length;
 };
