@@ -95,7 +95,7 @@ function compareNames(item1, item2) {
 function numberFormat(phone) {
     var phoneNumber = phone;
 
-    return '+7 (' + phoneNumber.slice(0, 3) + ') ' + phoneNumber.slice(4, 6) +
+    return '+7 (' + phoneNumber.slice(0, 3) + ') ' + phoneNumber.slice(3, 6) +
         '-' + phoneNumber.slice(6, 8) + '-' + phoneNumber.slice(8, 10);
 }
 
@@ -179,9 +179,7 @@ exports.findAndRemove = function (query) {
 
 exports.find = function (query) {
     if (query === '*') {
-        return phoneBook
-            .sort(compareNames)
-            .map(bookToString);
+        return filterInfo('');
     } else if (!query) {
         return [];
     }
