@@ -8,12 +8,7 @@ var phoneBook = {}; // Здесь вы храните записи как хот
 var phoneRegex = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
 function isValidStrings() {
-    var strings = Array(arguments.length);
-    for (var _len = arguments.length, strings = Array(_len), _key = 0; _key < _len; _key++) {
-        strings[_key] = arguments[_key];
-    }
-
-    return strings.every(function (s) {
+    return arguments.every(function (s) {
         return typeof s === 'string' && s !== '';
     });
 }
@@ -30,7 +25,7 @@ function getFormattedPhone(phone) {
 }
 
 function isCorrectInput(phone, name, email) {
-    return isValidStrings(name, phone) && isCorrectPhone(phone) && 
+    return isValidStrings(name, phone) && isCorrectPhone(phone) &&
         (email === undefined || isValidStrings(email));
 }
 
@@ -39,7 +34,8 @@ function entryToKey(entry) {
 }
 
 function entryToString(entry) {
-    return entry.name + ', ' + getFormattedPhone(entry.phone) + (entry.hasOwnProperty('email') ? ', ' + entry.email : '');
+    return entry.name + ', ' + getFormattedPhone(entry.phone) + 
+        (entry.hasOwnProperty('email') ? ', ' + entry.email : '');
 }
 
 /**
@@ -165,7 +161,7 @@ exports.importFromCsv = function (csv) {
         if (parts.length !== 3 && parts.length !== 2) {
             return false;
         }
-        
+
         return exports.add(parts[1], parts[0], parts[2]) ||
             exports.update(parts[1], parts[0], parts[2]);
     })
