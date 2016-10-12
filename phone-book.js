@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /*
  * Телефонная книга
@@ -18,7 +18,7 @@ var phoneBook = [];
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
-    if (!checkInputAdd(phone, name)) {
+    if (!checkInputAdd(phone, name, email)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -36,24 +36,6 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function checkPhone(phone) {
-    var regExp = /[^0-9]/;
-
-    return phone.length === 10 && typeof phone === 'string' && !regExp.test(phone);
-}
-
-function checkName(name) {
-    return typeof name === 'string' && name !== '';
-}
-
-function checkInputAdd(phone, name) {
-    if (!checkPhone(phone) || !checkName(name)) {
-        return false;
-    }
-
-    return true;
-}
-
 function toCountChar(char, string) {
     if (typeof string === 'undefined') {
         return 1;
@@ -66,6 +48,29 @@ function toCountChar(char, string) {
     }
 
     return countChar;
+}
+
+
+function checkPhone(phone) {
+    var regExp = /[^0-9]/;
+
+    return phone.length === 10 && typeof phone === 'string' && !regExp.test(phone);
+}
+
+function checkName(name) {
+    return typeof name === 'string' && name !== '';
+}
+
+function checkEmail(email) {
+    return typeof email === 'string' && email !== '' || typeof email === 'undefined';
+}
+
+function checkInputAdd(phone, name, email) {
+    if (!checkPhone(phone) || !checkName(name) || !checkEmail(email)) {
+        return false;
+    }
+
+    return true;
 }
 
 /*
@@ -86,7 +91,7 @@ exports.update = function (phone, name, email) {
 };
 
 function toUpdateSingleContact(person, phone, name, email) {
-    if (person.phone === phone && checkInputAdd(phone, name)) {
+    if (person.phone === phone && checkInputAdd(phone, name, email)) {
         person.email = email;
         person.name = name;
 
@@ -123,7 +128,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var result = [];
     if (!query) {
-        return;
+        return [];
     }
     for (var i = 0; i < phoneBook.length; i++) {
         result = toFindSingleContact(phoneBook[i], query, result);
