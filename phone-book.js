@@ -11,12 +11,15 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-exports.read = function(){return phoneBook}
 
 
 /**
  * Являются ли переданные значения корректными
  * для добавления в телефонную книгу
+ * @param {String} phone
+ * @param {String} name
+ * @param {String} email
+ * @returns {Boolean} - корректны ли значения
  */
 function areValuesValid(phone, name, email) {
     if (typeof phone !== 'string' || !/^\d{10}$/.test(phone)) {
@@ -40,6 +43,7 @@ function areValuesValid(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} - завершилась ли операция успешно
  */
 exports.add = function (phone, name, email) {
     if (!areValuesValid(phone, name, email)) {
@@ -51,6 +55,7 @@ exports.add = function (phone, name, email) {
     }
 
     phoneBook[phone] = [name, email];
+    
     return true;
 };
 
@@ -60,6 +65,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} - завершилась ли операция успешно
  */
 exports.update = function (phone, name, email) {
     if (!areValuesValid(phone, name, email)) {
@@ -71,6 +77,7 @@ exports.update = function (phone, name, email) {
     }
 
     phoneBook[phone] = [name, email];
+    
     return true;
 };
 
@@ -78,22 +85,24 @@ exports.update = function (phone, name, email) {
 /**
  * Вернуть все телефоны, записи о которых подпадают под запрос
  * @param {String} query
+ * @returns {Array} - массив телефонов, подходящих под запрос
  */
-function findPhones(query) {
+function findPhones (query) {
     if (query === '')
         return [];
 
     var results = [];
-    Object.keys(phoneBook).forEach(function(phone) {
+    Object.keys(phoneBook).forEach(function (phone) {
         var name = phoneBook[phone][0];
         var email = phoneBook[phone][1];
-        if (query == '*' ||
-            phone.indexOf(query) != -1 ||
-            name.indexOf(query) != -1 ||
-            email !== undefined && email.indexOf(query) != -1) {
+        if (query === '*' ||
+            phone.indexOf(query) !== -1 ||
+            name.indexOf(query) !== -1 ||
+            email !== undefined && email.indexOf(query) !== -1) {
             results.push(phone);
         }
     });
+    
     return results;
 }
 
@@ -101,16 +110,18 @@ function findPhones(query) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} - сколько записей было удалено
  */
 exports.findAndRemove = function (query) {
     var phonesToRemove = findPhones(query);
     var newPhoneBook = [];
-    Object.keys(phoneBook).forEach(function(phone) {
-        if (phonesToRemove.indexOf(phone) != -1) {
+    Object.keys(phoneBook).forEach(function (phone) {
+        if (phonesToRemove.indexOf(phone) !== -1) {
             newPhoneBook[phone] = phoneBook[phone];
         }
     });
     phoneBook = newPhoneBook;
+    
     return phonesToRemove.length;
 };
 
@@ -118,25 +129,27 @@ exports.findAndRemove = function (query) {
 /**
  * Оторматировать телефон для вывода
  * @param {String} phone
+ * @returns {String} - отформатированный телефон
  */
-function formatPhone(phone) {
+function formatPhone (phone) {
     return (
-        '+7 (' + phone.slice(0, 3)
-        + ') ' + phone.slice(3, 6)
-        + '-' + phone.slice(6, 8)
-        + '-' + phone.slice(8));
+        '+7 (' + phone.slice(0, 3) +
+        ') ' + phone.slice(3, 6) +
+        '-' + phone.slice(6, 8) +
+        '-' + phone.slice(8));
 }
 
 
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} - список строк, содержащих информацию об искомых записях
  */
 exports.find = function (query) {
     var phonesToReturn = findPhones(query);
 
     var results = [];
-    phonesToReturn.forEach(function(phone) {
+    phonesToReturn.forEach(function (phone) {
         var name = phoneBook[phone][0];
         var email = phoneBook[phone][1];
         var result = [name, formatPhone(phone)];
@@ -145,10 +158,13 @@ exports.find = function (query) {
         }
         results.push(result);
     });
-    results.sort(function(a, b) { return a[0].localeCompare(b[0]); });
-    Object.keys(results).forEach(function(key) {
+    results.sort(function (a, b) {
+        return a[0].localeCompare(b[0]);
+    });
+    Object.keys(results).forEach(function (key) {
         results[key] = results[key].join(', ');
     });
+    
     return results;
 };
 
@@ -163,14 +179,15 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    if (typeof csv !== 'string')
+    if (typeof csv !== 'string') {
         return 0;
+    }
 
     var successfulWrites = 0;
     var rows = csv.split('\n');
-    rows.forEach(function(row) {
+    rows.forEach(function (row) {
         var values = row.split(';');
-        if (values.length != 2 && values.length != 3) {
+        if (values.length !== 2 && values.length !== 3) {
             return;
         }
         var name = values[0];
