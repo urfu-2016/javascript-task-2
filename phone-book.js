@@ -49,9 +49,7 @@ function checkName(name) {
 }
 
 function checkInputAdd(phone, name, email) {
-    if (!checkPhone(phone) || !checkName(name) ||
-        toCountChar('@', email) !== 1 ||
-        toCountChar('.', email) < 1) {
+    if (!checkPhone(phone) || !checkName(name)) {
         return false;
     }
 
