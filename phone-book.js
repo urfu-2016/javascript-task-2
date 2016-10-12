@@ -14,7 +14,7 @@ var phoneBook = [];
 
 
 function isNonEmptyString(value) {
-    return typeof value === 'string' && value != '';
+    return typeof value === 'string' && value !== '';
 }
 
 
