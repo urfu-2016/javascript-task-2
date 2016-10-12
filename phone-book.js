@@ -29,10 +29,12 @@ var isValid = function (phone, name) {
  * @returns {Array.<T>}
  */
 var getRecords = function (query) {
+    query = query.toLowerCase();
+
     return phoneBook.filter(function (record) {
         return record.phone.indexOf(query) !== -1 ||
-            record.name.indexOf(query) !== -1 ||
-            record.email.indexOf(query) !== -1;
+            record.name.toLowerCase().indexOf(query) !== -1 ||
+            record.email.toLowerCase().indexOf(query) !== -1;
     });
 };
 
