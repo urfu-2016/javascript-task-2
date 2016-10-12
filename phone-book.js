@@ -35,8 +35,7 @@ function checkEmail(email) {
 
         return true;
     }
-
-    if (email === '') {
+    if (email.match(/\s+/) || email === '') {
 
         return false;
     }
@@ -101,6 +100,7 @@ function findPhones(query) {
  */
 exports.add = function (phone, name, email) {
     phone = String(phone);
+
     if (!checkPhone(phone)) {
 
         return false;
