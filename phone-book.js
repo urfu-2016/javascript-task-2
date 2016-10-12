@@ -154,6 +154,10 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
+    if (email && email == '') {
+
+        return false;
+    }
     // if (phoneBook[phone].name === name &&
     //     phoneBook[phone].email === email) {
 
