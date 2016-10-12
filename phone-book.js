@@ -38,18 +38,19 @@ exports.add = function (phone, name, email) {
 
 function checkPhone(phone) {
     var regExp = /[^0-9]/;
-    if (phone[0] === phone[1] && phone[1] === phone[2] &&
-        phone[3] === phone[4] && phone[4] === phone[5] &&
-        phone[6] === phone[7] && phone[8] === phone[9] && !regExp.test(phone)) {
-        return true;
-    }
 
-    return false;
+    return phone[0] === phone[1] && phone[1] === phone[2] && phone.length === 10 &&
+        phone[3] === phone[4] && phone[4] === phone[5] && typeof phone === 'string' &&
+        phone[6] === phone[7] && phone[8] === phone[9] && !regExp.test(phone);
+}
+
+function checkName(name) {
+    return typeof name === 'string' && name !== '';
 }
 
 function checkInputAdd(phone, name, email) {
-    if (!checkPhone(phone) || phone.length !== 10 ||
-        !name || toCountChar('@', email) !== 1 ||
+    if (!checkPhone(phone) || !checkName(name) ||
+        toCountChar('@', email) !== 1 ||
         toCountChar('.', email) < 1) {
         return false;
     }
