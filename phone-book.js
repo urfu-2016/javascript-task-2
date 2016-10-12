@@ -18,7 +18,8 @@ var phoneBook = [];
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
-    if (!checkInputAdd(phone, name, email)) {
+    var regExp = /[^0-9]/;
+    if (regExp.test(phone) || phone.length !== 10 || !name) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -35,45 +36,6 @@ exports.add = function (phone, name, email) {
 
     return true;
 };
-
-function toCountChar(char, string) {
-    if (typeof string === 'undefined') {
-        return 1;
-    }
-    var countChar = 0;
-    for (var i = 0; i < string.length; i++) {
-        if (string[i] === char) {
-            countChar++;
-        }
-    }
-
-    return countChar;
-}
-
-
-function checkPhone(phone) {
-    var regExp = /[^0-9]/;
-
-    return phone[0] === phone[1] && phone[1] === phone[2] && phone[3] === phone[4] &&
-    phone[4] === phone[5] && phone[6] === phone[7] && phone[8] === phone[9] &&
-    phone.length === 10 && typeof phone === 'string' && !regExp.test(phone);
-}
-
-function checkName(name) {
-    return typeof name === 'string' && name !== '';
-}
-
-function checkEmail(email) {
-    return typeof email === 'string' && email !== '' || typeof email === 'undefined';
-}
-
-function checkInputAdd(phone, name, email) {
-    if (!checkPhone(phone) || !checkName(name) || !checkEmail(email)) {
-        return false;
-    }
-
-    return true;
-}
 
 /*
  * Обновление записи в телефонной книге
@@ -93,9 +55,11 @@ exports.update = function (phone, name, email) {
 };
 
 function toUpdateSingleContact(person, phone, name, email) {
-    if (person.phone === phone && checkName(name) && checkEmail(email)) {
+    if (person.phone === phone) {
         person.email = email;
-        person.name = name;
+        if (name) {
+            person.name = name;
+        }
 
         return true;
     }
@@ -129,8 +93,8 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    if (typeof query !== 'string' || query === '') {
-        return [];
+    if (!query) {
+        return result;
     }
     for (var i = 0; i < phoneBook.length; i++) {
         result = toFindSingleContact(phoneBook[i], query, result);
@@ -149,7 +113,7 @@ function toFindSingleContact(person, query, result) {
         person.phone.slice(3, 6) + '-' + person.phone.slice(6, 8) + '-' +
         person.phone.slice(8, 10);
         result.push(person.name + ', ' + phone);
-        if (typeof person.email !== 'undefined') {
+        if (person.email) {
             result[result.length - 1] += ', ' + person.email;
         }
     }
@@ -157,7 +121,7 @@ function toFindSingleContact(person, query, result) {
     return result;
 }
 
-/*
+/**
  * Импорт записей из csv-формата
  * @star
  * @param {String} csv
@@ -170,11 +134,10 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     for (var i = 0; i < csv.length; i++) {
-        if (toCountChar(';', csv[i]) > 0 && exports.add(csv[i].split(';')[1],
-            csv[i].split(';')[0], csv[i].split(';')[2])) {
+        if (exports.add(csv[i].split(';')[1], csv[i].split(';')[0], csv[i].split(';')[2])) {
             countAdd++;
-        } else if (toCountChar(';', csv[i]) > 0 && exports.update(csv[i].split(';')[1],
-            csv[i].split(';')[0], csv[i].split(';')[2])) {
+        } else if (exports.update(csv[i].split(';')[1], csv[i].split(';')[0],
+            csv[i].split(';')[2])) {
             countAdd++;
         }
     }
