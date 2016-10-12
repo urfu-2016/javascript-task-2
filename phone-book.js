@@ -115,6 +115,10 @@ exports.importFromCsv = function (csv) {
     var contacts = csv.split('\n').filter(
         function (contact) {
             contact = contact.split(';');
+            if (contact.length !== 3) {
+
+                return false;
+            }
 
             return exports.add(contact[1], contact[0], contact[2]) ||
                 exports.update(contact[1], contact[0], contact[2]);
