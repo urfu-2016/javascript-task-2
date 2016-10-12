@@ -136,8 +136,8 @@ function findAndRemove(info) {
 }
 
 function csvUserRecord(acc, data) {
-    var phone, name, email ;
-    [name, phone, email] = data.split(';');
+    var parsedData = data.split(';');
+    var phone = parsedData[1], name = parsedData[0], email = parsedData[2];
     if (addNewUser(phone, name, email)) {
         acc[0]++;
     } else if (updateUser(phone, name, email)) {
