@@ -8,8 +8,8 @@ var phoneBook = {}; // Здесь вы храните записи как хот
 var phoneRegex = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
 function isValidStrings() {
-    return arguments.every(function (s) {
-        return typeof s === 'string' && s !== '';
+    return Object.keys(arguments).every(function (k) {
+        return typeof arguments[k] === 'string' && arguments[k] !== '';
     });
 }
 
