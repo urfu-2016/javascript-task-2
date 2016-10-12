@@ -58,6 +58,7 @@ function toUpdateSingleContact(person, phone, name, email) {
     if (person.phone === phone && name) {
         person.email = email;
         person.name = name;
+
         return true;
     }
 
