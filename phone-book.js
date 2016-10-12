@@ -151,6 +151,11 @@ exports.importFromCsv = function (csv) {
     var count = 0;
     csv.split('\n').forEach(function (item) {
         var fields = item.split(';');
+        fields.forEach(function (item) {
+            if (item === '') {
+                item = undefined;
+            }
+        });
         if (exports.update(fields[1], fields[0], fields[2])) {
             count++;
         }
