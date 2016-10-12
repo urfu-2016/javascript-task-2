@@ -93,7 +93,7 @@ exports.update = function (phone, name, email) {
  * @returns {Array} - массив телефонов, подходящих под запрос
  */
 function findPhones(query) {
-    if (query === '') {
+    if (typeof query !== 'string' || query === '') {
         return [];
     }
 
