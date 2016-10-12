@@ -149,9 +149,8 @@ function csvUserRecord(acc, data) {
 
 function csvProcess(data){
     var users = data.split('\n');
-    var add, update;
-    [add, update] = users.reduce(csvUserRecord, [0, 0]);
-    return add + update;
+    var count = users.reduce(csvUserRecord, [0, 0]);
+    return count[0] + count[1];
 }
 
 /**
