@@ -14,8 +14,6 @@ var PHONE_REG = /^(\d)\1\1(\d)\2\2(\d)\3(\d)\4$/;
 var NAME_REG = /^([А-ЯЁа-яё]+(?:\s[А-ЯЁа-яё]+)?)$/;
 var EMAIL_REG = /^(((?:\w+\.?)+\w+)@([A-Za-z]+\.[A-Za-z]{2,3}))$/;
 
-
-
 function checkValidPhoneName(phone, name) {
     return PHONE_REG.test(phone) && NAME_REG.test(name);
 }
@@ -57,7 +55,7 @@ function getRewriteFunction(phone, name, email) {
         }
 
         return true;
-    }
+    };
 }
 
 function updateUser(phone, name, email) {
@@ -68,14 +66,14 @@ function updateUser(phone, name, email) {
     return phoneBook.some(getRewriteFunction(phone, name, email));
 }
 
-function getContainsFunc(info){
+function getContainsFunc(info) {
     return function (item) {
         if (item.phone.indexOf(info) !== -1) {
             return true;
         } else if (item.name.indexOf(info) !== -1) {
             return true;
         } else if (item.hasOwnProperty('email') &&
-                    item.email.indexOf(info) !== -1){
+                    item.email.indexOf(info) !== -1) {
             return true;
         }
 
@@ -96,8 +94,9 @@ function compareNames(item1, item2) {
 
 function numberFormat(phone){
     var phoneNumber = phone;
-    return '+7 (' + phoneNumber.slice(0,3) + ') ' + phoneNumber.slice(4, 6)
-        + '-' + phoneNumber.slice(6,8) +'-' + phoneNumber.slice(8, 10);
+
+    return '+7 (' + phoneNumber.slice(0, 3) + ') ' + phoneNumber.slice(4, 6) +
+        '-' + phoneNumber.slice(6, 8) + '-' + phoneNumber.slice(8, 10);
 }
 
 function bookToString(item) {
@@ -116,16 +115,16 @@ function filterInfo(info) {
         .map(bookToString);
 }
 
-function hasUserInfo(findItem){
+function hasUserInfo(findItem) {
     return function (compareItem) {
         return findItem.phone === compareItem.phone;
-    }
+    };
 }
 
-function getDeleteFilter(foundInfo){
-    return function(item){
+function getDeleteFilter(foundInfo) {
+    return function(item) {
          return foundInfo.some(hasUserInfo(item));
-    }
+    };
 }
 
 function findAndRemove(info) {
@@ -137,7 +136,9 @@ function findAndRemove(info) {
 
 function csvUserRecord(acc, data) {
     var parsedData = data.split(';');
-    var phone = parsedData[1], name = parsedData[0], email = parsedData[2];
+    var phone = parsedData[1];
+    var name = parsedData[0];
+    var email = parsedData[2];
     if (addNewUser(phone, name, email)) {
         acc[0]++;
     } else if (updateUser(phone, name, email)) {
@@ -147,54 +148,35 @@ function csvUserRecord(acc, data) {
     return acc;
 }
 
-function csvProcess(data){
+function csvProcess(data) {
     var users = data.split('\n');
     var count = users.reduce(csvUserRecord, [0, 0]);
+
     return count[0] + count[1];
 }
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.add = function (phone, name, email) {
     return addNewUser(phone, name, email);
 };
 
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.update = function (phone, name, email) {
     return updateUser(phone, name, email);
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
+
 exports.findAndRemove = function (query) {
     if (query === '*') {
         var size = phoneBook.length;
         phoneBook = [];
 
         return size;
-    }
-    else if (!query) {
+    } else if (!query) {
         return 0;
     }
 
     return findAndRemove(query);
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 exports.find = function (query) {
     if (query === '*') {
         return phoneBook
