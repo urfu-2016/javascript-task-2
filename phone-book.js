@@ -37,9 +37,9 @@ exports.add = function (phone, name, email) {
 function exists(phone, name, email) {
     phoneBook.forEach(function (item) {
         if (typeof item !== 'undefined' &&
-                    item.phone === phone &&
-                    item.name === name &&
-                    item.email === email) {
+                    (item.phone === phone ||
+                    item.name === name ||
+                    item.email === email)) {
             return true;
         }
     });
