@@ -216,23 +216,23 @@ exports.find = function (query) {
 };
 
 
-function checkCsvDataLength(data) {
-    if (data.length < 2 || data.length > 3) {
+// function checkCsvDataLength(data) {
+//     if (data.length < 2 || data.length > 3) {
 
-        return false;
-    }
+//         return false;
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
-function checkCsv(csv) {
-    if (!csv || typeof csv !== 'string') {
+// function checkCsv(csv) {
+//     if (!csv || typeof csv !== 'string') {
 
-        return false;
-    }
+//         return false;
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 /**
  * Импорт записей из csv-формата
@@ -244,24 +244,22 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    if (!checkCsv(csv)) {
+    if (typeof csv !== 'string') {
 
         return 0;
     }
-
+    var csvArray = csv.split('\n');
     var n = 0;
-    var contactList = csv.split('\n');
-    for (var i = 0; i < contactList.length; i++) {
-
-        var data = contactList[i].split(';');
-        if (!checkCsvDataLength(data)) {
-            continue;
+    csvArray.forEach(function (elem) {
+        if (elem.split(';').length === 3 || elem.split(';').length === 2) {
+            var name = elem.split(';')[0];
+            var phone = elem.split(';')[1];
+            var email = elem.split(';')[2];
+            if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
+                n++;
+            }
         }
-        if (module.exports.add(data[1], data[0], data[2]) ||
-            module.exports.update(data[1], data[0], data[2])) {
-            n++;
-        }
-    }
+    });
 
     return n;
 };
