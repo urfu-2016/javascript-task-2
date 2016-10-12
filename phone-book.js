@@ -34,7 +34,7 @@ function entryToKey(entry) {
 }
 
 function entryToString(entry) {
-    return entry.name + ', ' + getFormattedPhone(entry.phone) + 
+    return entry.name + ', ' + getFormattedPhone(entry.phone) +
         (entry.hasOwnProperty('email') ? ', ' + entry.email : '');
 }
 
