@@ -7,7 +7,7 @@
 exports.isStar = true;
 
 /*
- * Телефонная книга
+ * Телефонная книг
  */
 var phoneBook = [];
 
