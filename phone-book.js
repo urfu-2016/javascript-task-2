@@ -16,12 +16,13 @@ var phoneBook = [];
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool}
  */
 exports.add = function (phone, name, email) {
-    if (typeof phone !== 'string' || typeof name !== 'string'
-                || typeof email !== 'string'
-                || phone.match(/^\d{10}$/) === null
-                || exists(phone, name, email)) {
+    if (typeof phone !== 'string' || typeof name !== 'string' ||
+                typeof email !== 'string' ||
+                phone.match(/^\d{10}$/) === null ||
+                exists(phone, name, email)) {
         return false;
     }
     phoneBook.push({
@@ -35,10 +36,10 @@ exports.add = function (phone, name, email) {
 
 function exists(phone, name, email) {
     phoneBook.forEach(function (item) {
-        if (typeof item !== 'undefined'
-            && item.phone === phone
-            && item.name === name
-            && item.email === email) {
+        if (typeof item !== 'undefined' &&
+                    item.phone === phone &&
+                    item.name === name &&
+                    item.email === email) {
             return true;
         }
     });
@@ -51,13 +52,14 @@ function exists(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool}
  */
 exports.update = function (phone, name, email) {
-    if (typeof phone !== 'string'
-                || phone.match(/^\d{10}$/) === null
-                || typeof name !== 'string'
-                || (typeof email !== 'string'
-                    && typeof email !== 'undefined')) {
+    if (typeof phone !== 'string' ||
+                phone.match(/^\d{10}$/) === null ||
+                typeof name !== 'string' ||
+                (typeof email !== 'string' &&
+                    typeof email !== 'undefined')) {
         return false;
     }
     if (!exports.add(phone, name, email)) {
@@ -76,6 +78,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number}
  */
 exports.findAndRemove = function (query) {
     if (typeof query !== 'string') {
@@ -93,6 +96,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array}
  */
 exports.find = function (query) {
     if (typeof query !== 'string') {
@@ -100,9 +104,9 @@ exports.find = function (query) {
     }
     var result = [];
     getRecordsByQuery(query).forEach(function (record) {
-        result.push(record.name + ', '
-                + formatPhone(record.phone)
-                + addEmail(record.email));
+        result.push(record.name + ', ' +
+                formatPhone(record.phone) +
+                addEmail(record.email));
     });
 
     return result.sort();
@@ -112,11 +116,11 @@ function getRecordsByQuery(query) {
     var result = [];
     phoneBook.forEach(function (record) {
         if (typeof record !== 'undefined' &&
-                    query !== '' && (query === '*'
-                    || record.phone.indexOf(query) >= 0
-                    || record.name.indexOf(query) >= 0
-                    || (typeof record.email !== 'undefined'
-                        && record.email.indexOf(query) >= 0))) {
+                    query !== '' && (query === '*' ||
+                    record.phone.indexOf(query) >= 0 ||
+                    record.name.indexOf(query) >= 0 ||
+                    (typeof record.email !== 'undefined' &&
+                        record.email.indexOf(query) >= 0))) {
             result.push(record);
         }
     });
@@ -125,10 +129,10 @@ function getRecordsByQuery(query) {
 }
 
 function formatPhone(phone) {
-    return '+7 (' + phone.substring(0, 3) + ') '
-                + phone.substring(3, 6) + '-'
-                + phone.substring(6, 8) + '-'
-                + phone.substring(8, 10);
+    return '+7 (' + phone.substring(0, 3) + ') ' +
+                phone.substring(3, 6) + '-' +
+                phone.substring(6, 8) + '-' +
+                phone.substring(8, 10);
 }
 
 function addEmail(email) {
