@@ -72,10 +72,10 @@ function toUpdateSingleContact(person, phone, name, email) {
 exports.findAndRemove = function (query) {
     var countDelete = 0;
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone.indexOf(query) !== -1 ||
+        if (query && (phoneBook[i].phone.indexOf(query) !== -1 ||
             phoneBook[i].name.indexOf(query) !== -1 ||
             (phoneBook[i].email && phoneBook[i].email.indexOf(query) !== -1) ||
-            query === '*') {
+            query === '*')) {
             countDelete++;
             phoneBook.splice(i, 1);
             i--;
