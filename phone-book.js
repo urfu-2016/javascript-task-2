@@ -36,17 +36,17 @@ exports.add = function (phone, name, email) {
 };
 
 function exists(phone, name, email) {
-    var exists = false;
+    var finded = false;
     phoneBook.forEach(function (item) {
         if (typeof item !== 'undefined' &&
                     (item.phone === phone ||
                     item.name === name ||
                     item.email === email)) {
-            exists = true;
+            finded = true;
         }
     });
 
-    return exists;
+    return finded;
 }
 
 /**
