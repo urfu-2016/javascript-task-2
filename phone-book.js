@@ -11,8 +11,8 @@ exports.isStar = false;
  */
 var phoneBook = [];
 var REG_EXP_PHONE = /^\d{10}$/;
-var REG_EXP_NAME = /[а-яА-ЯёЁ]/;
-var REG_EXP_EMAIL = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
+// var REG_EXP_NAME = /[а-яА-ЯёЁ]/;
+// var REG_EXP_EMAIL = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
 exports.add = function (phone, name, email) {
     function checkPhone(phoneTest) {
         for (var i = 0; i < phoneBook.length; i++) {
@@ -28,28 +28,34 @@ exports.add = function (phone, name, email) {
 
     }
 
-    function checkName(nameTest) {
+    /* function checkName(nameTest) {
         if (REG_EXP_NAME.test(nameTest)) {
             return true;
         }
 
         return false;
-    }
+    }*/
 
-    function checkMail(mailTest) {
-        if ((mailTest === undefined) || (REG_EXP_EMAIL.test(mailTest))) {
-            return true;
-        }
+    // function checkMail(mailTest) {
+        // if ((mailTest === undefined) || (REG_EXP_EMAIL.test(mailTest))) {
+           // return true;
+       // }
+       // return !mailTest;
+       // return false;
+    // }
 
-        return false;
-    }
-
-    if (checkPhone(phone) && checkName(name) && checkMail(email)) {
+    if (checkPhone(phone) && (name)) {
         var person = {
             phone: phone,
             name: name,
-            email: email || ''
+            email: ''
         };
+        if (email) {
+            person.email = email;
+        } else {
+            delete person.email;
+        }
+
         phoneBook.push(person);
 
         return true;
