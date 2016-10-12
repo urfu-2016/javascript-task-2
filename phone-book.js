@@ -81,7 +81,7 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     if (typeof query !== 'string') {
-        throw new TypeError();
+        return [];
     }
     var count = 0;
     getRecordsByQuery(query).forEach(function (record) {
@@ -99,7 +99,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     if (typeof query !== 'string') {
-        throw new TypeError();
+        return [];
     }
     var result = [];
     getRecordsByQuery(query).forEach(function (record) {
