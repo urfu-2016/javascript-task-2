@@ -4,10 +4,10 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /*
- * Телефонная книг
+ * Телефонная книга
  */
 var phoneBook = [];
 
@@ -39,9 +39,7 @@ exports.add = function (phone, name, email) {
 function checkPhone(phone) {
     var regExp = /[^0-9]/;
 
-    return phone[0] === phone[1] && phone[1] === phone[2] && phone.length === 10 &&
-        phone[3] === phone[4] && phone[4] === phone[5] && typeof phone === 'string' &&
-        phone[6] === phone[7] && phone[8] === phone[9] && !regExp.test(phone);
+    return phone.length === 10 && typeof phone === 'string' && !regExp.test(phone);
 }
 
 function checkName(name) {
