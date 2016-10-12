@@ -70,8 +70,8 @@ exports.findAndRemove = function (query) {
             if (item.email) {
                 isRetainItem = item.email.indexOf(query) === -1;
             }
-            isRetainItem = item.name.indexOf(query) === -1 && isRetainItem;
-            isRetainItem = item.phone.indexOf(query) === -1 && isRetainItem;
+            isRetainItem = item.phone.indexOf(query) === -1 &&
+                item.name.indexOf(query) === -1 && isRetainItem;
 
             return isRetainItem;
         });
@@ -98,9 +98,11 @@ exports.find = function (query) {
         unsortedResult = [];
     } else if (query !== '*') {
         unsortedResult = phoneBook.filter(function (item) {
-            var contains = item.phone.indexOf(query) !== -1 || item.name.indexOf(query) !== -1;
+            var contains = item.phone.indexOf(query) !== -1 ||
+                item.name.indexOf(query) !== -1 ||
+                item.email.indexOf(query) !== -1;
 
-            return contains || item.email.indexOf(query) !== -1;
+            return contains;
         });
     } else {
         unsortedResult = phoneBook;
@@ -130,19 +132,22 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    var tupleList = csv.split('\n');
-    var changeCount = tupleList.reduce(function (acc, item) {
-        var name = item.split(';')[0];
-        var phone = item.split(';')[1];
-        var email = item.split(';')[2];
-        if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
-            acc++;
+    var changeCount = 0;
+    if (csv) {
+        var tupleList = csv.split('\n');
+        changeCount = tupleList.reduce(function (acc, item) {
+            var name = item.split(';')[0];
+            var phone = item.split(';')[1];
+            var email = item.split(';')[2];
+            if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
+                acc++;
+
+                return acc;
+            }
 
             return acc;
-        }
-
-        return acc;
-    }, 0);
+        }, 0);
+    }
 
     return changeCount;
 };
