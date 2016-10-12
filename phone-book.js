@@ -154,11 +154,11 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    if (phoneBook[phone].name === name &&
-        phoneBook[phone].email === email) {
+    // if (phoneBook[phone].name === name &&
+    //     phoneBook[phone].email === email) {
 
-        return false;
-    }
+    //     return false;
+    // }
     phoneBook[phone] = {
         name: name,
         email: email
