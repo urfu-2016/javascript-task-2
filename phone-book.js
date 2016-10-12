@@ -70,13 +70,13 @@ function queryAppropriate(query, phone) {
 
 function escapeRegExp(str) {
 
-    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
 function findPhones(query) {
     if (!query) {
         return [];
     }
-    if (query === "*") {
+    if (query === '*') {
 
         return Object.keys(phoneBook);
     }
