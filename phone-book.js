@@ -18,7 +18,7 @@ var phoneBook = [];
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
-    if (checkInputAdd(phone, name, email)) {
+    if (!checkInputAdd(phone, name, email)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -36,14 +36,25 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function checkInputAdd(phone, name, email) {
+function checkPhone(phone) {
     var regExp = /[^0-9]/;
-    if (regExp.test(phone) || phone.length !== 10 || !name || toCountChar('@', email) !== 1 ||
-        toCountChar('.', email) < 1) {
+    if (phone[0] === phone[1] && phone[1] === phone[2] &&
+        phone[3] === phone[4] && phone[4] === phone[5] &&
+        phone[6] === phone[7] && phone[8] === phone[9] && !regExp.test(phone)) {
         return true;
     }
 
     return false;
+}
+
+function checkInputAdd(phone, name, email) {
+    if (!checkPhone(phone) || phone.length !== 10 ||
+        !name || toCountChar('@', email) !== 1 ||
+        toCountChar('.', email) < 1) {
+        return false;
+    }
+
+    return true;
 }
 
 function toCountChar(char, string) {
@@ -79,7 +90,7 @@ exports.update = function (phone, name, email) {
 
 function toUpdateSingleContact(person, phone, name, email) {
     if (person.phone === phone) {
-        if (!checkInputAdd(phone, name, email)) {
+        if (checkInputAdd(phone, name, email)) {
             person.email = email;
             person.name = name;
         }
