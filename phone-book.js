@@ -17,8 +17,8 @@ var phoneBook = {};
  *  @returns {Bool}
  */
 function checkPhone(phone) {
-    var re = /(\d)\1{2}(\d)\2{2}(\d)\3{1}(\d)\4{1}/;
-    if (phone.match(re) === null) {
+    var re = /[0-9]{10}/;
+    if (!phone.match(re)) {
 
         return false;
     }
@@ -32,7 +32,7 @@ function checkEmail(email) {
         return true;
     }
     var re = /[\wа-я.-]+@[a-zа-я0-9]+[a-zа-я0-9.-]*[a-zа-я0-9]+\.[a-zа-я]+/i;
-    if (email.match(re) === null) {
+    if (!email.match(re)) {
 
         return false;
     }
@@ -212,6 +212,15 @@ function checkCsvDataLength(data) {
     return true;
 }
 
+function checkCsv(csv) {
+    if (!csv || typeof csv !== 'string') {
+
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * Импорт записей из csv-формата
  * @star
@@ -222,9 +231,11 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    if (!csv) {
+    if (!checkCsv) {
+
         return 0;
     }
+
     var n = 0;
     var contactList = csv.split('\n');
     for (var i = 0; i < contactList.length; i++) {
