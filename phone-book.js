@@ -93,7 +93,7 @@ exports.update = function (phone, name, email) {
 };
 
 function toUpdateSingleContact(person, phone, name, email) {
-    if (person.phone === phone && checkName(name)) {
+    if (person.phone === phone && checkName(name) && checkEmail(email)) {
         person.email = email;
         person.name = name;
 
