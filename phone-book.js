@@ -55,12 +55,9 @@ exports.update = function (phone, name, email) {
 };
 
 function toUpdateSingleContact(person, phone, name, email) {
-    if (person.phone === phone) {
+    if (person.phone === phone && name) {
         person.email = email;
-        if (name) {
-            person.name = name;
-        }
-
+        person.name = name;
         return true;
     }
 
