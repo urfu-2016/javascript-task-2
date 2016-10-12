@@ -100,6 +100,7 @@ function findPhones(query) {
  *  @returns {Bool}
  */
 exports.add = function (phone, name, email) {
+    phone = String(phone);
     if (!checkPhone(phone)) {
 
         return false;
@@ -135,6 +136,7 @@ exports.add = function (phone, name, email) {
  */
 
 exports.update = function (phone, name, email) {
+    phone = String(phone);
     if (!checkPhone(phone)) {
 
         return false;
