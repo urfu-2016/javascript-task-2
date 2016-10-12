@@ -149,7 +149,7 @@ exports.find = function (query) {
         return person.name + ', ' + correctPhoneOutput(person.phone);
     }
 
-    return result.map(correctOutput).join(', \n');
+    return result.map(correctOutput);
 };
 
 /**
