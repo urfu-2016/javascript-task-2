@@ -27,7 +27,11 @@ var isValid = function (phone, name) {
  * @returns {Array.<T>}
  */
 var getRecords = function (query) {
-    query = query.toLowerCase();
+    if (query === '') {
+        return [];
+    }
+
+    query = (query === '*' ? '' : query).toLowerCase();
 
     return phoneBook.filter(function (record) {
         return record.phone.indexOf(query) !== -1 ||
@@ -112,11 +116,7 @@ var phoneFormat = function (phone) {
  * @returns {Array.<T>}
  */
 exports.find = function (query) {
-    if (query === '') {
-        return [];
-    }
-
-    var records = query === '*' ? getRecords('') : getRecords(query);
+    var records = getRecords(query);
 
     return records.map(function (record) {
         var line = record.name.concat(', ', phoneFormat(record.phone));
