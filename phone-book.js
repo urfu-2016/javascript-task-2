@@ -78,7 +78,7 @@ function getContainsFunc(info) {
         }
 
         return false;
-    }
+    };
 }
 
 function compareNames(item1, item2) {
@@ -92,7 +92,7 @@ function compareNames(item1, item2) {
     return 0;
 }
 
-function numberFormat(phone){
+function numberFormat(phone) {
     var phoneNumber = phone;
 
     return '+7 (' + phoneNumber.slice(0, 3) + ') ' + phoneNumber.slice(4, 6) +
@@ -122,8 +122,8 @@ function hasUserInfo(findItem) {
 }
 
 function getDeleteFilter(foundInfo) {
-    return function(item) {
-         return foundInfo.some(hasUserInfo(item));
+    return function (item) {
+        return foundInfo.some(hasUserInfo(item));
     };
 }
 
