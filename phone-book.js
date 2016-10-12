@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -123,7 +123,7 @@ function hasUserInfo(findItem) {
 
 function getDeleteFilter(foundInfo) {
     return function (item) {
-        return foundInfo.some(hasUserInfo(item));
+        return !foundInfo.some(hasUserInfo(item));
     };
 }
 
