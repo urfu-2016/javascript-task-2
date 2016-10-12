@@ -13,6 +13,11 @@ exports.isStar = false;
 var phoneBook = [];
 
 
+function isNonEmptyString(value) {
+    return typeof value === 'string' && value != '';
+}
+
+
 /**
  * Являются ли переданные значения корректными
  * для добавления в телефонную книгу
@@ -22,15 +27,15 @@ var phoneBook = [];
  * @returns {Boolean} - корректны ли значения
  */
 function areValuesValid(phone, name, email) {
-    if (typeof phone !== 'string' || !/^\d{10}$/.test(phone)) {
+    if (!isNonEmptyString(phone) || !/^\d{10}$/.test(phone)) {
         return false;
     }
 
-    if (typeof name !== 'string' || name === '') {
+    if (!isNonEmptyString(name)) {
         return false;
     }
 
-    if ((typeof email !== 'string' || email === '') && typeof email !== 'undefined') {
+    if (!isNonEmptyString(email) && typeof email !== 'undefined') {
         return false;
     }
 
