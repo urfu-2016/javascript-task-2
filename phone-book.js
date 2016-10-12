@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /*
  * Телефонная книга
@@ -103,7 +103,7 @@ exports.find = function (query) {
 
 function toFindSingleContact(person, query, result) {
     if ((typeof person.email !== 'undefined' &&
-        person.email.indexOf(query)) !== -1 ||
+        person.email.indexOf(query) !== -1) ||
         person.phone.indexOf(query) !== -1 ||
         person.name.indexOf(query) !== -1 ||
         query === '*') {
