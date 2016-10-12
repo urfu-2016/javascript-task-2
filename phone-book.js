@@ -68,7 +68,7 @@ exports.findAndRemove = function (query) {
         var newPhoneBook = phoneBook.filter(function (item) {
             var isRetainItem = true;
             if (item.email) {
-                isRetainItem = item.email.indexOf(query) === -1;
+                isRetainItem = isRetainItem && item.email.indexOf(query) === -1;
             }
             isRetainItem = item.phone.indexOf(query) === -1 &&
                 item.name.indexOf(query) === -1 && isRetainItem;
@@ -99,8 +99,10 @@ exports.find = function (query) {
     } else if (query !== '*') {
         unsortedResult = phoneBook.filter(function (item) {
             var contains = item.phone.indexOf(query) !== -1 ||
-                item.name.indexOf(query) !== -1 ||
-                item.email.indexOf(query) !== -1;
+                item.name.indexOf(query) !== -1;
+            if (item.email) {
+                contains = contains || item.email.indexOf(query) !== -1;
+            }
 
             return contains;
         });
