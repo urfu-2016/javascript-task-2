@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -68,10 +68,19 @@ function queryAppropriate(query, phone) {
     return false;
 }
 
+function escapeRegExp(str) {
+
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
 function findPhones(query) {
     if (!query) {
         return [];
     }
+    if (query === "*") {
+
+        return Object.keys(phoneBook);
+    }
+    query = escapeRegExp(query);
     query = new RegExp('(.*)' + query + '(.*)');
     var result = [];
     for (var phone in phoneBook) {
