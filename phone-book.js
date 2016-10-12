@@ -54,7 +54,9 @@ function toCountChar(char, string) {
 function checkPhone(phone) {
     var regExp = /[^0-9]/;
 
-    return phone.length === 10 && typeof phone === 'string' && !regExp.test(phone);
+    return phone[0] === phone[1] && phone[1] === phone[2] && phone[3] === phone[4] &&
+    phone[4] === phone[5] && phone[6] === phone[7] && phone[8] === phone[9] &&
+    phone.length === 10 && typeof phone === 'string' && !regExp.test(phone);
 }
 
 function checkName(name) {
@@ -127,22 +129,14 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    if (!query) {
+    if (typeof query !== 'string' || query === '') {
         return [];
     }
     for (var i = 0; i < phoneBook.length; i++) {
         result = toFindSingleContact(phoneBook[i], query, result);
     }
 
-    return result.sort(
-        function (a, b) {
-            if (a < b) {
-                return -1;
-            }
-
-            return 1;
-        }
-    );
+    return result.sort();
 };
 
 function toFindSingleContact(person, query, result) {
