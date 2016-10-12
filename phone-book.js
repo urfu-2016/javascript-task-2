@@ -26,11 +26,11 @@ function areValuesValid(phone, name, email) {
         return false;
     }
 
-    if (typeof name !== 'string') {
+    if (typeof name !== 'string' || name === '') {
         return false;
     }
 
-    if (typeof email !== 'string' && typeof email !== 'undefined') {
+    if ((typeof email !== 'string' || email === '') && typeof email !== 'undefined') {
         return false;
     }
 
