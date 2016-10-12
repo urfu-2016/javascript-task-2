@@ -11,8 +11,8 @@ exports.isStar = true;
  */
 var phoneBook = [];
 var PHONE_REG = /^(\d)\1\1(\d)\2\2(\d)\3(\d)\4$/;
-var NAME_REG = /^([А-ЯЁа-яё]+(?:\s[А-ЯЁа-яё]+)?)$/;
-var EMAIL_REG = /^(((?:\w+\.?)+\w+)@([A-Za-z]+\.[A-Za-z]{2,3}))$/;
+// var NAME_REG = /^([А-ЯЁа-яё]+(?:\s[А-ЯЁа-яё]+)?)$/;
+// var EMAIL_REG = /^(((?:\w+\.?)+\w+)@([A-Za-z]+\.[A-Za-z]{2,3}))$/;
 
 function checkValidPhoneName(phone, name) {
     return PHONE_REG.test(phone) && (name);
