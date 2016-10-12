@@ -55,7 +55,7 @@ exports.add = function (phone, name, email) {
     }
 
     phoneBook[phone] = [name, email];
-    
+
     return true;
 };
 
@@ -77,7 +77,7 @@ exports.update = function (phone, name, email) {
     }
 
     phoneBook[phone] = [name, email];
-    
+
     return true;
 };
 
@@ -87,9 +87,10 @@ exports.update = function (phone, name, email) {
  * @param {String} query
  * @returns {Array} - массив телефонов, подходящих под запрос
  */
-function findPhones (query) {
-    if (query === '')
+function findPhones(query) {
+    if (query === '') {
         return [];
+    }
 
     var results = [];
     Object.keys(phoneBook).forEach(function (phone) {
@@ -102,7 +103,7 @@ function findPhones (query) {
             results.push(phone);
         }
     });
-    
+
     return results;
 }
 
@@ -121,7 +122,7 @@ exports.findAndRemove = function (query) {
         }
     });
     phoneBook = newPhoneBook;
-    
+
     return phonesToRemove.length;
 };
 
@@ -131,7 +132,7 @@ exports.findAndRemove = function (query) {
  * @param {String} phone
  * @returns {String} - отформатированный телефон
  */
-function formatPhone (phone) {
+function formatPhone(phone) {
     return (
         '+7 (' + phone.slice(0, 3) +
         ') ' + phone.slice(3, 6) +
@@ -164,7 +165,7 @@ exports.find = function (query) {
     Object.keys(results).forEach(function (key) {
         results[key] = results[key].join(', ');
     });
-    
+
     return results;
 };
 
