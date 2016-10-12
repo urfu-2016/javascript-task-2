@@ -15,11 +15,11 @@ var NAME_REG = /^([А-ЯЁа-яё]+(?:\s[А-ЯЁа-яё]+)?)$/;
 var EMAIL_REG = /^(((?:\w+\.?)+\w+)@([A-Za-z]+\.[A-Za-z]{2,3}))$/;
 
 function checkValidPhoneName(phone, name) {
-    return PHONE_REG.test(phone) && NAME_REG.test(name);
+    return PHONE_REG.test(phone) && (name);
 }
 
 function checkValidEmail(email) {
-    return EMAIL_REG.test(email);
+    return !email;
 }
 
 function addNewUser(phone, name, email) {
@@ -33,7 +33,7 @@ function addNewUser(phone, name, email) {
     }
     newUser.phone = phone;
     newUser.name = name;
-    if (checkValidEmail(email)) {
+    if (!checkValidEmail(email)) {
         newUser.email = email;
     }
     phoneBook.push(newUser);
@@ -48,7 +48,7 @@ function getRewriteFunction(phone, name, email) {
             return false;
         }
         element.name = name;
-        if (checkValidEmail(email)) {
+        if (!checkValidEmail(email)) {
             element.email = email;
         } else {
             delete element.email;
