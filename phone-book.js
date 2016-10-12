@@ -8,6 +8,7 @@ var phoneBook = {}; // Здесь вы храните записи как хот
 var phoneRegex = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
 function isValidStrings() {
+    var strings = Array(arguments.length);
     for (var _len = arguments.length, strings = Array(_len), _key = 0; _key < _len; _key++) {
         strings[_key] = arguments[_key];
     }
@@ -24,11 +25,13 @@ function isCorrectPhone(phone) {
 function getFormattedPhone(phone) {
     var phonePattern = phone.match(phoneRegex);
 
-    return '+7 (' + phonePattern[1] + ') ' + phonePattern[2] + '-' + phonePattern[3] + '-' + phonePattern[4];
+    return '+7 (' + phonePattern[1] + ') ' + phonePattern[2] + '-' +
+        phonePattern[3] + '-' + phonePattern[4];
 }
 
 function isCorrectInput(phone, name, email) {
-    return isValidStrings(name, phone) && isCorrectPhone(phone) && (email === undefined || isValidStrings(email));
+    return isValidStrings(name, phone) && isCorrectPhone(phone) && 
+        (email === undefined || isValidStrings(email));
 }
 
 function entryToKey(entry) {
@@ -86,10 +89,10 @@ exports.update = function (phone, name) {
     }
     keys.forEach(function (key) {
         var entry = phoneBook[key];
-        Reflect.deleteProperty(phoneBook, key);
+        delete phoneBook[key];
         entry.name = name;
         if (email === undefined) {
-            Reflect.deleteProperty(entry, 'email');
+            delete entry.email;
         } else {
             entry.email = email;
         }
@@ -126,7 +129,7 @@ function findKeys(query) {
 exports.findAndRemove = function (query) {
     var keys = findKeys(query);
     keys.forEach(function (key) {
-        Reflect.deleteProperty(phoneBook, key);
+        delete phoneBook[key];
     });
 
     return keys.length;
@@ -140,9 +143,11 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     return findKeys(query).map(function (key) {
         return phoneBook[key];
-    }).sort(function (x, y) {
+    })
+    .sort(function (x, y) {
         return x.name.localeCompare(y.name);
-    }).map(entryToString);
+    })
+    .map(entryToString);
 };
 
 /**
@@ -160,8 +165,11 @@ exports.importFromCsv = function (csv) {
         if (parts.length !== 3 && parts.length !== 2) {
             return false;
         }
-        return exports.add(parts[1], parts[0], parts[2]) || exports.update(parts[1], parts[0], parts[2]);
-    }).reduce(function (acc, value) {
+        
+        return exports.add(parts[1], parts[0], parts[2]) ||
+            exports.update(parts[1], parts[0], parts[2]);
+    })
+    .reduce(function (acc, value) {
         return acc + value;
     }, 0);
 };
