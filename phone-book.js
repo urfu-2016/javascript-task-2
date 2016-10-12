@@ -20,7 +20,8 @@ var phoneBook = [];
  */
 exports.add = function (phone, name, email) {
     if (typeof phone !== 'string' || typeof name !== 'string' ||
-                typeof email !== 'string' ||
+                (typeof email !== 'string' &&
+                    typeof email !== 'undefined') ||
                 phone.match(/^\d{10}$/) === null ||
                 exists(phone, name, email)) {
         return false;
@@ -35,16 +36,17 @@ exports.add = function (phone, name, email) {
 };
 
 function exists(phone, name, email) {
+    var exists = false;
     phoneBook.forEach(function (item) {
         if (typeof item !== 'undefined' &&
                     (item.phone === phone ||
                     item.name === name ||
                     item.email === email)) {
-            return true;
+            exists = true;
         }
     });
 
-    return false;
+    return exists;
 }
 
 /**
