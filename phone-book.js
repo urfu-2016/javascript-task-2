@@ -112,6 +112,10 @@ var phoneFormat = function (phone) {
  * @returns {Array.<T>}
  */
 exports.find = function (query) {
+    if (query === '') {
+        return [];
+    }
+
     var records = query === '*' ? getRecords('') : getRecords(query);
 
     return records.map(function (record) {
