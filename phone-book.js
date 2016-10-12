@@ -39,9 +39,7 @@ function exists(phone, name, email) {
     var finded = false;
     phoneBook.forEach(function (item) {
         if (typeof item !== 'undefined' &&
-                    (item.phone === phone ||
-                    item.name === name ||
-                    item.email === email)) {
+                    item.phone === phone) {
             finded = true;
         }
     });
