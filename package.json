@@ -2,11 +2,12 @@
   "private": true,
   "main": "phone-book.js",
   "scripts": {
-    "lint": "jscs .",
-    "test": "jscs . && mocha *.spec.js"
+    "lint": "eslint .",
+    "test": "eslint . && mocha *.spec.js"
   },
   "dependencies": {
-    "jscs": "^2.2.1",
+    "eslint": "3.7.0",
+    "eslint-config-hrundel": "latest",
     "mocha": "3.1.0"
   }
 }
