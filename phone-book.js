@@ -23,7 +23,7 @@ exports.add = function (phone, name, email) {
                 (typeof email !== 'string' &&
                     typeof email !== 'undefined') ||
                 phone.match(/^\d{10}$/) === null ||
-                exists(phone, name, email)) {
+                exists(phone, name)) {
         return false;
     }
     phoneBook.push({
@@ -35,7 +35,7 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function exists(phone, name, email) {
+function exists(phone, name) {
     var finded = false;
     phoneBook.forEach(function (item) {
         if (typeof item !== 'undefined' &&
