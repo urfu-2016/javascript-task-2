@@ -17,7 +17,6 @@ describe('phone-book', function () {
         assert.ok(!phoneBook.add('3330033', 'Неизвестный', 'unknown@example.com'));
         assert.ok(!phoneBook.add('5551110011', 'Алексей'));
         assert.ok(!phoneBook.add('5555550055'));
-        assert.ok(!phoneBook.add('1234221233', '', 'asdqwdsa'));
     });
 
     it('должен обновлять существующие записи', function () {
