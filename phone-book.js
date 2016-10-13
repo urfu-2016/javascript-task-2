@@ -55,7 +55,7 @@ function exists(phone) {
 exports.update = function (phone, name, email) {
     if (typeof phone !== 'string' ||
                 phone.match(/^\d{10}$/) === null ||
-                typeof name !== 'string' || !name) {
+                typeof name !== 'string') {
         return false;
     }
     var finded = false;
