@@ -12,6 +12,11 @@ var phoneBook = {};
  */
 
 var PHONE_PATTERN = /[0-9]+/;
+var RESERVED = {
+    '*': Object.keys(phoneBook),
+    '': []
+};
+
 
 function isPhoneCorrect(phone) {
     return PHONE_PATTERN.test(phone) && phone.length === 10;
@@ -25,7 +30,7 @@ exports.add = function (phone, name, email) {
     if (!isPhoneCorrect(phone) || name === undefined || isPhoneBookContains(phone)) {
         return false;
     }
-    phoneBook[phone] = { name: name, email: email };
+    phoneBook[phone] = {name: name, email: email};
 
     return true;
 };
@@ -53,7 +58,7 @@ exports.update = function (phone, name, email) {
  * @returns {Number} count
  */
 exports.findAndRemove = function (query) {
-    var keys = findRecords(query);
+    var keys = getKeys(query);
     keys.forEach(function (key) {
         delete phoneBook[key];
     });
@@ -112,20 +117,24 @@ function recordArrayToString(arr) {
     return arr.join(', ');
 }
 
+function getKeys(query) {
+    if (query === '*') {
+        return Object.keys(phoneBook);
+    }
+    if (query === '') {
+        return [];
+    }
+
+    return findRecords(query);
+}
+
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
  * @returns {Array} recordsArray
  */
 exports.find = function (query) {
-    var keys = [];
-    if (query === '*') {
-        keys = Object.keys(phoneBook);
-    } else if (query === '') {
-        keys = [];
-    } else {
-        keys = findRecords(query);
-    }
+    var keys = getKeys(query);
 
     return recordsToString(keys);
 };
