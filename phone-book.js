@@ -25,7 +25,7 @@ exports.add = function (phone, name, email) {
     if (!isPhoneCorrect(phone) || name === undefined || isPhoneBookContains(phone)) {
         return false;
     }
-    phoneBook[phone] = {name: name, email: email};
+    phoneBook[phone] = { name: name, email: email };
 
     return true;
 };
@@ -35,6 +35,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} result
  */
 exports.update = function (phone, name, email) {
     if (!isPhoneBookContains(phone) || name === undefined) {
@@ -49,6 +50,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} count
  */
 exports.findAndRemove = function (query) {
     var keys = findRecords(query);
@@ -60,7 +62,8 @@ exports.findAndRemove = function (query) {
 };
 
 function phoneToString(phone) {
-    return '+7 '.concat('(', phone.slice(0, 3), ') ', phone.slice(3, 6), '-', phone.slice(6, 8), '-', phone.slice(8, 10));
+    return '+7 '.concat('(', phone.slice(0, 3), ') ', phone.slice(3, 6),
+        '-', phone.slice(6, 8), '-', phone.slice(8, 10));
 }
 
 function contains(string, substring) {
@@ -100,7 +103,13 @@ function recordsToString(keys) {
 }
 
 function compare(arr1, arr2) {
-    return arr1[0] > arr2[0] ? 1 : arr1[0] < arr2[0] ? -1 : 0;
+    if (arr1[0] > arr2[0]) {
+        return 1;
+    } else if (arr1[0] < arr2[0]) {
+        return -1;
+    }
+
+    return 0;
 }
 
 function recordArrayToString(arr) {
@@ -112,6 +121,7 @@ function recordArrayToString(arr) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param query
+ * @returns recordsArray
  */
 exports.find = function (query) {
     var keys = [];
