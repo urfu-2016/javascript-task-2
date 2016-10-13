@@ -126,7 +126,7 @@ function stylizePhoneNumber(phone) {
  * @returns {String}
  */
 function stylizeLastSevenNumbers(phone) {
-    var result = ''
+    var result = '';
     var indexes = [3, 6, 8];
     for (var i = 0; i < indexes.length; i++) {
         if (i !== indexes.length - 1) {
@@ -149,36 +149,24 @@ function findCorrectNotes(query, filterFunc) {
         return [];
     }
     if (query === '*') {
-        query = '.';
-    }
-    var regexp = new RegExp(correctQuery(query));
-
-    return phoneBook.filter(filterFunc, regexp);
-}
-
-function correctQuery(query) {
-    var specialSymbols = '\\!$%^&*()_+|~-=`{}[]:";\'<>?,./';
-    for (var i in specialSymbols) {
-        if (specialSymbols.hasOwnProperty(i)) {
-            query = query.replace(new RegExp('\\' + specialSymbols[i]), '\\' + specialSymbols[i]);
-        }
+        query = '';
     }
 
-    return query;
+    return phoneBook.filter(filterFunc, query);
 }
 
 /**
  * @this isNoteInBook
  * @param {Object} item
- * @param {RegExp} regexp
+ * @param {String} query
  * @returns {boolean}
  */
-function isNoteInBook(item, regexp) {
-    if (typeof regexp === 'number') {
-        regexp = this;
+function isNoteInBook(item, query) {
+    if (typeof query === 'number') {
+        query = this;
     }
     for (var key in item) {
-        if (regexp.exec(item[key])) {
+        if (item[key].indexOf(query) !== -1) {
             return true;
         }
     }

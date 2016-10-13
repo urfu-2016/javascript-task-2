@@ -32,7 +32,7 @@ console.info(phoneBook.find('555'));
 // ]
 
 // Удаление
-console.info(phoneBook.findAndRemove('\\w+')); // returns 3
+console.info(phoneBook.findAndRemove('*')); // returns 3
 
 if (phoneBook.isStar) {
     // Импортируем из csv
