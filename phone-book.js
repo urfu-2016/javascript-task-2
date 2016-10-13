@@ -133,26 +133,30 @@ exports.find = function (query) {
     return newPhoneBook.sort();
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
+function isCorrectData(client) {
+    if (client.length > 3) {
+        return false;
+    }
+    if (!exports.add(client[0], client[1], client[2])) {
 
+        return exports.update(client[0], client[1], client[2]);
+    }
+
+    return true;
+}
 
 exports.importFromCsv = function (csv) {
+    var counter = 0;
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var newClient = client.split(';');
-        if (newClient.length < 4) {
-            exports.add(newClient[0], newClient[1], newClient[2]);
+        if (isCorrectData(newClient)) {
+            counter++;
         }
     });
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-
-    return phoneBook.length;
+    return counter;
 };
