@@ -20,7 +20,7 @@ function phoneToString(phone) {
 }
 
 exports.add = function (phone, name, email) {
-    if (!validPhone(phone) || name === undefined) {
+    if (!validPhone(phone) || name === undefined || name === '' || email === '') {
 
         return false;
     }
