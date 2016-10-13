@@ -4,14 +4,7 @@ exports.isStar = true;
 
 var phoneBook = {};
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
-
-var PHONE_PATTERN = /[0-9]+/;
+var PHONE_PATTERN = /^[0-9]+$/;
 
 function isPhoneCorrect(phone) {
     return PHONE_PATTERN.test(phone) && phone.length === 10;
@@ -21,6 +14,13 @@ function isPhoneBookContains(phone) {
     return Object.keys(phoneBook).indexOf(phone) !== -1;
 }
 
+/**
+ * Добавление записи в телефонную книгу
+ * @param {String} phone
+ * @param {String} name
+ * @param {String} email
+ * @returns {Boolean} result
+ */
 exports.add = function (phone, name, email) {
     if (!isPhoneCorrect(phone) || name === undefined || isPhoneBookContains(phone)) {
         return false;
@@ -141,9 +141,6 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    if (csv === undefined) {
-        return 0;
-    }
     var records = csv
         .split('\n')
         .map(parseCsvLine)
