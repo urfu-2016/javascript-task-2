@@ -11,14 +11,31 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
+function isValidPhone(phone) {
+    var regPhone = /\d{10}/g;
+
+    return regPhone.test(phone);
+}
+
 function isValidEmail(email) {
     var regEmail = /((\d|\w)+@\w+.\w{2,})/g;
 
     return regEmail.test(email);
 }
 
+function isHaveNote(phone, name, email) {
+    var client = {
+        phone: phone,
+        name: name,
+        email: email
+    };
+
+    return phoneBook.indexOf(client) !== -1;
+}
+
 exports.add = function (phone, name, email) {
-    if (isValidEmail(email)) {
+    if (isValidEmail(email) && isValidPhone(phone) &&
+        !isHaveNote(phone, name, email)) {
         phoneBook.push({
             name: name,
             phone: phone,
