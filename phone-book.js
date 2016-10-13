@@ -9,18 +9,21 @@ function validPhone(phone) {
     return phone.toString().match(validPhoneRegExp) !== null;
 }
 
-
-exports.isStar = true;
-
-var phoneBook = [];
-
 function phoneToString(phone) {
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
         phone.slice(6, 8) + '-' + phone.slice(8, 10);
 }
 
+exports.isStar = true;
+
+var phoneBook = [];
+
 exports.add = function (phone, name, email) {
-    if (!validPhone(phone) || name === undefined || name === '' || email === '') {
+    function nameNotCorrect() {
+        return name === undefined || name === '';
+    }
+
+    if (!validPhone(phone) || nameNotCorrect() || email === '') {
 
         return false;
     }
