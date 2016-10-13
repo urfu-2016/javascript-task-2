@@ -26,17 +26,14 @@ function phoneToPrint(value) {
 
 function searchToQuery(value, query) {
     return value.phone.indexOf(query) !== -1 ||
-    value.name.indexOf(query) !== -1 || value.email.indexOf(query) !== -1;
+        value.name.indexOf(query) !== -1 ||
+        value.email.indexOf(query) !== -1;
 }
 
-function searchPhone(value, phone) {
-    return value.phone === phone;
-}
-
-function getIndexNewPhone(phone) {
+function getIndexPhone(phone) {
     return phoneBook.findIndex(
         function (value) {
-            return searchPhone(value, phone);
+            return value.phone === phone;
         });
 }
 
@@ -49,7 +46,7 @@ function isCorrectData(phone, name, email) {
 
 exports.add = function (phone, name, email) {
     if (isCorrectData(phone, name, email) &&
-        getIndexNewPhone(phone) === -1) {
+        getIndexPhone(phone) === -1) {
         phoneBook.push({
             'name': name,
             'phone': phone,
@@ -63,14 +60,11 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    var newIndex = getIndexNewPhone(phone);
+    var newIndex = getIndexPhone(phone);
     if (isCorrectData(phone, name, email) && newIndex !== -1) {
-        phoneBook[newIndex].phone = phone;
         phoneBook[newIndex].name = name;
         if (email) {
             phoneBook[newIndex].email = email;
-        } else {
-            phoneBook[newIndex].email = '';
         }
 
         return true;
@@ -98,7 +92,7 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    if (!query) {
+    if (typeof query !== 'string' || query === '') {
 
         return [];
     }
