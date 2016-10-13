@@ -58,6 +58,9 @@ exports.add = function (phone, name, email) {
 
 exports.update = function (phone, name, email) {
     var haveNote = false;
+    if (phone === undefined || name === undefined) {
+        return false;
+    }
     phoneBook.forEach(function (client) {
         if (client.phone === phone) {
             client.name = name;
@@ -81,7 +84,6 @@ exports.findAndRemove = function (query) {
             if (client[data].indexOf(query) !== -1) {
                 counter++;
                 delete phoneBook[client];
-                break;
             }
         }
     });
