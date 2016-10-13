@@ -78,7 +78,7 @@ exports.update = function (phone, name, email) {
     if (indexToChange !== undefined) {
         phoneBook[indexToChange].name = name;
         if (email === undefined) {
-            phoneBook[indexToChange].email = '';
+            delete phoneBook[indexToChange].email;
 
             return true;
         }
@@ -100,8 +100,19 @@ exports.findAndRemove = function (query) {
         var personEmail = person.email;
 
         if ((personName.indexOf(query) === -1) && (personPhone.indexOf(query) === -1) &&
-        (personEmail.indexOf(query) === -1)) {
+        (haveMail(personEmail))) {
             return true;
+        }
+
+        function haveMail(email) {
+            if (email === undefined) {
+                return true;
+            }
+            if (email.indexOf(query) === -1) {
+                return true;
+            }
+
+            return false;
         }
     }
     phoneBook.splice(0, phoneBook.length);
