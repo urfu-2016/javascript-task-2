@@ -24,14 +24,14 @@ function isValidEmail(email) {
 }
 
 function isHaveNote(phone) {
-    var isHaveNote = false;
+    var haveNote = false;
     phoneBook.forEach(function (client) {
         if (client.phone.indexOf(phone) !== -1) {
-            isHaveNote =  true;
+            haveNote = true;
         }
     });
 
-    return isHaveNote;
+    return haveNote;
 }
 
 exports.add = function (phone, name, email) {
