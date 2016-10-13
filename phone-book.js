@@ -34,9 +34,14 @@ function isHaveNote(phone) {
     return haveNote;
 }
 
+function isCorrectName(name) {
+
+    return name !== undefined && name !== '';
+}
+
 exports.add = function (phone, name, email) {
     if (isValidEmail(email) && isValidPhone(phone) &&
-        !isHaveNote(phone) && name !== undefined) {
+        !isHaveNote(phone) && isCorrectName(name)) {
         phoneBook.push({
             name: name,
             phone: phone,
@@ -122,7 +127,9 @@ exports.importFromCsv = function (csv) {
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var newClient = client.split(';');
-        exports.add(newClient[0], newClient[1], newClient[2]);
+        if (newClient.length < 4) {
+            exports.add(newClient[0], newClient[1], newClient[2]);
+        }
     });
     // Парсим csv
     // Добавляем в телефонную книгу
