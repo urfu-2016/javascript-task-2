@@ -148,17 +148,19 @@ exports.importFromCsv = function (csv) {
     csv.split('\n').forEach(function (item) {
         var fields = item.split(';');
         if (fields.length >= 2 && fields.length <= 3) {
-            fields.forEach(function (field) {
-                if (field === '') {
-                    field = undefined;
-                }
-            });
-            if (exists(fields[1]) &&
-                        exports.update(fields[1], fields[0], fields[2])) {
-                count++;
-            } else if (exports.add(fields[1], fields[0], fields[2])) {
+            return undefined;
+        }
+        fields.forEach(function (field) {
+            if (field === '') {
+                field = undefined;
+            }
+        });
+        if (exists(fields[1])) {
+            if (exports.update(fields[1], fields[0], fields[2])) {
                 count++;
             }
+        } else if (exports.add(fields[1], fields[0], fields[2])) {
+            count++;
         }
     });
 
