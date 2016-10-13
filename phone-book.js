@@ -47,7 +47,7 @@ function getRecordByPhone(phone) {
 
 function formatPhone(phone) {
     return '+7 (' + phone.slice(0, 3) +') ' +
-           phone.slice(3, 3) + '-' + phone.slice(6, 2) + '-' phone.slice(8, 2);
+           phone.slice(3, 3) + '-' + phone.slice(6, 2) + '-' + phone.slice(8, 2);
 }
 
 /**
