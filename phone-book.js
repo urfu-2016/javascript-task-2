@@ -46,7 +46,7 @@ function getRecordByPhone(phone) {
 }
 
 function formatPhone(phone) {
-    phone = /\d{3}\d{3}\d{2}\d{2}/.exec(phone);
+    phone = /(\d{3})(\d{3})(\d{2})(\d{2})/.exec(phone);
 
     return '+7 (' + phone[0] + ') ' + phone[1] + '-' + phone[2] + '-' + phone[3];
 }
@@ -59,7 +59,7 @@ function formatPhone(phone) {
  * @returns {Bool}
  */
 exports.add = function (phone, name, email) {
-    if (!isValidPhone(phone)) {
+    if (!isValidPhone(phone) || !name) {
         return false;
     }
     if (getRecordByPhone(phone)) {
