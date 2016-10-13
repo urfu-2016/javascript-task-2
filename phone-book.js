@@ -34,7 +34,7 @@ function isValidName(name) {
     return name !== undefined && name.length !== 0 && typeof name === 'string';
 }
 exports.add = function (phone, name, email) {
-    if (!isValidPhone(phone) || isHaveNote(phone) || !isValidName(name)) {
+    if (!isValidPhone(phone) || isHaveNote(phone) || isNaN(Number(phone)) || !isValidName(name)) {
         return false;
     }
 
@@ -72,7 +72,7 @@ function createClient(phone, name, email) {
 
 
 exports.update = function (phone, name, email) {
-    if (!isValidPhone(phone) || !isValidName(name)) {
+    if (!isValidPhone(phone) || !isValidName(name) || isNaN(Number(phone))) {
 
         return false;
     }
