@@ -40,7 +40,7 @@ function getIndexNewPhone(phone) {
         });
 }
 
-function isCorrectData (phone, name, email) {
+function isCorrectData(phone, name, email) {
     return isCorrectPhone(phone) && typeof name === 'string' &&
         (typeof email === 'string' || email === undefined) &&
         email !== '' && name !== '';
