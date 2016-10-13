@@ -183,8 +183,6 @@ exports.importFromCsv = function (csv) {
     var csvSplit;
     csvSplit = csv.split('\n');
     count = 0;
-    console.log(csv);
-    console.log(csvSplit);
     for (var i = 0; i < csvSplit.length; i++) {
         if (isValidAdUpCsv(csvSplit[i].split(';'), i)) {
             count++;
@@ -195,7 +193,6 @@ exports.importFromCsv = function (csv) {
 };
 
 function isValidAdUpCsv(user, index) {
-    console.log(user);  
     if (!isValidPhone(user[1])) {
 
         return false;
