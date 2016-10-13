@@ -152,11 +152,10 @@ exports.importFromCsv = function (csv) {
                 field = undefined;
             }
         });
-        if (exists(fields[1])) {
-            exports.update(fields[1], fields[0], fields[2]);
+        if (exists(fields[1]) &&
+                    exports.update(fields[1], fields[0], fields[2])) {
             count++;
-        } else {
-            exports.add(fields[1], fields[0], fields[2]);
+        } else if (exports.add(fields[1], fields[0], fields[2])) {
             count++;
         }
     });
