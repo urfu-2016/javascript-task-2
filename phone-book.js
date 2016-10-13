@@ -47,8 +47,7 @@ exports.add = function (phone, name, email) {
  */
 
 exports.update = function (phone, name, email) {
-    if (!isValidEmail(email) || !isValidPhone(phone) ||
-        isHaveNote(phone) || name === undefined) {
+    if (!isValidEmail(email) || !isValidPhone(phone) || name === undefined) {
         return false;
     }
     phoneBook[phone].name = name;
