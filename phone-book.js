@@ -18,7 +18,7 @@ function isValidPhone(phone) {
 }
 
 function isValidEmail(email) {
-    var regEmail = /((\d|\w)+@\w+.\w{2,})/g;
+    var regEmail = /((\d|\w)+@\w(\w{1,}|-)*\w.\w{2,})/g;
 
     return regEmail.test(email) || email === undefined;
 }
