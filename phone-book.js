@@ -23,14 +23,15 @@ function isValidEmail(email) {
     return regEmail.test(email) || email === undefined;
 }
 
-function isHaveNote(phone, name, email) {
-    var client = {
-        phone: phone,
-        name: name,
-        email: email
-    };
+function isHaveNote(phone) {
+    phoneBook.forEach(function (client) {
+        if (client.phone.indexOf(phone) !== -1) {
 
-    return phoneBook.indexOf(client) !== -1;
+            return true;
+        }
+    });
+
+    return false;
 }
 
 exports.add = function (phone, name, email) {
