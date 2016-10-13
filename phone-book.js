@@ -49,7 +49,7 @@ function correctName(name) {
 }
 
 function correctEmail(email) {
-    var reg = /([a-z]+)(@)([a-z]+)(\.)([a-z]+)/i;
+    var reg = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-zа-я0-9_-]+(\.[a-zа-я0-9_-]+)*\.[a-zа-я]{2,6}$/i;
     if (email !== undefined) {
         if (!reg.test(email)) {
 
