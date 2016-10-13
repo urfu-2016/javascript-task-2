@@ -17,6 +17,7 @@ function isValidPhone(phone) {
     return phone !== undefined && regPhone.test(phone) && phone.length === 10;
 }
 
+
 function isHaveNote(phone) {
     var haveNote = false;
     phoneBook.forEach(function (client) {
@@ -30,26 +31,24 @@ function isHaveNote(phone) {
 
 function isValidName(name) {
 
-    return typeof name === 'string' && name !== undefined && name.length !== 0;
+    return name !== undefined && name.length !== 0;
 }
-
 exports.add = function (phone, name, email) {
-    if (!isValidPhone(phone) || !isValidName(name)) {
+    if (!isValidPhone(phone) || isHaveNote(phone) || !isValidName(name)) {
         return false;
     }
-    if (isHaveNote(phone)) {
-        if (email !== undefined) {
-            phoneBook.push({
-                name: name,
-                phone: phone,
-                email: email
-            });
-        } else {
-            phoneBook.push({
-                name: name,
-                phone: phone
-            });
-        }
+
+    if (email !== undefined) {
+        phoneBook.push({
+            name: name,
+            phone: phone,
+            email: email
+        });
+    } else {
+        phoneBook.push({
+            name: name,
+            phone: phone
+        });
     }
 
     return true;
@@ -71,12 +70,12 @@ function createClient(phone, name, email) {
     return { name: name, phone: phone };
 }
 
+
 exports.update = function (phone, name, email) {
     if (!isValidPhone(phone) || !isValidName(name)) {
 
         return false;
     }
-
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             phoneBook[i] = createClient(phone, name, email);
@@ -96,7 +95,7 @@ function isEqualsNotes(i, query) {
     }
 
     return (phoneBook[i].phone.indexOf(query) !== -1 ||
-            phoneBook[i].name.indexOf(query) !== -1);
+    phoneBook[i].name.indexOf(query) !== -1);
 }
 
 exports.findAndRemove = function (query) {
@@ -142,6 +141,13 @@ exports.find = function (query) {
 
     return newPhoneBook.sort();
 };
+
+/**
+ * Импорт записей из csv-формата
+ * @star
+ * @param {String} csv
+ * @returns {Number} – количество добавленных и обновленных записей
+ */
 
 
 exports.importFromCsv = function (csv) {
