@@ -12,13 +12,13 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidPhone(phone) {
-    var regPhone = /\d{10}/g;
+    var regPhone = /\d{10}/;
 
     return regPhone.test(phone) && phone.length === 10;
 }
 
 function isValidEmail(email) {
-    var regEmail = /((\d|\w)+@\w+.\w{2,})/g;
+    var regEmail = /((\d|\w)+@\w+.\w{2,})/;
 
     return regEmail.test(email);
 }
