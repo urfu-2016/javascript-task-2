@@ -3,7 +3,7 @@
 var phoneBook = require('./phone-book');
 
 // Эти записи добавятся, вернется true
-console.info(phoneBook.add('5554440044', 'Григорий', 'grisha@example.com'));
+console.info(phoneBook.add('5554440044', '', ''));
 console.info(phoneBook.add('5552220022', 'Борис', 'boris@example.com'));
 console.info(phoneBook.add('5551110011', 'Алекс'));
 console.info(phoneBook.add('5553330033', 'Валерий', 'valera@example.com'));

@@ -30,7 +30,7 @@ exports.add = function (phone, name, email) {
 };
 
 function addNote(phone, name, email) {
-    if (!isCorrectPhone(phone) || phoneBook.some(isPhoneInBook, phone) || name === undefined) {
+    if (!isCorrectPhone(phone) || phoneBook.some(isPhoneInBook, phone) || !isCorrectName(name)) {
         return false;
     }
     phoneBook.push(createPhoneBookObject(phone, name, email));
@@ -40,6 +40,10 @@ function addNote(phone, name, email) {
 
 function isCorrectPhone(phone) {
     return phone !== undefined && phone.length === 10 && phoneReg.exec(phone)[0].length === 10;
+}
+
+function isCorrectName(name) {
+    return name !== undefined && name.length !== 0;
 }
 
 function compareByName(note1, note2) {
@@ -85,7 +89,7 @@ exports.update = function (phone, name, email) {
 };
 
 function updateNote(phone, name, email) {
-    if (!isCorrectPhone(phone) || name === undefined) {
+    if (!isCorrectPhone(phone) || !isCorrectName(name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -226,9 +230,10 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     var notesArray = csv.split('\n');
+    var result = notesArray.reduce(countSuccessfulAddsOrUpdates, 0);
     phoneBook.sort(compareByName);
 
-    return notesArray.reduce(countSuccessfulAddsOrUpdates, 0);
+    return result;
 };
 
 /**
