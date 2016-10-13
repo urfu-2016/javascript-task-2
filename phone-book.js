@@ -19,8 +19,10 @@ phoneBook = [];
  * @param {String} email
  */
 function correctPhone(phone) {
-    if (phone.length === 10 && !isNaN(phone)) {
-        return true;
+    if (phone !== undefined && phone !== null) {
+        if (phone.length === 10 && !isNaN(phone)) {
+            return true;
+        }
     }
 
     return false;
@@ -41,7 +43,7 @@ function coincidePhone(phone) {
 }
 
 function correctName(name) {
-    if (name === undefined) {
+    if (name === undefined || name === '') {
         return false;
     }
 
@@ -176,7 +178,9 @@ function searchMatch(query) {
 
 exports.find = function (query) {
     if ((query === undefined) || (query === null) || (query === '')) {
-        return null;
+        var empty = [];
+
+        return empty;
     }
     if (query === '*') {
         query = '';
@@ -184,21 +188,21 @@ exports.find = function (query) {
 
     var sortCoincidenceBook = searchMatch(query);
     sortCoincidenceBook.sort();
-    console.info(sortCoincidenceBook);
 
     return sortCoincidenceBook;
 
 };
 function findToRemove(query) {
     if ((query === undefined) || (query === null) || (query === '')) {
-        return null;
+        var empty = [];
+
+        return empty;
     }
     if (query === '*') {
         query = '';
     }
     var sortCoincidenceBook = searchMatch(query);
     sortCoincidenceBook.sort();
-    console.info(sortCoincidenceBook);
 
     return sortCoincidenceBook;
 
