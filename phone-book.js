@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidInput(phone, name) {
-    return /^\d{10}$/g.test(phone) && name;
+    return /^\d{10}$/g.test(phone) && name !== undefined && name.length > 0;
 }
 
 
