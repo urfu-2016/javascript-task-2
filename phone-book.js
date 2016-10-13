@@ -147,7 +147,6 @@ exports.importFromCsv = function (csv) {
     clients.forEach(function (client) {
         var newClient = client.split(';');
         if (newClient.length < 4) {
-            counter++;
             exports.add(newClient[0], newClient[1], newClient[2]);
         }
     });
