@@ -39,7 +39,7 @@ function addNote(phone, name, email) {
 }
 
 function isCorrectPhone(phone) {
-    return phone.length === 10 && phoneReg.exec(phone)[0].length === 10;
+    return phone !== undefined && phone.length === 10 && phoneReg.exec(phone)[0].length === 10;
 }
 
 function compareByName(note1, note2) {
