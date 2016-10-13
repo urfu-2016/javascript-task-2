@@ -12,43 +12,41 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidPhone(phone) {
-    var regPhone = /\d{10}/g;
 
-    return phone !== undefined && regPhone.test(phone) && phone.length === 10;
+    return !isNaN(Number(phone)) && phone.length === 10;
 }
 
-
 function isHaveNote(phone) {
-    var haveNote = false;
-    phoneBook.forEach(function (client) {
-        if (client.phone === phone) {
-            haveNote = true;
-        }
+    var phones = [];
+    phoneBook.forEach(function takePhones(item) {
+        phones.push(item.phone);
     });
 
-    return haveNote;
+    return phones.indexOf(phone) === -1;
 }
 
 function isValidName(name) {
 
-    return name !== undefined && name.length !== 0 && typeof name === 'string';
+    return typeof name === 'string' || name !== '';
 }
+
 exports.add = function (phone, name, email) {
-    if (!isValidPhone(phone) || isHaveNote(phone) || isNaN(Number(phone)) || !isValidName(name)) {
+    if (!isValidPhone(phone) || !isValidName(name)) {
         return false;
     }
-
-    if (email !== undefined) {
-        phoneBook.push({
-            name: name,
-            phone: phone,
-            email: email
-        });
-    } else {
-        phoneBook.push({
-            name: name,
-            phone: phone
-        });
+    if (isHaveNote(phone)) {
+        if (email !== undefined) {
+            phoneBook.push({
+                name: name,
+                phone: phone,
+                email: email
+            });
+        } else {
+            phoneBook.push({
+                name: name,
+                phone: phone
+            });
+        }
     }
 
     return true;
@@ -70,12 +68,12 @@ function createClient(phone, name, email) {
     return { name: name, phone: phone };
 }
 
-
 exports.update = function (phone, name, email) {
-    if (!isValidPhone(phone) || !isValidName(name) || isNaN(Number(phone))) {
+    if (!isValidPhone(phone) || !isValidName(name)) {
 
         return false;
     }
+
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             phoneBook[i] = createClient(phone, name, email);
@@ -152,12 +150,12 @@ exports.find = function (query) {
 
 exports.importFromCsv = function (csv) {
     var counter = 0;
-    var clients = csv.split('\n');
-    clients.forEach(function (client) {
-        var data = client.split(';');
-        var name = data[0];
-        var phone = data[1];
-        var email = data[2];
+    var data = csv.split('\n');
+    data.forEach(function (client) {
+        var values = client.split(';');
+        var name = values[0];
+        var phone = values[1];
+        var email = values[2];
         if (!exports.update(phone, name, email)) {
             if (exports.add(phone, name, email)) {
                 counter++;
@@ -166,9 +164,6 @@ exports.importFromCsv = function (csv) {
             counter++;
         }
     });
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
 
     return counter;
 };
