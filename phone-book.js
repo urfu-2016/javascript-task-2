@@ -87,21 +87,27 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
+function isEqualsNotes(i, query) {
+
+    return (phoneBook[i].phone.indexOf(query) !== -1 ||
+        phoneBook[i].email.indexOf(query) !== -1 ||
+        phoneBook[i].name.indexOf(query) !== -1);
+
+}
+
 exports.findAndRemove = function (query) {
     if (!query || query.length === 0) {
 
         return 0;
     }
     var counter = 0;
-    phoneBook.forEach(function (client) {
-        for (var data in client) {
-            if (client[data].indexOf(query) !== -1) {
-                counter++;
-                delete phoneBook[client];
-                break;
-            }
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (isEqualsNotes(i, query)) {
+            counter++;
+            delete phoneBook[i];
         }
-    });
+
+    }
 
     return counter;
     // Ваша необьяснимая магия здесь
@@ -133,30 +139,26 @@ exports.find = function (query) {
     return newPhoneBook.sort();
 };
 
-function isCorrectData(client) {
-    if (client.length > 3) {
-        return false;
-    }
-    if (!exports.add(client[0], client[1], client[2])) {
+/**
+ * Импорт записей из csv-формата
+ * @star
+ * @param {String} csv
+ * @returns {Number} – количество добавленных и обновленных записей
+ */
 
-        return exports.update(client[0], client[1], client[2]);
-    }
-
-    return true;
-}
 
 exports.importFromCsv = function (csv) {
-    var counter = 0;
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var newClient = client.split(';');
-        if (isCorrectData(newClient)) {
-            counter++;
+        if (newClient.length < 4) {
+            exports.add(newClient[0], newClient[1], newClient[2]);
         }
     });
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-    return counter;
+
+    return phoneBook.length;
 };
