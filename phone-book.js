@@ -147,7 +147,7 @@ exports.importFromCsv = function (csv) {
     var count = 0;
     csv.split('\n').forEach(function (item) {
         var fields = item.split(';');
-        if (fields.length >= 2 && fields.length <= 3) {
+        if (fields.length === 3) {
             fields.forEach(function (field) {
                 if (field === '') {
                     field = undefined;
