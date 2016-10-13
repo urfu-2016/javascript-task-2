@@ -59,7 +59,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     phoneBook.forEach(function (record) {
-        if (typeof record !== 'undefined' && record.phone === phone) {
+        if (typeof record !== 'undefined' && record.phone === phone && name) {
             record.name = name;
             record.email = email;
         }
