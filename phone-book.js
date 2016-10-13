@@ -14,6 +14,10 @@ function isPhoneBookContains(phone) {
     return Object.keys(phoneBook).indexOf(phone) !== -1;
 }
 
+function isNameCorrect(name) {
+    return name !== undefined && name.length > 0;
+}
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -22,7 +26,7 @@ function isPhoneBookContains(phone) {
  * @returns {Boolean} result
  */
 exports.add = function (phone, name, email) {
-    if (!isPhoneCorrect(phone) || name === undefined || isPhoneBookContains(phone)) {
+    if (!isPhoneCorrect(phone) || !isNameCorrect(name) || isPhoneBookContains(phone)) {
         return false;
     }
     phoneBook[phone] = { name: name, email: email };
