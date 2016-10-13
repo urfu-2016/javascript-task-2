@@ -142,7 +142,6 @@ exports.find = function (query) {
 
 
 exports.importFromCsv = function (csv) {
-    var counter = 0;
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var newClient = client.split(';');
