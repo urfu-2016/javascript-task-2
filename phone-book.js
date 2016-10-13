@@ -120,8 +120,8 @@ function recordArrayToString(arr) {
 
 /**
  * Поиск записей по запросу в телефонной книге
- * @param query
- * @returns recordsArray
+ * @param {String} query
+ * @returns {Array} recordsArray
  */
 exports.find = function (query) {
     var keys = [];
