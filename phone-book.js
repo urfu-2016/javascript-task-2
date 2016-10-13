@@ -43,7 +43,7 @@ function coincidePhone(phone) {
 }
 
 function correctName(name) {
-    if (name === undefined || name === '') {
+    if (name === undefined || name === '' || name === null) {
         return false;
     }
 
@@ -52,7 +52,7 @@ function correctName(name) {
 
 function correctEmail(email) {
     var reg = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-zа-я0-9_-]+(\.[a-zа-я0-9_-]+)*\.[a-zа-я]{2,6}$/i;
-    if (email !== undefined && email !== '') {
+    if (email !== undefined && email !== '' && email !== null) {
         if (!reg.test(email)) {
 
             return false;
@@ -108,25 +108,52 @@ exports.update = function (phone, name, email) {
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
  */
+function findToRemove(query) {
+    if ((query === undefined) || (query === null) || (query === '')) {
+        var empty = [];
+
+        return empty;
+    }
+    if (query === '*') {
+        query = '';
+    }
+    var coincidenceBook = searchMatch(query);
+
+    return coincidenceBook;
+
+}
+
+function returnDontRemove(bookRemoveNumber) {
+    var answerArr = [];
+    for (var j = 0; j < phoneBook.length; j++) {
+        if (bookRemoveNumber.indexOf(phoneBook[j]._phone) === -1) {
+            answerArr.push(phoneBook[j]);
+        }
+    }
+
+    return answerArr;
+}
+
 exports.findAndRemove = function (query) {
     var foundArr = findToRemove(query);
-    var newBook = [];
-    newBook = newBook.concat(phoneBook);
+    var bookRemoveNumber = [];
     var countRemove = 0;
     for (var i = 0; i < phoneBook.length; i++) {
         var searchStr = '';
-        if (phoneBook[i]._email !== undefined) {
+        if (phoneBook[i]._email !== undefined && phoneBook[i]._email !== null) {
             var name = phoneBook[i]._name;
             var email = phoneBook[i]._email;
             searchStr = name + ', ' + formatPhone(phoneBook[i]._phone) + ', ' + email;
         } else {
-            searchStr = phoneBook[i]._name + ', ' + phoneBook[i]._phone;
+            searchStr = phoneBook[i]._name + ', ' + formatPhone(phoneBook[i]._phone);
         }
         if (foundArr.indexOf(searchStr) !== -1) {
-            newBook.splice(i, 1);
+            bookRemoveNumber.push(phoneBook[i]._phone);
             countRemove++;
         }
     }
+
+    phoneBook = returnDontRemove(bookRemoveNumber);
 
     return countRemove;
 };
@@ -144,7 +171,7 @@ function formatPhone(phone) {
 
 function returnDependEmail(currentN, currentPh, currentEm) {
     var returnStr = '';
-    if (currentEm !== undefined) {
+    if (currentEm !== undefined && currentEm !== null) {
         returnStr = currentN + ', ' + currentPh + ', ' + currentEm;
     } else {
         returnStr = currentN + ', ' + currentPh;
@@ -159,7 +186,7 @@ function searchMatch(query) {
         var chName = (phoneBook[i]._name.indexOf(query) !== -1);
         var chPhone = (phoneBook[i]._phone.indexOf(query) !== -1);
         var chEmail;
-        if (phoneBook[i]._email !== undefined) {
+        if (phoneBook[i]._email !== undefined && phoneBook[i]._email !== null) {
             chEmail = (phoneBook[i]._email.indexOf(query) !== -1);
         } else {
             chEmail = false;
@@ -192,21 +219,7 @@ exports.find = function (query) {
     return sortCoincidenceBook;
 
 };
-function findToRemove(query) {
-    if ((query === undefined) || (query === null) || (query === '')) {
-        var empty = [];
 
-        return empty;
-    }
-    if (query === '*') {
-        query = '';
-    }
-    var sortCoincidenceBook = searchMatch(query);
-    sortCoincidenceBook.sort();
-
-    return sortCoincidenceBook;
-
-}
 
 /**
  * Импорт записей из csv-формата
