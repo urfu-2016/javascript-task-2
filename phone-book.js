@@ -17,11 +17,6 @@ function isValidPhone(phone) {
     return phone !== undefined && regPhone.test(phone) && phone.length === 10;
 }
 
-function isValidEmail(email) {
-    var regEmail = /((\d|\w)+@\w+.\w{2,})/g;
-
-    return regEmail.test(email) || email === undefined;
-}
 
 function isHaveNote(phone) {
     var haveNote = false;
@@ -34,21 +29,27 @@ function isHaveNote(phone) {
     return haveNote;
 }
 
-function isCorrectName(name) {
+function isValidName(name) {
 
-    return name !== undefined && name !== '';
+    return name !== undefined && name.length !== 0;
 }
 exports.add = function (phone, name, email) {
-    if (!isValidPhone(phone) || !isValidEmail(email) ||
-        isHaveNote(phone) || !isCorrectName(name)) {
+    if (!isValidPhone(phone) || isHaveNote(phone) || !isValidName(name)) {
         return false;
     }
-    phoneBook.push({
-        name: name,
-        phone: phone,
-        email: email
-    });
 
+    if (email !== undefined) {
+        phoneBook.push({
+            name: name,
+            phone: phone,
+            email: email
+        });
+    } else {
+        phoneBook.push({
+            name: name,
+            phone: phone
+        });
+    }
 
     return true;
 };
@@ -60,27 +61,37 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  */
 
+function createClient(phone, name, email) {
+    if (email !== undefined) {
+
+        return { name: name, phone: phone, email: email };
+    }
+
+    return { name: name, phone: phone };
+}
+
+
 exports.update = function (phone, name, email) {
-    if (!isValidPhone(phone) || !isCorrectName(name)) {
+    if (!isValidPhone(phone) || !isValidName(name)) {
+
         return false;
     }
-    var haveNote = false;
-    phoneBook.forEach(function (client) {
-        if (client.phone === phone && haveNote === false) {
-            if (email === undefined) {
-                delete client.email;
-            } else {
-                client.email = email;
-            }
-            client.name = name;
-            haveNote = true;
-        }
-    });
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            phoneBook[i] = createClient(phone, name, email);
 
-    return haveNote;
+            return true;
+        }
+    }
+
+    return false;
 };
 
 exports.findAndRemove = function (query) {
+    if (!query || query.length === 0) {
+
+        return 0;
+    }
     var counter = 0;
     phoneBook.forEach(function (client) {
         for (var data in client) {
@@ -103,11 +114,15 @@ function parsePhone(phone) {
 }
 
 exports.find = function (query) {
+    if (!query || query.length === 0) {
+
+        return [];
+    }
     var newPhoneBook = [];
     phoneBook.forEach(function (client) {
         if (client.phone.indexOf(query) !== -1 || query === '*') {
             var str = client.name + ', ' + parsePhone(client.phone);
-            if (client.email !== undefined) {
+            if (client.hasOwnProperty('email')) {
                 str += ', ' + client.email;
             }
             newPhoneBook.push(str);
@@ -127,10 +142,12 @@ exports.find = function (query) {
 
 
 exports.importFromCsv = function (csv) {
+    var counter = 0;
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var newClient = client.split(';');
         if (newClient.length < 4) {
+            counter++;
             exports.add(newClient[0], newClient[1], newClient[2]);
         }
     });
@@ -139,5 +156,5 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
 
 
-    return phoneBook.length;
+    return counter;
 };
