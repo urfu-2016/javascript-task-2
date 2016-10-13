@@ -57,20 +57,21 @@ exports.add = function (phone, name, email) {
  */
 
 exports.update = function (phone, name, email) {
+    var haveNote = false;
     phoneBook.forEach(function (client) {
-        if (client.phone.indexOf(phone) !== -1) {
+        if (client.phone === phone) {
             client.name = name;
             if (email === undefined) {
-                client.email = '';
+                delete client.email;
             } else {
                 client.email = email;
             }
 
-            return true;
+            haveNote = true;
         }
     });
 
-    return false;
+    return haveNote;
 };
 
 exports.findAndRemove = function (query) {
@@ -95,24 +96,20 @@ function parsePhone(phone) {
             phone.substring(8, phone.length);
 }
 
-function compareClients(client1, client2) {
-    if (client1.name > client2.name) {
-        return 1;
-    }
-
-    return -1;
-}
-
 exports.find = function (query) {
+    var newPhoneBook = [];
     phoneBook.forEach(function (client) {
-        for (var data in client) {
-            if (client[data].indexOf(query) !== -1 || query === '*') {
-                console.info(client.name + ' ' + parsePhone(client.phone) + ' ' + client.email);
+        if (client.phone.indexOf(query) !== -1 || query === '*') {
+            var str = client.name + ', ' + parsePhone(client.phone);
+            if (client.email !== undefined) {
+                str += ', ' + client.email;
             }
+            newPhoneBook.push(str);
         }
+
     });
 
-    return phoneBook.sort(compareClients);
+    return newPhoneBook.sort();
 };
 
 /**
@@ -130,6 +127,7 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+
 
     return csv.split('\n').length;
 };
