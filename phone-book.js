@@ -18,9 +18,13 @@ var phoneBook = [];
  // @param {String} email
 
 exports.add = function (phone, name, email) {
-    if (phone.length !== 10 || isNaN(Number(phone)) || typeof name !== 'string' || name === '') {
+    if (typeof name !== 'string' || name === '') {
         return false;
     }
+    if (notCorrectPhone(phone)) {
+        return false;
+    }
+
     if (takevalueOnKey('phone').indexOf(phone) === -1) {
         phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
 
@@ -38,6 +42,9 @@ function takevalueOnKey(key) {
     return phones;
 }
 
+function notCorrectPhone(phone) {
+    return (phone.match(/^\d+$/) === null || phone.length !== 10 || isNaN(Number(phone)));
+}
 
  // Обновление записи в телефонной книге
  // @param {String} phone
@@ -47,7 +54,7 @@ exports.update = function (phone, name, email) {
     if (typeof name !== 'string' || name === '') {
         return false;
     }
-    if (phone.length !== 10 || isNaN(Number(phone))) {
+    if (notCorrectPhone(phone)) {
         return false;
     }
 
