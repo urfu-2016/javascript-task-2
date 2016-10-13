@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} - результат операции
  */
 exports.add = function (phone, name, email) {
-    if (name && isValidPhone(phone) && checkPhonebook(phone, name, email)) {
+    if (name && isValidPhone(phone) && checkPhonebook(phone, name, email) && checkEmail(email)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -37,6 +37,10 @@ function isValidPhone(phone) {
     return false;
 }
 
+function checkEmail(email) {
+
+    return (^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$).test(email);
+}
 
 function checkPhonebook(phone, name, email) {
     var currData;
@@ -200,9 +204,10 @@ exports.importFromCsv = function (csv) {
 };
 
 function isValidAdUpCsv(user, index) {
-    if (!isValidPhone(user[1])) {
+    if (!isValidPhone(user[1]) && user[0] && !checkEmail(user[2])) {
 
         return false;
+
     }
     if (checkBook(user[1], user[0], user[2], index)) {
         phoneBook.push({ phone: user[1], name: user[0], email: user[2] });
