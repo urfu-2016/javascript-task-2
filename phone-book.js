@@ -20,7 +20,7 @@ function isValidPhone(phone) {
 function isValidEmail(email) {
     var regEmail = /((\d|\w)+@\w+.\w{2,})/;
 
-    return regEmail.test(email);
+    return regEmail.test(email) || email === undefined;
 }
 
 function isHaveNote(phone, name, email) {
