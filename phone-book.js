@@ -20,8 +20,6 @@ var phoneBook = [];
  */
 exports.add = function (phone, name, email) {
     if (typeof phone !== 'string' || typeof name !== 'string' ||
-                (typeof email !== 'string' &&
-                    typeof email !== 'undefined') ||
                 phone.match(/^\d{10}$/) === null ||
                 exists(phone)) {
         return false;
