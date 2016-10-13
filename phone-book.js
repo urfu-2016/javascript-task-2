@@ -14,7 +14,7 @@ var phoneBook = [];
 function isValidPhone(phone) {
     var regPhone = /\d{10}/g;
 
-    return regPhone.test(phone) && phone.length === 10;
+    return phone !== undefined && regPhone.test(phone) && phone.length === 10;
 }
 
 function isValidEmail(email) {
@@ -26,7 +26,7 @@ function isValidEmail(email) {
 function isHaveNote(phone) {
     var haveNote = false;
     phoneBook.forEach(function (client) {
-        if (client.phone.indexOf(phone) !== -1) {
+        if (client.phone === phone) {
             haveNote = true;
         }
     });
@@ -38,20 +38,18 @@ function isCorrectName(name) {
 
     return name !== undefined && name !== '';
 }
-
 exports.add = function (phone, name, email) {
-    if (isValidEmail(email) && isValidPhone(phone) &&
-        !isHaveNote(phone) && isCorrectName(name)) {
-        phoneBook.push({
-            name: name,
-            phone: phone,
-            email: email
-        });
-
-        return true;
+    if (!isValidEmail(email) || isHaveNote(phone) || !isCorrectName(name)) {
+        return false;
     }
+    phoneBook.push({
+        name: name,
+        phone: phone,
+        email: email
+    });
 
-    return false;
+
+    return true;
 };
 
 /**
@@ -62,16 +60,18 @@ exports.add = function (phone, name, email) {
  */
 
 exports.update = function (phone, name, email) {
+    if (!isValidPhone(phone) || !isCorrectName(name)) {
+        return false;
+    }
     var haveNote = false;
     phoneBook.forEach(function (client) {
-        if (client.phone === phone) {
-            client.name = name;
+        if (client.phone === phone && haveNote === false) {
             if (email === undefined) {
                 delete client.email;
             } else {
                 client.email = email;
             }
-
+            client.name = name;
             haveNote = true;
         }
     });
@@ -123,6 +123,8 @@ exports.find = function (query) {
  * @param {String} csv
  * @returns {Number} – количество добавленных и обновленных записей
  */
+
+
 exports.importFromCsv = function (csv) {
     var clients = csv.split('\n');
     clients.forEach(function (client) {
