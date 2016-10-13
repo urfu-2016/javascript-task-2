@@ -216,6 +216,7 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     var notesArray = csv.split('\n');
+    phoneBook.sort(compareByName);
 
     return notesArray.reduce(countSuccessfulAddsOrUpdates, 0);
 };
