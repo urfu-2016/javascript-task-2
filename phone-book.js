@@ -47,6 +47,7 @@ function getRecordByPhone(phone) {
 
 function formatPhone(phone) {
     phone = /\d{3}\d{3}\d{2}\d{2}/.exec(phone);
+
     return '+7 (' + phone[0] + ') ' + phone[1] + '-' + phone[2] + '-' + phone[3];
 }
 
@@ -55,6 +56,7 @@ function formatPhone(phone) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool}
  */
 exports.add = function (phone, name, email) {
     if (!isValidPhone(phone)) {
@@ -78,6 +80,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool}
  */
 exports.update = function (phone, name, email) {
     if (!isValidPhone(phone) || !name) {
@@ -87,21 +90,22 @@ exports.update = function (phone, name, email) {
     var record = getRecordByPhone(phone);
 
     if (record) {
-        phoneBook[phoneBook.indexOf(records[0])] = {
+        phoneBook[phoneBook.indexOf(record)] = {
             'phone': phone,
             'name': name,
             'email': email
-        }
-    }
-    else {
+        };
+    } else {
         return false;
     }
+
     return true;
 };
 
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Int}
  */
 exports.findAndRemove = function (query) {
     var records = getRecordsByQuery(query);
@@ -116,6 +120,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array}
  */
 exports.find = function (query) {
     var records = getRecordsByQuery(query);
