@@ -40,10 +40,16 @@ function getIndexNewPhone(phone) {
         });
 }
 
+function isCorrectData(phone, name, email) {
+    return typeof phone === 'string' &&
+        isCorrectPhone(phone) && typeof name === 'string' &&
+        (typeof email === 'string' && email !== '' ||
+        email === undefined) && name !== '';
+}
+
 exports.add = function (phone, name, email) {
-    if (isCorrectPhone(phone) && typeof name === 'string' &&
-        (typeof email === 'string' || email === undefined) &&
-        email !== '' && name !== '' && getIndexNewPhone(phone) === -1) {
+    if (isCorrectData(phone, name, email) &&
+        getIndexNewPhone(phone) === -1) {
         phoneBook.push({
             'name': name,
             'phone': phone,
@@ -57,11 +63,8 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if (!name) {
-        return false;
-    }
     var newIndex = getIndexNewPhone(phone);
-    if (newIndex !== -1) {
+    if (isCorrectData(phone, name, email) && newIndex !== -1) {
         phoneBook[newIndex].phone = phone;
         phoneBook[newIndex].name = name;
         if (email) {
@@ -77,6 +80,9 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
+    if (typeof query !== 'string' || query === '') {
+        return 0;
+    }
     var oldLen = phoneBook.length;
     if (query === '*') {
         phoneBook = [];
