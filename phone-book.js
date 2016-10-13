@@ -12,11 +12,6 @@ var phoneBook = {};
  */
 
 var PHONE_PATTERN = /[0-9]+/;
-var RESERVED = {
-    '*': Object.keys(phoneBook),
-    '': []
-};
-
 
 function isPhoneCorrect(phone) {
     return PHONE_PATTERN.test(phone) && phone.length === 10;
@@ -30,7 +25,7 @@ exports.add = function (phone, name, email) {
     if (!isPhoneCorrect(phone) || name === undefined || isPhoneBookContains(phone)) {
         return false;
     }
-    phoneBook[phone] = {name: name, email: email};
+    phoneBook[phone] = { name: name, email: email };
 
     return true;
 };
