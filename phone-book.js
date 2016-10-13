@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} - результат операции
  */
 exports.add = function (phone, name, email) {
-    if (isValidPhone(phone) && checkPhonebook(phone, name, email)) {
+    if (name && isValidPhone(phone) && checkPhonebook(phone, name, email)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -95,6 +95,13 @@ function checkToUpdate(currData, phone, name, email) {
 exports.findAndRemove = function (query) {
     var count;
     count = 0;
+    if (query === '') {
+
+        return 0;
+    }
+    if (query === '*') {
+        query = '';
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         if (checkIndex(query, phoneBook[i])) {
             phoneBook.splice(i, 1);
