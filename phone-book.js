@@ -42,10 +42,10 @@ exports.add = function (phone, name, email) {
             email: email
         });
 
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
 };
 
 /**
