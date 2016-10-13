@@ -147,7 +147,8 @@ exports.importFromCsv = function (csv) {
     var count = 0;
     csv.split('\n').forEach(function (item) {
         var fields = item.split(';');
-        if (fields.length === 3) {
+        if (fields.length >= 2 && fields.length <= 3 &&
+                    fields[1].match(/^\d{10}$/) && fields[0]) {
             fields.forEach(function (field) {
                 if (field === '') {
                     field = undefined;
