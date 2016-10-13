@@ -1,6 +1,6 @@
 'use strict';
 
-exports.isStar = true;
+//exports.isStar = true;
 
 var phoneBook = {};
 
