@@ -18,33 +18,37 @@ var phoneBook = [];
  * @param {String} email
  */
 
+function isValidEmail(email) {
+    var emailMatch = email.match(/^\S+@\S+\.\S+$/);
+
+    return !(emailMatch === null && email !== '');
+}
+
+function isValidPhone(phone) {
+    var phoneMatch = phone.match(/^\d{10}$/);
+
+    return phoneMatch !== null;
+}
+
 function areValid(phone, name, email) {
     if (typeof phone !== 'string' || typeof name !== 'string' || typeof email !== 'string') {
         return false;
     }
-    var phoneMatch = phone.match(/^\d{10}$/);
-    if (phoneMatch === null) {
-        return false;
-    }
-    if (name === '') {
-        return false;
-    }
-    var emailMatch = email.match(/^\S+@\S+\.\S+$/);
-    if (emailMatch === null && email !== '') {
+    if (!isValidPhone(phone) || name === '' || !isValidEmail(email)) {
         return false;
     }
 
     return true;
 }
 
-function equals(record, phone, name, email) {
-    return record.phone === phone;
+function equals(recordFirst, recordSecond) {
+    return recordFirst.phone === recordSecond.phone;
 }
 
 function indexOf(phone, name, email) {
-    for (var i = 0; i< phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         var record = phoneBook[i];
-        if (equals(record, phone, name, email)) {
+        if (equals(record, createRecord(phone, name, email))) {
             return i;
         }
     }
@@ -114,6 +118,7 @@ function findPhone(phone) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {int} length
  */
 exports.findAndRemove = function (query) {
     var found = findAll(query);
@@ -129,6 +134,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns [String] array
  */
 exports.find = function (query) {
     if (typeof query !== 'string' || query === '') {
@@ -158,7 +164,7 @@ function findAll(query) {
 }
 
 function toSortedStringArray(segment) {
-    segment = segment.sort(function (first, second) {
+    var sorted = segment.sort(function (first, second) {
         if (first.name > second.name) {
             return 1;
         }
@@ -167,15 +173,15 @@ function toSortedStringArray(segment) {
         }
     });
 
-    return segment.map(function(record) {
+    return sorted.map(function(record) {
         return record.email !== '' ? record.name + ', ' + toPhonenumber(record.phone) + ', ' +
-                record.email : record.name + ', ' + toPhonenumber(record.phone);
+        record.email : record.name + ', ' + toPhonenumber(record.phone);
     });
 }
 
 function toPhonenumber(phone) {
     return '+7 (' + phone.substr(0, 3) + ') ' + phone.substr(3, 3) +
-            '-' + phone.substr(6, 2) + '-' + phone.substr(8, 2);
+        '-' + phone.substr(6, 2) + '-' + phone.substr(8, 2);
 }
 
 /**
