@@ -1,6 +1,6 @@
 'use strict';
 
-//exports.isStar = true;
+exports.isStar = true;
 
 var phoneBook = {};
 
@@ -38,7 +38,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} result
  */
 exports.update = function (phone, name, email) {
-    if (!isPhoneBookContains(phone) || name === undefined) {
+    if (!isPhoneCorrect(phone) || !isPhoneBookContains(phone) || name === undefined) {
         return false;
     }
     phoneBook[phone].name = name;
