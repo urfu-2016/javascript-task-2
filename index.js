@@ -19,7 +19,7 @@ phoneBook.update('5553330033', 'Валерий');
 
 
 // В следующих примерах вернутся все записи
-console.info(phoneBook.find('*'));
+console.info(phoneBook.find(''));
 // phoneBook.find('*');
 console.info(phoneBook.find('555'));
 // phoneBook.find('555');
@@ -32,7 +32,7 @@ console.info(phoneBook.find('555'));
 // ]
 
 // Удаление
-console.info(phoneBook.findAndRemove('*')); // returns 3
+console.info(phoneBook.findAndRemove('')); // returns 3
 
 if (phoneBook.isStar) {
     // Импортируем из csv

@@ -145,7 +145,7 @@ function stylizeLastSevenNumbers(phone) {
  * @returns {Array}
  */
 function findCorrectNotes(query, filterFunc) {
-    if (!query || query.length === 0) {
+    if (isQueryEmpty(query)) {
         return [];
     }
     if (query === '*') {
@@ -153,6 +153,14 @@ function findCorrectNotes(query, filterFunc) {
     }
 
     return phoneBook.filter(filterFunc, query);
+}
+
+/**
+ * @param {String} query
+ * @returns {boolean}
+ */
+function isQueryEmpty(query) {
+    return !query || query.length === 0;
 }
 
 /**
@@ -190,7 +198,9 @@ function isNotNoteInBook(item) {
  */
 exports.findAndRemove = function (query) {
     var oldPhoneBookLength = phoneBook.length;
-    phoneBook = findCorrectNotes(query, isNotNoteInBook);
+    if (!isQueryEmpty(query)) {
+        phoneBook = findCorrectNotes(query, isNotNoteInBook);
+    }
 
     return oldPhoneBookLength - phoneBook.length;
 };
@@ -206,9 +216,8 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     var notesArray = csv.split('\n');
-    var successfulAddOrUpdates = notesArray.reduce(countSuccessfulAddsOrUpdates, 0);
 
-    return successfulAddOrUpdates;
+    return notesArray.reduce(countSuccessfulAddsOrUpdates, 0);
 };
 
 /**
@@ -230,6 +239,9 @@ function countSuccessfulAddsOrUpdates(acc, item) {
  */
 function addOrUpdate(note) {
     var parsedNote = note.split(';');
+    if (parsedNote.length > 3) {
+        return false;
+    }
     var name = parsedNote[0];
     var phone = parsedNote[1];
     var email = parsedNote[2];
