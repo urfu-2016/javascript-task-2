@@ -55,19 +55,15 @@ function exists(phone) {
 exports.update = function (phone, name, email) {
     if (typeof phone !== 'string' ||
                 phone.match(/^\d{10}$/) === null ||
-                typeof name !== 'string' ||
-                (typeof email !== 'string' &&
-                    typeof email !== 'undefined')) {
+                typeof name !== 'string') {
         return false;
     }
-    if (!exports.add(phone, name, email)) {
-        phoneBook.forEach(function (record) {
-            if (typeof record !== 'undefined' && record.phone === phone) {
-                record.name = name;
-                record.email = email;
-            }
-        });
-    }
+    phoneBook.forEach(function (record) {
+        if (typeof record !== 'undefined' && record.phone === phone) {
+            record.name = name;
+            record.email = email;
+        }
+    });
 
     return true;
 };
