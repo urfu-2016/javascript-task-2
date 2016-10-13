@@ -14,7 +14,7 @@ var phoneBook = [];
 function isValidPhone(phone) {
     var regPhone = /\d{10}/g;
 
-    return regPhone.test(phone);
+    return regPhone.test(phone) && phone.length === 10;
 }
 
 function isValidEmail(email) {
