@@ -50,7 +50,7 @@ exports.add = function (phone, name, email) {
             name: name,
             email: ''
         };
-        if (email) {
+        if (email !== undefined) {
             person.email = email;
         } else {
             delete person.email;
@@ -159,7 +159,7 @@ exports.find = function (query) {
     }
 
     function correctOutput(person) {
-        if (person.email !== '') {
+        if (person.email !== undefined) {
             return person.name + ', ' + correctPhoneOutput(person.phone) + ', ' + person.email;
         }
 
