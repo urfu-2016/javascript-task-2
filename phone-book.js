@@ -62,7 +62,7 @@ exports.add = function (phone, name, email) {
     if (!isValidPhone(phone)) {
         return false;
     }
-    if (getRecordByPhone(phone).length !== 0) {
+    if (getRecordByPhone(phone)) {
         return false;
     }
 
