@@ -75,6 +75,16 @@ function isEquals(item1, item2) {
  * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
+    if (updateNote(phone, name, email)) {
+        phoneBook.sort(compareByName);
+
+        return true;
+    }
+
+    return false;
+};
+
+function updateNote(phone, name, email) {
     if (!isCorrectPhone(phone) || name === undefined) {
         return false;
     }
@@ -87,7 +97,7 @@ exports.update = function (phone, name, email) {
     }
 
     return false;
-};
+}
 
 /**
  * Поиск записей по запросу в телефонной книге
@@ -246,8 +256,8 @@ function addOrUpdate(note) {
     var name = parsedNote[0];
     var phone = parsedNote[1];
     var email = parsedNote[2];
-    if (!exports.update(phone, name, email)) {
-        return exports.add(phone, name, email);
+    if (!updateNote(phone, name, email)) {
+        return addNote(phone, name, email);
     }
 
     return true;
