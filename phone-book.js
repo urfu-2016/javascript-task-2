@@ -12,9 +12,9 @@ exports.isStar = true;
 var phoneBook = [];
 
 function inputValidation(phone, name, email) {
-    return typeof phone === "string" && /\d{10}/.test(phone) &&
-    typeof name === "string" && name !== '' && name !== undefined &&
-    (typeof email === "string" || email === undefined);
+    return typeof phone === 'string' && /\d{10}/.test(phone) &&
+    typeof name === 'string' && name !== '' && name !== undefined &&
+    (typeof email === 'string' || email === undefined);
 }
 
 /**
@@ -22,6 +22,7 @@ function inputValidation(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {boolean}
  */
 exports.add = function (phone, name, email) {
     if (!inputValidation(phone, name, email)) {
@@ -46,6 +47,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
     if (!inputValidation(phone, name, email)) {
@@ -55,6 +57,7 @@ exports.update = function (phone, name, email) {
         if (phoneBook[i].phone === phone) {
             phoneBook[i].name = name;
             phoneBook[i].email = email;
+
             return true;
         }
     }
@@ -65,6 +68,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number}
  */
 exports.findAndRemove = function (query) {
     var findRecord = exports.find(query);
@@ -78,6 +82,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array.<*>}
  */
 exports.find = function (query) {
     if (query === '*') {
@@ -95,21 +100,17 @@ exports.find = function (query) {
     return masRecord.map(output).sort();
 };
 
-/**
- * @return {string}
- */
-function output(con) {
-    if (con.email != undefined) {
-        var email = ', ' + con.email;
-    } else {
-        email = '';
+function output(arr) {
+    var emailCorrect = '';
+    if (arr.email !== undefined) {
+        emailCorrect = ', ' + arr.email;
     }
 
-    return con.name + ', ' +
-        '+7 (' + con.phone.slice(0, 3) + ') '
-        + con.phone.slice(3, 6) + '-'
-        + con.phone.slice(6, 8) + '-'
-        + con.phone.slice(8) + email;
+    return arr.name + ', ' +
+        '+7 (' + arr.phone.slice(0, 3) + ') ' +
+        arr.phone.slice(3, 6) + '-' +
+        arr.phone.slice(6, 8) + '-' +
+        arr.phone.slice(8) + emailCorrect;
 }
 
 /**
