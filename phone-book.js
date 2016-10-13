@@ -205,6 +205,37 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    var notesArray = csv.split('\n');
+    var successfulAddOrUpdates = notesArray.reduce(countSuccessfulAddsOrUpdates, 0);
 
-    return csv.split('\n').length;
+    return successfulAddOrUpdates;
 };
+
+/**
+ * @param {Number} acc
+ * @param {String} item
+ * @returns {Number}
+ */
+function countSuccessfulAddsOrUpdates(acc, item) {
+    if (addOrUpdate(item)) {
+        acc++;
+    }
+
+    return acc;
+}
+
+/**
+ * @param {String} note
+ * @returns {boolean}
+ */
+function addOrUpdate(note) {
+    var parsedNote = note.split(';');
+    var name = parsedNote[0];
+    var phone = parsedNote[1];
+    var email = parsedNote[2];
+    if (!exports.update(phone, name, email)) {
+        return exports.add(phone, name, email);
+    }
+
+    return true;
+}

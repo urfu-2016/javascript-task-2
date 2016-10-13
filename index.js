@@ -43,5 +43,5 @@ if (phoneBook.isStar) {
         'Валерий;5553330033;valera@example.com',
         'Неизвестный;3330033;unknown@example.com'
     ].join('\n');
-    phoneBook.importFromCsv(csv); // returns 4
+    console.info(phoneBook.importFromCsv(csv)); // returns 4
 }
