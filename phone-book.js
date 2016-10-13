@@ -46,8 +46,8 @@ function getRecordByPhone(phone) {
 }
 
 function formatPhone(phone) {
-    return '+7 (' + phone.slice(0, 3) +') ' +
-           phone.slice(3, 3) + '-' + phone.slice(6, 2) + '-' + phone.slice(8, 2);
+    phone = /\d{3}\d{3}\d{2}\d{2}/.exec(phone);
+    return '+7 (' + phone[0] + ') ' + phone[1] + '-' + phone[2] + '-' + phone[3];
 }
 
 /**
@@ -65,10 +65,10 @@ exports.add = function (phone, name, email) {
     }
 
     phoneBook.push({
-        "phone": phone,
-        "name": name,
-        "email": email
-    })
+        'phone': phone,
+        'name': name,
+        'email': email
+    });
 
     return true;
 };
@@ -88,9 +88,9 @@ exports.update = function (phone, name, email) {
 
     if (record) {
         phoneBook[phoneBook.indexOf(records[0])] = {
-            "phone": phone,
-            "name": name,
-            "email": email
+            'phone': phone,
+            'name': name,
+            'email': email
         }
     }
     else {
@@ -104,7 +104,7 @@ exports.update = function (phone, name, email) {
  * @param {String} query
  */
 exports.findAndRemove = function (query) {
-    var records = getRecords(query);
+    var records = getRecordsByQuery(query);
 
     records.forEach(function (item) {
         phoneBook.splice(phoneBook.indexOf(item), 1);
@@ -118,10 +118,10 @@ exports.findAndRemove = function (query) {
  * @param {String} query
  */
 exports.find = function (query) {
-    var records = getRecords(query);
+    var records = getRecordsByQuery(query);
 
     return records.map(function (item) {
-        return item.name + ', ' + formatPhone(item.phone) + ', ' + item.email
+        return item.name + ', ' + formatPhone(item.phone) + ', ' + item.email;
     });
 
 };
