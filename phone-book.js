@@ -91,7 +91,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     if (!query) {
 
-        return;
+        return [];
     }
 
     if (query === '*') {
