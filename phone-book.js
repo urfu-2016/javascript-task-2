@@ -57,6 +57,10 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
+    if (!name) {
+        
+        return false;
+    }
     var newIndex = getIndexNewPhone(phone);
     if (newIndex !== -1) {
         phoneBook[newIndex].phone = phone;
