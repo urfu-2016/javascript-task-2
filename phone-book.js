@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
@@ -10,7 +9,6 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-
 
 function isValidPhone(phone) {
     var regPhone = /\d{10}/g;
@@ -111,7 +109,8 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    csv.forEach(function (client) {
+    var clients = csv.split('\n');
+    clients.forEach(function (client) {
         var newClient = client.split(';');
         exports.add(newClient[0], newClient[1], newClient[2]);
     });
