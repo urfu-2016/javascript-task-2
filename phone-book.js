@@ -1,5 +1,9 @@
 'use strict';
 function validPhone(phone) {
+    if (phone === undefined) {
+
+        return false;
+    }
     var validPhoneRegExp = /[0-9]{10}/;
 
     return phone.toString().match(validPhoneRegExp) !== null;
@@ -16,8 +20,12 @@ function phoneToString(phone) {
 }
 
 exports.add = function (phone, name, email) {
+    if (!validPhone(phone) || name === undefined) {
+
+        return false;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone || !validPhone(phone) || name === undefined) {
+        if (phoneBook[i].phone === phone) {
 
             return false;
         }
@@ -28,6 +36,10 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
+    if (name === undefined) {
+
+        return false;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             phoneBook[i] = { 'phone': phone, 'name': name, 'email': email };
