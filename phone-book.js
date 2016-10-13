@@ -155,8 +155,11 @@ exports.importFromCsv = function (csv) {
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var data = client.split(';');
-        if (!exports.update(data[1], data[0], data[2])) {
-            if (exports.add(data[1], data[0], data[2])) {
+        var name = data[0];
+        var phone = data[1];
+        var email = data[2];
+        if (!exports.update(phone, name, email)) {
+            if (exports.add(phone, name, email)) {
                 counter++;
             }
         } else {
