@@ -148,8 +148,9 @@ exports.importFromCsv = function (csv) {
     for (var i = 0; i < csvSplited.length; ++i) {
         var record = csvSplited[i].split(';');
 
-        if (record.length > 3)
+        if (record.length > 3) {
             continue;
+        }
 
         if (this.add(record[1], record[0], record[2]) ||
             this.update(record[1], record[0], record[2])) {
