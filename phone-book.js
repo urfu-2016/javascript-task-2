@@ -11,11 +11,10 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-function isValidPhone(phone) {
-    var regPhone = /\d{10}/g;
-
-    return regPhone.test(phone);
-}
+//function isValidPhone(phone) {
+ //   var regPhone = /\d{10}/g;
+//    return regPhone.test(phone);
+//}
 
 function isValidEmail(email) {
     var regEmail = /((\d|\w)+@\w+.\w{2,})/g;
