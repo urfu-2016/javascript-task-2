@@ -48,7 +48,7 @@ function getRecordByPhone(phone) {
 function formatPhone(phone) {
     phone = /(\d{3})(\d{3})(\d{2})(\d{2})/.exec(phone);
 
-    return '+7 (' + phone[0] + ') ' + phone[1] + '-' + phone[2] + '-' + phone[3];
+    return '+7 (' + phone[1] + ') ' + phone[2] + '-' + phone[3] + '-' + phone[4];
 }
 
 /**
@@ -69,7 +69,7 @@ exports.add = function (phone, name, email) {
     phoneBook.push({
         'phone': phone,
         'name': name,
-        'email': email
+        'email': email ? email : ''
     });
 
     return true;
@@ -93,7 +93,7 @@ exports.update = function (phone, name, email) {
         phoneBook[phoneBook.indexOf(record)] = {
             'phone': phone,
             'name': name,
-            'email': email
+            'email': email ? email : ''
         };
     } else {
         return false;
@@ -126,8 +126,10 @@ exports.find = function (query) {
     var records = getRecordsByQuery(query);
 
     return records.map(function (item) {
-        return item.name + ', ' + formatPhone(item.phone) + ', ' + item.email;
-    });
+        var emailPart = item.email ? ', ' + item.email : '';
+
+        return item.name + ', ' + formatPhone(item.phone) + emailPart;
+    }).sort();
 
 };
 
