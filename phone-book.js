@@ -4,7 +4,7 @@ function validPhone(phone) {
 
         return false;
     }
-    var validPhoneRegExp = /[0-9]{10}/;
+    var validPhoneRegExp = /^[0-9]{10}$/;
 
     return phone.toString().match(validPhoneRegExp) !== null;
 }
