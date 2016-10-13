@@ -141,6 +141,9 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
+    if (csv === undefined) {
+        return 0;
+    }
     var records = csv
         .split('\n')
         .map(parseCsvLine)
