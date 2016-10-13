@@ -55,11 +55,11 @@ function exists(phone) {
 exports.update = function (phone, name, email) {
     if (typeof phone !== 'string' ||
                 phone.match(/^\d{10}$/) === null ||
-                typeof name !== 'string') {
+                typeof name !== 'string' || !name) {
         return false;
     }
     phoneBook.forEach(function (record) {
-        if (typeof record !== 'undefined' && record.phone === phone && name) {
+        if (typeof record !== 'undefined' && record.phone === phone) {
             record.name = name;
             record.email = email;
         }
