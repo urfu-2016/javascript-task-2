@@ -151,15 +151,18 @@ function findCorrectNotes(query, filterFunc) {
     if (query === '*') {
         query = '.';
     }
-    query = query.replace(/\\/, '\\\\');
-    query = query.replace(/\./, '\\.');
-    var regexp = new RegExp(query);
+    var regexp = new RegExp(correctQuery(query));
 
     return phoneBook.filter(filterFunc, regexp);
 }
 
 function correctQuery(query) {
-    var specialSymbols = '\\.[]()^\'"$?*+=!|{}'
+    var specialSymbols = '\\!$%^&*()_+|~-=`{}[]:";\'<>?,./';
+    for (var i in specialSymbols) {
+        if (specialSymbols.hasOwnProperty(i)) {
+            query = query.replace(new RegExp('\\' + specialSymbols[i]), '\\' + specialSymbols[i]);
+        }
+    }
 
     return query;
 }
