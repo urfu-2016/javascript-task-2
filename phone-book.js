@@ -75,7 +75,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var phones = [];
 
-    if (!query) {
+    if (!query || typeof query !== 'string') {
         return phones;
     }
 
