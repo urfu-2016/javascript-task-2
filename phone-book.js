@@ -31,7 +31,7 @@ function isHaveNote(phone) {
 
 function isValidName(name) {
 
-    return name !== undefined && typeof name === 'string'&& name.length !== 0;
+    return name !== undefined && typeof name === 'string' && name.length !== 0;
 }
 
 exports.add = function (phone, name, email) {
