@@ -155,5 +155,5 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
 
 
-    return counter;
+    return phoneBook.length;
 };
