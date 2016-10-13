@@ -31,8 +31,9 @@ function isHaveNote(phone) {
 
 function isValidName(name) {
 
-    return name !== undefined && name.length !== 0;
+    return name !== undefined && typeof name === 'string'&& name.length !== 0;
 }
+
 exports.add = function (phone, name, email) {
     if (!isValidPhone(phone) || isHaveNote(phone) || !isValidName(name)) {
         return false;
@@ -99,9 +100,13 @@ function isEqualsNotes(i, query) {
 }
 
 exports.findAndRemove = function (query) {
-    if (!query || query.length === 0) {
+    if (query === '' || typeof query !== 'string') {
 
         return 0;
+    }
+    if (query === '*') {
+
+        return phoneBook.length;
     }
     var counter = 0;
     for (var i = 0; i < phoneBook.length; i++) {
