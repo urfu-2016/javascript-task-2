@@ -39,7 +39,8 @@ function isCorrectName(name) {
     return name !== undefined && name !== '';
 }
 exports.add = function (phone, name, email) {
-    if (!isValidEmail(email) || isHaveNote(phone) || !isCorrectName(name)) {
+    if (!isValidPhone(phone) || !isValidEmail(email) ||
+        isHaveNote(phone) || !isCorrectName(name)) {
         return false;
     }
     phoneBook.push({
