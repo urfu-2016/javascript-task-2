@@ -24,7 +24,7 @@ function isValidEmail(email) {
 }
 
 exports.add = function (phone, name, email) {
-    if (isValidEmail(email) && isValidPhone(phone)) {
+    if (isValidEmail(email)) {
         phoneBook.push({
             name: name,
             phone: phone,
