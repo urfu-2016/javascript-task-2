@@ -4,10 +4,10 @@ exports.isStar = true;
 
 var phoneBook = {};
 
-var PHONE_PATTERN = /[0-9]+/;
+var PHONE_PATTERN = /^[0-9]{10}$/;
 
 function isPhoneCorrect(phone) {
-    return PHONE_PATTERN.test(phone) && phone.length === 10;
+    return PHONE_PATTERN.test(phone);
 }
 
 function isPhoneBookContains(phone) {
@@ -22,7 +22,6 @@ function isPhoneBookContains(phone) {
  * @returns {Boolean} result
  */
 exports.add = function (phone, name, email) {
-    phone = phone.toString();
     if (!isPhoneCorrect(phone) || name === undefined || isPhoneBookContains(phone)) {
         return false;
     }
@@ -39,7 +38,6 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} result
  */
 exports.update = function (phone, name, email) {
-    phone = phone.toString();
     if (!isPhoneCorrect(phone) || !isPhoneBookContains(phone) || name === undefined) {
         return false;
     }
