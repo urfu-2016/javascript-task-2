@@ -37,7 +37,7 @@ console.info(phoneBook.findAndRemove('')); // returns 3
 if (phoneBook.isStar) {
     // Импортируем из csv
     var csv = [
-        'Борис;5552220022;boris@example.com',
+        'Борис;5552220022',
         'Григорий;5554440044;grisha@example.com',
         'Алексей;5551110011;alex@example.com',
         'Валерий;5553330033;valera@example.com',

@@ -30,7 +30,7 @@ exports.add = function (phone, name, email) {
 };
 
 function addNote(phone, name, email) {
-    if (isCorrectPhone(phone) || phoneBook.some(isPhoneInBook, phone) || name === undefined) {
+    if (!isCorrectPhone(phone) || phoneBook.some(isPhoneInBook, phone) || name === undefined) {
         return false;
     }
     phoneBook.push(createPhoneBookObject(phone, name, email));
@@ -39,7 +39,7 @@ function addNote(phone, name, email) {
 }
 
 function isCorrectPhone(phone) {
-    return phoneReg.exec(phone)[0].length !== 10;
+    return phone.length === 10 && phoneReg.exec(phone)[0].length === 10;
 }
 
 function compareByName(note1, note2) {
@@ -75,7 +75,7 @@ function isEquals(item1, item2) {
  * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
-    if (phone === undefined || name === undefined) {
+    if (!isCorrectPhone(phone) || name === undefined) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
