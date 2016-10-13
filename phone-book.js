@@ -11,8 +11,8 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-function isValidInput(phone, name, email) {
-    return /^\d{10}$/.test(phone) && name && email !== '';
+function isValidInput(phone, name) {
+    return /^\d{10}$/.test(phone) && name;
 }
 
 
@@ -59,7 +59,7 @@ function formatPhone(phone) {
  * @returns {Bool}
  */
 exports.add = function (phone, name, email) {
-    if (!isValidInput(phone, name, email)) {
+    if (!isValidInput(phone, name)) {
         return false;
     }
     if (getRecordByPhone(phone)) {
@@ -83,7 +83,7 @@ exports.add = function (phone, name, email) {
  * @returns {Bool}
  */
 exports.update = function (phone, name, email) {
-    if (!isValidInput(phone, name, email)) {
+    if (!isValidInput(phone, name)) {
         return false;
     }
 
