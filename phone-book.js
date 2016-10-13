@@ -103,13 +103,7 @@ function recordsToString(keys) {
 }
 
 function compare(arr1, arr2) {
-    if (arr1[0] > arr2[0]) {
-        return 1;
-    } else if (arr1[0] < arr2[0]) {
-        return -1;
-    }
-
-    return 0;
+    return arr1[0].localeCompare(arr2[0]);
 }
 
 function recordArrayToString(arr) {
