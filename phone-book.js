@@ -88,11 +88,14 @@ exports.update = function (phone, name, email) {
 };
 
 function isEqualsNotes(i, query) {
-
-    return (phoneBook[i].phone.indexOf(query) !== -1 ||
+    if (phoneBook[i].hasOwnProperty('email')) {
+        return (phoneBook[i].phone.indexOf(query) !== -1 ||
         phoneBook[i].email.indexOf(query) !== -1 ||
         phoneBook[i].name.indexOf(query) !== -1);
+    }
 
+    return (phoneBook[i].phone.indexOf(query) !== -1 ||
+            phoneBook[i].name.indexOf(query) !== -1);
 }
 
 exports.findAndRemove = function (query) {
