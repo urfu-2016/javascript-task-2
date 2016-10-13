@@ -65,6 +65,8 @@ exports.update = function (phone, name, email) {
         phoneBook[newIndex].name = name;
         if (email) {
             phoneBook[newIndex].email = email;
+        } else {
+            phoneBook[newIndex].email = '';
         }
 
         return true;
