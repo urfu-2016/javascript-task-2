@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -147,16 +147,18 @@ exports.importFromCsv = function (csv) {
     var count = 0;
     csv.split('\n').forEach(function (item) {
         var fields = item.split(';');
-        fields.forEach(function (field) {
-            if (field === '') {
-                field = undefined;
+        if (fields.length >= 2 && fields.length <= 3) {
+            fields.forEach(function (field) {
+                if (field === '') {
+                    field = undefined;
+                }
+            });
+            if (exists(fields[1]) &&
+                        exports.update(fields[1], fields[0], fields[2])) {
+                count++;
+            } else if (exports.add(fields[1], fields[0], fields[2])) {
+                count++;
             }
-        });
-        if (exists(fields[1]) &&
-                    exports.update(fields[1], fields[0], fields[2])) {
-            count++;
-        } else if (exports.add(fields[1], fields[0], fields[2])) {
-            count++;
         }
     });
 
