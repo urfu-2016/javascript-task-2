@@ -31,7 +31,7 @@ function isHaveNote(phone) {
 
 function isValidName(name) {
 
-    return name !== undefined && name.length !== 0;
+    return name !== undefined && name.length !== 0 && typeof name === 'string';
 }
 exports.add = function (phone, name, email) {
     if (!isValidPhone(phone) || isHaveNote(phone) || !isValidName(name)) {
@@ -151,17 +151,21 @@ exports.find = function (query) {
 
 
 exports.importFromCsv = function (csv) {
+    var counter = 0;
     var clients = csv.split('\n');
     clients.forEach(function (client) {
-        var newClient = client.split(';');
-        if (newClient.length < 4) {
-            exports.add(newClient[0], newClient[1], newClient[2]);
+        var data = client.split(';');
+        if (!exports.update(data[1], data[0], data[2])) {
+            if (exports.add(data[1], data[0], data[2])) {
+                counter++;
+            }
+        } else {
+            counter++;
         }
     });
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-
-    return phoneBook.length;
+    return counter;
 };
