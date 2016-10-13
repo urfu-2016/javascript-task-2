@@ -14,7 +14,7 @@ var phoneBook = [];
 function isValidPhone(phone) {
     var regPhone = /\d{10}/g;
 
-    return regPhone.test(phone) && phone.length === 10;
+    return phone !== undefined && regPhone.test(phone) && phone.length === 10;
 }
 
 function isValidEmail(email) {
@@ -26,7 +26,7 @@ function isValidEmail(email) {
 function isHaveNote(phone) {
     var haveNote = false;
     phoneBook.forEach(function (client) {
-        if (client.phone.indexOf(phone) !== -1) {
+        if (client.phone === phone) {
             haveNote = true;
         }
     });
@@ -35,18 +35,17 @@ function isHaveNote(phone) {
 }
 
 exports.add = function (phone, name, email) {
-    if (isValidEmail(email) && isValidPhone(phone) &&
-        !isHaveNote(phone) && name !== undefined) {
-        phoneBook.push({
-            name: name,
-            phone: phone,
-            email: email
-        });
-
-        return true;
+    if (!isValidEmail(email) || !isValidPhone(phone) ||
+        isHaveNote(phone) || name === undefined) {
+        return false;
     }
+    phoneBook.push({
+        name: name,
+        phone: phone,
+        email: email
+    });
 
-    return false;
+    return true;
 };
 
 /**
@@ -58,7 +57,8 @@ exports.add = function (phone, name, email) {
 
 exports.update = function (phone, name, email) {
     var haveNote = false;
-    if (phone === undefined || name === undefined) {
+    if (!isValidEmail(email) || !isValidPhone(phone) ||
+        name === undefined) {
         return false;
     }
     phoneBook.forEach(function (client) {
@@ -69,7 +69,6 @@ exports.update = function (phone, name, email) {
             } else {
                 client.email = email;
             }
-
             haveNote = true;
         }
     });
