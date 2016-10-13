@@ -58,14 +58,16 @@ exports.update = function (phone, name, email) {
                 typeof name !== 'string' || !name) {
         return false;
     }
+    var finded = false;
     phoneBook.forEach(function (record) {
         if (typeof record !== 'undefined' && record.phone === phone) {
             record.name = name;
             record.email = email;
+            finded = true;
         }
     });
 
-    return true;
+    return finded;
 };
 
 /**
