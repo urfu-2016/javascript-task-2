@@ -24,19 +24,19 @@ function isValidEmail(email) {
 }
 
 function isHaveNote(phone) {
+    var isHaveNote = false;
     phoneBook.forEach(function (client) {
         if (client.phone.indexOf(phone) !== -1) {
-
-            return true;
+            isHaveNote =  true;
         }
     });
 
-    return false;
+    return isHaveNote;
 }
 
 exports.add = function (phone, name, email) {
     if (isValidEmail(email) && isValidPhone(phone) &&
-        !isHaveNote(phone, name, email)) {
+        !isHaveNote(phone) && name !== undefined) {
         phoneBook.push({
             name: name,
             phone: phone,
