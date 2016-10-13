@@ -18,17 +18,19 @@ function isValidPhone(phone) {
 }
 
 function isHaveNote(phone) {
-    var phones = [];
-    phoneBook.forEach(function takePhones(item) {
-        phones.push(item.phone);
+    var haveNote = false;
+    phoneBook.forEach(function (client) {
+        if (client.phone === phone) {
+            haveNote = true;
+        }
     });
 
-    return phones.indexOf(phone) === -1;
+    return haveNote;
 }
 
 function isValidName(name) {
 
-    return typeof name === 'string' || name !== '';
+    return typeof name === 'string' && name !== undefined && name.length !== 0;
 }
 
 exports.add = function (phone, name, email) {
@@ -142,30 +144,18 @@ exports.find = function (query) {
 };
 
 
-function isCorrectData(client) {
-    if (client.length > 3) {
-        return false;
-    }
-    if (!exports.add(client[0], client[1], client[2])) {
-
-        return exports.update(client[0], client[1], client[2]);
-    }
-
-    return true;
-}
-
 exports.importFromCsv = function (csv) {
-    var counter = 0;
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var newClient = client.split(';');
-        if (isCorrectData(newClient)) {
-            counter++;
+        if (newClient.length < 4) {
+            exports.add(newClient[0], newClient[1], newClient[2]);
         }
     });
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-    return counter;
+
+    return phoneBook.length;
 };
