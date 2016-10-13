@@ -12,8 +12,9 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidPhone(phone) {
+    var regPhone = /\d{10}/g;
 
-    return !isNaN(Number(phone)) && phone.length === 10;
+    return phone !== undefined && regPhone.test(phone) && phone.length === 10;
 }
 
 function isHaveNote(phone) {
@@ -140,30 +141,31 @@ exports.find = function (query) {
     return newPhoneBook.sort();
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
 
+function isCorrectData(client) {
+    if (client.length > 3) {
+        return false;
+    }
+    if (!exports.add(client[0], client[1], client[2])) {
+
+        return exports.update(client[0], client[1], client[2]);
+    }
+
+    return true;
+}
 
 exports.importFromCsv = function (csv) {
     var counter = 0;
-    var data = csv.split('\n');
-    data.forEach(function (client) {
-        var values = client.split(';');
-        var name = values[0];
-        var phone = values[1];
-        var email = values[2];
-        if (!exports.update(phone, name, email)) {
-            if (exports.add(phone, name, email)) {
-                counter++;
-            }
-        } else {
+    var clients = csv.split('\n');
+    clients.forEach(function (client) {
+        var newClient = client.split(';');
+        if (isCorrectData(newClient)) {
             counter++;
         }
     });
+    // Парсим csv
+    // Добавляем в телефонную книгу
+    // Либо обновляем, если запись с таким телефоном уже существует
 
     return counter;
 };
