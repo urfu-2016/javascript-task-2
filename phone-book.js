@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Bool} result
  */
 exports.add = function (phone, name, email) {
-    if (!validatePhone(phone) || name === undefined || isDuplicate(phone) !== -1) {
+    if (!validatePhone(phone) || !validateName(name) || isDuplicate(phone) !== -1) {
         return false;
     }
 
@@ -37,7 +37,7 @@ exports.add = function (phone, name, email) {
  * @returns {Bool} result
  */
 exports.update = function (phone, name, email) {
-    if (!validatePhone(phone) || name === undefined) {
+    if (!validatePhone(phone) || !validateName(name)) {
         return false;
     }
 
@@ -130,7 +130,16 @@ exports.importFromCsv = function (csv) {
  * @returns {Bool} result
  */
 function validatePhone(phone) {
-    return phone && phone.search(/^\d{10}$/) !== -1;
+    return phone && typeof(phone) === 'string' && phone.search(/^\d{10}$/) !== -1;
+}
+
+/**
+ * Проверка валидности имени
+ * @param {String} name
+ * @returns {Bool} result
+ */
+function validateName(name) {
+    return name && typeof(name) === 'string' && name.length !== 0;
 }
 
 /**
