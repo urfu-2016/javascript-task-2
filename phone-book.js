@@ -69,6 +69,9 @@ exports.update = function (phone, name, email) {
  * @returns {Number} result
  */
 exports.findAndRemove = function (query) {
+    if (!query) {
+        return 0;
+    }
     var length = phoneBook.length;
     phoneBook = phoneBook.filter(function (element) {
         return element.phone.indexOf(query) + element.name.indexOf(query) + (element.email
