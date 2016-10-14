@@ -19,12 +19,12 @@ var phoneBook = [];
  * @returns {Bool} result
  */
 exports.add = function (phone, name, email) {
-    var person = { phone: phone, name: name, email: email };
+    // var person = { phone: phone, name: name, email: email };
 
     if (!validateInput(phone, name, email) || isDuplicate(phone) !== -1) {
         return false;
     }
-    phoneBook.push(person);
+    phoneBook.push(createPerson(phone, name, email));
 
     return true;
 };
@@ -217,4 +217,12 @@ function toString(person) {
     }
 
     return result.join(', ');
+}
+
+function createPerson(phone, name, email) {
+    if (email) {
+        return { phone: phone, name: name, email: email };
+    }
+
+    return { phone: phone, name: name };
 }
