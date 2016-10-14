@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -142,7 +142,7 @@ exports.haveRecordCoin = function (record, query) {
 exports.find = function (query) {
     if (query === '') {
 
-        return;
+        return [];
     }
     var recordFound = [];
     if (query === '*') {
