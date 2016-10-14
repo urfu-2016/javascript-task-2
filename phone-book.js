@@ -21,7 +21,7 @@ var phoneBook = [];
 exports.add = function (phone, name, email) {
     var person = { phone: phone, name: name, email: email };
 
-    if (!validatePerson(person) || isDuplicate(phone) !== -1) {
+    if (!validateInput(phone, name) || isDuplicate(phone) !== -1) {
         return false;
     }
     phoneBook.push(person);
@@ -37,9 +37,7 @@ exports.add = function (phone, name, email) {
  * @returns {Bool} result
  */
 exports.update = function (phone, name, email) {
-    var person = { phone: phone, name: name, email: email };
-
-    if (!validatePerson(person)) {
+    if (!validateInput(phone, name)) {
         return false;
     }
 
@@ -48,7 +46,8 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    phoneBook.splice(index, 1, person);
+    phoneBook[index].name = name;
+    phoneBook[index].email = email;
 
     return true;
 };
@@ -110,14 +109,14 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     var result = 0;
-    if (!csv || typeof(csv) !== 'string') {
+    if (!csv) {
         return result;
     }
     csv = csv.split('\n');
 
     csv.forEach(function (item) {
         item = item.split(';');
-        if (item.length > 3 || item.length < 2) {
+        if (item.length > 3) {
             return undefined;
         }
         var name = item[0];
@@ -134,14 +133,11 @@ exports.importFromCsv = function (csv) {
 
 /**
  * Проверка валидности полученных аргументов
- * @param {Object} person
+ * @param {String} phone
+ * @param {String} name
  * @returns {Bool} result
  */
-function validatePerson(person) {
-    var phone = person.phone;
-    var name = person.name;
-    var email = person.email;
-
+function validateInput(phone, name) {
     function validatePhone() {
         return phone && typeof(phone) === 'string' && phone.search(/^\d{10}$/) !== -1;
     }
@@ -150,15 +146,7 @@ function validatePerson(person) {
         return name && typeof(name) === 'string' && name.length !== 0;
     }
 
-    function validateEmail() {
-        if (!email) {
-            return true;
-        }
-
-        return typeof(email) === 'string';
-    }
-
-    return (validatePhone() && validateName() && validateEmail());
+    return (validatePhone() && validateName());
 }
 
 /**
