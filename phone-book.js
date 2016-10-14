@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (phone.length !== 10 || name === undefined) {
+    if (checkPhoneName(phone, name)) {
         return false;
     }
     var line = {
@@ -36,6 +36,13 @@ exports.add = function (phone, name, email) {
 
     return true;
 };
+
+function checkPhoneName(phone, name) {
+    var phoneNumber = Number(phone);
+    if (phone.length !== 10 || isNaN(phoneNumber) || name === undefined) {
+        return true;
+    }
+}
 
 function getFormatPhone(phone) {
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
