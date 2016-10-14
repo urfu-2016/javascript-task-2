@@ -61,6 +61,10 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = 0;
 
+    if (query === undefined) {
+        return result;
+    }
+
     for (var i = 0; i < phoneBook.length; i++) {
         var person = phoneBook[i];
         if (hasSubstring(person, query)) {
@@ -80,6 +84,10 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
+
+    if (query === undefined) {
+        return result;
+    }
 
     for (var i = 0; i < phoneBook.length; i++) {
         var person = phoneBook[i];
