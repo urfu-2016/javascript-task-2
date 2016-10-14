@@ -61,7 +61,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = 0;
 
-    if (!query) {
+    if (!query || typeof(query) === 'string') {
         return result;
     }
 
@@ -170,7 +170,7 @@ function validatePerson(person) {
 function isDuplicate(phone) {
     for (var i = 0; i < phoneBook.length; i++) {
         var item = phoneBook[i];
-        if (phone && item.phone === phone) {
+        if (item.phone === phone) {
             return i;
         }
     }
@@ -189,7 +189,7 @@ function hasSubstring(item, substring) {
     if (substring === '*') {
         return true;
     }
-    substring = new RegExp(substring, 'i');
+    substring = new RegExp(substring);
 
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
