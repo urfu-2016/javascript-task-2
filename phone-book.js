@@ -236,7 +236,8 @@ exports.importFromCsv = function (csv) {
     var notChangedCount = 0;
     for (var i = 0; i < entriesArray.length; i++) {
         entryFields = entriesArray[i].split(';');
-        if (!addOrUpdateEntry (entryFields[0], entryFields[1], entryFields[2])) {
+        if (entryFields.length > 2 ||
+        !addOrUpdateEntry (entryFields[0], entryFields[1], entryFields[2])) {
             notChangedCount++;
         }
     }
