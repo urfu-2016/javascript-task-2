@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} - результат операции
  */
 exports.add = function (phone, name, email) {
-    if (name.length && name && checkPhonebook(phone, name, email)) {
+    if (name && name.length && checkPhonebook(phone, name, email)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -89,7 +89,7 @@ function checkPhonebook(phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var currData;
-    if (name === undefined && name === '') {
+    if (!(name && name.length)) {
 
         return false;
     }
@@ -127,7 +127,7 @@ function checkToUpdate(currData, phone, name, email) {
 exports.findAndRemove = function (query) {
     var count;
     count = 0;
-    if (query === '') {
+    if (query === '' || query === undefined) {
 
         return 0;
     }
@@ -146,21 +146,17 @@ exports.findAndRemove = function (query) {
 };
 
 function checkIndex(query, currData) {
-    if (currData.name.indexOf(query) !== 0) {
+    if (currData.name.indexOf(query) >= 0) {
 
         return true;
     }
-    if (currData.phone) {
-        if (currData.phone.indexOf(query) !== 0) {
+    if (currData.phone.indexOf(query) >= 0) {
 
-            return true;
-        }
+        return true;
     }
-    if (currData.email) {
-        if (currData.email.indexOf(query) !== 0) {
+    if ((currData.email || '//').indexOf(query) >= 0) {
 
-            return true;
-        }
+        return true;
     }
 
     return false;
@@ -198,13 +194,10 @@ function getSortArray(query) {
 
 function getString(name, phone, email) {
     var newString;
-    newString = name;
-    if (phone) {
-        newString += convertPhone(phone);
-    }
+    newString = name + convertPhone(phone);
     if (email) {
 
-        newString += ', ' + email;
+        return newString + ', ' + email;
     }
 
     return newString;
