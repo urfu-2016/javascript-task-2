@@ -62,7 +62,7 @@ function findPositionByPhone(phone) {
         }
     }
 
-    return false;
+    return -1;
 }
 
 exports.update = function (phone, name, email) {
@@ -71,7 +71,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var position = findPositionByPhone(phone);
-    if (position === false) {
+    if (position === -1) {
         return false;
     }
     phoneBook[position].name = name;
