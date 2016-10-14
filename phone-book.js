@@ -112,7 +112,7 @@ function filterPhoneBook(indexesForRemove) {
 }
 
 exports.findAndRemove = function (query) {
-    if (query === '' || typeof query !== 'string') {
+    if (query === '') {
 
         return 0;
     }
