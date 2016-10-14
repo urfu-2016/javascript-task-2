@@ -27,7 +27,7 @@ function getRecordsByQuery(query) {
     return phoneBook.filter(function (item) {
         return item.phone.indexOf(query) !== -1 ||
                item.name.indexOf(query) !== -1 ||
-               item.email.indexOf(query) !== -1;
+               item.email !== undefined ? item.email.indexOf(query) !== -1 : false;
     });
 }
 
@@ -67,7 +67,7 @@ exports.add = function (phone, name, email) {
     phoneBook.push({
         'phone': phone,
         'name': name,
-        'email': email ? email : ''
+        'email': email
     });
 
     return true;
@@ -91,7 +91,7 @@ exports.update = function (phone, name, email) {
         phoneBook[phoneBook.indexOf(record)] = {
             'phone': phone,
             'name': name,
-            'email': email ? email : ''
+            'email': email
         };
     } else {
         return false;
@@ -128,7 +128,7 @@ exports.find = function (query) {
     }
 
     return records.map(function (item) {
-        var emailPart = item.email ? ', ' + item.email : '';
+        var emailPart = item.email !== undefined ? ', ' + item.email : '';
 
         return item.name + ', ' + formatPhone(item.phone) + emailPart;
     }).sort();
