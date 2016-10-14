@@ -136,22 +136,28 @@ function parsePhone(phone) {
         phone.substring(8, phone.length);
 }
 
+function createAnswer(client) {
+    var str = client.name + ', ' + parsePhone(client.phone);
+    if (client.hasOwnProperty('email')) {
+        str += ', ' + client.email;
+    }
+
+    return str;
+}
+
 exports.find = function (query) {
-    if (query.length === 0 || typeof query !== 'string') {
+    if (query.length === 0) {
 
         return [];
     }
     var newPhoneBook = [];
-    phoneBook.forEach(function (client) {
-        if (client.phone.indexOf(query) !== -1 || query === '*') {
-            var str = client.name + ', ' + parsePhone(client.phone);
-            if (client.hasOwnProperty('email')) {
-                str += ', ' + client.email;
-            }
-            newPhoneBook.push(str);
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (isEqualsNotes(i, query) !== -1 || query === '*') {
+            var client = phoneBook[i];
+            newPhoneBook.push(createAnswer(client));
         }
 
-    });
+    }
 
     return newPhoneBook.sort();
 };
