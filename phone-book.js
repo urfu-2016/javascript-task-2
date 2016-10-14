@@ -156,7 +156,7 @@ function validateInput(phone, name, email) {
     }
 
     function validateEmail() {
-        return email === undefined || typeof(email) === 'string';
+        return email === undefined || (typeof(email) === 'string' && name !== '');
     }
 
     return (validatePhone() && validateName() && validateEmail());
