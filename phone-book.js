@@ -39,7 +39,8 @@ exports.add = function (phone, name, email) {
 
 function checkPhoneName(phone, name) {
     var phoneNumber = Number(phone);
-    if (phone.length !== 10 || isNaN(phoneNumber) || name === undefined) {
+    if (phone.length !== 10 || isNaN(phoneNumber) || name === undefined ||
+        typeof phone !== 'string') {
         return true;
     }
 }
