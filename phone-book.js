@@ -125,13 +125,13 @@ exports.find = function (query) {
 
     if (records.length === 0) {
         return [];
-    } else {
-        return records.map(function (item) {
-            var emailPart = item.email ? ', ' + item.email : '';
-
-            return item.name + ', ' + formatPhone(item.phone) + emailPart;
-        }).sort();
     }
+
+    return records.map(function (item) {
+        var emailPart = item.email ? ', ' + item.email : '';
+
+        return item.name + ', ' + formatPhone(item.phone) + emailPart;
+    }).sort();
 };
 
 /**
