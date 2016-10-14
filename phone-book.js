@@ -191,7 +191,7 @@ function hasSubstring(item, substring) {
 
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
-        if (item[key] && item[key].match(substring) !== -1) {
+        if (item[key] && item[key].search(substring) !== -1) {
             return true;
         }
     }
