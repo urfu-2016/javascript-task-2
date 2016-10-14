@@ -134,7 +134,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns [String] array
+ * @returns {Array} sortedStringArray
  */
 exports.find = function (query) {
     if (typeof query !== 'string' || query === '') {
@@ -149,18 +149,16 @@ exports.find = function (query) {
 };
 
 function findAll(query) {
-    var found = [];
-    for (var i = 0; i < phoneBook.length; i++) {
-        var record = phoneBook[i];
-        for (var j = 0; j < Object.keys(record).length; j++) {
-            var key = Object.keys(record)[j];
-            if (record[key].indexOf(query) !== -1) {
-                found.push(record);
+    return phoneBook.filter(function (record) {
+        var keys = Object.keys(record);
+        for (var i = 0; i < keys.length; i++) {
+            if (record[keys[i]].indexOf(query) !== -1) {
+                return true;
             }
         }
-    }
 
-    return found;
+        return false;
+    });
 }
 
 function toSortedStringArray(segment) {
@@ -171,9 +169,11 @@ function toSortedStringArray(segment) {
         if (first.name < second.name) {
             return -1;
         }
+
+        return 0;
     });
 
-    return sorted.map(function(record) {
+    return sorted.map(function (record) {
         return record.email !== '' ? record.name + ', ' + toPhonenumber(record.phone) + ', ' +
         record.email : record.name + ', ' + toPhonenumber(record.phone);
     });
