@@ -60,7 +60,7 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var result = 0;
-    if (!query) {
+    if (!query || query === '') {
         return result;
     }
 
@@ -83,7 +83,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    if (!query) {
+    if (!query || query === '') {
         return result;
     }
 
