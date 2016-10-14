@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -24,12 +24,10 @@ function getRecordsByQuery(query) {
         return phoneBook;
     }
 
-    query = query.toLowerCase();
-
     return phoneBook.filter(function (item) {
         return item.phone.indexOf(query) !== -1 ||
-               item.name.toLowerCase().indexOf(query) !== -1 ||
-               item.email.toLowerCase().indexOf(query) !== -1;
+               item.name.indexOf(query) !== -1 ||
+               item.email.indexOf(query) !== -1;
     });
 }
 
