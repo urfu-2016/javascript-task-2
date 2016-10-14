@@ -41,7 +41,9 @@ exports.update = function (phone, name, email) {
     }
 
     var index = isDuplicate(phone);
-
+    if (index === -1) {
+        return false;
+    }
 
     phoneBook[index].name = name;
     phoneBook[index].email = email;
@@ -93,19 +95,14 @@ exports.find = function (query) {
         return result;
     }
     if (query === '*') {
-        phoneBook.forEach(function (item) {
+        query = '';
+    }
+
+    phoneBook.forEach(function (item) {
+        if (hasSubstring(item, query)) {
             result.push(toString(item));
-        }, this);
-
-        return result.sort();
-    }
-
-    for (var i = 0; i < phoneBook.length; i++) {
-        var person = phoneBook[i];
-        if (hasSubstring(person, query)) {
-            result.push(toString(person));
         }
-    }
+    }, this);
 
     return result.sort();
 };
@@ -183,6 +180,9 @@ function isDuplicate(phone) {
  * @returns {Bool} result
  */
 function hasSubstring(item, substring) {
+    if (substring === '') {
+        return true;
+    }
     var keys = Object.keys(item);
     substring = new RegExp(substring, 'ig');
 
