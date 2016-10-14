@@ -30,9 +30,8 @@ function phoneIsValid(phone) {
 }
 
 function emailIsValid(email) {
-    var emailPattern = /^[a-zA-zа-яА-Я\d\-\.]+@[a-zA-zа-яА-Я\-]+(\.[a-zA-zа-яА-Я]+)+$/;
 
-    return emailPattern.test(email);
+    return typeof email === 'string';
 }
 
 function nameIsValid(name) {
