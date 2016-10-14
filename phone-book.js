@@ -38,12 +38,16 @@ function getRecordsByQuery(query) {
 
 function getRecordByPhone(phone) {
     var record;
-    for (var i = 0; i < phoneBook.length; ++i) {
-        if (phoneBook[i].phone === phone) {
-            record = phoneBook[i];
-            break;
+
+    phoneBook.some(function (item) {
+        if (item.phone.indexOf(phone) !== -1) {
+            record = item;
+
+            return true;
         }
-    }
+
+        return false;
+    });
 
     return record;
 }
