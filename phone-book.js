@@ -36,9 +36,8 @@ function emailIsValid(email) {
 }
 
 function nameIsValid(name) {
-    var emptyStringPattern = /^\s*$/;
 
-    return ((typeof name === 'string') && !emptyStringPattern.test(name));
+    return ((typeof name === 'string') && name !== '');
 }
 
 function argumentsIsValid(phone, name, email) {
@@ -112,7 +111,7 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    if (typeof query !== 'string') {
+    if (typeof query !== 'string' || query === '') {
 
         return [];
     }
@@ -197,7 +196,7 @@ function compileArrayByPositions(positionsArray) {
 }
 
 function sortArrayByName(entriesArray) {
-    var resultArray = entriesArray;
+    var resultArray = entriesArray.slice();
     resultArray.sort(compareEntriesByName);
 
     return resultArray;
