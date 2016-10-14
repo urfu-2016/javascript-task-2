@@ -146,13 +146,17 @@ function checkIndex(query, currData) {
 
         return true;
     }
-    if (currData.phone.indexOf(query) >= 0) {
+    if (currData.phone) {
+        if (currData.phone.indexOf(query) >= 0) {
 
-        return true;
+            return true;
+        }
     }
-    if ((currData.email || '//').indexOf(query) >= 0) {
+    if (currData.email) {
+        if (currData.email.indexOf(query) >= 0) {
 
-        return true;
+            return true;
+        }
     }
 
     return false;
@@ -190,10 +194,13 @@ function getSortArray(query) {
 
 function getString(name, phone, email) {
     var newString;
-    newString = name + convertPhone(phone);
+    newString = name;
+    if (phone) {
+        newString += convertPhone(phone);
+    }
     if (email) {
 
-        return newString + ', ' + email;
+        newString += ', ' + email;
     }
 
     return newString;
