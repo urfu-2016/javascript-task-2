@@ -9,16 +9,51 @@ exports.isStar = true;
 /**
  * Телефонная книга
  */
-var phoneBook;
+var phoneBook = [];
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
+function isValidPhone(phone) {
+    var regPhone = /\d{10}/g;
+
+    return phone !== undefined && regPhone.test(phone) &&
+        phone.length === 10 && !isNaN(Number(phone));
+}
+
+
+function isHaveNote(phone) {
+    var haveNote = false;
+    phoneBook.forEach(function (client) {
+        if (client.phone === phone) {
+            haveNote = true;
+        }
+    });
+
+    return haveNote;
+}
+
+function isValidName(name) {
+
+    return name !== undefined && typeof name === 'string' && name.length !== 0;
+}
+
 exports.add = function (phone, name, email) {
+    if (!isValidPhone(phone) || isHaveNote(phone) || !isValidName(name)) {
+        return false;
+    }
 
+    if (email !== undefined) {
+        phoneBook.push({
+            name: name,
+            phone: phone,
+            email: email
+        });
+    } else {
+        phoneBook.push({
+            name: name,
+            phone: phone
+        });
+    }
+
+    return true;
 };
 
 /**
@@ -27,24 +62,104 @@ exports.add = function (phone, name, email) {
  * @param {String} name
  * @param {String} email
  */
+
+function createClient(phone, name, email) {
+    if (email !== undefined) {
+
+        return { name: name, phone: phone, email: email };
+    }
+
+    return { name: name, phone: phone };
+}
+
+
 exports.update = function (phone, name, email) {
+    if (!isValidPhone(phone) || !isValidName(name)) {
 
+        return false;
+    }
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            phoneBook[i] = createClient(phone, name, email);
+
+            return true;
+        }
+    }
+
+    return false;
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
+function isEqualsNotes(i, query) {
+    if (phoneBook[i].hasOwnProperty('email')) {
+        return (phoneBook[i].phone.indexOf(query) !== -1 ||
+        phoneBook[i].email.indexOf(query) !== -1 ||
+        phoneBook[i].name.indexOf(query) !== -1);
+    }
+
+    return (phoneBook[i].phone.indexOf(query) !== -1 ||
+    phoneBook[i].name.indexOf(query) !== -1);
+}
+
+function filterPhoneBook(indexesForRemove) {
+    var newPhoneBook = [];
+    for (var j = 0; j < phoneBook.length; j++) {
+        if (indexesForRemove.indexOf(j) === -1) {
+            newPhoneBook.push(phoneBook[j]);
+        }
+    }
+
+    return newPhoneBook;
+}
+
 exports.findAndRemove = function (query) {
+    if (query === '') {
 
+        return 0;
+    }
+    var counter = 0;
+    var indexesForRemove = [];
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (isEqualsNotes(i, query) || query === '*') {
+            counter++;
+            indexesForRemove.push(i);
+        }
+    }
+    phoneBook = filterPhoneBook(indexesForRemove);
+
+    return counter;
+    // Ваша необьяснимая магия здесь
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
-exports.find = function (query) {
+function parsePhone(phone) {
+    return '+7 (' + phone.substring(0, 3) + ') ' +
+        phone.substring(3, 6) + '-' + phone.substring(6, 8) + '-' +
+        phone.substring(8, phone.length);
+}
 
+function createAnswer(client) {
+    var str = client.name + ', ' + parsePhone(client.phone);
+    if (client.hasOwnProperty('email')) {
+        str += ', ' + client.email;
+    }
+
+    return str;
+}
+
+exports.find = function (query) {
+    if (query.length === 0 || typeof query !== 'string') {
+
+        return [];
+    }
+    var newPhoneBook = [];
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (isEqualsNotes(i, query) || query === '*') {
+            var client = phoneBook[i];
+            newPhoneBook.push(createAnswer(client));
+        }
+
+    }
+
+    return newPhoneBook.sort();
 };
 
 /**
@@ -53,10 +168,24 @@ exports.find = function (query) {
  * @param {String} csv
  * @returns {Number} – количество добавленных и обновленных записей
  */
+
+
 exports.importFromCsv = function (csv) {
+    var counter = 0;
+    var clients = csv.split('\n');
+    clients.forEach(function (client) {
+        var newClient = client.split(';');
+        if (!exports.update(newClient[1], newClient[0], newClient[2])) {
+            if (exports.add(newClient[1], newClient[0], newClient[2])) {
+                counter++;
+            }
+        } else {
+            counter++;
+        }
+    });
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-    return csv.split('\n').length;
+    return counter;
 };
