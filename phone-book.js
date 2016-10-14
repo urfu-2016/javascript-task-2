@@ -97,16 +97,17 @@ exports.update = function (phone, name, email) {
     var record = getRecordByPhone(phone);
 
     if (record) {
-        phoneBook[phoneBook.indexOf(record)] = {
-            'phone': phone,
-            'name': name,
-            'email': email
-        };
-    } else {
-        return false;
+        var index = phoneBook.indexOf(record);
+
+        if (index !== -1) {
+            phoneBook[index].name = name;
+            phoneBook[index].email = email;
+
+            return true;
+        }
     }
 
-    return true;
+    return false;
 };
 
 /**
