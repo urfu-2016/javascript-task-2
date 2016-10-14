@@ -107,8 +107,11 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    csv = csv.split('\n');
     var result = 0;
+    if (csv && typeof(csv) !== 'string') {
+        return result;
+    }
+    csv = csv.split('\n');
 
     csv.forEach(function (item) {
         item = item.split(';');
@@ -146,7 +149,7 @@ function validatePerson(person) {
     }
 
     function validateEmail() {
-        if (email === undefined) {
+        if (!email) {
             return true;
         }
 
