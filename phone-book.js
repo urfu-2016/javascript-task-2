@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} - результат операции
  */
 exports.add = function (phone, name, email) {
-    if (name && isValidPhone(phone) && checkPhonebook(phone, name, email) && checkEmail(email)) {
+    if (name && checkPhonebook(phone, name, email)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -28,19 +28,31 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
-function isValidPhone(phone) {
-    if ((/^\d{10}$/).test(phone)) {
+function isValidPhone(phone1, phone2) {
+    if (!((/^\d{10}$/).test(phone1) && (/^\d{10}$/).test(phone2))) {
+
+        return false;
+    }
+    if ((phone1 || phone2) === undefined) {
 
         return true;
     }
+    if (phone1 === phone2) {
 
-    return false;
+        return false;
+    }
+
+    return true;
 }
 
-function checkEmail(email) {
-    if (email) {
+function checkEmail(email1, email2) {
+    if ((email1 || email2) === undefined) {
 
-        return (/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/).test(email);
+        return true;
+    }
+    if (email1 === email2) {
+
+        return false;
     }
 
     return true;
@@ -50,7 +62,15 @@ function checkPhonebook(phone, name, email) {
     var currData;
     for (var i = 0; i < phoneBook.length; i++) {
         currData = phoneBook[i];
-        if (currData.phone === phone || currData.name === name || currData.email === email) {
+        if (!(checkEmail(currData.email, email))) {
+
+            return false;
+        }
+        if (!(isValidPhone(currData.phone, phone))) {
+
+            return false;
+        }
+        if (currData.name === name) {
 
             return false;
         }
@@ -208,10 +228,14 @@ exports.importFromCsv = function (csv) {
 };
 
 function isValidAdUpCsv(user, index) {
-    if (!(isValidPhone(user[1]) && user[0] && checkEmail(user[2]))) {
+    if ((!isValidPhone(user[1], phoneBook[index].phone)) && user[0]) {
 
         return false;
 
+    }
+    if (!checkEmail(user[2])) {
+
+        return false;
     }
     if (checkBook(user[1], user[0], user[2], index)) {
         phoneBook.push({ phone: user[1], name: user[0], email: user[2] });
