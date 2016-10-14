@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -192,10 +192,16 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    if (typeof csv !== 'string') {
+        return 0;
+    }
     var strings = csv.split('\n');
     var countChanges = 0;
     for (var i = 0; i < strings.length; i++) {
         var values = strings[i].split(';');
+        if (values.length > 3) {
+            continue;
+        }
         var name = values[0];
         var phone = values[1];
         var email = values[2];
