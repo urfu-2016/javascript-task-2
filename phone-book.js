@@ -27,7 +27,7 @@ function getRecordsByQuery(query) {
     return phoneBook.filter(function (item) {
         return item.phone.indexOf(query) !== -1 ||
                item.name.indexOf(query) !== -1 ||
-               item.email !== undefined ? item.email.indexOf(query) !== -1 : false;
+               item.email ? item.email.indexOf(query) !== -1 : false;
     });
 }
 
