@@ -31,14 +31,9 @@ function isValidPhone(phone) {
 }
 
 function areValid(phone, name, email) {
-    if (typeof phone !== 'string' || typeof name !== 'string' || typeof email !== 'string') {
-        return false;
-    }
-    if (!isValidPhone(phone) || name === '' || !isValidEmail(email)) {
-        return false;
-    }
-
-    return true;
+    return !(typeof phone !== 'string' || typeof name !== 'string' ||
+        typeof email !== 'string' ||
+        !isValidPhone(phone) || name === '' || !isValidEmail(email));
 }
 
 function equals(recordFirst, recordSecond) {
@@ -156,7 +151,6 @@ function findAll(query) {
                 return true;
             }
         }
-
         return false;
     });
 }
@@ -169,7 +163,6 @@ function toSortedStringArray(segment) {
         if (first.name < second.name) {
             return -1;
         }
-
         return 0;
     });
 
