@@ -14,7 +14,8 @@ var phoneBook = [];
 function isValidPhone(phone) {
     var regPhone = /\d{10}/g;
 
-    return phone !== undefined && regPhone.test(phone) && phone.length === 10;
+    return phone !== undefined && regPhone.test(phone) &&
+        phone.length === 10 && !isNaN(Number(phone));
 }
 
 
@@ -115,14 +116,10 @@ exports.findAndRemove = function (query) {
 
         return 0;
     }
-    if (query === '*') {
-
-        return phoneBook.length;
-    }
     var counter = 0;
     var indexesForRemove = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        if (isEqualsNotes(i, query)) {
+        if (isEqualsNotes(i, query) || query === '*') {
             counter++;
             indexesForRemove.push(i);
         }
