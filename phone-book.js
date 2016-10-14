@@ -53,12 +53,11 @@ exports.identicalNumber = function (phone) {
  */
 exports.add = function (phone, name, email) {
     if (exports.isCorrectRecord(phone, name, email) && exports.identicalNumber(phone) === -1) {
-        var currentRecord = {
-            phone: phone,
-            name: name,
-            email: email
-        };
-        phoneBook.push(currentRecord);
+        if (typeof email === 'undefined') {
+            phoneBook.push({ phone: phone, name: name });
+        } else {
+            phoneBook.push({ phone: phone, name: name, email: email });
+        }
 
         return true;
     }
@@ -77,7 +76,11 @@ exports.update = function (phone, name, email) {
     var indexOfRecord = exports.identicalNumber(phone);
     if (exports.isCorrectRecord(phone, name, email) && indexOfRecord > -1) {
         phoneBook[indexOfRecord].name = name;
-        phoneBook[indexOfRecord].email = email;
+        if (typeof email !== 'undefined') {
+            phoneBook[indexOfRecord].email = email;
+        } else {
+            delete phoneBook[indexOfRecord].email;
+        }
 
         return true;
     }
