@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function inputValidation(phone, name, email) {
-    return phone !== undefined && /\d{10}/.test(phone) &&
+    return phone !== undefined && phone !== null && /^\d{10}$/.test(phone) &&
         typeof name === 'string' && name !== '' && name !== undefined && name !== null &&
         (typeof email === 'string' || email === undefined);
 }
@@ -111,7 +111,7 @@ function output(arr) {
         '+7 (' + phone.slice(0, 3) + ') ' +
         phone.slice(3, 6) + '-' +
         phone.slice(6, 8) + '-' +
-        phone.slice(8) + emailCorrect;
+        phone.slice(8, 10) + emailCorrect;
 }
 
 /**
@@ -128,11 +128,13 @@ exports.importFromCsv = function (csv) {
     var arrayRecord = csv.split('\n');
     arrayRecord.forEach(function (item) {
         var masData = item.split(';');
-        if (exports.update(masData[1], masData[0], masData[2])) {
-            count++;
-        }
-        if (exports.add(masData[1], masData[0], masData[2])) {
-            count++;
+        if (masData.length === 3 || masData.length === 2) {
+            if (exports.update(masData[1], masData[0], masData[2])) {
+                count++;
+            }
+            if (exports.add(masData[1], masData[0], masData[2])) {
+                count++;
+            }
         }
     });
 
