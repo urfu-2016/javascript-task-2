@@ -25,9 +25,14 @@ function getRecordsByQuery(query) {
     }
 
     return phoneBook.filter(function (item) {
+        var email_check = false;
+        if (item.email !== undefined) {
+            email_check = item.email.indexOf(query) !== -1;
+        }
+
         return item.phone.indexOf(query) !== -1 ||
                item.name.indexOf(query) !== -1 ||
-               item.email ? item.email.indexOf(query) !== -1 : false;
+               email_check;
     });
 }
 
