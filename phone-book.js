@@ -21,7 +21,7 @@ var phoneBook = [];
 exports.add = function (phone, name, email) {
     var person = { phone: phone, name: name, email: email };
 
-    if (!validateInput(phone, name) || isDuplicate(phone) !== -1) {
+    if (!validateInput(phone, name, email) || isDuplicate(phone) !== -1) {
         return false;
     }
     phoneBook.push(person);
@@ -37,7 +37,7 @@ exports.add = function (phone, name, email) {
  * @returns {Bool} result
  */
 exports.update = function (phone, name, email) {
-    if (!validateInput(phone, name)) {
+    if (!validateInput(phone, name, email)) {
         return false;
     }
 
@@ -58,8 +58,7 @@ exports.update = function (phone, name, email) {
  * @returns {Number} result
  */
 exports.findAndRemove = function (query) {
-    var result = phoneBook.length;
-    var newPhoneBook = [];
+    var result = 0;
 
     if (!query) {
         return result;
@@ -67,12 +66,12 @@ exports.findAndRemove = function (query) {
 
     for (var i = 0; i < phoneBook.length; i++) {
         var person = phoneBook[i];
-        if (!hasSubstring(person, query)) {
-            result--;
-            newPhoneBook.push(person);
+        if (hasSubstring(person, query)) {
+            result++;
+            phoneBook.splice(i, 1);
+            --i;
         }
     }
-    phoneBook = newPhoneBook;
 
     return result;
 };
@@ -129,9 +128,10 @@ exports.importFromCsv = function (csv) {
  * Проверка валидности полученных аргументов
  * @param {String} phone
  * @param {String} name
+ * @param {String} email
  * @returns {Bool} result
  */
-function validateInput(phone, name) {
+function validateInput(phone, name, email) {
     function validatePhone() {
         return phone && typeof(phone) === 'string' && phone.search(/^\d{10}$/g) !== -1;
     }
@@ -140,7 +140,11 @@ function validateInput(phone, name) {
         return name && typeof(name) === 'string' && name.length !== 0;
     }
 
-    return (validatePhone() && validateName());
+    function validateEmail() {
+        return email === undefined || typeof(email) === 'string';
+    }
+
+    return (validatePhone() && validateName() && validateEmail());
 }
 
 /**
