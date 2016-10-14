@@ -73,6 +73,11 @@ exports.findAndRemove = function (query) {
         return 0;
     }
     var length = phoneBook.length;
+    if (query === '*') {
+        phoneBook = [];
+
+        return length;
+    }
     phoneBook = phoneBook.filter(function (element) {
         return element.phone.indexOf(query) + element.name.indexOf(query) + (element.email
             ? element.email.indexOf(query) : -1) === -3;
