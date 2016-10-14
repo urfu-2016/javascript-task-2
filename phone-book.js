@@ -108,7 +108,7 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     var result = 0;
-    if (csv && typeof(csv) !== 'string') {
+    if (!csv || typeof(csv) !== 'string') {
         return result;
     }
     csv = csv.split('\n');
