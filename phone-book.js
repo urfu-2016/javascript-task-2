@@ -99,6 +99,17 @@ function isEqualsNotes(i, query) {
     phoneBook[i].name.indexOf(query) !== -1);
 }
 
+function filterPhoneBook(indexesForRemove) {
+    var newPhoneBook = [];
+    for (var j = 0; j < phoneBook.length; j++) {
+        if (indexesForRemove.indexOf(j) === -1) {
+            newPhoneBook.push(phoneBook[j]);
+        }
+    }
+
+    return newPhoneBook;
+}
+
 exports.findAndRemove = function (query) {
     if (query === '' || typeof query !== 'string') {
 
@@ -109,13 +120,14 @@ exports.findAndRemove = function (query) {
         return phoneBook.length;
     }
     var counter = 0;
+    var indexesForRemove = [];
     for (var i = 0; i < phoneBook.length; i++) {
         if (isEqualsNotes(i, query)) {
             counter++;
-            delete phoneBook[i];
+            indexesForRemove.push(i);
         }
-
     }
+    phoneBook = filterPhoneBook(indexesForRemove);
 
     return counter;
     // Ваша необьяснимая магия здесь
@@ -128,7 +140,7 @@ function parsePhone(phone) {
 }
 
 exports.find = function (query) {
-    if (!query || query.length === 0) {
+    if (query.length === 0 || typeof query !== 'string') {
 
         return [];
     }
