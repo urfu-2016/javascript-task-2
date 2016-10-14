@@ -19,11 +19,11 @@ var phoneBook = [];
  * @returns {Bool} result
  */
 exports.add = function (phone, name, email) {
-    if (!validatePhone(phone) || !validateName(name) || isDuplicate(phone) !== -1) {
+    var person = { phone: phone, name: name, email: email };
+
+    if (!validatePerson(person) || isDuplicate(phone) !== -1) {
         return false;
     }
-
-    var person = { phone: phone, name: name, email: email };
     phoneBook.push(person);
 
     return true;
@@ -37,7 +37,9 @@ exports.add = function (phone, name, email) {
  * @returns {Bool} result
  */
 exports.update = function (phone, name, email) {
-    if (!validatePhone(phone) || !validateName(name)) {
+    var person = { phone: phone, name: name, email: email };
+
+    if (!validatePerson(person)) {
         return false;
     }
 
@@ -46,7 +48,6 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    var person = { phone: phone, name: name, email: email };
     phoneBook.splice(index, 1, person);
 
     return true;
@@ -125,21 +126,32 @@ exports.importFromCsv = function (csv) {
 };
 
 /**
- * Проверка валидности номера телефона
- * @param {String} phone
+ * Проверка валидности полученных аргументов
+ * @param {Object} person
  * @returns {Bool} result
  */
-function validatePhone(phone) {
-    return phone && typeof(phone) === 'string' && phone.search(/^\d{10}$/) !== -1;
-}
+function validatePerson(person) {
+    var phone = person.phone;
+    var name = person.name;
+    var email = person.email;
 
-/**
- * Проверка валидности имени
- * @param {String} name
- * @returns {Bool} result
- */
-function validateName(name) {
-    return name && typeof(name) === 'string' && name.length !== 0;
+    function validatePhone() {
+        return phone && typeof(phone) === 'string' && phone.search(/^\d{10}$/) !== -1;
+    }
+
+    function validateName() {
+        return name && typeof(name) === 'string' && name.length !== 0;
+    }
+
+    function validateEmail() {
+        if (email === undefined) {
+            return true;
+        }
+
+        return typeof(email) === 'string';
+    }
+
+    return (validatePhone() && validateName() && validateEmail());
 }
 
 /**
