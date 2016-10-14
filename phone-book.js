@@ -65,6 +65,7 @@ function add(phone, name, email) {
     if (email === undefined) {
         email = '';
     }
+    phone = phone.toString();
     if (!areValid(phone, name, email)) {
         return false;
     }
@@ -102,6 +103,7 @@ function update(phone, name, email) {
 }
 
 function findPhone(phone) {
+    phone = phone.toString();
     for (var i = 0; i < phoneBook.length; i++) {
         var record = phoneBook[i];
         if (phone === record.phone) {
