@@ -17,7 +17,7 @@ function isValidInput(phone, name) {
 
 
 function getRecordsByQuery(query) {
-    if (query === '') {
+    if (!query) {
         return [];
     }
     if (query === '*') {
