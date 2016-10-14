@@ -61,7 +61,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = 0;
 
-    if (query === undefined) {
+    if (!query) {
         return result;
     }
 
@@ -85,7 +85,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var result = [];
 
-    if (query === undefined) {
+    if (!query) {
         return result;
     }
 
@@ -186,7 +186,7 @@ function isDuplicate(phone) {
  */
 function hasSubstring(item, substring) {
     var keys = Object.keys(item);
-    if (substring === '*' || substring === '') {
+    if (substring === '*') {
         return true;
     }
     substring = new RegExp(substring, 'i');
