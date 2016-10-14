@@ -58,7 +58,8 @@ exports.update = function (phone, name, email) {
  * @returns {Number} result
  */
 exports.findAndRemove = function (query) {
-    var result = 0;
+    var result = phoneBook.length;
+    var newPhoneBook = [];
 
     if (!query) {
         return result;
@@ -66,12 +67,12 @@ exports.findAndRemove = function (query) {
 
     for (var i = 0; i < phoneBook.length; i++) {
         var person = phoneBook[i];
-        if (hasSubstring(person, query)) {
-            result++;
-            phoneBook.splice(i, 1);
-            i--;
+        if (!hasSubstring(person, query)) {
+            result--;
+            newPhoneBook.push(person);
         }
     }
+    phoneBook = newPhoneBook;
 
     return result;
 };
@@ -132,7 +133,7 @@ exports.importFromCsv = function (csv) {
  */
 function validateInput(phone, name) {
     function validatePhone() {
-        return phone && typeof(phone) === 'string' && phone.search(/^\d{10}$/) !== -1;
+        return phone && typeof(phone) === 'string' && phone.search(/^\d{10}$/g) !== -1;
     }
 
     function validateName() {
