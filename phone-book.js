@@ -146,7 +146,7 @@ exports.importFromCsv = function (csv) {
  */
 function validateInput(phone, name, email) {
     function validatePhone() {
-        return typeof(phone) === 'string' && /^\d{10}$/g.test(phone);
+        return typeof(phone) === 'string' && phone.length === 10 && /^\d{10}$/g.test(phone);
     }
 
     function validateName() {
