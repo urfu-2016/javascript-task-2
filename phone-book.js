@@ -173,14 +173,15 @@ exports.importFromCsv = function (csv) {
     clients.forEach(function (client) {
         var newClient = client.split(';');
         if (newClient.length < 4) {
-            counter++;
-            exports.add(newClient[0], newClient[1], newClient[2]);
+            if (exports.add(newClient[0], newClient[1], newClient[2]) ||
+                exports.update(newClient[0], newClient[1], newClient[2])) {
+                counter++;
+            }
         }
     });
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-
 
     return counter;
 };
