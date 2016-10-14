@@ -60,6 +60,9 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var result = 0;
+    if (!query) {
+        return result;
+    }
 
     for (var i = 0; i < phoneBook.length; i++) {
         var person = phoneBook[i];
@@ -80,9 +83,8 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-
-    if (query === '*') {
-        query = '';
+    if (!query) {
+        return result;
     }
 
     for (var i = 0; i < phoneBook.length; i++) {
@@ -179,6 +181,9 @@ function isDuplicate(phone) {
  */
 function hasSubstring(item, substring) {
     var keys = Object.keys(item);
+    if (substring === '*') {
+        substring = '';
+    }
     substring = new RegExp(substring, 'i');
 
     for (var i = 0; i < keys.length; i++) {
