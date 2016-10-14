@@ -69,18 +69,19 @@ exports.update = function (phone, name, email) {
  * @returns {Number} result
  */
 exports.findAndRemove = function (query) {
+    var length = phoneBook.length;
     phoneBook = phoneBook.filter(function (element) {
-        return element.phone.indexOf(query) + element.name.indexOf(query) + element.email
-            ? element.email.indexOf(query) : 0 === -3;
+        return element.phone.indexOf(query) + element.name.indexOf(query) + (element.email
+            ? element.email.indexOf(query) : -1) === -3;
     });
 
-    return phoneBook.length;
+    return length - phoneBook.length;
 };
 
 function filterRecords(query) {
     return phoneBook.filter(function (element) {
-        return element.phone.indexOf(query) + element.name.indexOf(query) + element.email
-            ? element.email.indexOf(query) : 0 > -3;
+        return element.phone.indexOf(query) + element.name.indexOf(query) + (element.email
+            ? element.email.indexOf(query) : -1) > -3;
     });
 }
 
@@ -94,6 +95,9 @@ function formatNumber(number) {
  * @returns {Array} result
  */
 exports.find = function (query) {
+    if (!query) {
+        return [];
+    }
     var result = [];
     var filtered = query === '*' ? phoneBook : filterRecords(query);
     for (var i = 0; i < filtered.length; i++) {
