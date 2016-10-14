@@ -87,6 +87,7 @@ function update(phone, name, email) {
     if (email === undefined) {
         email = '';
     }
+    phone = phone.toString();
     if (!areValid(phone, name, email)) {
         return false;
     }
