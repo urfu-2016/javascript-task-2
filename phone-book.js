@@ -60,7 +60,8 @@ function createRecord(phone, name, email) {
     return record;
 }
 
-exports.add = function (phone, name, email) {
+
+function add(phone, name, email) {
     if (email === undefined) {
         email = '';
     }
@@ -73,7 +74,7 @@ exports.add = function (phone, name, email) {
     phoneBook.push(createRecord(phone, name, email));
 
     return true;
-};
+}
 
 /**
  * Обновление записи в телефонной книге
@@ -82,7 +83,7 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  */
 
-exports.update = function (phone, name, email) {
+function update (phone, name, email) {
     if (email === undefined) {
         email = '';
     }
@@ -97,7 +98,7 @@ exports.update = function (phone, name, email) {
     phoneBook[index].email = email;
 
     return true;
-};
+}
 
 function findPhone(phone) {
     for (var i = 0; i < phoneBook.length; i++) {
@@ -189,6 +190,25 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    var strings = csv.split('\n');
+    var countChanges = 0;
+    for (var i = 0; i < strings.length; i++) {
+        var values = strings[i].split(';');
+        var name = values[0];
+        var phone = values[1];
+        var email = values[2];
+        if (add(phone, name, email) || update(phone, name, email)) {
+            countChanges++;
+        }
+    }
 
-    return csv.split('\n').length;
+    return countChanges;
+};
+
+exports.add = function (phone, name, email) {
+    return add(phone, name, email);
+};
+
+exports.update = function (phone, name, email) {
+    return update(phone, name, email);
 };
