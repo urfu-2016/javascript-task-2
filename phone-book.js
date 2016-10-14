@@ -114,7 +114,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     if (typeof query !== 'string') {
 
-        return false;
+        return [];
     }
 
     var resultsArray;
@@ -123,7 +123,7 @@ exports.find = function (query) {
         resultsArray = phoneBook;
     } else {
         var resultsPositions = search(query);
-        if (!resultsPositions) {
+        if (resultsPositions.length === 0) {
 
             return [];
         }
@@ -230,7 +230,7 @@ function addOrUpdateEntry(name, phone, email) {
 
 exports.importFromCsv = function (csv) {
     if (typeof csv !== 'string' || csv === '') {
-        return null;
+        return 0;
     }
     var entriesArray = csv.split('\n');
     var entryFields = [];
