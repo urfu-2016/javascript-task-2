@@ -172,11 +172,12 @@ exports.importFromCsv = function (csv) {
     var clients = csv.split('\n');
     clients.forEach(function (client) {
         var newClient = client.split(';');
-        if (newClient.length < 4) {
-            if (exports.add(newClient[0], newClient[1], newClient[2]) ||
-                exports.update(newClient[0], newClient[1], newClient[2])) {
+        if (!exports.update(newClient[0], newClient[1], newClient[2])) {
+            if (exports.add(newClient[0], newClient[1], newClient[2])) {
                 counter++;
             }
+        } else {
+            counter++;
         }
     });
     // Парсим csv
