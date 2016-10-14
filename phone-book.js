@@ -83,7 +83,7 @@ function add(phone, name, email) {
  * @param {String} email
  */
 
-function update (phone, name, email) {
+function update(phone, name, email) {
     if (email === undefined) {
         email = '';
     }
