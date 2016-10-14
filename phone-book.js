@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} - результат операции
  */
 exports.add = function (phone, name, email) {
-    if (name && checkPhonebook(phone, name, email)) {
+    if (name.length && name && checkPhonebook(phone, name, email)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -89,6 +89,10 @@ function checkPhonebook(phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var currData;
+    if (name === undefined && name === '') {
+
+        return false;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         currData = phoneBook[i];
         if (checkToUpdate(currData, phone, name, email)) {
@@ -142,18 +146,18 @@ exports.findAndRemove = function (query) {
 };
 
 function checkIndex(query, currData) {
-    if (currData.name.indexOf(query) >= 0) {
+    if (currData.name.indexOf(query) !== 0) {
 
         return true;
     }
     if (currData.phone) {
-        if (currData.phone.indexOf(query) >= 0) {
+        if (currData.phone.indexOf(query) !== 0) {
 
             return true;
         }
     }
     if (currData.email) {
-        if (currData.email.indexOf(query) >= 0) {
+        if (currData.email.indexOf(query) !== 0) {
 
             return true;
         }
@@ -235,7 +239,7 @@ exports.importFromCsv = function (csv) {
 };
 
 function isValidAdUpCsv(user, index) {
-    if ((!isValidPhone(user[1], phoneBook[index].phone)) && user[0]) {
+    if ((!isValidPhone(user[1], phoneBook[index].phone)) && user[0] && user[0].length) {
 
         return false;
 
