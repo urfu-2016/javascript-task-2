@@ -118,8 +118,8 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var records = getRecordsByQuery(query);
 
-    records.forEach(function (item) {
-        phoneBook.splice(phoneBook.indexOf(item), 1);
+    phoneBook.filter(function (item) {
+        return records.indexOf(item) !== -1;
     });
 
     return records.length;
