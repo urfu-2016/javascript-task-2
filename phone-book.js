@@ -151,6 +151,7 @@ function findAll(query) {
                 return true;
             }
         }
+
         return false;
     });
 }
@@ -163,6 +164,7 @@ function toSortedStringArray(segment) {
         if (first.name < second.name) {
             return -1;
         }
+
         return 0;
     });
 
