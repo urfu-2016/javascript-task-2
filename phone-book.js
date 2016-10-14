@@ -119,7 +119,7 @@ exports.findAndRemove = function (query) {
     var records = getRecordsByQuery(query);
 
     phoneBook = phoneBook.filter(function (item) {
-        return records.indexOf(item)) === -1;
+        return records.indexOf(item) === -1;
     });
 
     return records.length;
