@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} – true, если если удалось добавить запись; false в противном случае
  */
 exports.add = function (phone, name, email) {
-    if (!(/\d{9}/.test(phone)) || (name === undefined)) {
+    if (!(/\d{9}/.test(phone)) || (name === undefined) || (name === '') {
 
         return false;
     }
