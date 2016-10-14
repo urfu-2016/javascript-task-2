@@ -61,7 +61,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = 0;
 
-    if (!query || typeof(query) === 'string') {
+    if (!query) {
         return result;
     }
 
