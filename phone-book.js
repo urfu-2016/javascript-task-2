@@ -114,10 +114,13 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-//    var regex = /^([А-Яа-яA-Za-z]*);(\d{10});(\w*@\w*.\w*)$/;
+    var regex = /^[А-Яа-яA-Za-z]*;\d{10}(;\w*@\w*.\w*)|()$/;
     var count = 0;
     var lines = csv.split('\n');
     for (var i = 0; i < lines.length; i++) {
+        if (!regex.test(lines[i])) {
+            continue;
+        }
         var parsed = lines[i].split(';');
         if (!exports.add(parsed[1], parsed[0], parsed[2])) {
             count += exports.update(parsed[1], parsed[0], parsed[2]);
