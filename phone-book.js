@@ -60,7 +60,13 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = 0;
 
-    if (!query) {
+    if (!query || query === '') {
+        return result;
+    }
+    if (query === '*') {
+        result = phoneBook.length;
+        phoneBook = [];
+
         return result;
     }
 
