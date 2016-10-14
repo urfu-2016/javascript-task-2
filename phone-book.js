@@ -173,8 +173,8 @@ exports.importFromCsv = function (csv) {
     phoneBook = [];
     clients.forEach(function (client) {
         var newClient = client.split(';');
-        if (!exports.update(newClient[0], newClient[1], newClient[2])) {
-            if (exports.add(newClient[0], newClient[1], newClient[2])) {
+        if (!exports.update(newClient[1], newClient[0], newClient[2])) {
+            if (exports.add(newClient[1], newClient[0], newClient[2])) {
                 counter++;
             }
         } else {
