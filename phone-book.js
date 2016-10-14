@@ -123,12 +123,15 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var records = getRecordsByQuery(query);
 
-    return records.map(function (item) {
-        var emailPart = item.email ? ', ' + item.email : '';
+    if (records.length === 0) {
+        return [];
+    } else {
+        return records.map(function (item) {
+            var emailPart = item.email ? ', ' + item.email : '';
 
-        return item.name + ', ' + formatPhone(item.phone) + emailPart;
-    }).sort();
-
+            return item.name + ', ' + formatPhone(item.phone) + emailPart;
+        }).sort();
+    }
 };
 
 /**
