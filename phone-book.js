@@ -38,8 +38,12 @@ function isValidPhone(phone) {
 }
 
 function checkEmail(email) {
+    if (email) {
 
-    return (^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$).test(email);
+        return (/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/).test(email);
+    }
+
+    return true;
 }
 
 function checkPhonebook(phone, name, email) {
@@ -204,7 +208,7 @@ exports.importFromCsv = function (csv) {
 };
 
 function isValidAdUpCsv(user, index) {
-    if (!isValidPhone(user[1]) && user[0] && !checkEmail(user[2])) {
+    if (!(isValidPhone(user[1]) && user[0] && checkEmail(user[2]))) {
 
         return false;
 
