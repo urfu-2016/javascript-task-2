@@ -115,7 +115,7 @@ exports.importFromCsv = function (csv) {
 
     csv.forEach(function (item) {
         item = item.split(';');
-        if (item.length > 3) {
+        if (item.length > 3 || item.length < 2) {
             return undefined;
         }
         var name = item[0];
@@ -185,7 +185,7 @@ function isDuplicate(phone) {
 function hasSubstring(item, substring) {
     var keys = Object.keys(item);
     if (substring === '*') {
-        substring = '';
+        return true;
     }
     substring = new RegExp(substring, 'i');
 
