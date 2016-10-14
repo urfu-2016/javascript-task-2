@@ -93,6 +93,13 @@ exports.find = function (query) {
     if (!query) {
         return result;
     }
+    if (query === '*') {
+        phoneBook.forEach(function (item) {
+            result.push(toString(item));
+        }, this);
+
+        return result.sort();
+    }
 
     for (var i = 0; i < phoneBook.length; i++) {
         var person = phoneBook[i];
@@ -178,9 +185,6 @@ function isDuplicate(phone) {
  */
 function hasSubstring(item, substring) {
     var keys = Object.keys(item);
-    if (substring === '*') {
-        return true;
-    }
     substring = new RegExp(substring, 'i');
 
     for (var i = 0; i < keys.length; i++) {
