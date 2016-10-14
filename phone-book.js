@@ -170,6 +170,7 @@ exports.find = function (query) {
 exports.importFromCsv = function (csv) {
     var counter = 0;
     var clients = csv.split('\n');
+    phoneBook = [];
     clients.forEach(function (client) {
         var newClient = client.split(';');
         if (!exports.update(newClient[0], newClient[1], newClient[2])) {
