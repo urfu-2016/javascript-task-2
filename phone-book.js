@@ -60,9 +60,10 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = 0;
 
-    if (!query || query === '') {
+    if (!query) {
         return result;
     }
+
     if (query === '*') {
         result = phoneBook.length;
         phoneBook = [];
@@ -70,14 +71,15 @@ exports.findAndRemove = function (query) {
         return result;
     }
 
-    for (var i = 0; i < phoneBook.length; i++) {
-        var person = phoneBook[i];
+    phoneBook = phoneBook.filter(function (person) {
         if (hasSubstring(person, query)) {
             result++;
-            phoneBook.splice(i, 1);
-            --i;
+
+            return false;
         }
-    }
+
+        return true;
+    });
 
     return result;
 };
@@ -150,7 +152,7 @@ function validateInput(phone, name, email) {
     }
 
     function validateName() {
-        return typeof(name) === 'string' && name.length !== 0;
+        return typeof(name) === 'string' && name !== '';
     }
 
     function validateEmail() {
