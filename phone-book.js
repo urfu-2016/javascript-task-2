@@ -112,7 +112,7 @@ function filterPhoneBook(indexesForRemove) {
 }
 
 exports.findAndRemove = function (query) {
-    if (query === '' || typeof query !== 'string') {
+    if (query === '') {
 
         return 0;
     }
@@ -152,7 +152,7 @@ exports.find = function (query) {
     }
     var newPhoneBook = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        if (isEqualsNotes(i, query) !== -1 || query === '*') {
+        if (isEqualsNotes(i, query) || query === '*') {
             var client = phoneBook[i];
             newPhoneBook.push(createAnswer(client));
         }
