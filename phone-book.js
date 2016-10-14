@@ -13,8 +13,8 @@ var phoneBook = [];
 
 function inputValidation(phone, name, email) {
     return phone !== undefined && /\d{10}/.test(phone) &&
-    typeof name === 'string' && name !== '' && name !== undefined && name !== null &&
-    (typeof email === 'string' || email === undefined);
+        typeof name === 'string' && name !== '' && name !== undefined && name !== null &&
+        (typeof email === 'string' || email === undefined);
 }
 
 /**
@@ -29,7 +29,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
+        if (phoneBook[i].phone === phone.toString()) {
             return false;
         }
     }
@@ -54,7 +54,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
+        if (phoneBook[i].phone === phone.toString()) {
             phoneBook[i].name = name;
             phoneBook[i].email = email;
 
