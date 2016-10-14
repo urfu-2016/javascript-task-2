@@ -12,6 +12,37 @@ exports.isStar = true;
 var phoneBook = [];
 
 /**
+ * Проверка записи в телефонную книгу на корректность
+ * @param {String} phone
+ * @param {String} name
+ * @param {String} email
+ * @returns {Boolean} – true, если зпись является корректной; false в противном случае
+ */
+exports.isCorrectRecord = function (phone, name, email) {
+    var isCorrectPhone = /\d{9}/.test(phone);
+    var isCorrectName = (typeof name === 'string' && name.length > 0);
+    var isCorrectEmail = (typeof email === 'undefined') || (typeof email === 'string');
+
+    return (isCorrectEmail && isCorrectName && isCorrectPhone);
+};
+
+/**
+ * Проверка записи в телефонную книгу на уникальность
+ * @param {String} phone
+ * @returns {Number} – -1, если номер не зарегистрирован; номер записи в противном случае
+ */
+exports.identicalNumber = function (phone) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+
+            return i;
+        }
+    }
+
+    return -1;
+};
+
+/**
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
@@ -19,24 +50,18 @@ var phoneBook = [];
  * @returns {Boolean} – true, если если удалось добавить запись; false в противном случае
  */
 exports.add = function (phone, name, email) {
-    if (!(/\d{9}/.test(phone)) || (name === undefined) || (name === '') {
+    if (exports.isCorrectRecord(phone, name, email) && exports.identicalNumber(phone) === -1) {
+        var currentRecord = {
+            phone: phone,
+            name: name,
+            email: email
+        };
+        phoneBook.push(currentRecord);
 
-        return false;
+        return true;
     }
-    for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i].phone === phone) && (phoneBook[i].name !== name)) {
 
-            return false;
-        }
-    }
-    var currentRecord = {
-        phone: phone,
-        name: name,
-        email: email
-    };
-    phoneBook[phoneBook.length] = currentRecord;
-
-    return true;
+    return false;
 };
 
 /**
@@ -47,13 +72,12 @@ exports.add = function (phone, name, email) {
   * @returns {Boolean} – true, если удалось обновить запись; false в противном случае
  */
 exports.update = function (phone, name, email) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i].phone === phone) && (name !== undefined)) {
-            phoneBook[i].name = name;
-            phoneBook[i].email = email;
+    var indexOfRecord = exports.identicalNumber(phone);
+    if (exports.isCorrectRecord(phone, name, email) && indexOfRecord > -1) {
+        phoneBook[indexOfRecord].name = name;
+        phoneBook[indexOfRecord].email = email;
 
-            return true;
-        }
+        return true;
     }
 
     return false;
@@ -118,12 +142,12 @@ exports.find = function (query) {
     var recordFound = [];
     if (query === '*') {
         for (var i = 0; i < phoneBook.length; i++) {
-            recordFound[recordFound.length] = exports.makeRecordLine(phoneBook[i]);
+            recordFound.push(exports.makeRecordLine(phoneBook[i]));
         }
     }
     for (var j = 0; j < phoneBook.length; j++) {
         if (exports.haveRecordCoin(phoneBook[j], query)) {
-            recordFound[recordFound.length] = exports.makeRecordLine(phoneBook[j]);
+            recordFound.push(exports.makeRecordLine(phoneBook[j]));
         }
     }
 
@@ -150,7 +174,7 @@ exports.findAndRemove = function (query) {
     var countDeleted = phoneBook.length;
     for (var i = 0; i < phoneBook.length; i++) {
         if (!exports.haveRecordCoin(phoneBook[i], query)) {
-            recordSave[recordSave.length] = phoneBook[i];
+            recordSave.push(phoneBook[i]);
             countDeleted--;
         }
     }
