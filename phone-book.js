@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /**
  * Телефонная книга
@@ -103,7 +103,6 @@ function update(phone, name, email) {
 }
 
 function findPhone(phone) {
-    phone = phone.toString();
     for (var i = 0; i < phoneBook.length; i++) {
         var record = phoneBook[i];
         if (phone === record.phone) {
