@@ -19,7 +19,9 @@ var phoneBook = [];
  * @returns {Boolean} – true, если зпись является корректной; false в противном случае
  */
 exports.isCorrectRecord = function (phone, name, email) {
-    var isCorrectPhone = /\d{9}/.test(phone);
+    var isCorrectPhone = (/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
+    (phone[1] === phone[2]) && (phone[3] === phone[4]) && (phone[4] === phone[5]) &&
+    (phone[6] === phone[7]) && (phone[8] === phone[9]);
     var isCorrectName = (typeof name === 'string' && name.length > 0);
     var isCorrectEmail = (typeof email === 'undefined') || (typeof email === 'string');
 
