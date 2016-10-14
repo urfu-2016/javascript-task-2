@@ -19,12 +19,11 @@ var phoneBook = [];
  * @returns {Bool} result
  */
 exports.add = function (phone, name, email) {
-    // var person = { phone: phone, name: name, email: email };
-
     if (!validateInput(phone, name, email) || isDuplicate(phone) !== -1) {
         return false;
     }
-    phoneBook.push(createPerson(phone, name, email));
+
+    phoneBook.push({ phone: phone, name: name, email: email });
 
     return true;
 };
@@ -42,9 +41,7 @@ exports.update = function (phone, name, email) {
     }
 
     var index = isDuplicate(phone);
-    if (index === -1) {
-        return false;
-    }
+
 
     phoneBook[index].name = name;
     phoneBook[index].email = email;
@@ -187,7 +184,7 @@ function isDuplicate(phone) {
  */
 function hasSubstring(item, substring) {
     var keys = Object.keys(item);
-    substring = new RegExp(substring, 'i');
+    substring = new RegExp(substring, 'ig');
 
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
@@ -217,12 +214,4 @@ function toString(person) {
     }
 
     return result.join(', ');
-}
-
-function createPerson(phone, name, email) {
-    if (email) {
-        return { phone: phone, name: name, email: email };
-    }
-
-    return { phone: phone, name: name };
 }
