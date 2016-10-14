@@ -12,8 +12,8 @@ exports.isStar = true;
 var phoneBook = [];
 
 function inputValidation(phone, name, email) {
-    return typeof phone === 'string' && /\d{10}/.test(phone) &&
-    typeof name === 'string' && name !== '' && name !== undefined &&
+    return phone !== undefined && /\d{10}/.test(phone) &&
+    typeof name === 'string' && name !== '' && name !== undefined && name !== null &&
     (typeof email === 'string' || email === undefined);
 }
 
@@ -34,7 +34,7 @@ exports.add = function (phone, name, email) {
         }
     }
     phoneBook.push({
-        phone: phone,
+        phone: phone.toString(),
         name: name,
         email: email
     });
@@ -92,7 +92,7 @@ exports.find = function (query) {
         return [];
     }
     var masRecord = phoneBook.filter(function (arr) {
-        return arr.phone.indexOf(query) !== -1 ||
+        return arr.phone.toString().indexOf(query) !== -1 ||
             arr.name.indexOf(query) !== -1 ||
             (arr.email !== undefined && arr.email.indexOf(query) !== -1);
     });
@@ -105,12 +105,13 @@ function output(arr) {
     if (arr.email !== undefined) {
         emailCorrect = ', ' + arr.email;
     }
+    var phone = arr.phone.toString();
 
     return arr.name + ', ' +
-        '+7 (' + arr.phone.slice(0, 3) + ') ' +
-        arr.phone.slice(3, 6) + '-' +
-        arr.phone.slice(6, 8) + '-' +
-        arr.phone.slice(8) + emailCorrect;
+        '+7 (' + phone.slice(0, 3) + ') ' +
+        phone.slice(3, 6) + '-' +
+        phone.slice(6, 8) + '-' +
+        phone.slice(8) + emailCorrect;
 }
 
 /**
