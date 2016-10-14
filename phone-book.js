@@ -116,14 +116,7 @@ exports.importFromCsv = function (csv) {
 
     csv.forEach(function (item) {
         item = item.split(';');
-        if (item.length > 3) {
-            return undefined;
-        }
-        var name = item[0];
-        var phone = item[1];
-        var email = item[2];
-
-        if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
+        if (exports.add(item[1], item[0], item[2]) || exports.update(item[1], item[0], item[2])) {
             result++;
         }
     }, this);
@@ -177,7 +170,7 @@ function hasSubstring(item, substring) {
     if (substring === '*') {
         return true;
     }
-    substring = new RegExp(substring);
+    substring = new RegExp(substring, 'i');
 
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
