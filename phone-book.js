@@ -118,7 +118,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var records = getRecordsByQuery(query);
 
-    var phoneBook = phoneBook.filter(function (item) {
+    phoneBook = phoneBook.filter(function (item) {
         return records.indexOf(item) !== -1;
     });
 
