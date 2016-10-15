@@ -112,7 +112,12 @@ exports.findAndRemove = function (query) {
 function countPlus(res) {
     var s = '';
     for (var j = 0; j < phoneBook.length; j++) {
-        s = phoneBook[j].name + ', ' + getFormatPhone(phoneBook[j].phone);
+        s = phoneBook[j].name;
+        if (s === '') {
+            s += getFormatPhone(phoneBook[j].phone);
+        } else {
+            s += ', ' + getFormatPhone(phoneBook[j].phone);
+        }
         if (phoneBook[j].email !== undefined) {
             s += ', ' + phoneBook[j].email;
         }
