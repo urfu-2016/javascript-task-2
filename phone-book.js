@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} удалось добавить запись или нет
  */
 exports.add = function (phone, name, email) {
-    if (phone.search(/\d{10}/) < 0 || name === undefined) {
+    if (isNotCorrectPhone(phone) || isNotCorrectName(name)) {
         return false;
     }
     var isExistPhone = false;
@@ -41,6 +41,13 @@ exports.add = function (phone, name, email) {
     return !isExistPhone;
 };
 
+function isNotCorrectName(name) {
+    return name === undefined || name === '' || name === null;
+}
+function isNotCorrectPhone(phone) {
+    return (phone === undefined || phone === null || phone.search(/\d{10}/) < 0 ||
+        phone.length !== 10);
+}
 
 /**
  * Обновление записи в телефонной книге
@@ -50,13 +57,15 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} удалось обновить запись или нет
  */
 exports.update = function (phone, name, email) {
-    if (phone.search(/\d{10}/) < 0) {
+    if (isNotCorrectPhone(phone) || isNotCorrectName(name)) {
         return false;
     }
 
     for (var j = 0; j < phoneBook.length; ++j) {
         if (phoneBook[j].phone === phone) {
-            changeNote(phoneBook[j], name, email);
+          //  changeNote(phoneBook[j], name, email);
+            phoneBook[j].name = name;
+            phoneBook[j].email = email;
 
             return true;
         }
@@ -65,14 +74,6 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
-function changeNote(note, name, email) {
-    if (name !== undefined && name !== '') {
-        note.name = name;
-    }
-    note.email = email;
-
-    return note;
-}
 
 /**
  * Удаление записей по запросу из телефонной книги
