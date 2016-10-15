@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -31,7 +31,7 @@ exports.add = function (phone, name, email) {
 
 function checkInput(phone, name) {
     return !name || !Number(phone) ||
-        !phone ||
+        !phone || name === null ||
         typeof name !== 'string' || !(/^\d{10}$/.test(phone));
 }
 
