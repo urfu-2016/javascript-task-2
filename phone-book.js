@@ -43,12 +43,15 @@ function checkPhone(phone) {
     if (String(parseInt(phone)).length !== 10) {
         return true;
     }
+    if (phone.indexOf('+') !== -1 || phone.indexOf('-') !== -1) {
+        return true;
+    }
 
     return false;
 }
 
 function checkName(name) {
-    if (typeof name !== 'string' || name === undefined) {
+    if (typeof name !== 'string' || name === undefined || name === '') {
         return true;
     }
 
