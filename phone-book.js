@@ -89,7 +89,7 @@ exports.findAndRemove = function (query) {
     return searchResult.length;
 };
 
-function remove(item, i) {
+function remove(item) {
     for (var j = 0; j < phoneBook.length; j++) {
         if (item.phone === phoneBook[j].phone) {
             phoneBook.splice(j, 1);
