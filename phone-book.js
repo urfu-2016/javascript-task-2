@@ -24,54 +24,48 @@ exports.add = function (phone, name, email) {
 
     function isInputCorrect() {
         function phoneIsCorrect() {
-            if (typeof(phone) === "string" && phone.match(/^\d{10}$/gi) !== null) {
+            if (typeof(phone) === 'string' && phone.match(/^\d{10}$/gi) !== null) {
                 phone = phone.trim();
 
                 return true;
-            } else {
-
-                return false;
             }
+
+            return false;
         }
 
         function nameIsCorrect() {
-            if (typeof(name) === "string") {
+            if (typeof(name) === 'string') {
                 name = name.trim();
 
                 return true;
-            } else {
-
-                return false;
             }
+
+            return false;
         }
 
         function emailIsCorrect() {
             if (email === undefined) {
-                return true;
 
+                return true;
             } else if (email === null) {
                 email = undefined;
 
                 return true;
-            } else if (typeof(name) === "string") {
+            } else if (typeof(name) === 'string') {
                 email = email.trim();
 
                 return true;
-            } else {
-
-                return false;
             }
 
+            return false;
         }
 
         if (phoneIsCorrect() && nameIsCorrect() && emailIsCorrect()) {
 
             return true;
-        } else {
-
-            return false;
         }
 
+        return false;
     }
 
     function phoneIsAlreadyInPhoneBook() {
@@ -113,14 +107,13 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     function isInputCorrect() {
         function phoneIsCorrect() {
-            if (typeof(phone) === "string" && phone.match(/^\d{10}$/gi) !== null) {
+            if (typeof(phone) === 'string' && phone.match(/^\d{10}$/gi) !== null) {
                 phone = phone.trim();
 
                 return true;
-            } else {
-
-                return false;
             }
+
+            return false;
         }
 
         function nameIsCorrect() {
@@ -131,14 +124,13 @@ exports.update = function (phone, name, email) {
                 name = undefined;
 
                 return true;
-            } else if (typeof(name) === "string") {
+            } else if (typeof(name) === 'string') {
                 name = name.trim();
 
                 return true;
-            } else {
-
-                return false;
             }
+
+            return false;
         }
 
         function emailIsCorrect() {
@@ -150,25 +142,21 @@ exports.update = function (phone, name, email) {
                 email = undefined;
 
                 return true;
-            } else if (typeof(name) === "string") {
+            } else if (typeof(name) === 'string') {
                 email = email.trim();
 
                 return true;
-            } else {
-
-                return false;
             }
 
+            return false;
         }
 
         if (phoneIsCorrect() && nameIsCorrect() && emailIsCorrect()) {
 
             return true;
-        } else {
-
-            return false;
         }
 
+        return false;
     }
 
     if (!isInputCorrect()) {
@@ -190,11 +178,9 @@ exports.update = function (phone, name, email) {
         }
 
         return true;
-    } else {
-
-        return false;
     }
 
+    return false;
 };
 
 /**
@@ -230,12 +216,12 @@ exports.findAndRemove = function (query) {
         }
     }
 
-    if (typeof(query) !== "string" || query === "") {
+    if (typeof(query) !== 'string' || query === '') {
 
         numberOfDeletedNotes = 0;
     }
 
-    if (query === "*") {
+    if (query === '*') {
         numberOfDeletedNotes = phoneBook.length;
         phoneBook = phoneBook.splice(0, numberOfDeletedNotes);
     } else {
@@ -260,11 +246,11 @@ exports.find = function (query) {
 
         for (var i = 0; i < arrayOfNotes.length; i++) {
             var note = arrayOfNotes[i];
-            var stringPhone = "+7 (" + note.phone.slice(0, 3) +
-                ") " + note.phone.slice(3, 6) + "-" + note.phone.slice(6, 8) +
-                "-" + note.phone.slice(8, 10);
+            var stringPhone = '+7 (' + note.phone.slice(0, 3) +
+                ') ' + note.phone.slice(3, 6) + '-' + note.phone.slice(6, 8) +
+                '-' + note.phone.slice(8, 10);
 
-            var stringNote = note.name + ", " + stringPhone + ", " + note.email;
+            var stringNote = note.name + ', ' + stringPhone + ', ' + note.email;
             resultStringArray.push(stringNote);
         }
 
@@ -289,13 +275,13 @@ exports.find = function (query) {
         return false;
     }
 
-    if (typeof(query) !== "string" || query === "") {
+    if (typeof(query) !== 'string' || query === '') {
 
         return undefined;
     }
 
 
-    if (query === "*") {
+    if (query === '*') {
         arrayOfFindedNotes = phoneBook.slice();
     } else {
         query = query.toLowerCase();
