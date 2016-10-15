@@ -109,10 +109,12 @@ exports.findAndRemove = function (query) {
     var numOfDeleted = phoneBook.length;
     var phoneBookAfterRemove = [];
     if (query === '') {
+
         return 0;
     }
     if (query === '*') {
         phoneBook = phoneBookAfterRemove;
+
         return numOfDeleted;
     }
     for (var i = 0; i < phoneBook.length; i++) {
