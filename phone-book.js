@@ -66,7 +66,7 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    if (!query || typeof query !== 'string') {
+    if (!query) {
         return [];
     }
     if (query === '*') {
