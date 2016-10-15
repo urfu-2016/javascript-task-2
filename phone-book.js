@@ -83,20 +83,20 @@ exports.update = function (phone, name, email) {
  * @returns {Number} count
  */
 exports.findAndRemove = function (query) {
-    var count = 0;
     var searchResult = search(query);
-    for (var i = 0; i < searchResult.length; i++) {
-        for (var j = 0; j < phoneBook.length; j++) {
-            if (searchResult[i].phone === phoneBook[j].phone) {
-                phoneBook.splice(j, 1);
-                count++;
-                break;
-            }
+    searchResult.forEach(remove);
+
+    return searchResult.length;
+};
+
+function remove(item, i) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (item.phone === phoneBook[i].phone) {
+            phoneBook.splice(i, 1);
+            break;
         }
     }
-
-    return count;
-};
+}
 
 /**
  * Поиск записей по запросу в телефонной книге
@@ -120,8 +120,11 @@ function search(query) {
     }
 
     return phoneBook.filter(function (value) {
+        var inPhone = value.phone.indexOf(query) !== -1;
+        var inName = value.name.indexOf(query) !== -1;
+        var inEmail = value.email !== undefined && value.email.indexOf(query) !== -1;
 
-        return value.phone.indexOf(query) !== -1 || value.name.indexOf(query) !== -1 || (value.email !== undefined && value.email.indexOf(query) !== -1);
+        return inPhone || inName || inEmail;
     });
 }
 
@@ -186,13 +189,8 @@ exports.importFromCsv = function (csv) {
         var name = elements[0];
         var phone = elements[1];
         var email = elements[2];
-        if (exports.update(phone, name, email)) {
+        if (exports.update(phone, name, email) || exports.add(phone, name, email)) {
             count++;
-        } else {
-            var success = exports.add(phone, name, email)
-            if (succes) {
-                count++;
-            }
         }
     }
 
