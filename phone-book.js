@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -87,6 +87,7 @@ function find(query) {
 
     return res;
 }
+
 function cic(query, res) {
     for (var i = 0; i < phoneBook.length; i++) {
         if (checkEntry(phoneBook[i], query)) {
@@ -198,8 +199,8 @@ exports.importFromCsv = function (csv) {
     csv = csv.split('\n');
     for (var i = 0; i < csv.length; i++) {
         var arr = csv[i].split(';');
-        console.info(exports.add(arr[1], arr[0], arr[2]));
-        console.info(exports.update(arr[1], arr[0], arr[2]));
+        exports.add(arr[1], arr[0], arr[2]);
+        exports.update(arr[1], arr[0], arr[2]);
         count = countPlus(count, arr);
     }
 
