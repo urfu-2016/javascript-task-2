@@ -83,16 +83,16 @@ function findPhones(query) {
         return keys;
     }
 
-    var result = keys.filter(function (phone) { 
+    var result = keys.filter(function (phone) {
         return check(phone, query);
-        });
+    });
 
     return result;
 }
 
 function toPhoneString(phone) {
-    var record = [phoneBook[phone].name, phone.replace(correctPhone, '+7 ($1$1$1) $2$2-$3$3-$4$4')]
-    
+    var record = [phoneBook[phone].name, phone.replace(correctPhone, '+7 ($1$1$1) $2$2-$3$3-$4$4')];
+
     if (isString(phoneBook[phone].email)) {
         record.push(phoneBook[phone].email);
     }
@@ -124,7 +124,7 @@ function countRecords(n, record) {
 
 function parseCSVString(s) {
     var record = s.split(';');
-    var recordObj = {'phone': record[1], 'name': record[0], 'email': record[2] };
+    var recordObj = { 'phone': record[1], 'name': record[0], 'email': record[2] };
 
     return recordObj;
 }
