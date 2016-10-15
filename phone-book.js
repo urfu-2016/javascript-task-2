@@ -20,7 +20,7 @@ exports.add = function (phone, name, email) {
     if (this.find(phone).length) {
         return false;
     }
-    var contact = { phone: phone, name: name, email: email };
+    var contact = { phone: phone.toString(), name: name, email: email };
     if (!email) {
         contact.email = '';
     }
