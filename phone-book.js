@@ -81,6 +81,7 @@ exports.update = function (phone, name, email) {
             var toEdit = phoneBook[index];
             toEdit.name = name;
             toEdit.email = email;
+
             return true;
         }
     }
@@ -91,7 +92,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     query = normalizeQuery(query);
     var sourceLength = phoneBook.length;
-    phoneBook = phoneBook.filter(function(item) {
+    phoneBook = phoneBook.filter(function (item) {
 
         return !isQueryInRecord(query, item);
     });
@@ -102,9 +103,9 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     query = normalizeQuery(query);
 
-    return phoneBook.filter(function(item) {
+    return phoneBook.filter(function (item) {
         return isQueryInRecord(query, item);
-    }).map(function(item) {
+    }).map(function (item) {
         return [item.name, getFormattedPhone(item.phone), item.email].join(', ');
     })
         .sort()
@@ -112,7 +113,7 @@ exports.find = function (query) {
 };
 
 exports.importFromCsv = function (csv) {
-    return csv.split('\n').reduce(function(acc, item) {
+    return csv.split('\n').reduce(function (acc, item) {
         var args = item.split(';');
         var phone = args[1];
         var name = args[0];
