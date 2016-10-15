@@ -90,7 +90,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {String} - все записи, содержащие query в одном из полей
+ * @returns {Array} - все записи, содержащие query в одном из полей
  */
 exports.find = function (query) {
     var result = [];
@@ -101,8 +101,7 @@ exports.find = function (query) {
         result.push(currentRow.name + ', ' + formatPhone(phones[i]) + ', ' + email);
     }
 
-    return result.sort()
-                 .join('\n');
+    return result.sort();
 };
 
 function getAllKeys(obj) {
