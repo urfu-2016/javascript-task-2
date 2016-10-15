@@ -48,7 +48,7 @@ exports.add = function (phone, name, email) {
     if (isCorrectData(phone, name, email) &&
         getIndexPhone(phone) === -1) {
         if (!email) {
-            phoneBook[newIndex].email = '';
+            email = '';
         }
         phoneBook.push({
             'name': name,
