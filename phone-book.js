@@ -108,8 +108,7 @@ exports.find = function (query) {
     }).map(function (item) {
         return [item.name, getFormattedPhone(item.phone), item.email].join(', ');
     })
-        .sort()
-        .join('\n');
+        .sort();
 };
 
 exports.importFromCsv = function (csv) {
