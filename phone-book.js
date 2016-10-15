@@ -32,7 +32,10 @@ exports.add = function (phone, name, email) {
 
 function containsPhone(phone) {
 
-    return phoneBook.some(e => e.phone === phone);
+    return phoneBook.some(function (e) {
+
+        return e.phone === phone;
+    })
 }
 
 function isValidPhone(phone) {
