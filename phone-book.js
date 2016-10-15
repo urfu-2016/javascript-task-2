@@ -189,7 +189,7 @@ exports.importFromCsv = function (csv) {
         if (exports.update(phone, name, email)) {
             count++;
         } else {
-            var success = exports.add(phone, name, email)) {
+            var success = exports.add(phone, name, email) {
             if (succes) {
                 count++;
             }
