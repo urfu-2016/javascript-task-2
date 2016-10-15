@@ -19,30 +19,40 @@ var phoneBook = [];
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (checkPhoneName(phone, name)) {
+    if (checkPhone(phone) || checkName(name)) {
         return false;
     }
-    var line = {
-        name: name,
-        phone: phone,
-        email: email
-    };
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             return false;
         }
     }
-    phoneBook.push(line);
+    phoneBook.push({
+        name: name,
+        phone: phone,
+        email: email
+    });
 
     return true;
 };
 
-function checkPhoneName(phone, name) {
-    var phoneNumber = Number(phone);
-    if (phone.length !== 10 || isNaN(phoneNumber) || name === undefined ||
-        typeof phone !== 'string') {
+function checkPhone(phone) {
+    if (typeof phone !== 'string' || phone === undefined) {
         return true;
     }
+    if (phone.length !== 10) {
+        return true;
+    }
+
+    return false;
+}
+
+function checkName(name) {
+    if (typeof name !== 'string' || name === undefined) {
+        return true;
+    }
+
+    return false;
 }
 
 function getFormatPhone(phone) {
@@ -58,7 +68,7 @@ function getFormatPhone(phone) {
  * @returns {bool} true/false
  */
 exports.update = function (phone, name, email) {
-    if (name === undefined) {
+    if (checkName(name) || checkPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -73,95 +83,36 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
-function find(query) {
-    if (checkQuery(query)) {
-        return;
-    }
-    var res = [];
-    if (query === '*') {
-        res = returnAll();
-    } else {
-        cic(query, res);
-    }
-    res.sort(sortFunction);
-
-    return res;
-}
-
-function cic(query, res) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (checkEntry(phoneBook[i], query)) {
-            returnPart(res, i);
-        }
-    }
-}
-
-function returnPart(res, i) {
-    if (phoneBook[i].email !== undefined) {
-        res.push(phoneBook[i].name + ', ' + getFormatPhone(phoneBook[i].phone) +
-            ', ' + phoneBook[i].email);
-    } else {
-        res.push(phoneBook[i].name + ', ' + getFormatPhone(phoneBook[i].phone));
-    }
-}
-
-function returnAll() {
-    var res = [];
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].email !== undefined) {
-            res.push(phoneBook[i].name + ', ' + getFormatPhone(phoneBook[i].phone) + ', ' +
-                phoneBook[i].email);
-        } else {
-            res.push(phoneBook[i].name + ', ' + getFormatPhone(phoneBook[i].phone));
-        }
-    }
-
-    return res;
-}
-
-function checkQuery(query) {
-
-    return query === '' || query === undefined;
-}
-
-function checkEntry(obj, query) {
-    if (obj.phone.indexOf(query) !== -1 || obj.name.indexOf(query) !== -1) {
-        return true;
-    }
-    if (obj.email !== undefined) {
-        if (obj.email.indexOf(query) !== -1) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
  * @returns {Number}
  */
 exports.findAndRemove = function (query) {
-    var toRemove = find(query);
+    var res = exports.find(query);
     var count = 0;
-    for (var j = 0; j < toRemove.length; j++) {
-        count = cicl(count, j, toRemove);
+    for (var i = 0; i < res.length; i++) {
+        count += countPlus(res[i]);
     }
 
     return count;
 };
 
-function cicl(count, j, toRemove) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (getFormatPhone(phoneBook[i].phone) === toRemove[j].split(', ')[1]) {
-            phoneBook.splice(phoneBook.indexOf(phoneBook[i]), 1);
-            count++;
-            break;
+function countPlus(res) {
+    var s = '';
+    for (var j = 0; j < phoneBook.length; j++) {
+        s = phoneBook[j].name + ', ' + getFormatPhone(phoneBook[j].phone);
+        if (phoneBook[j].email !== undefined) {
+            s += ', ' + phoneBook[j].email;
+        }
+        if (s === res) {
+            phoneBook.slice(j, 1);
+
+            return 1;
         }
     }
 
-    return count;
+    return 0;
 }
 
 /**
@@ -170,11 +121,53 @@ function cicl(count, j, toRemove) {
  * @returns {Array}
  */
 exports.find = function (query) {
+    if (query === '*') {
+        return getAll().sort(mySort);
+    }
+    if (query === '' || query === undefined) {
+        return [];
+    }
 
-    return find(query);
+    return findPart(query).sort(mySort);
 };
 
-function sortFunction(a, b) {
+function findPart(query) {
+    var res = [];
+    for (var i = 0; i < phoneBook.length; i++) {
+        resPush(res, phoneBook[i], query);
+    }
+
+    return res;
+}
+
+function resPush(res, obj, query) {
+    var s = '';
+    if (obj.phone.indexOf(query) !== -1 ||
+        obj.name.indexOf(query) !== -1 ||
+        (obj.email !== undefined && obj.email.indexOf(query) !== -1)) {
+        s = obj.name + ', ' + getFormatPhone(obj.phone);
+        if (obj.email !== undefined) {
+            s += ', ' + obj.email;
+        }
+        res.push(s);
+    }
+}
+
+function getAll() {
+    var res = [];
+    for (var i = 0; i < phoneBook.length; i++) {
+        var s = phoneBook[i].name + ', ' + getFormatPhone(phoneBook[i].phone);
+        if (phoneBook[i].email !== undefined) {
+            s += ', ' + phoneBook[i].email;
+        }
+        res.push(s);
+    }
+
+    return res;
+}
+
+
+function mySort(a, b) {
     if (a < b) {
         return -1;
     }
@@ -192,27 +185,17 @@ function sortFunction(a, b) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
-    var count = 0;
     csv = csv.split('\n');
+    var arr;
+    var count = 0;
     for (var i = 0; i < csv.length; i++) {
-        var arr = csv[i].split(';');
-        exports.add(arr[1], arr[0], arr[2]);
-        exports.update(arr[1], arr[0], arr[2]);
-        count = countPlus(count, arr);
+        arr = csv[i].split(';');
+        if (exports.add(arr[1], arr[0], arr[2])) {
+            count++;
+        } else if (exports.update(arr[1], arr[0], arr[2])) {
+            count++;
+        }
     }
 
     return count;
 };
-
-function countPlus(count, arr) {
-    if (exports.add(arr[1], arr[0], arr[2])) {
-        count++;
-    } else if (exports.update(arr[1], arr[0], arr[2])) {
-        count++;
-    }
-
-    return count;
-}
