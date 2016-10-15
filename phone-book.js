@@ -24,41 +24,51 @@ exports.add = function (phone, name, email) {
 
     function isInputCorrect() {
         function phoneIsCorrect() {
-            if (typeof(phone) === 'string' && phone.match(/^\d{10}$/gi) !== null) {
+            if (typeof(phone) === 'string') {
                 phone = phone.trim();
+                if (phone.match(/^\d{10}$/gi) !== null) {
 
-                return true;
+                    return true;
+                }
             }
 
             return false;
         }
 
         function nameIsCorrect() {
-            if (typeof(name) === 'string') {
-                name = name.trim();
+            if (typeof(name) !== 'string' || name === '') {
 
-                return true;
+                return false;
             }
 
-            return false;
+            name = name.trim();
+
+            return true;
         }
 
         function emailIsCorrect() {
-            if (email === undefined) {
-
-                return true;
-            } else if (email === null) {
-                email = undefined;
-
-                return true;
-            } else if (typeof(name) === 'string') {
+            if (typeof(email) === 'string') {
                 email = email.trim();
+                if (email !== '') {
+
+                    return true;
+                }
+
+                email = undefined;
+            }
+
+            if (email === null) {
+                email = undefined;
+            }
+
+            if (email === undefined)
 
                 return true;
             }
 
             return false;
         }
+
 
         if (phoneIsCorrect() && nameIsCorrect() && emailIsCorrect()) {
 
@@ -108,25 +118,34 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     function isInputCorrect() {
         function phoneIsCorrect() {
-            if (typeof(phone) === 'string' && phone.match(/^\d{10}$/gi) !== null) {
+            if (typeof(phone) === 'string') {
                 phone = phone.trim();
+                if (phone.match(/^\d{10}$/gi) !== null) {
 
-                return true;
+                    return true;
+                }
             }
 
             return false;
         }
 
         function nameIsCorrect() {
-            if (name === undefined) {
 
-                return true;
-            } else if (name === null) {
-                name = undefined;
-
-                return true;
-            } else if (typeof(name) === 'string') {
+            if (typeof(name) === 'string') {
                 name = name.trim();
+                if (name !== '') {
+
+                    return true;
+                }
+
+                name = undefined;
+            }
+
+            if (name === null) {
+                name = undefined;
+            }
+
+            if (name === undefined)
 
                 return true;
             }
@@ -135,16 +154,21 @@ exports.update = function (phone, name, email) {
         }
 
         function emailIsCorrect() {
-            if (email === undefined) {
-
-                return true;
-
-            } else if (email === null) {
-                email = undefined;
-
-                return true;
-            } else if (typeof(name) === 'string') {
+            if (typeof(email) === 'string') {
                 email = email.trim();
+                if (email !== '') {
+
+                    return true;
+                }
+
+                email = undefined;
+            }
+
+            if (email === null) {
+                email = undefined;
+            }
+
+            if (email === undefined)
 
                 return true;
             }
