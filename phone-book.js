@@ -202,12 +202,11 @@ exports.findAndRemove = function (query) {
             var value = note[key];
             if (value === undefined) {
                 continue;
-            } else {
-                value = value.toLowerCase();
-                if (value.indexOf(query) !== -1) {
-                    indexesOfFindedNotes.push(index);
-                    break;
-                }
+            }
+            value = value.toLowerCase();
+            if (value.indexOf(query) !== -1) {
+                indexesOfFindedNotes.push(index);
+                break;
             }
         }
     }
@@ -270,12 +269,11 @@ exports.find = function (query) {
             var value = note[key];
             if (value === undefined) {
                 continue;
-            } else {
-                value = value.toLowerCase();
-                if (value.indexOf(query) !== -1) {
+            }
+            value = value.toLowerCase();
+            if (value.indexOf(query) !== -1) {
 
-                    return true;
-                }
+                return true;
             }
         }
 
