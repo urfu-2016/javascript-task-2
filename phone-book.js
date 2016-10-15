@@ -50,14 +50,13 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} удалось обновить запись или нет
  */
 exports.update = function (phone, name, email) {
-    if (phone.search(/\d{10}/) < 0 || name === undefined) {
+    if (phone.search(/\d{10}/) < 0) {
         return false;
     }
 
     for (var j = 0; j < phoneBook.length; ++j) {
         if (phoneBook[j].phone === phone) {
-            phoneBook[j].name = name;
-            phoneBook[j].email = email;
+            changeNote(phoneBook[j], name, email);
 
             return true;
         }
@@ -66,6 +65,14 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
+function changeNote(note, name, email) {
+    if (name !== undefined && name !== '') {
+        note.name = name;
+    }
+    note.email = email;
+
+    return note;
+}
 
 /**
  * Удаление записей по запросу из телефонной книги
