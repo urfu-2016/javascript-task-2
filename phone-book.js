@@ -131,7 +131,7 @@ exports.find = function (query) {
 };
 
 function countRecords(n, record) {
-    return n + addOrUpdate(2, record.phone, record.name, record.email);
+    return n + addOrUpdate(3, record.phone, record.name, record.email);
 }
 
 function parseCSVString(s) {
