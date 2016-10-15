@@ -173,11 +173,7 @@ exports.update = function (phone, name, email) {
     var targetIndex = phoneBook.findIndex(findNote);
 
     if (targetIndex !== -1) {
-        if (email === undefined) {
-            phoneBook[targetIndex].email = undefined;
-        } else {
             phoneBook[targetIndex].email = email;
-        }
         if (name !== undefined) {
             phoneBook[targetIndex].name = name;
         }
@@ -258,7 +254,11 @@ exports.find = function (query) {
                 ') ' + note.phone.slice(3, 6) + '-' + note.phone.slice(6, 8) +
                 '-' + note.phone.slice(8, 10);
 
-            var stringNote = note.name + ', ' + stringPhone + ', ' + note.email;
+            var stringNote = note.name + ', ' + stringPhone;
+            if (note.email !== undefined) {
+                stringNote = stringNote + ', ' + note.email;
+            }
+
             resultStringArray.push(stringNote);
         }
 
