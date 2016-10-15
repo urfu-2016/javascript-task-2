@@ -16,6 +16,7 @@ var phoneBook = [];
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 exports.add = function (phone, name, email) {
     if (name === undefined || !isValidPhone(phone) || !isValidEmail(email)) {
@@ -25,7 +26,7 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-    phoneBook.push({phone: phone, name: name, email: email === undefined ? '' : email});
+    phoneBook.push({ phone: phone, name: name, email: email === undefined ? '' : email });
 
     return true;
 };
@@ -35,7 +36,7 @@ function containsPhone(phone) {
     return phoneBook.some(function (e) {
 
         return e.phone === phone;
-    })
+    });
 }
 
 function isValidPhone(phone) {
@@ -117,22 +118,24 @@ function search(query) {
 
     return phoneBook.filter(function (value) {
 
-        return value.phone.indexOf(query) !== -1
-        || value.name.indexOf(query) !== -1
-        || (value.email !== undefined && value.email.indexOf(query) !== -1);
+        return value.phone.indexOf(query) !== -1 || value.name.indexOf(query) !== -1 || (value.email !== undefined && value.email.indexOf(query) !== -1);
     });
 }
 
 function sortAndFormat(records) {
 
-    return records.map(formatRecord).sort(sortRecords).map(toStringRepresentation);
+    return records
+                .map(formatRecord)
+                .sort(sortRecords)
+                .map(toStringRepresentation);
 }
 
 function formatRecord(record) {
     var result = [];
     result.push(record.name);
-    var newNumber = '+7 (' + record.phone.slice(0,3) +
-     ') ' + record.phone.slice(3, 6) + '-' + record.phone.slice(6, 8) + '-' + record.phone.slice(8, 10);
+    var newNumber = '+7 (' + record.phone.slice(0, 3) +
+     ') ' + record.phone.slice(3, 6) + '-' + record.phone.slice(6, 8) +
+     '-' + record.phone.slice(8, 10);
     result.push(newNumber);
     result.push(record.email);
 
