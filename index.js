@@ -3,16 +3,16 @@
 var phoneBook = require('./phone-book');
 
 // Эти записи добавятся, вернется true
-console.log(phoneBook.add('5554440044', 'Григорий', 'grisha@example.com'));
-console.log(phoneBook.add('5552220022', 'Борис', 'boris@example.com'));
-console.log(phoneBook.add('5551110011', 'Алекс'));
-console.log(phoneBook.add('5553330033', 'Валерий', 'valera@example.com'));
+phoneBook.add('5554440044', 'Григорий', 'grisha@example.com');
+phoneBook.add('5552220022', 'Борис', 'boris@example.com');
+phoneBook.add('5551110011', 'Алекс');
+phoneBook.add('5553330033', 'Валерий', 'valera@example.com');
 
 
 // Эти запись не добавятся
-console.log(phoneBook.add('3330033', 'Неизвестный', 'unknown@example.com'));
-console.log(phoneBook.add('5551110011', 'Алексей'));
-console.log(phoneBook.add('5555550055'));
+phoneBook.add('3330033', 'Неизвестный', 'unknown@example.com');
+phoneBook.add('5551110011', 'Алексей');
+phoneBook.add('5555550055');
 
 // Обновление
 phoneBook.update('5551110011', 'Алексей', 'alex@example.com');
