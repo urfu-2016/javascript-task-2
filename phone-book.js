@@ -93,12 +93,15 @@ exports.findAndRemove = function (query) {
  * @returns {Array} - все записи, содержащие query в одном из полей
  */
 exports.find = function (query) {
+    if (query === '') {
+        return [];
+    }
     var result = [];
     var phones = query === '*' ? getAllKeys(phoneBook) : findRowsByQuery(query);
     for (var i = 0; i < phones.length; i++) {
         var currentRow = phoneBook[phones[i]];
-        var email = currentRow.email === undefined ? '' : currentRow.email;
-        result.push(currentRow.name + ', ' + formatPhone(phones[i]) + ', ' + email);
+        var email = currentRow.email === undefined ? '' : ', ' + currentRow.email;
+        result.push(currentRow.name + ', ' + formatPhone(phones[i]) + email);
     }
 
     return result.sort();
