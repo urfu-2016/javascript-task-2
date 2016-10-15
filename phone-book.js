@@ -131,7 +131,7 @@ exports.find = function (query) {
 };
 
 function countRecords(n, record) {
-    return n + addOrUpdate(3, record.phone, record.name, record.email);
+    return n + addOrUpdate(2, record.phone, record.name, record.email);
 }
 
 function parseCSVString(s) {
@@ -142,6 +142,6 @@ function parseCSVString(s) {
 }
 
 exports.importFromCsv = function (csv) {
-    return csv.split('\n').map(parseCSVString)
+    return csv.split(/\r\n|\r|\n/).map(parseCSVString)
                           .reduce(countRecords, 0);
 };
