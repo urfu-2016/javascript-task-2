@@ -110,12 +110,14 @@ exports.importFromCsv = function (csv) {
     var firstCount = phoneBook.length;
     contacts.forEach(function (contact) {
         var newContact = contact.split(';');
-        if (exports.find(newContact[1]).length &&
-            newContact[1].length === 10) {
-            exports.update(newContact[1], newContact[0], newContact[2]);
-            firstCount --;
-        } else {
-            exports.add(newContact[1], newContact[0], newContact[2]);
+        if (newContact.length === 2 || newContact.length === 3) {
+            if (exports.find(newContact[1]).length &&
+                newContact[1].length === 10) {
+                exports.update(newContact[1], newContact[0], newContact[2]);
+                firstCount --;
+            } else {
+                exports.add(newContact[1], newContact[0], newContact[2]);
+            }
         }
     });
 
