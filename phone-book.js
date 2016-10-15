@@ -61,14 +61,14 @@ exports.add = function (phone, name, email) {
                 email = undefined;
             }
 
-            if (email === undefined)
+            if (email === undefined) {
 
                 return true;
             }
 
             return false;
         }
-
+    }
 
         if (phoneIsCorrect() && nameIsCorrect() && emailIsCorrect()) {
 
