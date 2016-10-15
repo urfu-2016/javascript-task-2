@@ -107,16 +107,17 @@ function format(contact) {
  */
 exports.importFromCsv = function (csv) {
     var contacts = csv.split('\n');
-    var nowCount = phoneBook.length;
+    var firstCount = phoneBook.length;
     contacts.forEach(function (contact) {
         var newContact = contact.split(';');
-        if (exports.find(newContact[1]).length) {
+        if (exports.find(newContact[1]).length &&
+            newContact[1].length === 10) {
             exports.update(newContact[1], newContact[0], newContact[2]);
-            nowCount ++;
+            firstCount --;
         } else {
             exports.add(newContact[1], newContact[0], newContact[2]);
         }
     });
 
-    return phoneBook.length - nowCount;
+    return phoneBook.length - firstCount;
 };
