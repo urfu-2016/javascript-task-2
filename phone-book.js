@@ -4,7 +4,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 exports.add = function (phone, name, email) {
-    if (!validPhoneAndName(phone, name)) {
+    if (!validPhoneAndName(phone, name) || isNaN(Number(phone))) {
         return false;
     }
     if (!checkExistPhone(phone)) {
