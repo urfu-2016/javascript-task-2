@@ -25,19 +25,22 @@ exports.add = function (phone, name, email) {
         if (email === undefined) {
             email = '';
         }
-        phoneBook.push({'phone': phone, 'name': name, 'email': email});
+        phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
+
         return true;
     }
+
     return false;
 };
 
 function validPhoneAndName(phone, name) {
-    if (typeof(name) !== "string" || phone.length !==  10 || /[^[0-9]/.test(phone)) {
+    if (typeof(name) !== 'string' || phone.length !== 10 || /[^[0-9]/.test(phone)) {
         return false;
     }
-    if (typeof(name) !== "string" || name.length === 0) {
+    if (typeof(name) !== 'string' || name.length === 0) {
         return false;
     }
+
     return true;
 }
 
@@ -48,6 +51,7 @@ function checkExistPhone(phone) {
             return i;
         }
     }
+
     return false;
 }
 
@@ -59,6 +63,7 @@ function checkExistPhone(phone) {
  */
 exports.update = function (phone, name, email) {
     if (!validPhoneAndName(phone, name)) {
+
         return false;
     }
     if (checkExistPhone(phone)) {
@@ -69,8 +74,10 @@ exports.update = function (phone, name, email) {
         }
         phoneBook[checkExistPhone(phone)].email = email;
     } else {
+
         return false;
     }
+
     return true;
 };
 
@@ -80,15 +87,16 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     if (query === undefined || query === '') {
+
         return false;
     }
     var count = 0;
-    //var sortPhoneBook = phoneBook.sort(sortObj);
     var indexSearchRes = findSome(query);
     for (var i = indexSearchRes.length - 1; i > -1; i--) {
         phoneBook.splice(indexSearchRes[i], 1);
         count ++;
     }
+
     return count;
 };
 
@@ -97,46 +105,47 @@ exports.findAndRemove = function (query) {
  * @param {String} query
  */
 exports.find = function (query) {
-    var output = '[' + '\n';
-    if (query == "*") {
+    var output = '[\n';
+    if (query === '*') {
         var sortPhoneBook = phoneBook.sort(sortObj);
-        sortPhoneBook.forEach(function(item) {
+        sortPhoneBook.forEach( function(item) {
             output += outResult(item);
         });
-        output = output.substring(0, output.length - 2);
-        output += '\n' + ']';
+        output = output.substring(0, output.length - 2) + '\n]';
+
         return output;
-    } else if (query === undefined || query === '') {
+    }
+    if (query === undefined || query === '') {
+
         return false;
     } else {
         var indexSearchRes = findSome(query);
         var searchRes = [];
         for (var i = 0; i < indexSearchRes.length; i++) {
-
             searchRes.push(phoneBook[indexSearchRes[i]]);
         }
         var sortSearchRes = searchRes.sort(sortObj);
-        sortSearchRes.forEach(function(item) {
+        sortSearchRes.forEach( function(item) {
             output += outResult(item);
         });
-        output = output.substring(0, output.length - 2);
-        output += '\n' + ']';
+        output = output.substring(0, output.length - 2) + '\n]';
+
         return output;
     }
 
-
+    return false;
 };
 
 function outResult(item) {
     var output = '';
     output += '\t\'' + item.name + ', ';
-    output += '+7 (' + item.phone.slice(0,3) + ') ';
-    output += item.phone.slice(3,6) + '-' + item.phone.slice(6,8);
-    output += '-' + item.phone.slice(8,10);
+    output += '+7 (' + item.phone.slice(0, 3) + ') ';
+    output += item.phone.slice(3, 6) + '-' + item.phone.slice(6, 8);
+    output += '-' + item.phone.slice(8, 10);
     if (item.email !== '') {
         output += ', ' + item.email;
     }
-    output +='\',\n';
+    output += '\',\n';
 
     return output;
 }
@@ -145,20 +154,26 @@ function outResult(item) {
 function findSome(word) {
     var noteNumbers = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        var check1 = phoneBook[i]['phone'].indexOf(word);
-        var check2 = phoneBook[i]['name'].indexOf(word);
-        var check3 = phoneBook[i]['email'].indexOf(word);
+        var check1 = phoneBook[i].phone.indexOf(word);
+        var check2 = phoneBook[i].name.indexOf(word);
+        var check3 = phoneBook[i].email.indexOf(word);
         if (check1 !== -1 || check2 !== -1 || check3 !== -1) {
             noteNumbers.push(i);
         }
     }
+
     return noteNumbers;
 }
 
 function sortObj(objA, objB) {
-    if (objA.name > objB.name) return 1;
-    if (objA.name < objB.name) return -1;
+    if (objA.name > objB.name) {
+        return 1;
+    }
+    if (objA.name < objB.name) {
+        return -1;
+    }
 }
+
 /**
  * Импорт записей из csv-формата
  * @star
@@ -178,9 +193,10 @@ exports.importFromCsv = function (csv) {
             if (exports.add(notes[1], notes[0], notes[2])) {
                 countImport++;
             }
-         } else {
+        } else {
             countImport++;
         }
     }
+
     return countImport;
 };
