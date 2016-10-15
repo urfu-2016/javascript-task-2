@@ -21,10 +21,10 @@ exports.add = function (phone, name, email) {
 };
 
 function validPhoneAndName(phone, name) {
-    if (typeof(phone) === 'undefined' || phone.length !== 10 || /[^[0-9]/.test(phone)) {
+    if (typeof(name) !== 'string' || phone.length !== 10 || /[^[0-9]/.test(phone)) {
         return false;
     }
-    if (typeof(name) === 'undefined' || name.length === 0) {
+    if (typeof(name) !== 'string' || name.length === 0) {
         return false;
     }
 
