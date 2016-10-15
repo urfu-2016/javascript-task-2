@@ -20,7 +20,7 @@ var phoneBook = {};
 var correctPhone = /(\d)\1\1(\d)\2\2(\d)\3(\d)\4/;
 
 function isString(value) {
-    return typeof value === 'string' && value !== '';
+    return typeof value === 'string';
 }
 
 function isUndefined(value) {
@@ -28,10 +28,12 @@ function isUndefined(value) {
 }
 
 function isCorrect(phone, name, email) {
-    var isCorrectT = isString(phone) && isString(name) && (isString(email) || isUndefined(email));
+    var isCorrectPhone = isString(phone);
+    var isCorrectName = isString(name) && name !== '';
+    var isCorrectEmail = isString(email) || isUndefined(email);
     var isCorrectForm = correctPhone.test(phone);
 
-    return isCorrectT && isCorrectForm;
+    return isCorrectPhone && isCorrectForm && isCorrectName && isCorrectEmail;
 }
 
 function addOrUpdate(num, phone, name, email) {
@@ -105,7 +107,7 @@ var pattern = '+7 ($1$1$1) $2$2$2-$3$3-$4$4';
 function toPhoneString(phone) {
     var record = [phoneBook[phone].name, phone.replace(correctPhone, pattern)];
 
-    if (isString(phoneBook[phone].email)) {
+    if (isString(phoneBook[phone].email) && phoneBook[phone].email !== '') {
         record.push(phoneBook[phone].email);
     }
 
