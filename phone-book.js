@@ -68,7 +68,7 @@ exports.add = function (phone, name, email) {
 
             return false;
         }
-    }
+
 
         if (phoneIsCorrect() && nameIsCorrect() && emailIsCorrect()) {
 
@@ -145,7 +145,7 @@ exports.update = function (phone, name, email) {
                 name = undefined;
             }
 
-            if (name === undefined)
+            if (name === undefined) {
 
                 return true;
             }
@@ -168,7 +168,7 @@ exports.update = function (phone, name, email) {
                 email = undefined;
             }
 
-            if (email === undefined)
+            if (email === undefined) {
 
                 return true;
             }
