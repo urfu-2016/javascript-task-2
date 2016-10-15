@@ -258,7 +258,9 @@ exports.find = function (query) {
             resultStringArray.push(stringNote);
         }
 
-        return resultStringArray;
+        var sortedStringArray = resultStringArray.sort();
+        
+        return sortedStringArray;
     }
 
     function isNoteMatchQuery(note) {
