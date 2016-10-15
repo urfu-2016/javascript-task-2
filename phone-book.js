@@ -78,8 +78,8 @@ exports.update = function (phone, name, email) {
 };
 
 function needToUpdate(record, name, email) {
-    var nameMatch = phoneBook[i].name === name;
-    var emailMatch = phoneBook[i].email === email;
+    var nameMatch = record.name === name;
+    var emailMatch = record.email === email;
     if (nameMatch && emailMatch) {
 
         return false;
