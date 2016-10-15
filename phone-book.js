@@ -91,7 +91,7 @@ function findPhones(query) {
 }
 
 function toPhoneString(phone) {
-    var record = [phoneBook[phone].name, phone.replace(correctPhone, '+7 ($1$1$1) $2$2-$3$3-$4$4')];
+    var record = [phoneBook[phone].name, phone.replace(correctPhone, '+7 ($1$1$1) $2$2$2-$3$3-$4$4')];
 
     if (isString(phoneBook[phone].email)) {
         record.push(phoneBook[phone].email);
