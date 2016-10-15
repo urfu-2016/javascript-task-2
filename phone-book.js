@@ -45,6 +45,7 @@ exports.update = function (phone, name, email) {
                 contact.email = '';
             }
         }
+        
         return true;
     });
 
