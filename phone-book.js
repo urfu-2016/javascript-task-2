@@ -79,19 +79,20 @@ exports.update = function (phone, name, email) {
  * @returns {Number}
  */
 exports.findAndRemove = function (query) {
-    if (query === '') {
+    if (!query || typeof query !== 'string') {
 
         return 0;
     }
 
-    var newPhoneBook;
+    var count;
     if (query !== '*') {
-        newPhoneBook = getNotRemovedItems(query);
+        var newPhoneBook = getNotRemovedItems(query);
+        count = phoneBook.length - newPhoneBook.length;
+        phoneBook = newPhoneBook;
     } else {
-        newPhoneBook = phoneBook;
+        count = phoneBook.length;
+        phoneBook = [];
     }
-    var count = phoneBook.length - newPhoneBook.length;
-    phoneBook = newPhoneBook;
 
     return count;
 };
@@ -115,7 +116,7 @@ function getNotRemovedItems(query) {
  * @returns {Array}
  */
 exports.find = function (query) {
-    if (query.length === 0 || typeof query !== 'string') {
+    if (!query || typeof query !== 'string') {
 
         return [];
     }
