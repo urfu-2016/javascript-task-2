@@ -58,6 +58,7 @@ function isValidEmail(email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 exports.update = function (phone, name, email) {
     if (name === undefined || !isValidPhone(phone) || !isValidEmail(email)) {
@@ -79,6 +80,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} count
  */
 exports.findAndRemove = function (query) {
     var count = 0;
@@ -99,6 +101,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} records
  */
 exports.find = function (query) {
     var searchResult = search(query);
@@ -185,9 +188,9 @@ exports.importFromCsv = function (csv) {
         var email = elements[2];
         if (exports.update(phone, name, email)) {
             count++;
-        }
-        else {
-            if (exports.add(phone, name, email)) {
+        } else {
+            var success = exports.add(phone, name, email)) {
+            if (succes) {
                 count++;
             }
         }
