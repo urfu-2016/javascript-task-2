@@ -33,6 +33,7 @@ function checkInput(phone, name) {
 }
 
 exports.update = function (phone, name, email) {
+    var check = false;
     if (checkInput(phone, name) ||
         !(typeof email === 'string' || email === undefined)) {
         return false;
@@ -44,12 +45,11 @@ exports.update = function (phone, name, email) {
             if (!email) {
                 contact.email = '';
             }
+            check = true;
         }
-        
-        return true;
     });
 
-    return false;
+    return check;
 };
 
 exports.findAndRemove = function (query) {
