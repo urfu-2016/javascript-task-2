@@ -170,12 +170,12 @@ exports.update = function (phone, name, email) {
         return note.phone === phone;
     }
 
-    var note = phoneBook.find(findNote);
+    var targetIndex = phoneBook.findIndex(findNote);
 
-    if (note !== undefined) {
-        note.email = email;
+    if (targetIndex !== -1) {
+        phoneBook[targetIndex].email = email;
         if (name !== undefined) {
-            note.name = name;
+            phoneBook[targetIndex].name = name;
         }
 
         return true;
