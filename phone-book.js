@@ -64,7 +64,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     if (query === undefined || query === '') {
 
-        return false;
+        return 0;
     }
     var count = 0;
     var indexSearchRes = findSome(query);
