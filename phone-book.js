@@ -90,9 +90,9 @@ exports.findAndRemove = function (query) {
 };
 
 function remove(item, i) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (item.phone === phoneBook[i].phone) {
-            phoneBook.splice(i, 1);
+    for (var j = 0; j < phoneBook.length; j++) {
+        if (item.phone === phoneBook[j].phone) {
+            phoneBook.splice(j, 1);
             break;
         }
     }
