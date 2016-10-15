@@ -85,7 +85,11 @@ exports.find = function (query) {
 
         return output;
     }
-    if (query === undefined || query === '') {
+    if (query === '' || typeof query !== 'string') {
+
+        return [];
+    }
+    if (query === undefined) {
 
         return false;
     }
@@ -153,4 +157,3 @@ exports.importFromCsv = function (csv) {
 
     return countImport;
 };
-
