@@ -110,5 +110,12 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-    return csv.split('\n').length;
+    return csv.split('\n').filter(function (string) {
+        var parsed = string.split(';');
+        var name = parsed[0];
+        var phone = parsed[1];
+        var email = parsed[2];
+
+        return exports.update(phone, name, email) || exports.add(phone, name, email);
+    }).length;
 };
