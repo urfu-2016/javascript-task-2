@@ -13,7 +13,7 @@ var phoneBook = [];
 
 function isValidation(phone, name) {
     var re = /^\d{10}$/;
-    if (re.test(phone) && name) {
+    if (re.test(phone) && name !== undefined && name.length > 0) {
 
         return true;
     }
@@ -111,6 +111,10 @@ exports.add = function (phone, name, email) {
  * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
+    if (!isValidation(phone, name)) {
+
+        return false;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone && name && email !== undefined) {
             phoneBook[i].name = name;
@@ -172,12 +176,13 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var contacts = [];
+    var len = phoneBook.length;
     if (!query) {
 
         return contacts;
     }
     if (query === '*') {
-        for (var j = 0; j < phoneBook.length; j++) {
+        for (var j = 0; j < len; j++) {
             contacts.push(phoneBook[j]);
         }
         contacts = sortByName(contacts);
