@@ -10,14 +10,14 @@ exports.isStar = false;
  * Телефонная книга
  */
 var phoneBook = [];
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} if the note was added to phoneBook or not
  */
-
-
 
 
 exports.add = function (phone, name, email) {
@@ -103,6 +103,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} if the note was updated or not
  */
 exports.update = function (phone, name, email) {
     function isInputCorrect() {
@@ -186,6 +187,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} number of deleted notes
  */
 exports.findAndRemove = function (query) {
     var indexesOfFindedNotes = [];
@@ -198,7 +200,9 @@ exports.findAndRemove = function (query) {
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
             var value = note[key];
-            if (value !== undefined) {
+            if (value === undefined) {
+                continue;
+            } else {
                 value = value.toLowerCase();
                 if (value.indexOf(query) !== -1) {
                     indexesOfFindedNotes.push(index);
@@ -237,6 +241,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Object} array of strings, representing finded notes
  */
 exports.find = function (query) {
     var arrayOfFindedNotes;
@@ -263,7 +268,9 @@ exports.find = function (query) {
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
             var value = note[key];
-            if (value !== undefined) {
+            if (value === undefined) {
+                continue;
+            } else {
                 value = value.toLowerCase();
                 if (value.indexOf(query) !== -1) {
 
@@ -287,7 +294,6 @@ exports.find = function (query) {
         query = query.toLowerCase();
         arrayOfFindedNotes = phoneBook.filter(isNoteMatchQuery);
     }
-
 
     return createResultStringArray(arrayOfFindedNotes);
 
