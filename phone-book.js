@@ -37,9 +37,9 @@ function findIndexOfPhone(phone) {
 
 function checkUniqueness(phone, name, email) {
     for (var i = 0; i < phoneBook.length; i++) {
-        if (((phoneBook[i].phone.indexOf(phone)) !== -1) ||
-            ((phoneBook[i].name.indexOf(name)) !== -1) ||
-            ((typeof email !== 'string') && (email !== undefined))) {
+        if (checkContactForQuery(phone, phoneBook[i]) ||
+            checkContactForQuery(name, phoneBook[i]) ||
+            checkContactForQuery(email, phoneBook[i])) {
 
             return false;
         }
@@ -108,6 +108,12 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var numOfDeleted = phoneBook.length;
     var phoneBookAfterRemove = [];
+    if (query === '') {
+        return phoneBook;
+    }
+    if (query === '*') {
+        return phoneBookAfterRemove;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         if (checkContactForQuery(query, phoneBook[i]) === false) {
             phoneBookAfterRemove.push(phoneBook[i]);
