@@ -146,14 +146,14 @@ exports.importFromCsv = function (csv) {
     var notes = [];
     for (var i = 0; i < newNote.length; i++) {
         notes = newNote[i].split(';');
-        if (!exports.update(notes[1], notes[0], notes[2])) {
-            if (exports.add(notes[1], notes[0], notes[2])) {
-                countImport++;
-            }
-        } else {
+        if (exports.update(notes[1], notes[0], notes[2])) {
+            countImport++;
+        }
+        if (exports.add(notes[1], notes[0], notes[2])) {
             countImport++;
         }
     }
 
     return countImport;
 };
+
