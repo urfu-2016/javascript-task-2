@@ -157,10 +157,3 @@ exports.importFromCsv = function (csv) {
 
     return countImport;
 };
-
-exports.logg = function (csv) {
-    console.log('книга')
-    console.log(phoneBook)
-    console.log('данные')
-    console.log(phoneBook)
-}
