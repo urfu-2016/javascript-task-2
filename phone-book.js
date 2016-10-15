@@ -147,13 +147,20 @@ exports.importFromCsv = function (csv) {
     var notes = [];
     for (var i = 0; i < newNote.length; i++) {
         notes = newNote[i].split(';');
-        if (exports.update(notes[1], notes[0], notes[2])) {
+        if (notes.length < 4 || exports.update(notes[1], notes[0], notes[2])) {
             countImport++;
         }
-        if (exports.add(notes[1], notes[0], notes[2])) {
+        if (notes.length < 4 || exports.add(notes[1], notes[0], notes[2])) {
             countImport++;
         }
     }
 
     return countImport;
 };
+
+exports.logg = function (csv) {
+    console.log('книга')
+    console.log(phoneBook)
+    console.log('данные')
+    console.log(phoneBook)
+}
