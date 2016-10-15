@@ -19,7 +19,16 @@ var phoneBook = [];
  * @returns {Bool} result
  */
 exports.add = function (phone, name, email) {
-    if (!validateInput(phone, name, email) || isDuplicate(phone) !== -1) {
+    if (!validateInput(phone, name, email)) {
+        return false;
+    }
+
+    var isDuplicate = phoneBook.some(function (item) {
+
+        return item.phone === phone;
+    });
+
+    if (isDuplicate) {
         return false;
     }
 
@@ -40,7 +49,10 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    var index = isDuplicate(phone);
+    var index = phoneBook.findIndex(function (item) {
+
+        return item.phone === phone;
+    });
     if (index === -1) {
         return false;
     }
@@ -59,7 +71,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = 0;
 
-    if (!query) {
+    if (!query || typeof query !== 'string') {
         return result;
     }
 
@@ -91,11 +103,8 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var result = [];
 
-    if (!query) {
+    if (!query || typeof query !== 'string') {
         return result;
-    }
-    if (query === '*') {
-        query = '';
     }
 
     phoneBook.forEach(function (item) {
@@ -142,11 +151,11 @@ exports.importFromCsv = function (csv) {
  */
 function validateInput(phone, name, email) {
     function validatePhone() {
-        return typeof(phone) === 'string' && phone.length === 10 && /^\d{10}$/g.test(phone);
+        return phone && typeof(phone) === 'string' && /^\d{10}$/.test(phone);
     }
 
     function validateName() {
-        return typeof(name) === 'string' && name !== '';
+        return name && typeof(name) === 'string' && name !== '';
     }
 
     function validateEmail() {
@@ -157,34 +166,17 @@ function validateInput(phone, name, email) {
 }
 
 /**
- * Проверяет, есть ли уже в телефонной книге указаный номер телефона
- * Возвращает индекс первой найденной записи или -1, если такой номер еще не был заведен
- * @param {String} phone
- * @returns {Number} index
- */
-function isDuplicate(phone) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        var item = phoneBook[i];
-        if (item.phone === phone) {
-            return i;
-        }
-    }
-
-    return -1;
-}
-
-/**
  * Проверяет, содержит ли какое-либо из значений свойств объекта указанную подстроку
  * @param {Object} item
  * @param {String} substring
  * @returns {Bool} result
  */
 function hasSubstring(item, substring) {
-    if (substring === '') {
+    if (substring === '*') {
         return true;
     }
     var keys = Object.keys(item);
-    substring = new RegExp(substring, 'ig');
+    substring = new RegExp(substring, 'i');
 
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
