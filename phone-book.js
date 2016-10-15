@@ -118,7 +118,7 @@ exports.importFromCsv = function (csv) {
         var phone = args[1];
         var name = args[0];
         var email = args[2];
-        
+
         return acc + exports.add(phone, name, email) || exports.update(phone, name, email);
     }, 0);
 };
