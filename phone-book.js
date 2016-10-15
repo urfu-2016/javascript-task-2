@@ -34,7 +34,7 @@ exports.add = function (phone, name, email) {
 
 function checkInput(phone, name) {
     return !name || !Number(phone) ||
-        phone.length !== 10 || !phone ||
+        !phone ||
         typeof name !== 'string' || !/^\d{10}$/.test(phone);
 }
 
@@ -74,7 +74,7 @@ exports.find = function (query) {
     }
     var response = [];
     phoneBook.forEach(function (contact) {
-        if (contact.phone.search(query) !== -1 ||
+        if (contact.phone.toString().search(query) !== -1 ||
         contact.name.search(query) !== -1 ||
         contact.email.search(query) !== -1) {
             response.push(contact);
@@ -92,10 +92,10 @@ function format(contact) {
     var phone = contact.phone;
 
     return contact.name + ', ' +
-        '+7 (' + phone.slice(0, 3) + ') ' +
-        phone.slice(3, 6) + '-' +
-        phone.slice(6, 8) + '-' +
-        phone.slice(8, 10) +
+        '+7 (' + phone.toString().slice(0, 3) + ') ' +
+        phone.toString().slice(3, 6) + '-' +
+        phone.toString().slice(6, 8) + '-' +
+        phone.toString().slice(8, 10) +
         emailFormat;
 }
 
