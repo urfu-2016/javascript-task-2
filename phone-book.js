@@ -26,7 +26,7 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-    phoneBook.push({ phone: phone, name: name, email: email === undefined ? '' : email });
+    phoneBook.push({ phone: phone, name: name, email: email });
 
     return true;
 };
@@ -49,10 +49,8 @@ function isValidEmail(email) {
 
         return true;
     }
-    var reg = String.row('^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)\
-    |\(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$');
 
-    return reg.test(email); // i.test(email);
+    return /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(email);
 }
 
 /**
@@ -68,7 +66,10 @@ exports.update = function (phone, name, email) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
+        var phoneMatch = phoneBook[i].phone === phone;
+        var nameMatch = phoneBook[i].name !== name;
+        var emailMatch = phoneBook[i].email !== email;
+        if (phoneMatch && (nameMatch || emailMatch)) {
             phoneBook[i].name = name;
             phoneBook[i].email = email;
 
