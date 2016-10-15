@@ -13,8 +13,7 @@ var phoneBook;
 
 exports.add = function (phone, name, email) {
     checkPhoneBook();
-    if (!name || !Number(phone) ||
-    phone.length !== 10) {
+    if (checkInput(phone, name, email)) {
 
         return false;
     }
@@ -33,6 +32,11 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
+function checkInput(phone, name, email) {
+    return !name || !Number(phone) ||
+        phone.length !== 10 || !phone;
+}
+
 function checkPhoneBook() {
     if (!phoneBook) {
         phoneBook = [];
@@ -40,7 +44,8 @@ function checkPhoneBook() {
 }
 
 exports.update = function (phone, name, email) {
-    if (!phone && phone.length !== 10) {
+    if (!phone && phone.length !== 10 &&
+        !Number(phone) && !name) {
         return false;
     }
     phoneBook.forEach(function (contact) {
