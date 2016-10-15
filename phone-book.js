@@ -72,13 +72,10 @@ exports.find = function (query) {
     if (query === '*') {
         return phoneBook.map(format).sort();
     }
-    var response = [];
-    phoneBook.forEach(function (contact) {
-        if (contact.phone.toString().search(query) !== -1 ||
-        contact.name.search(query) !== -1 ||
-        contact.email.search(query) !== -1) {
-            response.push(contact);
-        }
+    var response = phoneBook.filter(function (contact) {
+        return contact.phone.toString().indexOf(query) !== -1 ||
+            contact.name.indexOf(query) !== -1 ||
+            contact.email.indexOf(query) !== -1;
     });
 
     return response.map(format).sort();
