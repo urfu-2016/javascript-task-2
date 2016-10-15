@@ -176,11 +176,11 @@ function hasSubstring(item, substring) {
         return true;
     }
     var keys = Object.keys(item);
-    substring = new RegExp(substring, 'i');
 
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
-        if (item[key] && item[key].search(substring) !== -1) {
+        var value = item[key];
+        if (value && value.indexOf(substring) !== -1) {
             return true;
         }
     }
