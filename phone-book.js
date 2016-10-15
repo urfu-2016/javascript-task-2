@@ -47,6 +47,10 @@ function addOrUpdate(num, phone, name, email) {
         return false;
     }
 
+    if (num === 2 && isUndefined(email) && !isUndefined(phoneBook[phone].email)) {
+        email = phoneBook[phone].email;
+    }
+
     phoneBook[phone] = { 'name': name, 'email': email };
 
     return true;
