@@ -9,10 +9,9 @@ exports.isStar = true;
 /**
  * Телефонная книга
  */
-var phoneBook;
+var phoneBook = [];
 
 exports.add = function (phone, name, email) {
-    checkPhoneBook();
     if (checkInput(phone, name, email) ||
         !(typeof email === 'string' || email === undefined)) {
 
@@ -37,12 +36,6 @@ function checkInput(phone, name) {
     return !name || !Number(phone) ||
         phone.length !== 10 || !phone ||
         typeof name !== 'string';
-}
-
-function checkPhoneBook() {
-    if (!phoneBook) {
-        phoneBook = [];
-    }
 }
 
 exports.update = function (phone, name, email) {
