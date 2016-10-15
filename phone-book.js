@@ -45,9 +45,10 @@ exports.update = function (phone, name, email) {
                 contact.email = '';
             }
         }
+        return true;
     });
 
-    return true;
+    return false;
 };
 
 exports.findAndRemove = function (query) {
