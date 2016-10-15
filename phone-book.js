@@ -35,7 +35,7 @@ exports.add = function (phone, name, email) {
 function checkInput(phone, name) {
     return !name || !Number(phone) ||
         !phone ||
-        typeof name !== 'string' || !/^\d{10}$/.test(phone);
+        typeof name !== 'string' || !(/^\d{10}$/.test(phone));
 }
 
 exports.update = function (phone, name, email) {
