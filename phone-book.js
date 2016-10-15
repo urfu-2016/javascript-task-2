@@ -40,7 +40,7 @@ function checkPhone(phone) {
     if (typeof phone !== 'string' || phone === undefined) {
         return true;
     }
-    if (phone.length !== 10) {
+    if (phone.length !== 10 || isNaN(Number(phone))) {
         return true;
     }
 
