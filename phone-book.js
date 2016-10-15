@@ -3,18 +3,23 @@
 
 exports.isStar = true;
 
+var phoneBook = [];
+
 function isValidPhone(phone) {
     var validPhone = /\d{10}/;
+
     return validPhone.test(phone);
 }
 
 function isValidEmail(email) {
     var validEmail = /\w+@\w+-?\w+.\w{2,255}/;
+
     return validEmail.test(email) || email === undefined;
 }
 
 function getFormattedPhone(phone) {
     var phoneRegEx = /(\d{3})(\d{3})(\d{2})(\d{2})/;
+
     return phone.replace(phoneRegEx, '+7 ($1) $2-$3-$4');
 }
 
@@ -33,7 +38,7 @@ function findRecordIndex(phone) {
 }
 
 function isQueryInRecord(query, record) {
-    for (var property in record){
+    for (var property in record) {
         if (record[property].indexOf(query) !== -1) {
             return true;
         }
@@ -42,25 +47,17 @@ function isQueryInRecord(query, record) {
 }
 
 function normalizeQuery(query) {
-    if (query == '*') {
+    if (query === '*') {
         return '';
     }
 
-    if (query == '') {
+    if (query === '') {
         return '\0';
     }
 
     return query;
 }
 
-var phoneBook = [];
-
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.add = function (phone, name, email) {
     if (isValidRecord(phone, name, email) && findRecordIndex(phone) === -1) {
         phoneBook.push({
@@ -73,12 +70,6 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.update = function (phone, name, email) {
     if (isValidRecord(phone, name, email)) {
         var index = findRecordIndex(phone);
@@ -92,10 +83,6 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
 exports.findAndRemove = function (query) {
     query = normalizeQuery(query);
     var sourceLength = phoneBook.length;
@@ -106,25 +93,17 @@ exports.findAndRemove = function (query) {
     return sourceLength - phoneBook.length;
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 exports.find = function (query) {
     query = normalizeQuery(query);
     return phoneBook.filter(function(item) {
         return isQueryInRecord(query, item);
     }).map(function(item) {
         return [item.name, getFormattedPhone(item.phone), item.email].join(', ');
-    }).sort().join('\n');
+    })
+        .sort()
+        .join('\n');
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
 exports.importFromCsv = function (csv) {
     return csv.split('\n').reduce(function(acc, item) {
         var args = item.split(';');
