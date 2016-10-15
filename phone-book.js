@@ -114,7 +114,7 @@ function countPlus(res) {
             s += ', ' + phoneBook[j].email;
         }
         if (s === res) {
-            phoneBook.slice(j, 1);
+            phoneBook.splice(j, 1);
 
             return 1;
         }
