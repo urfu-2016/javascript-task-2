@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (checkPhone(phone) || checkName(name)) {
+    if (checkPhone(phone) || typeof name !== 'string' || name === undefined) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -50,14 +50,6 @@ function checkPhone(phone) {
     return false;
 }
 
-function checkName(name) {
-    if (typeof name !== 'string' || name === undefined || name === '') {
-        return true;
-    }
-
-    return false;
-}
-
 function getFormatPhone(phone) {
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
         phone.slice(6, 8) + '-' + phone.slice(8, 10);
@@ -71,7 +63,7 @@ function getFormatPhone(phone) {
  * @returns {bool} true/false
  */
 exports.update = function (phone, name, email) {
-    if (checkName(name) || checkPhone(phone)) {
+    if (typeof name !== 'string' || name === undefined || checkPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
