@@ -66,11 +66,11 @@ exports.update = function (phone, name, email) {
 
 function check(phone, query) {
     var inPhone = phone.indexOf(query) !== -1;
-    var inName = phoneBook[phone].name.indexOf(query) !== -1;
+    var inName = phoneBook[phone].name.toLowerCase().indexOf(query) !== -1;
     var inEmail = false;
 
     if (isString(phoneBook[phone].email)) {
-        inEmail = phoneBook[phone].email.indexOf(query) !== -1;
+        inEmail = phoneBook[phone].email.toLowerCase().indexOf(query) !== -1;
     }
 
     return (inPhone || inName || inEmail);
@@ -90,6 +90,8 @@ function findPhones(query) {
     if (query === '*') {
         return keys;
     }
+
+    query = query.toLowerCase();
 
     var result = keys.filter(function (phone) {
         return check(phone, query);
