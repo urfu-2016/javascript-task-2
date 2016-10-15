@@ -73,11 +73,13 @@ exports.update = function (phone, name, email) {
  * @returns {Number} число удаленных записей
  */
 exports.findAndRemove = function (query) {
+    if (query === undefined || query === '') {
+        return 0;
+    }
     var countOfDelete = 0;
     var k = 0;
     while (k < phoneBook.length) {
-        if (phoneBook[k].phone.indexOf(query) > -1 || phoneBook[k].name.indexOf(query) > -1 ||
-            phoneBook[k].email !== undefined && phoneBook[k].email.indexOf(query) > -1) {
+        if (isFoundNote(phoneBook[k], query)) {
             phoneBook.splice(k, 1);
             countOfDelete ++;
         } else {
