@@ -44,8 +44,8 @@ function checkPhoneBook() {
 }
 
 exports.update = function (phone, name, email) {
-    if (!phone && phone.length !== 10 &&
-        !Number(phone) && !name) {
+    if (!phone || phone.length !== 10 ||
+        !Number(phone) || !name) {
         return false;
     }
     phoneBook.forEach(function (contact) {
