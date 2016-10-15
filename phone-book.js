@@ -259,7 +259,7 @@ exports.find = function (query) {
         }
 
         var sortedStringArray = resultStringArray.sort();
-        
+
         return sortedStringArray;
     }
 
