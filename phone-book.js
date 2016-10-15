@@ -112,6 +112,7 @@ exports.importFromCsv = function (csv) {
         var newContact = contact.split(';');
         if (exports.find(newContact[1]).length) {
             exports.update(newContact[1], newContact[0], newContact[2]);
+            nowCount ++;
         } else {
             exports.add(newContact[1], newContact[0], newContact[2]);
         }
