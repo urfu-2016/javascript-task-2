@@ -13,7 +13,7 @@ console.log(phoneBook.add('5553330033', 'Валерий', 'valera@example.com'))
 console.log(phoneBook.add('3330033', 'Неизвестный', 'unknown@example.com'));
 console.log(phoneBook.add('5551110011', 'Алексей'));
 console.log(phoneBook.add('5555550055'));
-/*
+
 // Обновление
 phoneBook.update('5551110011', 'Алексей', 'alex@example.com');
 phoneBook.update('5553330033', 'Валерий');
@@ -43,4 +43,3 @@ if (phoneBook.isStar) {
     ].join('\n');
     phoneBook.importFromCsv(csv); // returns 4
 }
-*/
