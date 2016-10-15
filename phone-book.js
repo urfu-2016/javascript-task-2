@@ -31,14 +31,16 @@ function add(phone, name, email) {
 }
 
 function isAddingPossible(row) {
-    return isInputCorrect(row) && !isRowAlreadyExists(row);
+    return !isRowAlreadyExists(row) && isInputCorrect(row);
 }
 
 function isInputCorrect(row) {
     var isPhoneFormatCorrect = /^\d\d\d\d\d\d\d\d\d\d$/.test(row.phone);
-    var isNameCorrect = typeof row.name === 'string';
+    var nameRegexp = /^[a-zA-Zа-яА-Я]+( [a-zA-Zа-яА-Я]+)*$/;
+    var isNameCorrect = row.name !== undefined && nameRegexp.test(row.name);
+    var isEmailCorrect = row.email === undefined || /^.+@.+\..+$/.test(row.email);
 
-    return isPhoneFormatCorrect && isNameCorrect;
+    return isPhoneFormatCorrect && isNameCorrect && isEmailCorrect;
 }
 
 function isRowAlreadyExists(row) {
@@ -66,7 +68,7 @@ function update(phone, name, email) {
 }
 
 function isUpdatingPossible(row) {
-    return isInputCorrect(row) && isRowAlreadyExists(row);
+    return isRowAlreadyExists(row) && isInputCorrect(row);
 }
 
 /**
@@ -80,8 +82,8 @@ exports.findAndRemove = function (query) {
     for (var phone in phones) {
         if (phones.hasOwnProperty(phone)) {
             delete phoneBook[phone];
+            rowsDeleted++;
         }
-        rowsDeleted++;
     }
 
     return rowsDeleted;
@@ -93,6 +95,7 @@ exports.findAndRemove = function (query) {
  * @returns {Array} - все записи, содержащие query в одном из полей
  */
 exports.find = function (query) {
+    query = query.trim();
     if (query === '') {
         return [];
     }
