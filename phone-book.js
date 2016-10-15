@@ -49,8 +49,10 @@ function isValidEmail(email) {
 
         return true;
     }
+    var reg = '^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)\
+    |\(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$';
 
-    return true;
+    return reg.test(email); //i.test(email);
 }
 
 /**
