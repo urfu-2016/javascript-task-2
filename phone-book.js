@@ -66,10 +66,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        var phoneMatch = phoneBook[i].phone === phone;
-        var nameMatch = phoneBook[i].name !== name;
-        var emailMatch = phoneBook[i].email !== email;
-        if (phoneMatch && (nameMatch || emailMatch)) {
+        if (phoneBook[i].phone === phone && needToUpdate(phoneBook[i], name, email)) {
             phoneBook[i].name = name;
             phoneBook[i].email = email;
 
@@ -79,6 +76,17 @@ exports.update = function (phone, name, email) {
 
     return false;
 };
+
+function needToUpdate(record, name, email) {
+    var nameMatch = phoneBook[i].name === name;
+    var emailMatch = phoneBook[i].email === email;
+    if (nameMatch && emailMatch) {
+
+        return false;
+    }
+
+    return true;
+}
 
 /**
  * Удаление записей по запросу из телефонной книги
