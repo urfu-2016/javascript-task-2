@@ -32,7 +32,7 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function checkInput(phone, name, email) {
+function checkInput(phone, name) {
     return !name || !Number(phone) ||
         phone.length !== 10 || !phone;
 }
