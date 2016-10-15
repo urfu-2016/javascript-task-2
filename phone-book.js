@@ -73,8 +73,12 @@ function check(phone, query) {
 }
 
 function findPhones(query) {
-    if (!isString(query)) {
-        return undefined;
+    if (typeof query !== 'string') {
+        throw new TypeError();
+    }
+
+    if (query === '') {
+        return [];
     }
 
     var keys = Object.keys(phoneBook);
