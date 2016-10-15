@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (checkPhone(phone) || checkNameAdd(name)) {
+    if (checkPhone(phone) || checkName(name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -50,16 +50,8 @@ function checkPhone(phone) {
     return false;
 }
 
-function checkNameAdd(name) {
+function checkName(name) {
     if (typeof name !== 'string' || name === undefined || name === '') {
-        return true;
-    }
-
-    return false;
-}
-
-function checkNameUpdate(name) {
-    if (typeof name !== 'string' || name === undefined) {
         return true;
     }
 
@@ -79,7 +71,7 @@ function getFormatPhone(phone) {
  * @returns {bool} true/false
  */
 exports.update = function (phone, name, email) {
-    if (checkNameUpdate(name) || checkPhone(phone)) {
+    if (checkName(name) || checkPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -206,6 +198,9 @@ exports.importFromCsv = function (csv) {
     var count = 0;
     for (var i = 0; i < csv.length; i++) {
         arr = csv[i].split(';');
+        if (arr.length > 3) {
+            continue;
+        }
         if (exports.add(arr[1], arr[0], arr[2])) {
             count++;
         } else if (exports.update(arr[1], arr[0], arr[2])) {
