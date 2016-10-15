@@ -32,10 +32,11 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function checkInput(phone, name) {
+function checkInput(phone, name, email) {
     return !name || !Number(phone) ||
         phone.length !== 10 || !phone ||
-        typeof name !== 'string';
+        typeof name !== 'string' ||
+        !(typeof email === 'string' || email === undefined);
 }
 
 function checkPhoneBook() {
@@ -71,7 +72,7 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    if (query.length < 1) {
+    if (!query || typeof query !== 'string') {
         return [];
     }
     if (query === '*') {
