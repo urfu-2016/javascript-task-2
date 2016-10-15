@@ -77,12 +77,11 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    var output = '[\n';
+    var output = [];
     if (query === '*') {
         phoneBook.sort(sortObj).forEach(function (item) {
-            output += outResult(item);
+            output.push(outResult(item));
         });
-        output = output.substring(0, output.length - 2) + '\n]';
 
         return output;
     }
@@ -96,23 +95,21 @@ exports.find = function (query) {
         searchRes.push(phoneBook[indexSearchRes[i]]);
     }
     searchRes.sort(sortObj).forEach(function (item) {
-        output += outResult(item);
+        output.push(outResult(item));
     });
-    output = output.substring(0, output.length - 2) + '\n]';
 
     return output;
 };
 
 function outResult(item) {
     var output = '';
-    output += '\t\'' + item.name + ', ';
+    output += item.name + ', ';
     output += '+7 (' + item.phone.slice(0, 3) + ') ';
     output += item.phone.slice(3, 6) + '-' + item.phone.slice(6, 8);
     output += '-' + item.phone.slice(8, 10);
     if (item.email !== '') {
         output += ', ' + item.email;
     }
-    output += '\',\n';
 
     return output;
 }
