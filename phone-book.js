@@ -11,9 +11,10 @@ exports.isStar = true;
  */
 var phoneBook;
 
-/** Добавлены дополнительные глобальные переменные
-* Запись в телефонной книге
-*/
+/**
+ * Добавлены дополнительные глобальные переменные
+ * Запись в телефонной книге
+ */
 var recPhoneBook;
 
 /**
@@ -28,12 +29,13 @@ exports.add = function (phone, name, email) {
     if (!(/^\d{10}$/).test(phone)) {
         return false;
     }
-    
+
     if (!correctName(name)) {
         return false;
     }
 
-    /* Объявление переменной newRecPhoneBook
+    /**
+    * Объявление переменной newRecPhoneBook
     * Новая запись в телефонной книге (тип: объект)
     * При объявлении заполняем данными, переданными в функцию
     */
@@ -118,14 +120,14 @@ exports.find = function (query) {
         for (var i = 0; i < phoneBook.length; i++) {
             recPhoneBook = phoneBook[i];
             foundRec.push(recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
-                           ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : ('')));
+                ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : ('')));
         }
     } else {
         for (var i = 0; i < phoneBook.length; i++) {
             recPhoneBook = phoneBook[i];
             if (findQuery(query)) {
                 foundRec.push(recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
-                              ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : ('')));
+                    ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : ('')));
             }
         }
     }
@@ -173,10 +175,8 @@ exports.importFromCsv = function (csv) {
 
     return k;
 
-    //return csv.split('\n').length;
+    // return csv.split('\n').length;
 };
-
-// *** *** Добавленные функции *** ***
 
 /**
  * Удаление пробелов из имени (в начале, в конце)
@@ -241,7 +241,8 @@ function findQuery(query) {
  */
 function formatPhone(phone) {
 
-    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
+        '-' + phone.slice(6, 8) + '-' + phone.slice(8);
 }
 
 /**
