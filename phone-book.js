@@ -9,9 +9,9 @@ exports.add = function (phone, name, email) {
     }
     if (!checkExistPhone(phone)) {
         if (email === undefined) {
-            phoneBook.push({'phone': phone, 'name': name});
+            phoneBook.push({ 'phone': phone, 'name': name });
         } else {
-            phoneBook.push({'phone': phone, 'name': name, 'email': email});
+            phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
         }
 
         return true;
@@ -21,10 +21,10 @@ exports.add = function (phone, name, email) {
 };
 
 function validPhoneAndName(phone, name) {
-    if (typeof(phone) !== 'undefined' || phone.length !== 10 || /[^[0-9]/.test(phone)) {
+    if (typeof(phone) === 'undefined' || phone.length !== 10 || /[^[0-9]/.test(phone)) {
         return false;
     }
-    if (typeof(name) === 'undefined' || typeof(name) !== 'string' || name.length === 0) {
+    if (typeof(name) === 'undefined' || name.length === 0) {
         return false;
     }
 
