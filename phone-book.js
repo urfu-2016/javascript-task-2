@@ -37,10 +37,10 @@ exports.add = function (phone, name, email) {
 };
 
 function checkPhone(phone) {
-    if (typeof phone !== 'string' || phone === undefined) {
+    if (typeof phone !== 'string') {
         return true;
     }
-    if (String(parseInt(phone)).length !== 10) {
+    if (String(parseInt(phone)).length !== 10 || isNaN(Number(phone))) {
         return true;
     }
     if (phone.indexOf('+') !== -1 || phone.indexOf('-') !== -1) {
