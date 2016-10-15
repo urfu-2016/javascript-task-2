@@ -21,9 +21,6 @@ exports.add = function (phone, name, email) {
         return false;
     }
     var contact = { phone: phone.toString(), name: name, email: email };
-    if (!email) {
-        contact.email = '';
-    }
     phoneBook.push(contact);
 
     return true;
@@ -72,7 +69,7 @@ exports.find = function (query) {
     var response = phoneBook.filter(function (contact) {
         return contact.phone.toString().indexOf(query) !== -1 ||
             contact.name.indexOf(query) !== -1 ||
-            contact.email.indexOf(query) !== -1;
+            (contact.email !== undefined && contact.email.indexOf(query) !== -1);
     });
 
     return response.map(format).sort();
