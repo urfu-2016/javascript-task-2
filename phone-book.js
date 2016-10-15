@@ -8,7 +8,7 @@ var phoneBook = [];
 function isValidPhone(phone) {
     var validPhone = /\d{10}/;
 
-    return validPhone.test(phone);
+    return validPhone.test(phone) && typeof phone === 'string';
 }
 
 function isValidEmail(email) {
