@@ -40,22 +40,20 @@ function checkPhoneBook() {
 }
 
 exports.update = function (phone, name, email) {
-    if (Number(phone) && phone.length === 10) {
-        phoneBook.forEach(function (contact) {
-            if (contact.phone === phone) {
-                contact.name = name;
-                contact.email = email;
-                if (!email) {
-                    contact.email = '';
-                }
-
-                return true;
-            }
-        });
+    if (!phone && phone.length !== 10) {
+        return false;
     }
+    phoneBook.forEach(function (contact) {
+        if (contact.phone === phone) {
+            contact.name = name;
+            contact.email = email;
+            if (!email) {
+                contact.email = '';
+            }
+        }
+    });
 
-    return false;
-
+    return true;
 };
 
 exports.findAndRemove = function (query) {
