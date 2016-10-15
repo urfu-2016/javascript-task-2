@@ -11,23 +11,17 @@ exports.isStar = true;
  */
 var phoneBook;
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.add = function (phone, name, email) {
     checkPhoneBook();
-    if (!name || !phone
-    || phone.length !== 10) {
+    if (!name || !phone ||
+    phone.length !== 10) {
 
         return false;
     }
     if (this.find(phone).length) {
         return false;
     }
-    var contact = {phone: phone, name: name, email: email};
+    var contact = { phone: phone, name: name, email: email };
     if (!email) {
         contact.email = '';
     }
@@ -35,6 +29,7 @@ exports.add = function (phone, name, email) {
     phoneBook.sort(function (a, b) {
         return Number(a.phone) - Number(b.phone);
     });
+
     return true;
 };
 
@@ -44,12 +39,6 @@ function checkPhoneBook() {
     }
 }
 
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.update = function (phone, name, email) {
     if (Number(phone) && phone.length === 10) {
         phoneBook.forEach(function (contact) {
@@ -69,10 +58,6 @@ exports.update = function (phone, name, email) {
 
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
 exports.findAndRemove = function (query) {
     var deleteCollection = this.find(query);
     phoneBook = phoneBook.filter(function (contacts) {
@@ -82,10 +67,6 @@ exports.findAndRemove = function (query) {
     return deleteCollection.length;
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 exports.find = function (query) {
     if (!query.length) {
         return [];
@@ -95,9 +76,9 @@ exports.find = function (query) {
     }
     var response = [];
     phoneBook.forEach(function (contact) {
-        if (contact.phone.search(query) !== -1
-        || contact.name.search(query) !== -1
-        || contact.email.search(query) !== -1) {
+        if (contact.phone.search(query) !== -1 ||
+        contact.name.search(query) !== -1 ||
+        contact.email.search(query) !== -1) {
             response.push(contact);
         }
     });
