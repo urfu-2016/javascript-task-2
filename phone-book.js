@@ -23,6 +23,15 @@ function getFormattedPhone(phone) {
     return phone.replace(phoneRegEx, '+7 ($1) $2-$3-$4');
 }
 
+function getFormattedRecord(record) {
+    var result = [record.name, getFormattedPhone(record.phone)];
+    if (record.email) {
+        result.push(record.email);
+    }
+
+    return result.join(', ');
+}
+
 function isValidRecord(phone, name, email) {
     return isValidPhone(phone) && isValidEmail(email) &&
         typeof name === 'string' && name;
@@ -40,7 +49,7 @@ function findRecordIndex(phone) {
 
 function isQueryInRecord(query, record) {
     for (var property in record) {
-        if (record[property].indexOf(query) !== -1) {
+        if (record[property] && record[property].indexOf(query) !== -1) {
             return true;
         }
     }
@@ -106,7 +115,7 @@ exports.find = function (query) {
     return phoneBook.filter(function (item) {
         return isQueryInRecord(query, item);
     }).map(function (item) {
-        return [item.name, getFormattedPhone(item.phone), item.email].join(', ');
+        return getFormattedRecord(item);
     })
         .sort();
 };
@@ -118,6 +127,6 @@ exports.importFromCsv = function (csv) {
         var name = args[0];
         var email = args[2];
 
-        return acc + exports.add(phone, name, email) || exports.update(phone, name, email);
+        return acc + (exports.add(phone, name, email) || exports.update(phone, name, email));
     }, 0);
 };
