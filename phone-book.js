@@ -17,7 +17,6 @@ var phoneBook = {};
  * @param {String} name
  * @param {String} email
  */
- 
 var correctPhone = /(\d)\1\1(\d)\2\2(\d)\3(\d)\4/;
 
 function isString(value) {
@@ -29,42 +28,46 @@ function isUndefined(value) {
 }
 
 function isCorrect(phone, name, email) {
-    var isCorrectType = isString(phone) && isString(name) && (isString(email) || isUndefined(email));
+    var isCorrectT = isString(phone) && isString(name) && (isString(email) || isUndefined(email));
     var isCorrectForm = correctPhone.test(phone);
 
-    return isCorrectType && isCorrectForm;
+    return isCorrectT && isCorrectForm;
 }
 
-function addOrUpdate(add, update, phone, name, email) {
+function addOrUpdate(num, phone, name, email) {
     if (!isCorrect(phone, name, email)) {
         return false;
     }
 
-    if (!add && update && !phoneBook.hasOwnProperty(phone)) {
+    if (num === 0 && phoneBook.hasOwnProperty(phone)) {
         return false;
     }
 
-    if (add && !update && phoneBook.hasOwnProperty(phone)) {
+    if (num === 1 && !phoneBook.hasOwnProperty(phone)) {
         return false;
     }
 
-    phoneBook[phone] = { 'name': name, 'email': email};
+    phoneBook[phone] = { 'name': name, 'email': email };
 
     return true;
 }
 
 exports.add = function (phone, name, email) {
-    return addOrUpdate(true, false, phone, name, email);
+    return addOrUpdate(0, phone, name, email);
 };
 
 exports.update = function (phone, name, email) {
-    return addOrUpdate(false, true, phone, name, email);
+    return addOrUpdate(1, phone, name, email);
 };
 
 function check(phone, query) {
     var inPhone = phone.indexOf(query) !== -1;
     var inName = phoneBook[phone].name.indexOf(query) !== -1;
-    var inEmail = (isString(phoneBook[phone].email)) ? phoneBook[phone].email.indexOf(query)  !== -1: false;
+    var inEmail = false;
+
+    if (isString(phoneBook[phone].email)) {
+        inEmail = phoneBook[phone].email.indexOf(query) !== -1;
+    }
 
     return (inPhone || inName || inEmail);
 }
@@ -80,13 +83,16 @@ function findPhones(query) {
         return keys;
     }
 
-    var result = keys.filter(function (phone) { return check(phone, query); });
+    var result = keys.filter(function (phone) { 
+        return check(phone, query);
+        });
 
     return result;
 }
 
 function toPhoneString(phone) {
-    var record = [phoneBook[phone].name, phone.replace(correctPhone,  '+7 ($1$1$1) $2$2-$3$3-$4$4')]
+    var record = [phoneBook[phone].name, phone.replace(correctPhone, '+7 ($1$1$1) $2$2-$3$3-$4$4')]
+    
     if (isString(phoneBook[phone].email)) {
         record.push(phoneBook[phone].email);
     }
@@ -94,9 +100,13 @@ function toPhoneString(phone) {
     return record.join(', ');
 }
 
+function deletePhone(phone) {
+    delete phoneBook[phone];
+}
+
 exports.findAndRemove = function (query) {
     var phones = findPhones(query);
-    phones.forEach(function (phone) { delete phoneBook[phone]; });
+    phones.forEach(deletePhone);
 
     return phones.length;
 };
@@ -109,7 +119,7 @@ exports.find = function (query) {
 };
 
 function countRecords(n, record) {
-    return n + addOrUpdate(true, true, record.phone, record.name, record.email);
+    return n + addOrUpdate(3, record.phone, record.name, record.email);
 }
 
 function parseCSVString(s) {
@@ -120,5 +130,6 @@ function parseCSVString(s) {
 }
 
 exports.importFromCsv = function (csv) {
-    return csv.split('\n').map(parseCSVString).reduce(countRecords, 0);
+    return csv.split('\n').map(parseCSVString)
+                          .reduce(countRecords, 0);
 };
