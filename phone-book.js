@@ -13,7 +13,7 @@ var phoneBook;
 
 exports.add = function (phone, name, email) {
     checkPhoneBook();
-    if (!name || !phone ||
+    if (!name || !phone || !Number(phone) ||
     phone.length !== 10) {
 
         return false;
@@ -66,7 +66,7 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    if (!query.length) {
+    if (query.length < 1) {
         return [];
     }
     if (query === '*') {
