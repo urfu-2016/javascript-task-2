@@ -18,7 +18,9 @@ var phoneBook = {};
  * @param {String} email
  * @returns {boolean} - Добавилась ли запись
  */
-exports.add = function (phone, name, email) {
+exports.add = add;
+
+function add(phone, name, email) {
     var row = { phone: phone, name: name, email: email };
     if (!isAddingPossible(row)) {
         return false;
@@ -26,18 +28,21 @@ exports.add = function (phone, name, email) {
     phoneBook[row.phone] = { name: name, email: email };
 
     return true;
-};
+}
 
 function isAddingPossible(row) {
     return isInputCorrect(row) && !isRowAlreadyExists(row);
 }
 
 function isInputCorrect(row) {
-    return true;
+    var isPhoneFormatCorrect = /^\d\d\d\d\d\d\d\d\d\d$/.test(row.phone);
+    var isNameCorrect = typeof row.name === 'string';
+
+    return isPhoneFormatCorrect && isNameCorrect;
 }
 
 function isRowAlreadyExists(row) {
-    return true;
+    return phoneBook[row.phone] !== undefined;
 }
 
 /**
@@ -47,7 +52,9 @@ function isRowAlreadyExists(row) {
  * @param {String} email
  * @returns {boolean} - Обновилась ли запись
  */
-exports.update = function (phone, name, email) {
+exports.update = update;
+
+function update(phone, name, email) {
     var row = { phone: phone, name: name, email: email };
     if (!isUpdatingPossible(row)) {
         return false;
@@ -56,7 +63,7 @@ exports.update = function (phone, name, email) {
     phoneBook[row.phone].email = email;
 
     return true;
-};
+}
 
 function isUpdatingPossible(row) {
     return isInputCorrect(row) && isRowAlreadyExists(row);
@@ -65,15 +72,14 @@ function isUpdatingPossible(row) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} - число удалённых строк
  */
 exports.findAndRemove = function (query) {
     var phones = findRowsByQuery(query);
     var rowsDeleted = 0;
     for (var phone in phones) {
-        if (phoneBook.hasOwnProperty(phone)) {
+        if (phones.hasOwnProperty(phone)) {
             delete phoneBook[phone];
-        } else {
-            throw new Error('Ошибка при составлении списка телефонов для удаления');
         }
         rowsDeleted++;
     }
@@ -84,18 +90,54 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {String} - все записи, содержащие query в одном из полей
  */
 exports.find = function (query) {
     var result = [];
-    var phones = findRowsByQuery(query);
-    for (var phone in phones) {
-        result.push(phone.name + ', ' + formatPhone(phone) + ', ' + phone.email);
+    var phones = query === '*' ? getAllKeys(phoneBook) : findRowsByQuery(query);
+    for (var i = 0; i < phones.length; i++) {
+        var currentRow = phoneBook[phones[i]];
+        var email = currentRow.email === undefined ? '' : currentRow.email;
+        result.push(currentRow.name + ', ' + formatPhone(phones[i]) + ', ' + email);
     }
+
+    return result.sort()
+                 .join('\n');
 };
+
+function getAllKeys(obj) {
+    var result = [];
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            result.push(key);
+        }
+    }
+
+    return result;
+}
 
 function findRowsByQuery(query) {
     var result = [];
+    for (var phone in phoneBook) {
+        if (phoneBook.hasOwnProperty(phone)) {
+            var row = { phone: phone, name: phoneBook[phone].name, email: phoneBook[phone].email };
+            addIfRowContainsQuery(row, query, result);
+        }
+    }
+
     return result;
+}
+
+function addIfRowContainsQuery(row, query, container) {
+    var isPhoneContainsQuery = row.phone.indexOf(query) !== -1;
+    var isNameContainsQuery = row.name.indexOf(query) !== -1;
+    var isEmailContainsQuery = false;
+    if (row.email !== undefined) {
+        isEmailContainsQuery = row.email.indexOf(query) !== -1;
+    }
+    if (isPhoneContainsQuery || isEmailContainsQuery || isNameContainsQuery) {
+        container.push(row.phone);
+    }
 }
 
 function formatPhone(phone) {
@@ -112,6 +154,27 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    var rows = csv.split('\n').filter(notEmpty);
+    var n = 0;
+    for (var i = 0; i < rows.length; i++) {
+        if (processString(rows[i].split(';'))) {
+            n++;
+        }
+    }
 
-    return csv.split('\n').length;
+    return n;
 };
+
+function notEmpty(x) {
+    if (x) {
+        return true;
+    }
+}
+
+function processString(row) {
+    if (add(row[1], row[0], row[2])) {
+        return true;
+    }
+
+    return update(row[1], row[0], row[2]);
+}
