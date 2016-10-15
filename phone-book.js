@@ -13,7 +13,7 @@ var phoneBook;
 
 exports.add = function (phone, name, email) {
     checkPhoneBook();
-    if (!name || !phone || !Number(phone) ||
+    if (!name || !Number(phone) ||
     phone.length !== 10) {
 
         return false;
