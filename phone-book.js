@@ -34,7 +34,8 @@ exports.add = function (phone, name, email) {
 
 function checkInput(phone, name) {
     return !name || !Number(phone) ||
-        phone.length !== 10 || !phone;
+        phone.length !== 10 || !phone ||
+        typeof name !== 'string';
 }
 
 function checkPhoneBook() {
@@ -44,8 +45,7 @@ function checkPhoneBook() {
 }
 
 exports.update = function (phone, name, email) {
-    if (!phone || phone.length !== 10 ||
-        !Number(phone) || !name) {
+    if (checkInput(phone, name)) {
         return false;
     }
     phoneBook.forEach(function (contact) {
