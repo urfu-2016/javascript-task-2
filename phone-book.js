@@ -164,7 +164,7 @@ exports.find = function (query) {
         })
         .sort(function (first, second) {
 
-            return first.name > second.name;
+            return first.name.toLowerCase() > second.name.toLowerCase();
         })
         .map(function (element) {
             var realEmail = emailSugar(element.email);
