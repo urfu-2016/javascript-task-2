@@ -49,11 +49,23 @@ function formatPhone(phone) {
 }
 
 function concatString(name, phone, email) {
+    var result;
 
-    var result = '{1}, {2}, {3}'
+    if (email !== '') {
+
+        result = '{1}, {2}, {3}'
             .replace('{1}', name)
             .replace('{2}', phone)
             .replace('{3}', email);
+
+    } else {
+
+        result = '{1}, {2}'
+        .replace('{1}', name)
+        .replace('{2}', phone);
+
+    }
+
 
     return result;
 
@@ -163,12 +175,10 @@ exports.update = function (phone, name, email) {
                 return true;
             }
 
-
         });
 
     }
 
-    return false;
 };
 
 /**
