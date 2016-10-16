@@ -20,6 +20,11 @@ var phoneBook = [];
  */
 
 
+
+
+
+
+
 exports.add = function (phone, name, email) {
 
     function isInputCorrect() {
@@ -53,12 +58,7 @@ exports.add = function (phone, name, email) {
         function emailIsCorrect() {
             if (typeof(email) === 'string') {
                 email = email.trim();
-                if (email !== '') {
-
-                    return true;
-                }
-
-                email = undefined;
+                return (email !== '');
             }
 
             if (email === null) {
@@ -151,12 +151,7 @@ exports.update = function (phone, name, email) {
         function emailIsCorrect() {
             if (typeof(email) === 'string') {
                 email = email.trim();
-                if (email !== '') {
-
-                    return true;
-                }
-
-                email = undefined;
+                return (email !== '');
             }
 
             if (email === null) {
