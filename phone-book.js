@@ -10,32 +10,29 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-
+// 'Алексей;5551110011;alex@example.com',
 exports.add = function (phone, name, email) {
     if (check(phone, name)) {
-        var em = {
-            n: name,
-            p: phone,
-            e: email
-        };
-        for (var i = 0; i < phoneBook.length; i++) {
-            if (phoneBook[i].p.indexOf(phone) !== -1) {
-                return false;
-            }
-        }
-        phoneBook.push(em);
-
-        return true;
+        second(phone, name, email);
     }
 
     return false;
 };
 
-function second(element, phone) {
-        if (element.p.indexOf(phone) !== -1) {
-
-        return false;
+function second(phone, name, email) {
+    var em = {
+        n: name,
+        p: phone,
+        e: email
+    };
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].p.indexOf(phone) !== -1) {
+            return false;
         }
+    }
+    phoneBook.push(em);
+
+    return true;
 }
 
 function check(phone, name) {
