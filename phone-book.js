@@ -65,7 +65,11 @@ function isCorrectType(phone, name, email) {
 
 function isSameEntries(phone, email) {
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phone === phoneBook[i].phone || email === phoneBook[i].email) {
+        if (phone === phoneBook[i].phone) {
+            return true;
+        }
+        if (email !== undefined && email === phoneBook[i].email) {
+
             return true;
         }
     }
