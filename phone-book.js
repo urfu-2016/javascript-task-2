@@ -52,7 +52,7 @@ exports.add = function (phone, name, email) {
         function emailIsCorrect() {
             if (typeof(email) === 'string') {
                 email = email.trim();
-                
+
                 return (email !== '');
             }
 
@@ -146,7 +146,7 @@ exports.update = function (phone, name, email) {
         function emailIsCorrect() {
             if (typeof(email) === 'string') {
                 email = email.trim();
-                
+
                 return (email !== '');
             }
 
