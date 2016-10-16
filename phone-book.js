@@ -97,6 +97,7 @@ function contains(phone) {
             return true;
         }
     }
+
     return false;
 }
 
