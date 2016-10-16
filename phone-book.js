@@ -103,7 +103,12 @@ exports.find = function (query) {
         result.push(currentRow.name + ', ' + formatPhone(phones[i]) + email);
     }
 
-    return result.sort();
+    return result.sort(function (a, b) {
+        var x = a.substring(0, a.indexOf(', '));
+        var y = b.substring(0, a.indexOf(', '));
+
+        return x > y;
+    });
 };
 
 function getAllKeys(obj) {
@@ -180,9 +185,9 @@ function notEmpty(x) {
 }
 
 function processString(row) {
-    if (add(row[1], row[0], row[2])) {
+    if (update(row[1], row[0], row[2])) {
         return true;
     }
 
-    return update(row[1], row[0], row[2]);
+    return add(row[1], row[0], row[2]);
 }
