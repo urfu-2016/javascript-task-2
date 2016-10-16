@@ -55,7 +55,7 @@ function isCorrectType(phone, name, email) {
 
         return false;
     }
-    if(email !== undefined && typeof(email) !== 'string') {
+    if (email !== undefined && typeof(email) !== 'string') {
 
         return false;
     }
