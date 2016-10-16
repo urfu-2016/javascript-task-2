@@ -21,7 +21,7 @@ function isValidPhone(phone) {
 
 function areValid(phone, name, email) {
     return typeof phone === 'string' && typeof name === 'string' &&
-        (typeof email === 'string' && isValidEmail(email) || email === undefined) ||
+        (typeof email === 'string' && isValidEmail(email) || email === undefined) &&
         isValidPhone(phone) && name !== '';
 }
 
