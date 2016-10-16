@@ -49,14 +49,24 @@ function updateField(value, phone, name, email) {
     return value;
 }
 
+function isExistedPhone(phone) {
+    return phoneBook.some(
+        function (value) {
+            return value.phone === phone;
+        }
+    );
+}
+
 exports.update = function (phone, name, email) {
     if (isValidPhone(phone) && isValidName(name) && isValidEmail(email)) {
-        var updatedFields = phoneBook.map(function (value) {
-            return updateField(value, phone, name, email);
-        });
-        phoneBook = updatedFields;
+        if (isExistedPhone(phone)) {
+            var updatedFields = phoneBook.map(function (value) {
+                return updateField(value, phone, name, email);
+            });
+            phoneBook = updatedFields;
 
-        return true;
+            return true;
+        }
     }
 
     return false;
