@@ -151,8 +151,8 @@ exports.find = function (query) {
         });
     }
     records.sort(function (a, b) {
-        var nameA = a.name.toLowerCase();
-        var nameB = b.name.toLowerCase();
+        var nameA = a.name;// .toLowerCase();
+        var nameB = b.name;// .toLowerCase();
         if (nameA > nameB) {
             return 1;
         } else if (nameA < nameB) {
