@@ -35,9 +35,9 @@ function isAddingPossible(row) {
 }
 
 function isInputCorrect(row) {
-    var isPhoneFormatCorrect = /^\d\d\d\d\d\d\d\d\d\d$/.test(row.phone);
-    var isNameCorrect = row.name !== undefined && row.name.trim() !== '';
-    var isEmailCorrect = row.email === undefined || row.email.trim() !== '';
+    var isPhoneFormatCorrect = typeof row.phone === 'string' && /^\d{10}$/.test(row.phone);
+    var isNameCorrect = typeof row.name === 'string';
+    var isEmailCorrect = row.email === undefined || typeof row.email === 'string';
 
     return isPhoneFormatCorrect && isNameCorrect && isEmailCorrect;
 }
@@ -117,7 +117,7 @@ function getAllKeys(obj) {
 }
 
 function findRowsByQuery(query) {
-    if (isItNotStringOrEmpty(query)) {
+    if (typeof query !== 'string') {
         return [];
     }
     var result = [];
@@ -158,13 +158,13 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    if (isItNotStringOrEmpty(csv)) {
+    if (typeof csv !== 'string') {
         return 0;
     }
     var rows = csv.split('\n').filter(notEmpty);
     var n = 0;
     for (var i = 0; i < rows.length; i++) {
-        if (processString(rows[i].split(';'))) {
+        if (processString(splitCSVString(rows[i]))) {
             n++;
         }
     }
@@ -172,8 +172,18 @@ exports.importFromCsv = function (csv) {
     return n;
 };
 
-function isItNotStringOrEmpty(str) {
-    return typeof str !== 'string' || str.trim() === '';
+function splitCSVString(str) {
+    var re = /;\d{10};|;\d{10}$/;
+    var match = re.exec(str);
+    if (!match) {
+        return {};
+    }
+    var row = {};
+    row.name = str.substring(0, match.index);
+    row.phone = str.substring(match.index + 1, match.index + 11);
+    row.email = str.substring(match.index + 12);
+
+    return row;
 }
 
 function notEmpty(x) {
@@ -183,9 +193,9 @@ function notEmpty(x) {
 }
 
 function processString(row) {
-    if (add(row[1], row[0], row[2])) {
+    if (add(row.phone, row.name, row.email)) {
         return true;
     }
 
-    return update(row[1], row[0], row[2]);
+    return update(row.phone, row.name, row.email);
 }
