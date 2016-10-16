@@ -117,7 +117,7 @@ function isValidPhone(phone) {
     return isNotEmpty(phone) && phone.length === 10 && phonePattern.exec(phone) !== null;
 }
 
-var namePattern = new RegExp('^[А-Яа-я]*$');
+var namePattern = new RegExp('^[А-Яа-я ]+$');
 
 function isValidName(name) {
     return isNotEmpty(name) && namePattern.exec(name.toLowerCase()) !== null;
