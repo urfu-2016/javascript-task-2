@@ -31,7 +31,7 @@ function add(phone, name, email) {
 }
 
 function isAddingPossible(row) {
-    return !isRowAlreadyExists(row) && isInputCorrect(row);
+    return !phoneBook[row.phone] && isInputCorrect(row);
 }
 
 function isInputCorrect(row) {
@@ -39,10 +39,6 @@ function isInputCorrect(row) {
     var isNameCorrect = Boolean(row.name);
 
     return isPhoneFormatCorrect && isNameCorrect;
-}
-
-function isRowAlreadyExists(row) {
-    return phoneBook[row.phone] !== undefined;
 }
 
 /**
@@ -66,7 +62,7 @@ function update(phone, name, email) {
 }
 
 function isUpdatingPossible(row) {
-    return isRowAlreadyExists(row) && isInputCorrect(row);
+    return phoneBook[row.phone] && isInputCorrect(row);
 }
 
 /**
@@ -76,15 +72,11 @@ function isUpdatingPossible(row) {
  */
 exports.findAndRemove = function (query) {
     var phones = findRowsByQuery(query);
-    var rowsDeleted = 0;
-    for (var phone in phones) {
-        if (phones.hasOwnProperty(phone)) {
-            delete phoneBook[phone];
-            rowsDeleted++;
-        }
+    for (var i = 0; i < phones.length; i++) {
+        delete phoneBook[phones[i]];
     }
 
-    return rowsDeleted;
+    return phones.length;
 };
 
 /**
@@ -97,7 +89,7 @@ exports.find = function (query) {
     var phones = findRowsByQuery(query);
     for (var i = 0; i < phones.length; i++) {
         var currentRow = phoneBook[phones[i]];
-        var email = currentRow.email === undefined ? '' : ', ' + currentRow.email;
+        var email = !currentRow.email ? '' : ', ' + currentRow.email;
         result.push(currentRow.name + ', ' + formatPhone(phones[i]) + email);
     }
 
@@ -142,7 +134,7 @@ function addIfRowContainsQuery(row, query, container) {
     var isPhoneContainsQuery = row.phone.indexOf(query) !== -1;
     var isNameContainsQuery = row.name.indexOf(query) !== -1;
     var isEmailContainsQuery = false;
-    if (row.email !== undefined) {
+    if (row.email) {
         isEmailContainsQuery = row.email.indexOf(query) !== -1;
     }
     if (isPhoneContainsQuery || isEmailContainsQuery || isNameContainsQuery) {
@@ -168,7 +160,7 @@ exports.importFromCsv = function (csv) {
     if (typeof csv !== 'string') {
         return 0;
     }
-    var rows = csv.split('\n').filter(notEmpty);
+    var rows = csv.split('\n');
     var n = 0;
     for (var i = 0; i < rows.length; i++) {
         if (processString(rows[i].split(';'))) {
@@ -178,12 +170,6 @@ exports.importFromCsv = function (csv) {
 
     return n;
 };
-
-function notEmpty(x) {
-    if (x) {
-        return true;
-    }
-}
 
 function processString(row) {
     if (update(row[1], row[0], row[2])) {
