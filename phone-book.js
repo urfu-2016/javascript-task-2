@@ -20,7 +20,7 @@ var phoneBook = [];
  */
 exports.add = function (phone, name, email) {
 
-    if (!isCorrectType(phone, name, email) || !isCorrectData(phone, name) || email === null ) {
+    if (!isCorrectType(phone, name, email) || !isCorrectData(phone, name) || email === null) {
 
         return false;
     }
