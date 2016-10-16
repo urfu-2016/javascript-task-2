@@ -19,7 +19,7 @@ function validateString(string) {
 
 function validatePhone(phone) {
     validateString(phone);
-    if (phone.length !== 10 || isNaN(parseInt(phone)) || isNaN(parseInt(phone[0]))) {
+    if (phone.length !== 10 || phone.match(/\d{10}/)) {
         throw new TypeError();
     }
 }
