@@ -122,7 +122,7 @@ function isNotEmpty(param) {
     return typeof param === 'string' && param.trim().length > 0;
 }
 
-var phonePattern = new RegExp('^[5]{3}(\\d)\\1{2}(\\d)\\2{1}(\\d)\\3{1}$');
+var phonePattern = new RegExp('^\\d{10}$');
 
 function isValidPhone(phone) {
     return isNotEmpty(phone) && phonePattern.exec(phone);
@@ -132,12 +132,8 @@ function isValidName(name) {
     return isNotEmpty(name);
 }
 
-var emailPattern = new RegExp('^\\w+@\\w+[.]\\w{2,}$');
-
 function isValidEmail(email) {
-    var emailIsValid = isNotEmpty(email) && emailPattern.exec(email);
-
-    return email === undefined || emailIsValid;
+    return email === undefined || isNotEmpty(email);
 }
 
 function isEntryExists(phone) {
