@@ -83,17 +83,15 @@ exports.findAndRemove = function (query) {
 
                 return elem;
             }
+            if (elem.email !== undefined && elem.email.indexOf(query) !== -1 && query !== '') {
+                counter++;
+                delete phoneBook[index];
+        
+                return elem;
+            }
 
             return undefined;
         }
-        if (elem.email !== undefined && elem.email.indexOf(query) !== -1 && query !== '') {
-            counter++;
-            delete phoneBook[index];
-
-            return elem;
-        }
-
-        return undefined;
     }
     if (typeof query === 'string') {
         phoneBook.filter(search);
@@ -119,9 +117,9 @@ exports.find = function (query) {
             if (elem[properties[i]].indexOf(query) !== -1 && query !== '') {
                 return elem;
             }
-        }
-        if (elem.email !== undefined && elem.email.indexOf(query) !== -1 && query !== '') {
-            return elem;
+            if (elem.email !== undefined && elem.email.indexOf(query) !== -1 && query !== '') {
+                return elem;
+            }
         }
 
         return undefined;
@@ -169,7 +167,7 @@ exports.importFromCsv = function (csv) {
     var data = csv.split('\n');
     function adding(prev, index) {
         var sData = prev.split(';');
-        if (isCorrectInput(sData[1], sData[0], sData[2]) && sData.length < 4) {
+        if (!isCorrectInput(sData[1], sData[0], sData[2]) && sData.length < 4) {
             data.splice(index, 1);
         }
         if (exports.add(sData[1], sData[0], sData[2])) {
