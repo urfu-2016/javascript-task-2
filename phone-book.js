@@ -73,7 +73,7 @@ exports.add = function (phone, name, email) {
     if (!validateData(phone, name, email)) {
         return false;
     }
-    if (typeof(phoneBook[phone]) === 'undefined') {
+    if (getRecord(phone) === null) {
         if (typeof(email) === 'undefined') {
             email = null;
         }
