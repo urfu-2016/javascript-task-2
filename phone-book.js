@@ -177,7 +177,7 @@ function findFields(query, phone, name, email) {
 
 function toFormat(phone, name, email) {
     var format;
-    format = name + ', ' + '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
+    format = name + ', +7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
         phone.slice(6, 8) + '-' + phone.slice(8, 10);
     if (email !== undefined) {
         format += ', ' + email;
