@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} if the note was added to phoneBook or not
  */
 
- function phoneIsCorrect(phone) {
+function phoneIsCorrect(phone) {
     if (typeof(phone) === 'string') {
         phone = phone.trim();
         if (phone.match(/^\d{10}$/gi) !== null) {
@@ -33,7 +33,7 @@ var phoneBook = [];
 
 function nameIsCorrect(name) {
 
-    return typeof(name)==='string' && name !== '';
+    return typeof(name) === 'string' && name !== '';
 }
 
 function emailIsCorrect(email) {
@@ -50,12 +50,21 @@ function emailIsCorrect(email) {
             return true;
         }
     }
+
     return false;
 }
 
 function inputCheck(phone, name, email) {
 
     return phoneIsCorrect(phone) && nameIsCorrect(name) && emailIsCorrect(email);
+}
+
+function deleteNotes(indexesOfFindedNotes) {
+
+    for (var i = 0; i < indexesOfFindedNotes.length; i++) {
+        var indexToDelete = indexesOfFindedNotes[i];
+        phoneBook.splice(indexToDelete, 1);
+    }
 }
 
 
@@ -77,8 +86,9 @@ exports.add = function (phone, name, email) {
 
     phone = phone.trim();
     name = name.trim();
-    if (email !== undefined)
+    if (email !== undefined) {
         email = email.trim();
+    }
 
     if (phoneIsAlreadyInPhoneBook()) {
 
@@ -115,14 +125,13 @@ exports.update = function (phone, name, email) {
     }
 
     phone = phone.trim();
+    name = name.trim();
 
     var targetIndex = phoneBook.findIndex(findNote);
 
     if (targetIndex !== -1) {
         phoneBook[targetIndex].email = email;
-        if (name !== undefined) {
-            phoneBook[targetIndex].name = name;
-        }
+        phoneBook[targetIndex].name = name;
 
         return true;
     }
@@ -157,14 +166,6 @@ exports.findAndRemove = function (query) {
         }
     }
 
-    function deleteNotes() {
-
-        for (var i = 0; i < indexesOfFindedNotes.length; i++) {
-            var indexToDelete = indexesOfFindedNotes[i];
-            phoneBook.splice(indexToDelete, 1);
-        }
-    }
-
     if (typeof(query) === 'number') {
         query = query.toString();
     }
@@ -180,7 +181,7 @@ exports.findAndRemove = function (query) {
             query = query.toLowerCase();
             phoneBook.forEach(isNoteMatchQuery);
             numberOfDeletedNotes = indexesOfFindedNotes.length;
-            deleteNotes();
+            deleteNotes(indexesOfFindedNotes);
         }
     }
 
