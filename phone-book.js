@@ -18,8 +18,7 @@ function validateString(string) {
 }
 
 function validatePhone(phone) {
-    validateString(phone);
-    if (phone.length !== 10 || isNaN(parseInt(phone))) {
+    if (String(phone).length !== 10 || isNaN(parseInt(String(phone)))) {
         throw new TypeError();
     }
 }
@@ -78,7 +77,7 @@ exports.add = function (phone, name, email) {
         if (typeof(email) === 'undefined') {
             email = null;
         }
-        phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
+        phoneBook.push({ 'phone': String(phone), 'name': name, 'email': email });
 
         return true;
     }
