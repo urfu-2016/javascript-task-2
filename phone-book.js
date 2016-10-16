@@ -9,29 +9,31 @@ exports.isStar = true;
 /**
  * Телефонная книга
  */
-var phoneBook
-var phBook  = new Array();
+var phoneBook = [];
 
-function isPhone(phone){
+function isPhone(phone) {
     var rePhone = /\d{10}/;
+
     return (rePhone.test(phone) && phone.length === 10);
 }
 
-function inPhoneBook(phone){
-    for (var i = 0; i < phBook.length; i++) {
-        if (phBook[i].phone === phone)
-            return false;
+function inPhoneBook(phone) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            return true;
+        }
     }
-    return true;
+
+    return false;
 }
 
 
-function findInNote(query, note){
+function findInNote(query, note) {
     var n = note.phone.indexOf(query);
     n += note.name.indexOf(query);
     n += note.email === undefined ? -1 : note.email.indexOf(query);
+
     return (n > -3);
-    
 }
 
 /**
@@ -39,16 +41,20 @@ function findInNote(query, note){
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
-exports.add = function add(phone, name, email) {
-    if (!isPhone(phone) || name === undefined || !inPhoneBook(phone))
+exports.add = function (phone, name, email) {
+    if (!isPhone(phone) || name === undefined || inPhoneBook(phone)) {
+
         return false;
+    }
     var note = {
         phone: phone,
         name: name,
         email: email
     };
-    phBook.push(note);
+    phoneBook.push(note);
+
     return true;
 };
 
@@ -57,51 +63,60 @@ exports.add = function add(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
-exports.update = function update(phone, name, email) {
-    if (!inPhoneBook(phone) || name == undefined){
+exports.update = function (phone, name, email) {
+    if (!inPhoneBook(phone) || name === undefined || !isPhone(phone)) {
         return false;
     }
-    for (var i = 0; i < phBook.length; i++) {
-        if (phBook[i].phone === phone){
-            phBook[i].name = name;
-            phBook[i].email = email;
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            phoneBook[i].name = name;
+            phoneBook[i].email = email;
         }
-    }
-    
+
+    return true;
 };
 
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} nStr
  */
 exports.findAndRemove = function (query) {
     var nStr = 0;
-    for (var i = 0; i < phBook.length; i++) {
-            if (findInNote(query, phBook[i])){
-                phBook.splice(i,1);
-                nStr += 1;
-    }}
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (findInNote(query, phoneBook[i])) {
+            phoneBook.splice(i, 1);
+            nStr += 1;
+        }
+    }
+
     return nStr;
 };
 
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} allFound
  */
-exports.find = function find(query) {
-    if (query === undefined) 
+exports.find = function (query) {
+    if (query === undefined) {
         return;
-    var allFound = new Array();
-    var addnote = (query === "*");  
-    for (var i = 0; i < phBook.length; i++) {
-            if (findInNote(query, phBook[i] || addnote)){
-                var phone = "+7 (" + phBook.phone.slice(0,3) + ") " + phBook.phone.slice(3,6) + "-" + phBook.phone.slice(6,8) + "-" + phBook.phone.slice(8);
-                var strValue = phBook[i].name + ", " + phone + ", " + phBook[i].email;
-                allFound.pop(strValue);
-            }
+    }
+    var allFound = [];
+    var addnote = (query === '*');
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (findInNote(query, phoneBook[i]) || addnote) {
+            var phone = '+7 (' + phoneBook[i].phone.slice(0, 3) + ') ' +
+            phoneBook[i].phone.slice(3, 6) + '-' + phoneBook[i].phone.slice(6, 8) + '-' +
+            phoneBook[i].phone.slice(8);
+            var strValue = phoneBook[i].name + ', ' + phone + ', ' + phoneBook[i].email;
+            allFound.push(strValue);
+        }
     }
     allFound.sort();
+    
     return allFound;
 };
 
@@ -112,21 +127,26 @@ exports.find = function find(query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    
+
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     var notesCsv = csv.split('\n');
+    var name;
+    var phone;
+    var email;
     var n = notesCsv.length;
-    for (var i = 0; i < notesCsv.length; i++){
-        var name, phone, email = notesCsv[i].split(';');
+    for (var i = 0; i < notesCsv.length; i++) {
+        name = notesCsv[i].split(';')[0];
+        name = notesCsv[i].split(';')[1];
+        name = notesCsv[i].split(';')[2];
         var samePhone = csv.search(phone);
-        n += 1 - samePhone.length; 
-        if (!add(name, phone, email))
-            update(name, phone, email);
+        n += 1 - samePhone.length;
+        if (!exports.add(name, phone, email)) {
+            exports.update(name, phone, email);
+        }
 
-    } 
-    
-    
-    return csv.split('\n').length;
+    }
+
+    return n;
 };
