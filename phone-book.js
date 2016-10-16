@@ -188,7 +188,7 @@ exports.importFromCsv = function (csv) {
     var amount = 0;
     csv.split('\n').forEach(function (item) {
         var items = item.split(';');
-        if (items.length < 2 || items.length > 3) {
+        if (items.length < 2) {
             return;
         }
         var name = items[0];
