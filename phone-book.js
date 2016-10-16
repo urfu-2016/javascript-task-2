@@ -149,13 +149,13 @@ function allEntries() {
     return result.sort();
 }
 
-function isEntryExist(csvArray) {
+function isEntryExist(csv) {
     var i;
     for (i = 0; i < phoneBook.length; i++) {
-        if (csvArray[1] === phoneBook[i].phone) {
-            phoneBook[i].phone = csvArray[1];
-            phoneBook[i].name = csvArray[0];
-            phoneBook[i].email = csvArray[2];
+        if (csv[1] === phoneBook[i].phone) {
+            phoneBook[i].phone = csv[1];
+            phoneBook[i].name = csv[0];
+            phoneBook[i].email = csv[2];
 
             return true;
         }
