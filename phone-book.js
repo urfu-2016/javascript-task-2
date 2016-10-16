@@ -29,8 +29,8 @@ exports.add = function (phone, name, email) {
         return false;
     }
     phoneBook.push({
-        phone: phone,
-        name: name,
+        phone: phone.trim(),
+        name: name.trim(),
         email: email
     });
 
@@ -106,7 +106,7 @@ exports.update = function (phone, name, email) {
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phone === phoneBook[i].phone) {
-            phoneBook[i].name = name;
+            phoneBook[i].name = name.trim();
             phoneBook[i].email = email;
 
             return true;
@@ -123,16 +123,14 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var counter = 0;
-    var entries = entriesToString();
-    if (typeof(query) !== 'string') {
+    if (typeof(query) !== 'string' || query === '') {
         return 0;
     }
     if (query === '*') {
-        query = ' ';
+        query = '';
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (entries[i].indexOf(query) !== -1 && query !== '') {
-            entries.splice(i, 1);
+        if (findFields(query, phoneBook[i].phone, phoneBook[i].name, phoneBook[i].email)) {
             phoneBook.splice(i, 1);
             i--;
             counter++;
@@ -149,57 +147,43 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    var entries = entriesToString();
-    if (query === '*') {
-        return allEntries();
-    }
-    if (typeof(query) !== 'string') {
+    if (typeof(query) !== 'string' || query === '') {
         return [];
     }
-    for (var i = 0; i < entries.length; i++) {
-        if (entries[i].indexOf(query) !== -1 && query !== '') {
-            result.push(phoneToFormat(entries[i]));
+    if (query === '*') {
+        query = '';
+    }
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (findFields(query, phoneBook[i].phone, phoneBook[i].name, phoneBook[i].email)) {
+            result.push(toFormat(phoneBook[i].phone, phoneBook[i].name, phoneBook[i].email));
         }
     }
 
     return result.sort();
 };
 
-function entriesToString() {
-    var result = [];
-    var entry;
-    for (var i = 0; i < phoneBook.length; i++) {
-        entry = phoneBook[i].name + ' ' + phoneBook[i].phone;
-        if (phoneBook[i].email !== '' && phoneBook[i].email !== undefined) {
-            entry += ' ' + phoneBook[i].email;
-        }
-        result.push(entry);
+function findFields(query, phone, name, email) {
+    if (name.indexOf(query) !== -1 || phone.indexOf(query) !== -1) {
+
+        return true;
+    }
+    if (email !== undefined && email.indexOf(query) !== -1) {
+
+        return true;
     }
 
-    return result;
+    return false;
 }
 
-function phoneToFormat(entry) {
-    var phoneFormat;
-    var p = entry.split(' ');
-    phoneFormat = '+7 (' + p[1].slice(0, 3) + ') ';
-    phoneFormat += p[1].slice(3, 6) + '-' + p[1].slice(6, 8) + '-' + p[1].slice(8, 10);
-    if (p[2] === undefined) {
-
-        return p[0] + ', ' + phoneFormat;
+function toFormat(phone, name, email) {
+    var format;
+    format = name + ', ' + '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
+        phone.slice(6, 8) + '-' + phone.slice(8, 10);
+    if (email !== undefined) {
+        format += ', ' + email;
     }
 
-    return p[0] + ', ' + phoneFormat + ', ' + p[2];
-}
-
-function allEntries() {
-    var result = [];
-    var entries = entriesToString();
-    for (var i = 0; i < entries.length; i++) {
-        result.push(phoneToFormat(entries[i]));
-    }
-
-    return result.sort();
+    return format;
 }
 
 function isEntryExist(csv) {
