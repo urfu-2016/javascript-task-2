@@ -10,14 +10,17 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-var regExpPhone = /^\d+$/;
-var regExpEmail = /^[\w.]+@([A-z0-9]+\.)+[A-z]{2,4}$/;
+var regExpPhone = /^\d{10}$/;
 var regExpName = /^[a-zA-Zа-яА-Я]+$/;
 
 function Abonent(phone, name, email) {
-    this.phone = phone;
-    this.name = name;
-    this.email = email;
+    this.phone = phone.trim();
+    this.name = name.trim();
+    if (email !== undefined) {
+        this.email = email.trim();
+    } else {
+        this.email = email;
+    }
 }
 
 /**
@@ -28,7 +31,7 @@ function Abonent(phone, name, email) {
  * @returns {Boolean} is it correct
  */
 exports.add = function (phone, name, email) {
-    if (!isIncorrectInput(phone, name, email)) {
+    if (!isCorrectInput(phone, name, email) || arguments.length > 3) {
         return false;
     }
     var abonent = new Abonent(phone, name, email);
@@ -49,7 +52,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} is it correct
  */
 exports.update = function (phone, name, email) {
-    if (!isIncorrectInput(phone, name, email) && mySearch(phone)) {
+    if (!isCorrectInput(phone, name, email) && mySearch(phone)) {
         return false;
     }
     function changing(item) {
@@ -74,25 +77,33 @@ exports.findAndRemove = function (query) {
     function search(elem, index) {
         var properties = ['name', 'phone'];
         for (var i = 0; i < 2; i++) {
-            if (elem[properties[i]].indexOf(query) !== -1) {
+            if (elem[properties[i]].indexOf(query) !== -1 && query !== '') {
                 counter++;
                 delete phoneBook[index];
 
                 return elem;
+            } else {
+
+                return undefined;
             }
         }
-        if (elem.email !== undefined && elem.email.indexOf(query) !== -1) {
+        if (elem.email !== undefined && elem.email.indexOf(query) !== -1 && query !== '') {
             counter++;
             delete phoneBook[index];
 
             return elem;
+        } else {
+
+            return undefined;
         }
-
-        return undefined;
     }
-    phoneBook.filter(search);
-
-    return counter;
+    if (typeof query === 'string') {
+        phoneBook.filter(search);
+    
+        return counter;
+    }
+    
+    return 0;
 };
 
 /**
@@ -102,16 +113,16 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     function search(elem) {
-        if (query === '*') {
+        if (query === '*' && query !== '') {
             return elem;
         }
         var properties = ['name', 'phone'];
         for (var i = 0; i < 2; i++) {
-            if (elem[properties[i]].indexOf(query) !== -1) {
+            if (elem[properties[i]].indexOf(query) !== -1 && query !== '') {
                 return elem;
             }
         }
-        if (elem.email !== undefined && elem.email.indexOf(query) !== -1) {
+        if (elem.email !== undefined && elem.email.indexOf(query) !== -1 && query !== '') {
             return elem;
         }
 
@@ -137,15 +148,15 @@ exports.find = function (query) {
 
         return prev.concat(n.name + ', ' + num || []);
     }
-    var finedList = phoneBook.filter(search)
-        .sort(mySort)
-        .reduce(funcConvert, []);
-    if (finedList.length !== 0) {
+    if (typeof query === 'string') {
 
-        return finedList;
+        return phoneBook.filter(search)
+            .sort(mySort)
+            .reduce(funcConvert, []);
+    } else {
+
+        return [];
     }
-
-    return [];
 };
 
 /**
@@ -161,7 +172,7 @@ exports.importFromCsv = function (csv) {
     var data = csv.split('\n');
     function adding(prev, index) {
         var sData = prev.split(';');
-        if (!isIncorrectInput(sData[1], sData[0], sData[2]) && sData.length < 4) {
+        if (isCorrectInput(sData[1], sData[0], sData[2]) && sData.length < 4) {
             data.splice(index, 1);
         }
         if (exports.add(sData[1], sData[0], sData[2])) {
@@ -179,7 +190,7 @@ exports.importFromCsv = function (csv) {
     return data.length;
 };
 
-function isIncorrectInput(phone, name, email) {
+function isCorrectInput(phone, name, email) {
     if (isCorrectPhone(phone) && isCorrectName(name) && isCorrectEmail(email)) {
 
         return true;
@@ -189,16 +200,7 @@ function isIncorrectInput(phone, name, email) {
 }
 
 function isCorrectPhone(phone) {
-    if (regExpPhone.test(phone) && phone.length === 10) {
-
-        return true;
-    }
-
-    return false;
-}
-
-function isCorrectEmail(email) {
-    if (regExpEmail.test(email) || email === undefined) {
+    if (regExpPhone.test(phone) && phone.length === 10 && typeof phone === 'string') {
 
         return true;
     }
@@ -207,12 +209,25 @@ function isCorrectEmail(email) {
 }
 
 function isCorrectName(name) {
-    if (regExpName.test(name) && name !== undefined) {
+    if (regExpName.test(name) && name !== undefined && typeof name === 'string') {
 
         return true;
     }
 
     return false;
+}
+
+function isCorrectEmail(email) {
+    if (email !== undefined && typeof email === 'string') {
+        
+        return true;
+    } else if (email === undefined) {
+
+        return true;
+    } else {
+
+        return false;
+    }
 }
 
 function isDuplicated(phone) {
