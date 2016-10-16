@@ -188,12 +188,12 @@ exports.importFromCsv = function (csv) {
     var amount = 0;
     csv.split('\n').forEach(function (item) {
         var items = item.split(';');
-        if (items.length < 2) {
+        if (items.length < 2 || items.length > 3) {
             return;
         }
         var name = items[0];
         var phone = items[1];
-        var email = items[2];
+        var email = items.length === 2 ? undefined : items[2];
         if (!exports.add(phone, name, email)) {
             if (exports.update(phone, name, email)) {
                 amount += 1;
