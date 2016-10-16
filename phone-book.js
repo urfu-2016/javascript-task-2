@@ -166,8 +166,8 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
     var count = 0;
     var contacts = csv.split('\n');
-    for (var item of contacts) {
-        var c = item.split(';');
+    for (var i in contacts) {
+        var c = contacts[i].split(';');
         var name = c[0];
         var phone = c[1];
         var email = c[2];
