@@ -93,14 +93,18 @@ function findQuery(value, query) {
 function convertForHumans(value) {
     if (value.email !== undefined) {
         return value.name + ', +7 (' +
-            value.phone.substring(0, 3) + ')' +
-            value.phone.substring(3) + ', ' +
-            value.email;
+                value.phone.substring(0, 3) + ') ' +
+                value.phone.substring(3, 6) + '-' +
+                value.phone.substring(6, 8) + '-' +
+                value.phone.substring(8) + ', ' +
+                value.email;
     }
 
     return value.name + ', +7 (' +
-        value.phone.substring(0, 3) + ')' +
-        value.phone.substring(3);
+            value.phone.substring(0, 3) + ') ' +
+            value.phone.substring(3, 6) + '-' +
+            value.phone.substring(6, 8) + '-' +
+            value.phone.substring(8);
 
 }
 
