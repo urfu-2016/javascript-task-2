@@ -174,7 +174,7 @@ exports.importFromCsv = function (csv) {
 };
 
 function splitCSVString(str) {
-    var re = /;\d{10};|;\d{10}$/;
+    var re = /;\d{10};/;
     var match = re.exec(str);
     if (!match) {
         return {};
