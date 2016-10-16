@@ -19,12 +19,6 @@ var phoneBook = [];
  * @returns {Boolean} if the note was added to phoneBook or not
  */
 
-
-
-
-
-
-
 exports.add = function (phone, name, email) {
 
     function isInputCorrect() {
@@ -58,6 +52,7 @@ exports.add = function (phone, name, email) {
         function emailIsCorrect() {
             if (typeof(email) === 'string') {
                 email = email.trim();
+                
                 return (email !== '');
             }
 
@@ -151,6 +146,7 @@ exports.update = function (phone, name, email) {
         function emailIsCorrect() {
             if (typeof(email) === 'string') {
                 email = email.trim();
+                
                 return (email !== '');
             }
 
