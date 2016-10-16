@@ -191,20 +191,20 @@ function isEntryExist(csv) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    var k;
+    var i;
     var parseCSV = csv.split(/\s/g);
     var counter = parseCSV.length;
-    for (k = 0; k < parseCSV.length; k++) {
-        parseCSV[k] = parseCSV[k].split(';');
-        if (!isCorrectData(parseCSV[k][1], parseCSV[k][0], parseCSV[k][2])) {
+    for (i = 0; i < parseCSV.length; i++) {
+        parseCSV[i] = parseCSV[i].split(';');
+        if (!isCorrectData(parseCSV[i][1], parseCSV[i][0], parseCSV[i][2])) {
             counter--;
             break;
         }
-        if (!isEntryExist(parseCSV[k])) {
+        if (!isEntryExist(parseCSV[i])) {
             phoneBook.push({
-                phone: parseCSV[k][1],
-                name: parseCSV[k][0],
-                email: parseCSV[k][2]
+                phone: parseCSV[i][1],
+                name: parseCSV[i][0],
+                email: parseCSV[i][2]
             });
         }
     }
