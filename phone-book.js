@@ -50,22 +50,18 @@ function formatPhone(phone) {
 
 function concatString(name, phone, email) {
     var result;
-
     if (email !== '') {
 
         result = '{1}, {2}, {3}'
             .replace('{1}', name)
             .replace('{2}', phone)
             .replace('{3}', email);
-
     } else {
 
         result = '{1}, {2}'
-        .replace('{1}', name)
-        .replace('{2}', phone);
-
+            .replace('{1}', name)
+            .replace('{2}', phone);
     }
-
 
     return result;
 
@@ -157,7 +153,7 @@ exports.update = function (phone, name, email) {
     var upPhone = '';
     var checkEmail = isEmptyQuery(email) ? '' : email;
 
-    if (isEmptyQuery(name)) {
+    if (isEmptyQuery(name) && isEmptyQuery(phone)) {
 
         return false;
 
@@ -172,12 +168,14 @@ exports.update = function (phone, name, email) {
                 phoneBook[index].username = name;
                 phoneBook[index].mail = checkEmail;
 
-                return true;
             }
 
         });
 
+        return true;
     }
+
+    return false;
 
 };
 
@@ -202,6 +200,7 @@ exports.findAndRemove = function (query) {
                 phoneBook.splice(index, 1, '');
 
                 counter++;
+
             }
 
         });
@@ -231,10 +230,12 @@ exports.find = function (query) {
             findEmail = phoneBook[index].mail;
 
             if (findIndex(query, findPhone, findName, findEmail)) {
+
                 convertedPhone = formatPhone(findPhone);
                 concatResult = concatString(findName, convertedPhone, findEmail);
 
                 searchResult.push(concatResult);
+
             }
 
         });
@@ -242,7 +243,6 @@ exports.find = function (query) {
         searchResult.sort();
 
         return searchResult;
-
     }
 
     if (query === '*') {
@@ -254,6 +254,7 @@ exports.find = function (query) {
             concatResult = concatString(findName, convertedPhone, findEmail);
 
             searchResult.push(concatResult);
+
         });
 
         searchResult.sort();
