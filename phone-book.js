@@ -120,7 +120,7 @@ function isValidPhone(phone) {
 var namePattern = new RegExp('^[А-Яа-я ]+$');
 
 function isValidName(name) {
-    return isNotEmpty(name) && namePattern.exec(name.toLowerCase()) !== null;
+    return isNotEmpty(name) && namePattern.exec(name) !== null;
 }
 
 var emailPattern = new RegExp('^\\w+@\\w+[.]\\w+$');
@@ -178,10 +178,11 @@ function getAllEntries() {
     return entries.sort();
 }
 
-function isEntrySatisfiedQuery(entry, query) {
-    var keys = Object.keys(entry);
+function isEntrySatisfiedQuery(e, q) {
+    q = q.toLowerCase();
+    var keys = Object.keys(e);
     for (var k = 0; k < keys.length; k++) {
-        if (entry[keys[k]] !== null && entry[keys[k]].indexOf(query) !== -1) {
+        if (e[keys[k]] !== null && e[keys[k]].toLowerCase().indexOf(q) !== -1) {
             return true;
         }
     }
