@@ -29,10 +29,10 @@ exports.add = function (phone, name, email) {
         return false;
     }
     var entry = Object.create(phoneBookEntry);
-    entry.name = name;
-    entry.phone = phone;
+    entry.name = name.trim();;
+    entry.phone = phone.trim();;
     if (email !== undefined) {
-        entry.email = email;
+        entry.email = email.trim();
     }
     phoneBook.push(entry);
 
@@ -51,8 +51,8 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var entry = phoneBook[getEntryPositionByPhone(phone)];
-    entry.name = name;
-    entry.email = (email === undefined) ? null : email;
+    entry.name = name.trim();
+    entry.email = (email === undefined) ? null : email.trim();
 
     return true;
 };
@@ -66,6 +66,7 @@ exports.findAndRemove = function (query) {
     if (!isNotEmpty(query)) {
         return 0;
     }
+	query = query.trim();
     if (query === '*') {
         return removeAllEntries();
     }
@@ -82,6 +83,7 @@ exports.find = function (query) {
     if (!isNotEmpty(query)) {
         return [];
     }
+	query = query.trim();
     if (query === '*') {
         return getAllEntries();
     }
@@ -108,10 +110,10 @@ function isValidArguments(phone, name, email) {
 }
 
 function isNotEmpty(param) {
-    return param !== null && param !== undefined && typeof param === 'string' && param.length > 0;
+    return param !== null && param !== undefined && typeof param === 'string' && param.trim().length > 0;
 }
 
-var phonePattern = new RegExp('\\d{10}');
+var phonePattern = new RegExp('[5]{3}(\\d)\\1{2}(\\d)\\2{1}(\\d)\\3{1}');
 
 function isValidPhone(phone) {
     return isNotEmpty(phone) && phone.length === 10 && phonePattern.exec(phone) !== null;
