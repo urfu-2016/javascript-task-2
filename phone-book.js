@@ -287,7 +287,6 @@ exports.find = function (query) {
             if (value === undefined) {
                 continue;
             }
-            value = value.toLowerCase();
             if (value.indexOf(query) !== -1) {
 
                 return true;
@@ -301,7 +300,6 @@ exports.find = function (query) {
     if (query === '*') {
         arrayOfFindedNotes = phoneBook.slice();
     } else if (typeof(query) === 'string' && query !== '') {
-        query = query.toLowerCase();
         arrayOfFindedNotes = phoneBook.filter(isNoteMatchQuery);
     }
 
