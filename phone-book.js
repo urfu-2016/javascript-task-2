@@ -57,7 +57,7 @@ function isDataCorrect(phone, email) {
 }
 
 exports.update = function (phone, name, email) {
-    var entry = phoneBook.filter(function(item) {
+    var entry = phoneBook.filter(function (item) {
         return item.phone === phone;
     });
     if (entry.length !== 0) {
@@ -71,12 +71,12 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
-    var result = findContact(query);
+    var contacts = findContact(query);
     var count = 0;
-    for (var i = 0; i < result.length; i++) {
+    for (var i = 0; i < contacts.length; i++) {
         count++;
-        var index = result[i].index;
-        if (index === -1)  {
+        var index = contacts[i].index;
+        if (index === -1) {
             break;
         }
         phoneBook.splice(index, 1);
@@ -88,7 +88,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var contacts = findContact(query);
     var result = [];
-    for (var i = 0; i < result.length; i++) {
+    for (var i = 0; i < contacts.length; i++) {
         var contact = contacts[i].entry;
         var entry = contact.name + ', ' + normalize(contact.phone);
         if (contact.email !== '') {
@@ -101,31 +101,11 @@ exports.find = function (query) {
 };
 
 function normalize(phone) {
-    var p = phone.replace(/\D/g, '');
-    var newPhone = '';
+    var newPhone = '+7 (' + phone.substring(0, 3) + ') ' +
+        phone.substring(3, 6) + '-' + phone.substring(6, 8) +
+        '-' + phone.substring(8);
 
-    for (var i in p) {
-        var digit = p[p.length - 1 - i];
-        newPhone += digit;
-        if (newPhone.length === 2) {
-            newPhone += '-';
-        }
-        if (newPhone.length === 5) {
-            newPhone += '-';
-        }
-        if (newPhone.length === 9) {
-            newPhone += ' )';
-        }
-        if (newPhone.length === 14) {
-            newPhone += '( ';
-        }
-        if (newPhone.length >= 17 && i === p.length - 1) {
-            newPhone += '+';
-        }
-    }
-    newPhone += '7+';
-
-    return reverseStr(newPhone);
+    return newPhone;
 }
 
 function reverseStr(str) {
@@ -140,9 +120,8 @@ function reverseStr(str) {
 function findContact(query) {
     var result = [];
     var removeIndex = 0;
-    var index = 0;
 
-    phoneBook.forEach(function(item, i) {
+    phoneBook.forEach(function (item, i) {
         if (query === '*') {
             result.push(new FoundRecords(item, -1));
         } else if (item.name.indexOf(query) > -1 ||
@@ -163,9 +142,9 @@ exports.importFromCsv = function (csv) {
         var name = c[0];
         var phone = c[1];
         var email = c[2];
-        var try_update = this.update(phone, name, email);
-        var try_add = this.add(phone, name, email);
-        if (try_update || try_add) {
+        var tryUpdate = this.update(phone, name, email);
+        var tryAdd = this.add(phone, name, email);
+        if (tryUpdate || tryAdd) {
             count++;
         }
     }
