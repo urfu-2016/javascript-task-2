@@ -18,7 +18,8 @@ function validateString(string) {
 }
 
 function validatePhone(phone) {
-    if (String(phone).length !== 10 || isNaN(parseInt(String(phone)))) {
+    validateString(phone);
+    if (phone.length !== 10 || isNaN(parseInt(phone))) {
         throw new TypeError();
     }
 }
@@ -26,6 +27,9 @@ function validatePhone(phone) {
 function validateEmail(email) {
     if (typeof(email) !== 'undefined') {
         validateString(email);
+        if (email.split('@').length !== 2) {
+            throw new TypeError();
+        }
     }
 }
 
@@ -77,7 +81,7 @@ exports.add = function (phone, name, email) {
         if (typeof(email) === 'undefined') {
             email = null;
         }
-        phoneBook.push({ 'phone': String(phone), 'name': name, 'email': email });
+        phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
 
         return true;
     }
