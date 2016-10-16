@@ -107,7 +107,7 @@ exports.find = function (query) {
         }
         var properties = ['name', 'phone'];
         for (var i = 0; i < 2; i++) {
-            if (elem[properties[i]].indexOf(query) !== -1 ) {
+            if (elem[properties[i]].indexOf(query) !== -1) {
                 return elem;
             }
         }
