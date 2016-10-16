@@ -60,6 +60,9 @@ exports.update = function (phone, name, email) {
     if (name === undefined) {
         return false;
     }
+    if (email === undefined) {
+        email = '';
+    }
     for (i = 0; i < phoneBook.length; i++) {
         if (phone === phoneBook[i].phone) {
             phoneBook[i].name = name;
@@ -134,6 +137,10 @@ function phoneToFormat(entry) {
     var p = entry.split(' ');
     phoneFormat = '+7 (' + p[1].slice(0, 3) + ') ';
     phoneFormat += p[1].slice(3, 6) + '-' + p[1].slice(6, 8) + '-' + p[1].slice(8, 10);
+    if (p[2] === undefined) {
+
+        return p[0] + ' ' + phoneFormat;
+    }
 
     return p[0] + ' ' + phoneFormat + ' ' + p[2];
 }
