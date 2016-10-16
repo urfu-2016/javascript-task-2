@@ -94,10 +94,6 @@ exports.findAndRemove = function (query) {
  * @returns {Array} - все записи, содержащие query в одном из полей
  */
 exports.find = function (query) {
-    query = query.trim();
-    if (query === '') {
-        return [];
-    }
     var result = [];
     var phones = query === '*' ? getAllKeys(phoneBook) : findRowsByQuery(query);
     for (var i = 0; i < phones.length; i++) {
@@ -121,6 +117,9 @@ function getAllKeys(obj) {
 }
 
 function findRowsByQuery(query) {
+    if (isItNotStringOrEmpty(query)) {
+        return [];
+    }
     var result = [];
     for (var phone in phoneBook) {
         if (phoneBook.hasOwnProperty(phone)) {
@@ -159,6 +158,9 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    if (isItNotStringOrEmpty(csv)) {
+        return 0;
+    }
     var rows = csv.split('\n').filter(notEmpty);
     var n = 0;
     for (var i = 0; i < rows.length; i++) {
@@ -169,6 +171,10 @@ exports.importFromCsv = function (csv) {
 
     return n;
 };
+
+function isItNotStringOrEmpty(str) {
+    return typeof str !== 'string' || str.trim() === '';
+}
 
 function notEmpty(x) {
     if (x) {
