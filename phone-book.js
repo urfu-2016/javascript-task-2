@@ -92,6 +92,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} finedList
  */
 exports.find = function (query) {
     function search(elem) {
@@ -216,14 +217,13 @@ function isDuplicated(phone) {
 
 /**
  * @param {String} phone
- * @return {Boolean} isFound
+ * @returns {Boolean} isFound
  */
 function mySearch(phone) {
     function searsh(item) {
 
         return item.phone === phone;
     }
-    var isFound = phoneBook.some(searsh);
 
-    return isFound;
+    return phoneBook.some(searsh);
 }
