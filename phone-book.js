@@ -114,7 +114,7 @@ exports.findAndRemove = function (query) {
                 element.name.indexOf(query) === -1 &&
                 realEmail.indexOf(query) === -1);
         });
-        if (query === "*") {
+        if (query === '*') {
             deleteCounter = phoneBook.length;
             phoneBook = [];
 
