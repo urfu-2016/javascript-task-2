@@ -38,7 +38,7 @@ function isCorrectData(phone, name, email) {
     if (name === undefined || phone.match(/\d/g).length !== 10) {
         return false;
     }
-    if (name.match(/\w/g || arguments.length > 3)) {
+    if (name.match(/\w/g)) {
         return false;
     }
     if (email !== undefined && (email.indexOf('@') === -1 || email.indexOf('.') === -1)) {
@@ -189,8 +189,7 @@ exports.importFromCsv = function (csv) {
         pCSV[i] = pCSV[i].split(';');
         if (!isCorrectData(pCSV[i][1], pCSV[i][0], pCSV[i][2]) || pCSV[i].length > 3) {
             counter--;
-        }
-        else if (!isEntryExist(pCSV[i])) {
+        } else if (!isEntryExist(pCSV[i])) {
             phoneBook.push({
                 phone: pCSV[i][1],
                 name: pCSV[i][0],
