@@ -163,8 +163,10 @@ exports.find = function (query) {
             }
             var lowQuery = query.toLowerCase();
 
-            return element.phone.indexOf(lowQuery) >= 0 || element.name.toLowerCase().indexOf(lowQuery) >= 0 ||
-                (correctData(element.email) && element.email.toLowerCase().indexOf(lowQuery) >= 0);
+            return element.phone.indexOf(lowQuery) >= 0 ||
+             element.name.toLowerCase().indexOf(lowQuery) >= 0 ||
+                (correctData(element.email)
+                    && element.email.toLowerCase().indexOf(lowQuery) >= 0);
         })
         .sort(function (first, second) {
             if (first.name.toLowerCase() < second.name.toLowerCase()) {
