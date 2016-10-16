@@ -16,17 +16,6 @@ function checkName(name) {
     return name && name.length > 0;
 }
 
-function getRegexpFromQuery(query) {
-    if (query === '*') {
-        return new RegExp('.' + query);
-    }
-    if (query === '') {
-        return null;
-    }
-
-    return new RegExp('.*' + query + '.*');
-}
-
 function sortPhoneBook(a, b) {
     return a[0] > b[0];
 }
@@ -82,7 +71,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (phone in phoneBook && name.length > 0) {
+    if (phone in phoneBook && checkName(name)) {
         phoneBook[phone] = { Name: name, Email: email };
 
         return true;
@@ -105,16 +94,22 @@ exports.findAndRemove = function (query) {
     return keys.length;
 };
 
+function checkQuery(query, key) {
+    return query === '*' ||
+        key.indexOf(query) !== -1 ||
+        (phoneBook[key].Name && phoneBook[key].Name.indexOf(query) !== -1) ||
+        (phoneBook[key].Email && phoneBook[key].Email.indexOf(query) !== -1);
+}
+
 function findKeys(query) {
     var result = [];
-    var re = getRegexpFromQuery(query);
-    if (!re) {
+    if (!query || query.length === 0) {
         return result;
     }
     var keys = Object.keys(phoneBook);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
-        if (re.test(key) || re.test(phoneBook[key].Name) || re.test(phoneBook[key].Email)) {
+        if (checkQuery(query, key)) {
             result.push(key);
         }
     }
@@ -140,6 +135,9 @@ exports.find = function (query) {
 
 function parseCsv(record) {
     var parse = record.split(';');
+    if (!parse[0] || !parse[1]) {
+        return null;
+    }
     var result = { Name: parse[0], Phone: parse[1] };
     if (parse[2]) {
         result.Email = parse[2];
@@ -160,6 +158,9 @@ exports.importFromCsv = function (csv) {
     for (var i = 0; i < records.length; i++) {
         var e = records[i];
         var record = parseCsv(e);
+        if (!record) {
+            continue;
+        }
         var success = exports.add(record.Phone, record.Name, record.Email);
         success = !success ? exports.update(record.Phone, record.Name, record.Email) : success;
         if (success) {
