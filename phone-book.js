@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = {};
 
 var Record = function (phone, name, email) {
-    this.phone = phone.toString();
+    this.phone = phone ? phone.toString() : '';
     this.name = name;
     this.email = email === undefined ? '' : email;
     this.update = function (record) {
@@ -56,7 +56,7 @@ exports.update = function (phone, name, email) {
 };
 
 function isValidParametrs(phone, name, email) {
-    return !(typeof phone !== 'string' || typeof name !== 'string' || typeof email !== 'string' ||
+    return !(typeof name !== 'string' || typeof email !== 'string' ||
         !isValidPhone(phone) || !name || !isValidEmail(email));
 }
 
@@ -132,10 +132,9 @@ function getRecordsByQuery(query) {
 }
 
 function sortByName(item1, item2) {
-    if (item1.name < item2.name) {
+    if (item1.name.toLowerCase() < item2.name.toLowerCase()) {
         return -1;
-    }
-    if (item1.name > item2.name) {
+    } else if (item1.name.toLowerCase() > item2.name.toLowerCase()) {
         return 1;
     }
 
@@ -157,10 +156,8 @@ exports.importFromCsv = function (csv) {
     .split('\n')
     .map(function (line) {
         var parts = line.split(';');
-        if (exports.add(parts[1], parts[0], parts[2])) {
-            return 1;
-        }
-        if (exports.update(parts[1], parts[0], parts[2])) {
+        if (exports.add(parts[1], parts[0], parts[2]) ||
+            exports.update(parts[1], parts[0], parts[2])) {
             return 1;
         }
 
