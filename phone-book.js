@@ -9,10 +9,9 @@ exports.add = function (phone, name, email) {
     }
     if (!checkExistPhone(phone)) {
         if (email === undefined) {
-            phoneBook.push({ 'phone': phone, 'name': name });
-        } else {
-            phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
+            email = '';
         }
+        phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
 
         return true;
     }
