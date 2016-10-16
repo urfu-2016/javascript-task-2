@@ -112,6 +112,7 @@ function isValidArguments(phone, name, email) {
 function isNotEmpty(param) {
     var paramDefined = param !== null && param !== undefined;
     var paramNotEmpty = typeof param === 'string' && param.trim().length > 0;
+
     return paramDefined && paramNotEmpty;
 }
 
