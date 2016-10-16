@@ -117,7 +117,7 @@ function getAllKeys(obj) {
 }
 
 function findRowsByQuery(query) {
-    if (typeof query !== 'string' || query !== '') {
+    if (typeof query !== 'string' || query === '') {
         return [];
     }
     var result = [];
