@@ -135,7 +135,7 @@ exports.find = function (query) {
     }
 
     return undefined;
-};
+}}
 
 /**
  * Импорт записей из csv-формата
