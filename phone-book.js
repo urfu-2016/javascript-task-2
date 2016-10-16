@@ -112,6 +112,9 @@ exports.update = function (phone, name, email) {
  * @returns {Number} amount
  */
 exports.findAndRemove = function (query) {
+    if (query === '') {
+        return 0;
+    }
     if (query === '*') {
         var length = phoneBook.length;
         phoneBook = [];
@@ -135,6 +138,9 @@ exports.findAndRemove = function (query) {
  * @returns {Array} results
  */
 exports.find = function (query) {
+    if (query === '') {
+        return [];
+    }
     var records;
     if (query === '*') {
         records = phoneBook;
@@ -156,7 +162,7 @@ exports.find = function (query) {
     });
 
     return records.map(function (record) {
-        var re = /.{3}.{3}.{2}.{2}/;
+        var re = /(.{3})(.{3})(.{2})(.{2})/;
         var formattedPhone = record.phone.replace(re, '+7 ($1) $2-$3-$4');
         var result = record.name + ', ' + formattedPhone;
         if (record.email !== null) {
