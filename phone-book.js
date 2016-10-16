@@ -128,6 +128,7 @@ var emailPattern = new RegExp('^\\w+@\\w+[.]\\w+$');
 function isValidEmail(email) {
     var emailIsUndefined = email === undefined;
     var emailIsValid = typeof email === 'string' && emailPattern.exec(email) !== null;
+
     return email !== null && (emailIsUndefined || emailIsValid);
 }
 
