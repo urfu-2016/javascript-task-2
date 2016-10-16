@@ -23,7 +23,7 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-    if (!isCorrectData(phone, name, email) || isSameEntries(phone, email)) {
+    if (!isCorrectData(phone, name, email) || isSameEntries(phone, email) || email === null) {
 
         return false;
     }
@@ -37,11 +37,11 @@ exports.add = function (phone, name, email) {
 };
 
 function isCorrectData(phone, name, email) {
-    if (name === undefined || name === null || email === null) {
+    if (name === undefined || name === null) {
 
         return false;
     }
-    if (phone === undefined || phone === null || phone.match(/\d/g).length !== 10 ) {
+    if (phone === undefined || phone === null || phone.match(/\d/g).length !== 10) {
 
         return false;
     }
