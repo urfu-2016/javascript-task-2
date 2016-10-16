@@ -68,7 +68,8 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone) && name.length !== 0) {
+    if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone) &&
+        name.length !== 0) {
         checkTypeString(name);
         if (typeof(email) !== 'undefined') {
             checkTypeString(email);
@@ -151,7 +152,7 @@ function makeCorrectFormat(phone) {
     var newPhone = '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) +
         '-' + phone.slice(-2);
     var newNote = [name, newPhone];
-    if (email.length !== 0 && typeof (email) === 'string') {
+    if (typeof (email) === 'string' && email.length !== 0) {
         newNote.push(email);
     }
 
