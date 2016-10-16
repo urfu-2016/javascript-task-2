@@ -44,7 +44,7 @@ function isCorrectData(phone, name, email) {
 
         return false;
     }
-    if (phone === undefined || phone === null || phone.match(/\d/g).length !== 10) {
+    if (phone === undefined || phone.match(/\d/g).length !== 10) {
 
         return false;
     }
