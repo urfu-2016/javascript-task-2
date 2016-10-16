@@ -2,9 +2,6 @@
 
 exports.isStar = true;
 
-/**
- * Телефонная книга
- */
 var phoneBook = [];
 
 function isValidPhone(phone) {
@@ -27,12 +24,6 @@ function checkExists(value, phone) {
     return value.phone === phone;
 }
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.add = function (phone, name, email) {
     if (isValidPhone(phone) && isValidName(name) && isValidEmail(email)) {
         var samePhones = phoneBook.filter(function (value) {
@@ -57,12 +48,6 @@ function updateField(value, phone, name, email) {
     return value;
 }
 
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.update = function (phone, name, email) {
     if (isValidPhone(phone) && isValidName(name) && isValidEmail(email)) {
         var updatedFields = phoneBook.map(function (value) {
@@ -76,10 +61,6 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
 exports.findAndRemove = function (query) {
     if (isValidQuery(query)) {
         var otherFields = phoneBook.filter(function (value) {
@@ -123,10 +104,6 @@ function convertForHumans(value) {
 
 }
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 exports.find = function (query) {
     if (isValidQuery(query)) {
         if (query === '*') {
@@ -161,12 +138,6 @@ function tryToUpdate(value) {
     exports.update(phone, name, email);
 }
 
-/**
- * Импорт записей иzyз csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
 exports.importFromCsv = function (csv) {
     if (isValidCSV(csv)) {
         var fields = csv.split('\n');
