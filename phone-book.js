@@ -135,11 +135,13 @@ exports.find = function (query) {
 
 function parseCsv(record) {
     var parse = record.split(';');
-    if (!parse[0] || !parse[1]) {
+    if (parse.length < 2 || parse.length > 3) {
         return null;
     }
+
     var result = { Name: parse[0], Phone: parse[1] };
-    if (parse[2]) {
+
+    if (parse.length === 3) {
         result.Email = parse[2];
     }
 
@@ -155,6 +157,7 @@ function parseCsv(record) {
 exports.importFromCsv = function (csv) {
     var countAdded = 0;
     var records = csv.split('\n');
+
     for (var i = 0; i < records.length; i++) {
         var e = records[i];
         var record = parseCsv(e);
