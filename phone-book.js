@@ -56,9 +56,9 @@ function getRecord(phone) {
 
 function checkMatch(record, query) {
     var phoneMatch = record.phone.indexOf(query) !== -1;
-    var nameMatch = record.name.indexOf(query) !== -1;
+    var nameMatch = record.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     var emailMatch = record.email === null
-    ? false : record.email.indexOf(query) !== -1;
+    ? false : record.email.toLowerCase().indexOf(query.toLowerCase()) !== -1;
 
     return phoneMatch || nameMatch || emailMatch;
 }
@@ -150,7 +150,7 @@ exports.find = function (query) {
             return checkMatch(record, query);
         });
     }
-    records.sort(function (a, b) {
+    records = records.sort(function (a, b) {
         var nameA = a.name;// .toLowerCase();
         var nameB = b.name;// .toLowerCase();
         if (nameA > nameB) {
