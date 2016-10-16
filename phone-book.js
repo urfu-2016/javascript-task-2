@@ -13,14 +13,8 @@ var phoneBook = {};
 
 
 function checkPhone(phone) {
-    checkTypeString(phone);
     if (phone.length !== 10 || phoneBook.hasOwnProperty(phone)) {
         return false;
-    }
-    for (var i = 0; i < 11; i++) {
-        if (phone[i] < '0' || phone[i] > '9') {
-            return false;
-        }
     }
 
     return /(\d)\1\1(\d)\2\2(\d)\3(\d)\4/.test(phone);
@@ -70,9 +64,7 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone) &&
         name.length !== 0) {
-        checkTypeString(name);
         if (typeof(email) !== 'undefined') {
-            checkTypeString(email);
             phoneBook[phone] = { 'name': name, 'email': email };
         } else {
             phoneBook[phone] = { 'name': name };
@@ -116,14 +108,7 @@ function sortByName(phone1, phone2) {
     return phoneBook[phone1].name.localeCompare(phoneBook[phone2].name);
 }
 
-function checkTypeString(query) {
-    if (typeof (query) !== 'string') {
-        throw new TypeError();
-    }
-}
-
 function findCorrect(query) {
-    checkTypeString(query);
     var result = [];
     var keys = Object.keys(phoneBook);
     if (query === '') {
@@ -152,7 +137,7 @@ function makeCorrectFormat(phone) {
     var newPhone = '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) +
         '-' + phone.slice(-2);
     var newNote = [name, newPhone];
-    if (typeof (email) === 'string' && email.length !== 0) {
+    if (typeof (email) !== 'undefined' && email.length !== 0) {
         newNote.push(email);
     }
 
@@ -168,7 +153,6 @@ function makeCorrectFormat(phone) {
  */
 
 exports.importFromCsv = function (csv) {
-    checkTypeString(csv);
     var added = 0;
     parseCSV(csv).forEach(function (note) {
         var phoneNote = note.split(';');
@@ -191,7 +175,6 @@ exports.importFromCsv = function (csv) {
 };
 
 function parseCSV(csv) {
-    checkTypeString(csv);
 
     return csv.split('\n');
 }
