@@ -8,7 +8,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
     if (!checkExistPhone(phone)) {
-        if (email === undefined) {
+        if (typeof(email) !== 'string') {
             email = '';
         }
         phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
@@ -20,7 +20,7 @@ exports.add = function (phone, name, email) {
 };
 
 function validPhoneAndName(phone, name) {
-    if (typeof(name) !== 'string' || phone.length !== 10 || /[^[0-9]/.test(phone)) {
+    if (typeof(phone) !== 'string' || phone.length !== 10 || /[^[0-9]/.test(phone)) {
         return false;
     }
     if (typeof(name) !== 'string' || name.length === 0) {
