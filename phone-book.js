@@ -123,10 +123,10 @@ exports.find = function (query) {
         num += n.phone.slice(6, -2) + '-' + n.phone.slice(8);
         if (n.email !== undefined) {
 
-            return prev.concat(n.name + ' ' + n.email + ' ' + num || []);
+            return prev.concat(n.name + ', ' + num + ', ' + n.email || []);
         }
 
-        return prev.concat(n.name + ' ' + num || []);
+        return prev.concat(n.name + ', ' + num || []);
     }
     var finedList = phoneBook.filter(search)
         .sort(mySort)
