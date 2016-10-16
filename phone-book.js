@@ -165,27 +165,13 @@ exports.importFromCsv = function (csv) {
     var rows = csv.split('\n').filter(notEmpty);
     var n = 0;
     for (var i = 0; i < rows.length; i++) {
-        if (processString(splitCSVString(rows[i]))) {
+        if (processString(rows[i].split(';'))) {
             n++;
         }
     }
 
     return n;
 };
-
-function splitCSVString(str) {
-    var re = /;\d{10};/;
-    var match = re.exec(str);
-    if (!match) {
-        return {};
-    }
-    var row = {};
-    row.name = str.substring(0, match.index);
-    row.phone = str.substring(match.index + 1, match.index + 11);
-    row.email = str.substring(match.index + 12);
-
-    return row;
-}
 
 function notEmpty(x) {
     if (x) {
@@ -194,9 +180,9 @@ function notEmpty(x) {
 }
 
 function processString(row) {
-    if (add(row.phone, row.name, row.email)) {
+    if (add(row[1], row[0], row[2])) {
         return true;
     }
 
-    return update(row.phone, row.name, row.email);
+    return update(row[1], row[0], row[2]);
 }
