@@ -71,6 +71,8 @@ var findContacts = function (query) {
             return phoneBook[phone];
         });
 
+    var queryLower = query.toLowerCase();
+
     var found = query === '*'
         ? allContacts
         : allContacts
@@ -80,8 +82,11 @@ var findContacts = function (query) {
                         return contact[prop];
                     })
                     .filter(Boolean)
+                    .map(function (propValue) {
+                        return propValue.toLowerCase();
+                    })
                     .some(function (propValue) {
-                        return propValue.indexOf(query) !== -1;
+                        return propValue.indexOf(queryLower) !== -1;
                     });
             });
 
