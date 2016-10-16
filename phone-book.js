@@ -95,6 +95,7 @@ exports.subRecord = function (record, query) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
     if (exports.correctInput(phone, name, email) && exports.numberInPhone(phone) === -1) {
@@ -115,6 +116,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
     var index = exports.numberInPhone(phone);
@@ -135,6 +137,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} количество удаленных записей
  */
 exports.findAndRemove = function (query) {
     if (query === '') {
@@ -163,6 +166,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} отсортированный массив записей
  */
 exports.find = function (query) {
     if (query === '') {
