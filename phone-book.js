@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /**
  * Телефонная книга
@@ -12,28 +12,24 @@ exports.isStar = true;
 var phoneBook = [];
 // 'Алексей;5551110011;alex@example.com',
 exports.add = function (phone, name, email) {
-    if (check(phone, name)) {
-        second(phone, name, email);
-    }
-
-    return false;
-};
-
-function second(phone, name, email) {
-    var em = {
-        n: name,
-        p: phone,
-        e: email
-    };
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].p.indexOf(phone) !== -1) {
             return false;
         }
     }
-    phoneBook.push(em);
+    if (check(phone, name)) {
+        var em = {
+            n: name,
+            p: phone,
+            e: email
+        };
+        phoneBook.push(em);
 
-    return true;
-}
+        return true;
+    }
+
+    return false;
+};
 
 function check(phone, name) {
     if ((phone.length === 10) && (typeof(name) !== 'undefined') &&
@@ -107,12 +103,7 @@ function slice_(query, array) {
 exports.find = function (query) {
     var res = [];
     if (query === '*') {
-        for (var j = 0; j < phoneBook.length; j++) {
-            var l = phoneBook[j].p;
-            var k = '+7 (' + l.slice(0, 3) + ') ' + l.slice(3, 6) + '-' +
-            l.slice(6, 8) + '-' + l.slice(-2);
-            res.push((phoneBook[j].n + ', ' + k + ', ' + under(phoneBook[j].e)));
-        }
+        res = zv();
     } else {
         res = is(query);
     }
@@ -120,24 +111,49 @@ exports.find = function (query) {
     return res.sort();
 };
 
-function is(query) {
+function zv() {
     var res = [];
-    for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i].p.indexOf(query) !== -1) || (phoneBook[i].n.indexOf(query) !== -1) ||
-        (under(phoneBook[i].e).indexOf(query) !== -1)) {
-            var t = '+7 (' + phoneBook[i].p.slice(0, 3) + ') ' + phoneBook[i].p.slice(3, 6) +
-            '-' + phoneBook[i].p.slice(6, 8) + '-' + phoneBook[i].p.slice(-2);
-            res.push(phoneBook[i].n + ', ' + t + ', ' + under(phoneBook[i].e));
+    for (var j = 0; j < phoneBook.length; j++) {
+        var l = phoneBook[j].p;
+        var k = '+7 (' + l.slice(0, 3) + ') ' + l.slice(3, 6) + '-' +
+        l.slice(6, 8) + '-' + l.slice(-2);
+        if (under(phoneBook[j].e) === '') {
+            res.push(phoneBook[j].n + ', ' + k);
+        } else {
+            res.push((phoneBook[j].n + ', ' + k + ', ' + under(phoneBook[j].e)));
         }
     }
 
     return res;
 }
 
+function is(query) {
+    var res = [];
+    for (var i = 0; i < phoneBook.length; i++) {
+        checker(phoneBook[i], query, res);
+    }
+
+    return res;
+}
+
+function checker(element, query, array) {
+    if ((element.p.indexOf(query) !== -1) || (element.n.indexOf(query) !== -1) ||
+        (under(element.e).indexOf(query) !== -1)) {
+        var t = '+7 (' + element.p.slice(0, 3) + ') ' + element.p.slice(3, 6) +
+        '-' + element.p.slice(6, 8) + '-' + element.p.slice(-2);
+        if (under(element.e) === '') {
+            array.push(element.n + ', ' + t);
+        } else {
+            array.push(element.n + ', ' + t + ', ' + under(element.e));
+        }
+    }
+}
+
 function under(email) {
     if (typeof(email) === 'undefined') {
-        email = ' ';
+        email = '';
     }
+
 
     return email;
 }
@@ -146,6 +162,17 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-
+    // var new_ = [];
+    // var newest = [];
+    // for (i = 0; i < csv.length, i++) {
+    //    new_.push(csv[i].split('\n'));
+    // }
+    // for (j = 0; j < new_.length, j++) {
+    //    newest.push(new_[i].split(';'));
+    //    if ((newest[i] === 10) {
+    //        exports.add(newest[i], newest[i-1], newest[i+1];
+    //        exports.update(newest[i], newest[i-1], newest[i+1];
+    //    }
+    // }
     return csv.split('\n').length;
 };
