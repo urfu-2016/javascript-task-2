@@ -139,10 +139,10 @@ function phoneToFormat(entry) {
     phoneFormat += p[1].slice(3, 6) + '-' + p[1].slice(6, 8) + '-' + p[1].slice(8, 10);
     if (p[2] === undefined) {
 
-        return p[0] + ' ' + phoneFormat;
+        return p[0] + ', ' + phoneFormat;
     }
 
-    return p[0] + ' ' + phoneFormat + ' ' + p[2];
+    return p[0] + ', ' + phoneFormat + ', ' + p[2];
 }
 
 function allEntries() {
