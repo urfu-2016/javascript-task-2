@@ -40,7 +40,8 @@ exports.add = function (phone, name, email) {
 };
 
 function updateField(value, phone, name, email) {
-    if (value.phone === phone) {
+    if (value.phone === phone && (value.name !== name ||
+        value.email !== email)) {
         value.name = name;
         value.email = email;
     }
@@ -141,8 +142,12 @@ function tryToAdd(value) {
         var name = splitted[0];
         var phone = splitted[1];
         var email = splitted[2];
-        exports.add(phone, name, email);
+        if (exports.add(phone, name, email)) {
+            return 1;
+        }
     }
+
+    return 0;
 }
 
 function tryToUpdate(value) {
@@ -151,20 +156,22 @@ function tryToUpdate(value) {
         var name = splitted[0];
         var phone = splitted[1];
         var email = splitted[2];
-        exports.update(phone, name, email);
-    }
-}
-
-exports.importFromCsv = function (csv) {
-    if (isValidCSV(csv)) {
-        var fields = csv.split('\n');
-        fields.forEach(function processField(value) {
-            tryToAdd(value);
-            tryToUpdate(value);
-        });
-
-        return phoneBook.length;
+        if (exports.update(phone, name, email)){
+            return 1;
+       }
     }
 
     return 0;
+}
+
+exports.importFromCsv = function (csv) {
+    var amount = 0;
+    if (isValidCSV(csv)) {
+        var fields = csv.split('\n');
+        fields.forEach(function processField(value) {
+            amount += Math.max(tryToUpdate(value), tryToAdd(value));
+        });
+    }
+
+    return amount;
 };
