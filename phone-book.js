@@ -19,63 +19,47 @@ var phoneBook = [];
  * @returns {Boolean} if the note was added to phoneBook or not
  */
 
-exports.add = function (phone, name, email) {
-
-    function isInputCorrect() {
-        function phoneIsCorrect() {
-            if (typeof(phone) === 'number') {
-                phone = phone.toString();
-            }
-
-            if (typeof(phone) === 'string') {
-                phone = phone.trim();
-                if (phone.match(/^\d{10}$/gi) !== null) {
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        function nameIsCorrect() {
-            if (typeof(name) !== 'string' || name === '') {
-
-                return false;
-            }
-
-            name = name.trim();
+ function phoneIsCorrect(phone) {
+    if (typeof(phone) === 'string') {
+        phone = phone.trim();
+        if (phone.match(/^\d{10}$/gi) !== null) {
 
             return true;
         }
-
-        function emailIsCorrect() {
-            if (typeof(email) === 'string') {
-                email = email.trim();
-
-                return (email !== '');
-            }
-
-            if (email === null) {
-                email = undefined;
-            }
-
-            if (email === undefined) {
-
-                return true;
-            }
-
-            return false;
-        }
-
-
-        if (phoneIsCorrect() && nameIsCorrect() && emailIsCorrect()) {
-
-            return true;
-        }
-
-        return false;
     }
+
+    return false;
+}
+
+function nameIsCorrect(name) {
+
+    return typeof(name)==='string' && name !== '';
+}
+
+function emailIsCorrect(email) {
+
+    if (email === undefined) {
+
+        return true;
+    }
+
+    if (typeof(email) === 'string') {
+        email = email.trim();
+        if (email.match(/^\S+@\S+\.\S+$/gi) !== null) {
+
+            return true;
+        }
+    }
+    return false;
+}
+
+function inputCheck(phone, name, email) {
+
+    return phoneIsCorrect(phone) && nameIsCorrect(name) && emailIsCorrect(email);
+}
+
+
+exports.add = function (phone, name, email) {
 
     function phoneIsAlreadyInPhoneBook() {
         function phoneMatch(currentNote) {
@@ -86,10 +70,15 @@ exports.add = function (phone, name, email) {
         return phoneBook.some(phoneMatch);
     }
 
-    if (!isInputCorrect()) {
+    if (!inputCheck(phone, name, email)) {
 
         return false;
     }
+
+    phone = phone.trim();
+    name = name.trim();
+    if (email !== undefined)
+        email = email.trim();
 
     if (phoneIsAlreadyInPhoneBook()) {
 
@@ -115,70 +104,17 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} if the note was updated or not
  */
 exports.update = function (phone, name, email) {
-    function isInputCorrect() {
-        function phoneIsCorrect() {
-            if (typeof(phone) === 'number') {
-                phone = phone.toString();
-            }
-
-            if (typeof(phone) === 'string') {
-                phone = phone.trim();
-                if (phone.match(/^\d{10}$/gi) !== null) {
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        function nameIsCorrect() {
-            if (typeof(name) !== 'string' || name === '') {
-
-                return false;
-            }
-
-            name = name.trim();
-
-            return true;
-        }
-
-        function emailIsCorrect() {
-            if (typeof(email) === 'string') {
-                email = email.trim();
-
-                return (email !== '');
-            }
-
-            if (email === null) {
-                email = undefined;
-            }
-
-            if (email === undefined) {
-
-                return true;
-            }
-
-            return false;
-        }
-
-        if (phoneIsCorrect() && nameIsCorrect() && emailIsCorrect()) {
-
-            return true;
-        }
-
-        return false;
-    }
-
-    if (!isInputCorrect()) {
-
-        return false;
-    }
-
     function findNote(note) {
 
         return note.phone === phone;
     }
+
+    if (!inputCheck(phone, name, email)) {
+
+        return false;
+    }
+
+    phone = phone.trim();
 
     var targetIndex = phoneBook.findIndex(findNote);
 
@@ -213,6 +149,7 @@ exports.findAndRemove = function (query) {
             if (value === undefined) {
                 continue;
             }
+            value = value.toLowerCase();
             if (value.indexOf(query) !== -1) {
                 indexesOfFindedNotes.push(index);
                 break;
@@ -232,19 +169,19 @@ exports.findAndRemove = function (query) {
         query = query.toString();
     }
 
-    if (typeof(query) !== 'string' || query === '') {
-
-        numberOfDeletedNotes = 0;
-    }
-
-    if (query === '*') {
-        numberOfDeletedNotes = phoneBook.length;
-        phoneBook = [];
-    } else {
-
-        phoneBook.forEach(isNoteMatchQuery);
-        numberOfDeletedNotes = indexesOfFindedNotes.length;
-        deleteNotes();
+    if (typeof(query) === 'string') {
+        query = query.trim();
+        if (query === '*') {
+            numberOfDeletedNotes = phoneBook.length;
+            phoneBook = phoneBook.splice(0, numberOfDeletedNotes);
+        } else if (query === '') {
+            numberOfDeletedNotes = 0;
+        } else {
+            query = query.toLowerCase();
+            phoneBook.forEach(isNoteMatchQuery);
+            numberOfDeletedNotes = indexesOfFindedNotes.length;
+            deleteNotes();
+        }
     }
 
     return numberOfDeletedNotes;
@@ -289,6 +226,7 @@ exports.find = function (query) {
             if (value === undefined) {
                 continue;
             }
+            value = value.toLowerCase();
             if (value.indexOf(query) !== -1) {
 
                 return true;
@@ -302,10 +240,17 @@ exports.find = function (query) {
     if (typeof(query) === 'number') {
         query = query.toString();
     }
-    if (query === '*') {
-        arrayOfFindedNotes = phoneBook.slice();
-    } else if (typeof(query) === 'string' && query !== '') {
-        arrayOfFindedNotes = phoneBook.filter(isNoteMatchQuery);
+
+    if (typeof(query) === 'string') {
+        query = query.trim();
+        if (query === '*') {
+            arrayOfFindedNotes = phoneBook.slice();
+        } else if (query === '') {
+            arrayOfFindedNotes = [];
+        } else {
+            query = query.toLowerCase();
+            arrayOfFindedNotes = phoneBook.filter(isNoteMatchQuery);
+        }
     }
 
     return createResultStringArray(arrayOfFindedNotes);
