@@ -19,6 +19,7 @@ function correctData(value) {
 
 function correctNumber(phone) {
     var phoneReg = /^[0-9]{10}$/;
+
     return phone !== undefined && (phone.search(phoneReg) !== -1);
 }
 
@@ -54,7 +55,7 @@ exports.add = function(phone, name, email) {
     }
 
     return false;
-}
+};
 
 function traverseNoteAndFind(phone) {
     for (var i = 0; i < phoneBook.length; i++) {
@@ -74,7 +75,7 @@ function traverseNoteAndFind(phone) {
  * @param {String} email
  * @returns {Bool} – успех или не успех операции
  */
-exports.update = function(phone, name, email) {
+exports.update = function (phone, name, email) {
     if (correctNumber(phone) && correctData(name)) {
         var probableUpdate = traverseNoteAndFind(phone);
         if (probableUpdate !== false) {
@@ -95,14 +96,16 @@ exports.update = function(phone, name, email) {
  * @param {String} query
  * @returns {Number} – кол-во удалённых записей
  */
-exports.findAndRemove = function(query) {
+exports.findAndRemove = function (query) {
     var deleteCounter = 0;
     if (correctData(query)) {
-        var refreshedBook = phoneBook.filter(function(element) {
+        var refreshedBook = phoneBook.filter(function (element) {
             if (query === '*') {
+
                 return [];
             }
             var realEmail = emailSugar(element.email);
+
             return (element.phone.indexOf(query) === -1 && 
                 element.name.indexOf(query) === -1 && 
                 realEmail.indexOf(query) === -1);
@@ -138,10 +141,10 @@ function emailSugar(email) {
  * @param {String} query
  * @returns {Number} – записи, удовлетворяющие условию
  */
-exports.find = function(query) {
+exports.find = function (query) {
     if (correctData(query)) {
 
-        return phoneBook.filter(function(element) {
+        return phoneBook.filter(function (element) {
             if (query === '*') {
                 return element;
             }
@@ -149,11 +152,11 @@ exports.find = function(query) {
             return element.phone.indexOf(query) >= 0 || element.name.indexOf(query) >= 0 ||
                 (correctData(element.email) && element.email.indexOf(query) >= 0);
         })
-        .sort(function(first, second) {
+        .sort(function (first, second) {
 
             return first.name > second.name;
         })
-        .map(function(element) {
+        .map(function (element) {
             var realEmail = emailSugar(element.email);
 
             return element.name + ', ' + comfortFormat(element.phone) + realEmail;
@@ -170,7 +173,7 @@ exports.find = function(query) {
  * @param {String} csv
  * @returns {Number} – количество добавленных и обновленных записей
  */
-exports.importFromCsv = function(csv) {
+exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
