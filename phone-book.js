@@ -56,9 +56,9 @@ function getRecord(phone) {
 
 function checkMatch(record, query) {
     var phoneMatch = record.phone.indexOf(query) !== -1;
-    var nameMatch = record.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    var nameMatch = record.name.indexOf(query) !== -1;
     var emailMatch = record.email === null
-    ? false : record.email.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    ? false : record.email.indexOf(query) !== -1;
 
     return phoneMatch || nameMatch || emailMatch;
 }
@@ -188,7 +188,7 @@ exports.importFromCsv = function (csv) {
     var amount = 0;
     csv.split('\n').forEach(function (item) {
         var items = item.split(';');
-        if (items.length < 3 || items.length > 3) {
+        if (items.length < 2 || items.length > 3) {
             return;
         }
         var name = items[0];
