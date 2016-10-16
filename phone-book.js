@@ -99,7 +99,9 @@ exports.update = function (phone, name, email) {
     }
     var record = getRecord(phone);
     if (record === null) {
-        return false;
+        exports.add(phone, name, email);
+
+        return true;
     }
     record.name = String(name);
     record.email = typeof(email) === 'undefined' ? null : String(email);
