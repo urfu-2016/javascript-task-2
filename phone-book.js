@@ -11,29 +11,18 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
-
 function isValidEmail(email) {
-    var emailMatch = email.match(/^\S+@\S+\.\S+$/);
-
-    return !(emailMatch === null && email !== '');
+    return /^\S+@\S+\.\S+$/.test(email) || email === undefined;
 }
 
 function isValidPhone(phone) {
-    var phoneMatch = phone.match(/^\d{10}$/);
-
-    return phoneMatch !== null;
+    return /^\d{10}$/.test(phone);
 }
 
 function areValid(phone, name, email) {
-    return !(typeof phone !== 'string' || typeof name !== 'string' ||
-        typeof email !== 'string' ||
-        !isValidPhone(phone) || name === '' || !isValidEmail(email));
+    return typeof phone === 'string' && typeof name === 'string' &&
+        (typeof email === 'string' && isValidEmail(email) || email === undefined) ||
+        isValidPhone(phone) && name !== '';
 }
 
 function equals(recordFirst, recordSecond) {
@@ -60,17 +49,17 @@ function createRecord(phone, name, email) {
     return record;
 }
 
-
+/**
+ * Добавление записи в телефонную книгу
+ * @param {String} phone
+ * @param {String} name
+ * @param {String} email
+ */
 function add(phone, name, email) {
-    if (email === '') {
-        return false;
-    }
-    if (email === undefined) {
-        email = '';
-    }
     if (!areValid(phone, name, email)) {
         return false;
     }
+    email = (email === undefined) ? '' : email;
     if (indexOf(phone, name, email) !== -1) {
         return false;
     }
@@ -85,7 +74,6 @@ function add(phone, name, email) {
  * @param {String} name
  * @param {String} email
  */
-
 function update(phone, name, email) {
     if (email === '') {
         return false;
