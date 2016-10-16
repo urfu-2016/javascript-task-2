@@ -67,6 +67,12 @@ exports.findAndRemove = function (query) {
         return 0;
     }
     var count = 0;
+    if (query === '*') {
+        count = phoneBook.length;
+        phoneBook = [];
+
+        return count;
+    }
     var indexSearchRes = findSome(query);
     for (var i = indexSearchRes.length - 1; i > -1; i--) {
         phoneBook.splice(indexSearchRes[i], 1);
