@@ -31,7 +31,7 @@ function isCorrect(phone, name, email) {
     var isCorrectPhone = isString(phone);
     var isCorrectName = isString(name) && name !== '';
     var isCorrectEmail = (isString(email) && email.indexOf('@') !== -1) || isUndefined(email);
-    var isCorrectForm = correctPhone.test(phone);
+    var isCorrectForm = correctPhone.test(phone) && phone.length === 10;
 
     return isCorrectPhone && isCorrectForm && isCorrectName && isCorrectEmail;
 }
