@@ -56,11 +56,15 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var removeArray = findPhoneNumbers(query);
-    Object.keys(phoneBook).forEach(function (key) {
-        delete phoneBook[key];
-    });
+    var removedRecordsCount = 0;
+    for (var key in removeArray) {
+        if (removeArray.hasOwnProperty(key)) {
+            removedRecordsCount++;
+            delete phoneBook[key];
+        }
+    }
 
-    return removeArray.length;
+    return removedRecordsCount;
 };
 
 /**
@@ -94,9 +98,9 @@ exports.importFromCsv = function (csv) {
 
     recordsString.forEach(function (item) {
         var record = item.split(';');
-        if (exports.add(record[0], record[1], record[2])) {
+        if (exports.add(record[1], record[0], record[2])) {
             addOrUpdatesCount++;
-        } else if (exports.update(record[0], record[1], record[2])) {
+        } else if (exports.update(record[1], record[0], record[2])) {
             addOrUpdatesCount++;
         }
     });
