@@ -34,7 +34,7 @@ Contact.sortFunction = function (a, b) {
         return 1;
     }
 
-    return 1;
+    return 0;
 };
 
 Object.defineProperty(Contact.prototype, 'phone', {
