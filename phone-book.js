@@ -148,6 +148,14 @@ function parseCsv(record) {
     return result;
 }
 
+function addOrUpdate(record) {
+    if (!phoneBook[record.Phone]) {
+        return exports.add(record.Phone, record.Name, record.Email);
+    }
+
+    return exports.update(record.Phone, record.Name, record.Email);
+}
+
 /**
  * Импорт записей из csv-формата
  * @star
@@ -164,9 +172,7 @@ exports.importFromCsv = function (csv) {
         if (!record) {
             continue;
         }
-        var success = exports.add(record.Phone, record.Name, record.Email);
-        success = !success ? exports.update(record.Phone, record.Name, record.Email) : success;
-        if (success) {
+        if (addOrUpdate(record)) {
             countAdded++;
         }
     }
