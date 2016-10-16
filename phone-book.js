@@ -30,12 +30,10 @@ Contact.prototype.toString = function () {
     var $this = this;
 
     return Contact.strFormat
-        .filter(function (prop) {
-            return $this[prop] !== undefined;
-        })
         .map(function (prop) {
             return $this[prop];
         })
+        .filter(Boolean)
         .join(', ');
 };
 
@@ -43,11 +41,7 @@ var phoneBook = {};
 
 var placeContact = function (phone, name, email) {
     if (!phone || !name) {
-        if (!phoneBook[phone]) {
-            return false;
-        }
-
-        name = phoneBook[phone].name;
+        return false;
     }
 
     try {
@@ -85,9 +79,7 @@ var findContacts = function (query) {
                     .map(function (prop) {
                         return contact[prop];
                     })
-                    .filter(function (propValue) {
-                        return propValue !== undefined;
-                    })
+                    .filter(Boolean)
                     .some(function (propValue) {
                         return propValue.indexOf(query) !== -1;
                     });
