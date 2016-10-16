@@ -24,13 +24,13 @@ function checkDefinition(name) {
     return typeof(name) !== 'undefined';
 }
 
+function checkString(name) {
+    return typeof(name) === 'string' && name.length !== 0;
+}
+
 function checkPhoneAndName(phone, name) {
-    if (checkDefinition(phone)) {
-
-        return checkPhone(phone) && checkDefinition(name) && name.length !== 0;
-    }
-
-    return false;
+    return checkDefinition(phone) && checkPhone(phone) && checkDefinition(name) &&
+        checkString(name);
 }
 
 /**
@@ -42,9 +42,9 @@ function checkPhoneAndName(phone, name) {
  */
 exports.add = function (phone, name, email) {
     if (checkPhoneAndName(phone, name)) {
-        if (checkDefinition(email) && email.length !== 0) {
+        if (checkDefinition(email) && checkString(email)) {
             phoneBook[phone] = { 'name': name, 'email': email };
-        } else if (typeof (email) === 'undefined' || email.length === 0) {
+        } else if (!checkDefinition(email)) {
             phoneBook[phone] = { 'name': name };
         }
 
