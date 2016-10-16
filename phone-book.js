@@ -55,7 +55,7 @@ function isCorrectType(phone, name, email) {
 
         return false;
     }
-    if (email !== undefined && typeof(email) !== 'string') {
+    if (email !== undefined && typeof(email) !== 'string' || !name.match(/^[a-zA-Zа-яА-Я]+$/g)) {
 
         return false;
     }
@@ -85,7 +85,7 @@ function isSameEntries(phone, email) {
  * @returns {Boolean} Entry was updated or no.
  */
 exports.update = function (phone, name, email) {
-    if (!isCorrectData(phone, name)) {
+    if (!isCorrectData(phone, name) || !isCorrectType(phone, name, email)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
