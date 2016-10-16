@@ -43,7 +43,7 @@ function checkExistPhone(phone) {
 
 exports.update = function (phone, name, email) {
     if (!validPhoneAndName(phone, name)) {
-        
+
         return false;
     }
     if (checkExistPhone(phone) !== false) {
