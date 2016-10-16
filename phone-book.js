@@ -173,7 +173,7 @@ exports.find = function (query) {
         });
     }
 
-    return '';
+    return [];
 
 };
 
