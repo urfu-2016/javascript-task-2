@@ -7,7 +7,7 @@
 exports.isStar = true;
 
 function checkPhone(phone) {
-    var re = /\d{10}/;
+    var re = /^\d{10}$/;
 
     return re.test(phone);
 }
