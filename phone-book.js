@@ -122,12 +122,12 @@ exports.findAndRemove = function (query) {
         return length;
     }
     var removed = 0;
-    phoneBook.forEach(function (record, key) {
-        if (checkMatch(record, query)) {
+    for (var i = phoneBook.length - 1; i >= 0; i--) {
+        if (checkMatch(phoneBook[i], query)) {
             removed += 1;
-            phoneBook.splice(key, 1);
+            phoneBook.splice(i, 1);
         }
-    });
+    }
 
     return removed;
 };
