@@ -27,9 +27,6 @@ function validatePhone(phone) {
 function validateEmail(email) {
     if (typeof(email) !== 'undefined') {
         validateString(email);
-        if (email.split('@').length !== 2) {
-            throw new TypeError();
-        }
     }
 }
 
@@ -188,6 +185,9 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
+    if (typeof(csv) !== 'string') {
+        return 0;
+    }
     var amount = 0;
     csv.split('\n').forEach(function (item) {
         var items = item.split(';');
