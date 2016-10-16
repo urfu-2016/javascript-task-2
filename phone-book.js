@@ -30,11 +30,9 @@ var Record = function (phone, name, email) {
  */
 exports.add = function (phone, name, email) {
     var rec = new Record(phone, name, email);
-
     if (!isValidParametrs(rec.phone, rec.name, rec.email) || isRecordExist(rec.phone)) {
         return false;
     }
-
     phoneBook[phone] = rec;
 
     return true;
@@ -52,7 +50,6 @@ exports.update = function (phone, name, email) {
     if (!isValidParametrs(rec.phone, rec.name, rec.email) || !isRecordExist(rec.phone)) {
         return false;
     }
-
     phoneBook[phone].update(rec);
 
     return true;
