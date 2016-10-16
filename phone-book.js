@@ -49,7 +49,7 @@ exports.update = function (phone, name, email) {
     if (checkExistPhone(phone)) {
         phoneBook[checkExistPhone(phone)].phone = phone;
         phoneBook[checkExistPhone(phone)].name = name;
-        if (email === undefined) {
+        if (typeof(email) !== 'string') {
             email = '';
         }
         phoneBook[checkExistPhone(phone)].email = email;
@@ -62,7 +62,7 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
-    if (query === undefined || query === '') {
+    if (typeof(query) !== 'string' || query === '') {
 
         return 0;
     }
@@ -85,13 +85,9 @@ exports.find = function (query) {
 
         return output;
     }
-    if (query === '' || typeof query !== 'string') {
+    if (query === '' || typeof(query) !== 'string') {
 
         return [];
-    }
-    if (query === undefined) {
-
-        return false;
     }
     var indexSearchRes = findSome(query);
     var searchRes = [];
@@ -142,6 +138,10 @@ function sortObj(objA, objB) {
 }
 
 exports.importFromCsv = function (csv) {
+    if (typeof(csv) !== 'string') {
+
+        return 0;
+    }
     var newNote = csv.split('\n');
     var countImport = 0;
     var notes = [];
