@@ -92,7 +92,6 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {Array} array contains found strings
  */
 exports.find = function (query) {
     function search(elem) {
@@ -122,7 +121,9 @@ exports.find = function (query) {
         var num = '+7 (' + n.phone.slice(0, -7) + ') ' + n.phone.slice(3, -4) + '-';
         num += n.phone.slice(6, -2) + '-' + n.phone.slice(8);
         if (n.email !== undefined) {
+
             return prev.concat(n.name + ' ' + n.email + ' ' + num || []);
+        }
 
         return prev.concat(n.name + ' ' + num || []);
     }
@@ -135,7 +136,7 @@ exports.find = function (query) {
     }
 
     return undefined;
-}}
+};
 
 /**
  * Импорт записей из csv-формата
@@ -215,13 +216,14 @@ function isDuplicated(phone) {
 
 /**
  * @param {String} phone
- * @return {Boolean} is found phone
+ * @return {Boolean} isFound
  */
 function mySearch(phone) {
     function searsh(item) {
 
         return item.phone === phone;
     }
+    var isFound = phoneBook.some(searsh);
 
-    return phoneBook.some(searsh);
+    return isFound;
 }
