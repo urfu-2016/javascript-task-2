@@ -11,7 +11,7 @@ var Contact = function (phone, name, email) {
 
 Contact.strFormat = ['name', 'phone', 'email'];
 
-Contact.phoneFormat = new RegExp(/\d{10}/);
+Contact.phoneFormat = new RegExp(/^\d{10}$/);
 Contact.formattedPhone = function (phone) {
     if (!Contact.phoneFormat.test(phone)) {
         throw new TypeError('Wrong phone format');
@@ -43,8 +43,7 @@ Object.defineProperty(Contact.prototype, 'phone', {
     },
     set: function (phone) {
         this._phone = Contact.formattedPhone(phone);
-    },
-    enumerable: true
+    }
 });
 
 Contact.prototype.toString = function () {
@@ -63,6 +62,10 @@ Contact.prototype.toString = function () {
 var phoneBook = {};
 
 var placeContact = function (phone, name, email) {
+    if (!phone || !name) {
+        return false;
+    }
+
     try {
         phoneBook[phone] = new Contact(phone, name, email);
     } catch (e) {
@@ -77,7 +80,7 @@ var placeContact = function (phone, name, email) {
 };
 
 var add = function (phone, name, email) {
-    if (phone === undefined || name === undefined) {
+    if (!phone || !name) {
         return false;
     }
 
@@ -89,7 +92,7 @@ var add = function (phone, name, email) {
 };
 
 var update = function (phone, name, email) {
-    if (phone === undefined || name === undefined) {
+    if (!phone || !name) {
         return false;
     }
 
@@ -101,7 +104,7 @@ var update = function (phone, name, email) {
 };
 
 var findContacts = function (query) {
-    if (query === '') {
+    if (!query) {
         return [];
     }
 
@@ -150,10 +153,6 @@ var importFromCsv = function (csv) {
         .split('\n')
         .reduce(function (count, contact) {
             var data = contact.split(';');
-            if (!data[0] || !data[1]) {
-                return count;
-            }
-
             var success = placeContact(data[1], data[0], data[2]);
 
             return success ? count + 1 : count;
