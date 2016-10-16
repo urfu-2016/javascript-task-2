@@ -173,10 +173,17 @@ exports.findAndRemove = function (query) {
         }
     }
 
-    if (typeof(query) === 'number') {
-        query = query.toString();
+
+    function numberToString() {
+        if (typeof(query) === 'number') {
+            query = query.toString();
+        }
+
+        return;
     }
 
+
+    numberToString();
     if (typeof(query) === 'string') {
         query = query.trim();
         if (query === '*') {
@@ -245,9 +252,15 @@ exports.find = function (query) {
     }
 
 
-    if (typeof(query) === 'number') {
-        query = query.toString();
+    function numberToString() {
+        if (typeof(query) === 'number') {
+            query = query.toString();
+        }
+
+        return;
     }
+
+    numberToString();
 
     if (typeof(query) === 'string') {
         query = query.trim();
