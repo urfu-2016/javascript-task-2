@@ -166,7 +166,7 @@ exports.findAndRemove = function (query) {
                 continue;
             }
             value = value.toLowerCase();
-            if (value.indexOf(query) !== -1) {
+            if (value.indexOf(query.toLowerCase()) !== -1) {
                 indexesOfFindedNotes.push(index);
                 break;
             }
@@ -192,7 +192,6 @@ exports.findAndRemove = function (query) {
         } else if (query === '') {
             numberOfDeletedNotes = 0;
         } else {
-            query = query.toLowerCase();
             phoneBook.forEach(isNoteMatchQuery);
             numberOfDeletedNotes = indexesOfFindedNotes.length;
             deleteNotes(indexesOfFindedNotes);
@@ -242,7 +241,7 @@ exports.find = function (query) {
                 continue;
             }
             value = value.toLowerCase();
-            if (value.indexOf(query) !== -1) {
+            if (value.indexOf(query.toLowerCase()) !== -1) {
 
                 return true;
             }
@@ -269,7 +268,6 @@ exports.find = function (query) {
         } else if (query === '') {
             arrayOfFindedNotes = [];
         } else {
-            query = query.toLowerCase();
             arrayOfFindedNotes = phoneBook.filter(isNoteMatchQuery);
         }
     }
