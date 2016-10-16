@@ -11,7 +11,7 @@ exports.isStar = true;
  */
 var phoneBook = {};
 
-function formatNumber (numberString) {
+function formatNumber(numberString) {
     var result = '+7';
     result += ' (';
     result += numberString.substring(0, 3);
@@ -40,13 +40,13 @@ function entryToString (entry) {
 
 }
 
-function formatContact (entry) {
+function formatContact(entry) {
     var result = '';
     result += entry[0];
     result += ', ';
     result += formatNumber(entry[1]);
     if (entry.length === 3) {
-        result += ', '
+        result += ', ';
         result += entry[2];
     }
 
@@ -54,10 +54,21 @@ function formatContact (entry) {
 
 }
 
-function querySearch (query) {
+function scanContact(query, contact) {
+    var found = false;
+    for (var i = 0; i < contact.length; i++) {
+        found = contact[i].includes(query) || found;
+    }
+
+    return found;
+
+}
+
+function querySearch(query) {
     var all = query === '*';
     var nothing = (query.trim() === '') || (typeof(query) !== 'string');
     var result = [];
+    var found = false;
 
     if (nothing) {
         return result;
@@ -65,17 +76,23 @@ function querySearch (query) {
 
     var keys = Object.keys(phoneBook);
     for (var i = 0; i < keys.length; i++) {
-        for (var j = 0; j < phoneBook[keys[i]].length; j++) {
-            var found = (phoneBook[keys[i]][j].indexOf(query) >= 0);
-            if (all || found) {
-                result.push(phoneBook[keys[i]]);
-                break;
-            }
+        found = scanContact(query, phoneBook[keys[i]]);
+        if (all || found) {
+            result.push(phoneBook[keys[i]]);
         }
     }
 
     return result;
 
+}
+
+function index(element, array) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === element) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 
@@ -125,7 +142,8 @@ exports.update = function (phone, name, email) {
 
     var nameCheck = (typeof(name) === 'string') && (name.trim() !== '');
     var entryCheck = Object.keys(phoneBook).indexOf(phone) >= 0;
-    var emailRemove = (typeof(email) === 'string' && email.trim() === '') || typeof(email) === 'undefined';
+    var emailRemove = ((typeof(email) === 'string' && email.trim() === '') ||
+                        typeof(email) === 'undefined');
 
     if (!entryCheck || !nameCheck) {
         return false;
@@ -139,10 +157,8 @@ exports.update = function (phone, name, email) {
         } else {
         phoneBook[phone][2] = email;
         }
-    } else {
-        if (!emailRemove) {
-            phoneBook[phone].push(email);
-        }
+    } else if (!emailRemove) {
+        phoneBook[phone].push(email);
     }
 
     return true;
@@ -155,21 +171,18 @@ exports.update = function (phone, name, email) {
  * @returns {boolean} success
  */
 exports.findAndRemove = function (query) {
-    var foundEntries = querySearch(query);
+    var found = querySearch(query);
     var keys = Object.keys(phoneBook);
     var result = 0;
     var newPhoneBook = {};
 
-    for (var i = 0; i < foundEntries.length; i++){
-        for (var j = 0; j < keys.length; j++) {
-            if (keys[j] === foundEntries[i][1]) {
-                keys.splice(j, 1);
-                result++;
-            }
-        }
+    for (var i = 0; i < found.length; i++) {
+        keys.splice(index(found[i][1], keys), 1);
+        result++;
     }
-    for (var j = 0; j < keys.length; j++) {
-        newPhoneBook[keys[j]] = phoneBook[keys[j]];
+
+    for (var k = 0; k < keys.length; k++) {
+        newPhoneBook[keys[k]] = phoneBook[keys[k]];
     }
 
     phoneBook = newPhoneBook;
@@ -186,17 +199,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var foundEntries = querySearch(query);
 
-    foundEntries.sort(
-        function (entryA, entryB) {
-            if(entryA[0] < entryB[0]){
-                return -1;
-            } else if (entryA[0] === entryB[0]) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
-    );
+    foundEntries.sort(entrySort);
 
     var result = [];
     for (var k = 0; k < foundEntries.length; k++) {
@@ -206,6 +209,15 @@ exports.find = function (query) {
     return result;
 
 };
+
+function entrySort(entryA, entryB) {
+    if (entryA[0] < entryB[0]) {
+        return -1;
+    } else if (entryA[0] > entryB[0]) {
+        return 1;
+    }
+    return 0;
+}
 
 /**
  * Импорт записей из csv-формата
@@ -219,21 +231,23 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
     var entries = csv.split('\n');
     var result = 0;
+    var updated = false;
+    var added = false;
 
     for (var i = 0; i < entries.length; i++) {
         var parsedContact = entries[i].split(';');
         if (parsedContact.length === 2) {
-            var added = exports.add(parsedContact[1], parsedContact[0]);
-            var updated = exports.update(parsedContact[1], parsedContact[0]);
+            added = exports.add(parsedContact[1], parsedContact[0]);
+            updated = exports.update(parsedContact[1], parsedContact[0]);
         }
 
         if (parsedContact.length === 3) {
-            var added = exports.add(parsedContact[1], parsedContact[0], parsedContact[2]);
-            var updated = exports.update(parsedContact[1], parsedContact[0], parsedContact[2]);
+            added = exports.add(parsedContact[1], parsedContact[0], parsedContact[2]);
+            updated = exports.update(parsedContact[1], parsedContact[0], parsedContact[2]);
         }
 
-        if(added || updated) {
-                result++;
+        if (added || updated) {
+            result++;
         }
     }
 
