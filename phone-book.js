@@ -190,9 +190,9 @@ exports.importFromCsv = function (csv) {
         if (items.length < 2) {
             return;
         }
-        var name = item[0];
-        var phone = item[1];
-        var email = item[3];
+        var name = items[0];
+        var phone = items[1];
+        var email = items[3];
         if (!exports.add(phone, name, email)) {
             if (exports.update(phone, name, email)) {
                 amount += 1;
