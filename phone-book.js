@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function validateString(string) {
-    if (typeof(string) !== 'string' || string.length > 0) {
+    if (typeof(string) !== 'string' || string.length === 0) {
         throw new TypeError();
     }
 }
