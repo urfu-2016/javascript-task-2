@@ -37,7 +37,8 @@ function isAddingPossible(row) {
 function isInputCorrect(row) {
     var isPhoneFormatCorrect = /^\d{10}$/.test(row.phone);
     var isNameCorrect = typeof row.name === 'string' && row.name.trim() !== '';
-    var isEmailCorrect = row.email === undefined || typeof row.email === 'string';
+    var isEmailCorrect = row.email === undefined || typeof row.email === 'string' ||
+        row.email.trim() !== '';
 
     return isPhoneFormatCorrect && isNameCorrect && isEmailCorrect;
 }
