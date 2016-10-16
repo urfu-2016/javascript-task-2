@@ -108,15 +108,6 @@ function normalize(phone) {
     return newPhone;
 }
 
-function reverseStr(str) {
-    var newStr = '';
-    for (var i = str.length - 1; i >= 0; i--) {
-        newStr += str.charAt(i);
-    }
-
-    return newStr;
-}
-
 function findContact(query) {
     var result = [];
     var removeIndex = 0;
