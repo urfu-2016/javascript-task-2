@@ -20,11 +20,11 @@ var phoneBook = [];
  */
 exports.add = function (phone, name, email) {
 
-    if (!isCorrectType(phone, name, email) || !isCorrectData(phone, name) || email === null) {
+    if (!isCorrectType(phone, name, email) || !isNotEmpty(phone, name, email) || email === null) {
 
         return false;
     }
-    if (isSameEntries(phone, email)) {
+    if (isSameEntries(phone, email) || !isCorrectData(phone, name)) {
 
         return false;
     }
@@ -55,7 +55,20 @@ function isCorrectType(phone, name, email) {
 
         return false;
     }
-    if (email !== undefined && typeof(email) !== 'string') {
+    if (email !== undefined && (typeof(email) !== 'string')) {
+
+        return false;
+    }
+
+    return true;
+}
+
+function isNotEmpty(phone, name, email) {
+    if (phone.replace(/^\s+/, "").length === 0 || name.replace(/^\s+/, "").length === 0) {
+
+        return false;
+    }
+    if (email !== undefined && email.replace(/^\s+/, "").length === 0) {
 
         return false;
     }
@@ -85,7 +98,10 @@ function isSameEntries(phone, email) {
  * @returns {Boolean} Entry was updated or no.
  */
 exports.update = function (phone, name, email) {
-    if (!isCorrectData(phone, name) || !isCorrectType(phone, name, email)) {
+    if (!isNotEmpty(phone, name, email)) {
+        return false;
+    }
+    if (!isCorrectType(phone, name, email) || !isCorrectData(phone, name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -108,6 +124,12 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var counter = 0;
     var entries = entriesToString();
+    if (typeof(query) !== 'string') {
+        return 0;
+    }
+    if (query === '*') {
+        query = ' ';
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         if (entries[i].indexOf(query) !== -1 && query !== '') {
             entries.splice(i, 1);
@@ -130,6 +152,9 @@ exports.find = function (query) {
     var entries = entriesToString();
     if (query === '*') {
         return allEntries();
+    }
+    if (typeof(query) !== 'string') {
+        return [];
     }
     for (var i = 0; i < entries.length; i++) {
         if (entries[i].indexOf(query) !== -1 && query !== '') {
@@ -202,6 +227,9 @@ exports.importFromCsv = function (csv) {
     var counter = pCSV.length;
     for (var i = 0; i < pCSV.length; i++) {
         pCSV[i] = pCSV[i].split(';');
+        if (!isNotEmpty(pCSV[i][1], pCSV[i][0], pCSV[i][2])) {
+            counter--;
+        }
         if (!isCorrectData(pCSV[i][1], pCSV[i][0]) || pCSV[i].length > 3) {
             counter--;
         } else if (!isEntryExist(pCSV[i])) {
