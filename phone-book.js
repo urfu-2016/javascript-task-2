@@ -26,20 +26,6 @@ function formatNumber(numberString) {
 
 }
 
-function entryToString (entry) {
-    var result = '';
-    result += entry[0];
-    result += ', ';
-    result += entry[1];
-    if (entry.length === 3){
-        result += ', ';
-        result += entry[2];
-    }
-
-    return result;
-
-}
-
 function formatContact(entry) {
     var result = '';
     result += entry[0];
@@ -92,6 +78,7 @@ function index(element, array) {
             return i;
         }
     }
+
     return -1;
 }
 
@@ -155,7 +142,7 @@ exports.update = function (phone, name, email) {
         if (emailRemove) {
             phoneBook[phone].pop();
         } else {
-        phoneBook[phone][2] = email;
+            phoneBook[phone][2] = email;
         }
     } else if (!emailRemove) {
         phoneBook[phone].push(email);
@@ -216,6 +203,7 @@ function entrySort(entryA, entryB) {
     } else if (entryA[0] > entryB[0]) {
         return 1;
     }
+
     return 0;
 }
 
