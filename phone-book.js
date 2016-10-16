@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} Entry was added or no.
  */
 exports.add = function (phone, name, email) {
-    if (!isCorrectData(phone, name, email) || isSameEntries(phone, email)) {
+    if (!isCorrectData(phone, name) || isSameEntries(phone, email)) {
         return false;
     }
     if (email === undefined) {
@@ -34,15 +34,11 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function isCorrectData(phone, name, email) {
-    if (name === undefined || phone.match(/\d/g).length !== 10) {
+function isCorrectData(phone, name) {
+    if (name === undefined || !name.match(/^[a-zA-Zа-яА-Я]+$/g)) {
         return false;
     }
-    if (name.match(/\w/g)) {
-        return false;
-    }
-    if (email !== undefined && (email.indexOf('@') === -1 || email.indexOf('.') === -1)) {
-
+    if (phone.match(/\d/g).length !== 10) {
         return false;
     }
 
@@ -67,7 +63,7 @@ function isSameEntries(phone, email) {
  * @returns {Boolean} Entry was updated or no.
  */
 exports.update = function (phone, name, email) {
-    if (!isCorrectData(phone, name, email)) {
+    if (!isCorrectData(phone, name)) {
         return false;
     }
     if (email === undefined) {
@@ -187,7 +183,7 @@ exports.importFromCsv = function (csv) {
     var counter = pCSV.length;
     for (var i = 0; i < pCSV.length; i++) {
         pCSV[i] = pCSV[i].split(';');
-        if (!isCorrectData(pCSV[i][1], pCSV[i][0], pCSV[i][2]) || pCSV[i].length > 3) {
+        if (!isCorrectData(pCSV[i][1], pCSV[i][0]) || pCSV[i].length > 3) {
             counter--;
         } else if (!isEntryExist(pCSV[i])) {
             phoneBook.push({
