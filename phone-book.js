@@ -33,7 +33,7 @@ function checkDefinition(name) {
 function checkPhoneAndName(phone, name) {
     if (checkDefinition(phone)) {
 
-        return checkPhone(phone) && checkDefinition(name);
+        return checkPhone(phone) && checkDefinition(name) && name !== '';
     }
 
     return false;
@@ -51,7 +51,7 @@ exports.add = function (phone, name, email) {
         if (checkDefinition(email)) {
             phoneBook[phone] = { 'name': name, 'email': email };
         } else {
-            phoneBook[phone] = { 'name': name, 'email': email };
+            phoneBook[phone] = { 'name': name };
         }
 
         return true;
