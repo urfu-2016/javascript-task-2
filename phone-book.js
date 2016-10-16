@@ -24,6 +24,9 @@ exports.add = function (phone, name, email) {
 
     function isInputCorrect() {
         function phoneIsCorrect() {
+            if (typeof(phone) === 'number') {
+                phone = phone.toString();
+            }
 
             if (typeof(phone) === 'string') {
                 phone = phone.trim();
@@ -119,6 +122,9 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     function isInputCorrect() {
         function phoneIsCorrect() {
+            if (typeof(phone) === 'number') {
+                phone = phone.toString();
+            }
 
             if (typeof(phone) === 'string') {
                 phone = phone.trim();
@@ -231,6 +237,9 @@ exports.findAndRemove = function (query) {
         }
     }
 
+    if (typeof(query) === 'number') {
+        query = query.toString();
+    }
 
     if (typeof(query) !== 'string' || query === '') {
 
@@ -298,6 +307,10 @@ exports.find = function (query) {
         return false;
     }
 
+
+    if (typeof(query) === 'number') {
+        query = query.toString();
+    }
     if (query === '*') {
         arrayOfFindedNotes = phoneBook.slice();
     } else if (typeof(query) === 'string' && query !== '') {
