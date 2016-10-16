@@ -132,7 +132,8 @@ function entriesToString() {
 function phoneToFormat(entry) {
     var phoneFormat;
     var p = entry.slice(0, 10);
-    phoneFormat = '+7 (' + p.slice(0, 3) + ') ' + p.slice(3, 6) + ' ' + p.slice(6, 8) + ' ' + p.slice(8, 10);
+    phoneFormat = '+7 (' + p.slice(0, 3) + ') ';
+    phoneFormat += p.slice(3, 6) + '-' + p.slice(6, 8) + '-' + p.slice(8, 10);
 
     return phoneFormat + entry.slice(10);
 }
