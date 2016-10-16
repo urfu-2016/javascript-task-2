@@ -68,7 +68,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone)) {
+    if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone) && name !== '') {
         checkTypeString(name);
         if (typeof(email) !== 'undefined') {
             checkTypeString(email);
@@ -107,10 +107,14 @@ function deleteNote(phone) {
  */
 exports.find = function (query) {
     var phones = findCorrect(query);
-    var contactsGoodForm = phones.map(makeCorrectFormat);
+    var contactsGoodForm = phones.sort(sortByName).map(makeCorrectFormat);
 
-    return contactsGoodForm.sort();
+    return contactsGoodForm;
 };
+
+function sortByName(phone1, phone2) {
+    return phoneBook[phone1].name.localeCompare(phoneBook[phone2].name);
+}
 
 function checkTypeString(query) {
     if (typeof (query) !== 'string') {
@@ -129,8 +133,6 @@ function findCorrect(query) {
 
         return keys;
     }
-
-    //  phoneBook.forEach(filterWithQuery(query));
     keys.forEach(function (key) {
         if (phoneBook[key].name.indexOf(query) !== -1 || key.indexOf(query) !== -1) {
             result.push(key);
@@ -176,7 +178,7 @@ exports.importFromCsv = function (csv) {
         if (phoneNote.length === 2) {
             mail = undefined;
         }
-        if ((exports.find(phoneNote[1])).length === 1) {
+        if (Object.keys(phoneBook).includes(phone)) {
             if (exports.update(phone, name, mail)) {
                 added++;
             }
