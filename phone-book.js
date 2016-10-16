@@ -121,7 +121,6 @@ exports.find = function (query) {
 };
 
 exports.importFromCsv = function (csv) {
-    
     return csv.split('\n').reduce(function (acc, item) {
         var args = item.split(';');
         var phone = args[1];
