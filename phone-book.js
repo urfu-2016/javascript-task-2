@@ -33,7 +33,7 @@ function checkDefinition(name) {
 function checkPhoneAndName(phone, name) {
     if (checkDefinition(phone)) {
 
-        return checkPhone(phone) && checkDefinition(name) && name !== '';
+        return checkPhone(phone) && checkDefinition(name) && name.length !== 0;
     }
 
     return false;
@@ -48,9 +48,9 @@ function checkPhoneAndName(phone, name) {
  */
 exports.add = function (phone, name, email) {
     if (checkPhoneAndName(phone, name)) {
-        if (checkDefinition(email)) {
+        if (checkDefinition(email) && email.length !== 0) {
             phoneBook[phone] = { 'name': name, 'email': email };
-        } else {
+        } else if (typeof (email) === 'undefined' || email.length === 0) {
             phoneBook[phone] = { 'name': name };
         }
 
@@ -68,7 +68,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone) && name !== '') {
+    if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone) && name.length !== 0) {
         checkTypeString(name);
         if (typeof(email) !== 'undefined') {
             checkTypeString(email);
@@ -90,10 +90,9 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var phones = findCorrect(query);
-    var prevLength = phones.length;
     phones.map(deleteNote);
 
-    return prevLength;
+    return phones.length;
 };
 
 function deleteNote(phone) {
@@ -152,7 +151,7 @@ function makeCorrectFormat(phone) {
     var newPhone = '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) +
         '-' + phone.slice(-2);
     var newNote = [name, newPhone];
-    if (email !== '' && typeof (email) === 'string') {
+    if (email.length !== 0 && typeof (email) === 'string') {
         newNote.push(email);
     }
 
