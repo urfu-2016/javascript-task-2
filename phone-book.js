@@ -16,7 +16,7 @@ var phoneBook = [];
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {boolean} Entry was added or no.
+ * @returns {Boolean} Entry was added or no.
  */
 exports.add = function (phone, name, email) {
     if (!isCorrectData(phone, name)) {
@@ -53,7 +53,7 @@ function isCorrectData(phone, name) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {boolean} Entry was updated or no.
+ * @returns {Boolean} Entry was updated or no.
  */
 exports.update = function (phone, name, email) {
     var i;
@@ -75,7 +75,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
- * @returns {number} The count of operations.
+ * @returns {Number} The count of operations.
  */
 exports.findAndRemove = function (query) {
     var i;
