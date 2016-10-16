@@ -55,7 +55,7 @@ function isCorrectType(phone, name, email) {
 
         return false;
     }
-    if (email !== undefined && typeof(email) !== 'string' || !name.match(/^[a-zA-Zа-яА-Я]+$/g)) {
+    if (email !== undefined && typeof(email) !== 'string') {
 
         return false;
     }
