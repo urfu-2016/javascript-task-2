@@ -56,7 +56,7 @@ function checkUniqueness(phone, name, email) {
  */
 
 exports.add = function (phone, name, email) {
-    if ((name === undefined) || (checkIfPhone(phone) === false)) {
+    if ((typeof name !== 'string') || (name === '') || (checkIfPhone(phone) === false)) {
 
         return false;
     }
