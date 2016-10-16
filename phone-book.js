@@ -16,6 +16,7 @@ var phoneBook = [];
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {boolean} Entry was added or no.
  */
 exports.add = function (phone, name, email) {
     if (!isCorrectData(phone, name)) {
@@ -52,6 +53,7 @@ function isCorrectData(phone, name) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {boolean} Entry was updated or no.
  */
 exports.update = function (phone, name, email) {
     var i;
@@ -62,6 +64,7 @@ exports.update = function (phone, name, email) {
         if (phone === phoneBook[i].phone) {
             phoneBook[i].name = name;
             phoneBook[i].email = email;
+
             return true;
         }
     }
@@ -72,6 +75,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {number} The count of operations.
  */
 exports.findAndRemove = function (query) {
     var i;
@@ -79,8 +83,8 @@ exports.findAndRemove = function (query) {
     var entries = entriesToString();
     for (i = 0; i < phoneBook.length; i++) {
         if (entries[i].indexOf(query) !== -1 && query !== '') {
-            entries.splice(i,1);
-            phoneBook.splice(i,1);
+            entries.splice(i, 1);
+            phoneBook.splice(i, 1);
             i--;
             counter++;
         }
@@ -92,6 +96,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} The result Array of Strings.
  */
 exports.find = function (query) {
     var result = [];
@@ -109,11 +114,11 @@ exports.find = function (query) {
     return result;
 };
 
- function entriesToString() {
+function entriesToString() {
     var result = [];
     var entry;
     var i;
-    for(i = 0; i < phoneBook.length; i++) {
+    for (i = 0; i < phoneBook.length; i++) {
         entry = phoneBook[i].phone + ' ' + phoneBook[i].name;
         if (phoneBook[i].email !== '' && phoneBook[i].email !== undefined) {
             entry += ' ' + phoneBook[i].email;
@@ -122,40 +127,41 @@ exports.find = function (query) {
     }
 
     return result;
- }
+}
 
- function phoneToFormat(entry) {
-     var phoneFormat;
-     var p = entry.slice(0,10);
-     phoneFormat = '+7 (' + p.slice(0,3) + ') ' + p.slice(3,6) + ' ' + p.slice(6,8) + ' ' +  p.slice(8,10);
+function phoneToFormat(entry) {
+    var phoneFormat;
+    var p = entry.slice(0, 10);
+    phoneFormat = '+7 (' + p.slice(0, 3) + ') ' + p.slice(3, 6) + ' ' + p.slice(6, 8) + ' ' + p.slice(8, 10);
 
-     return phoneFormat + entry.slice(10);
- }
+    return phoneFormat + entry.slice(10);
+}
 
- function allEntries() {
-     var i;
-     var result = [];
-     var entries = entriesToString();
-     for (i = 0; i < entries.length; i++) {
-         result.push(phoneToFormat(entries[i]));
-     }
+function allEntries() {
+    var i;
+    var result = [];
+    var entries = entriesToString();
+    for (i = 0; i < entries.length; i++) {
+        result.push(phoneToFormat(entries[i]));
+    }
 
-     return result;
- }
+    return result;
+}
 
- function isEntryExist(csvArray) {
-     var i;
-     for (i = 0; i < phoneBook.length; i++) {
-         if (csvArray[1] === phoneBook[i].phone) {
-             phoneBook[i].phone = csvArray[1];
-             phoneBook[i].name = csvArray[0];
-             phoneBook[i].email = csvArray[2];
-             return true;
-         }
-     }
+function isEntryExist(csvArray) {
+    var i;
+    for (i = 0; i < phoneBook.length; i++) {
+        if (csvArray[1] === phoneBook[i].phone) {
+            phoneBook[i].phone = csvArray[1];
+            phoneBook[i].name = csvArray[0];
+            phoneBook[i].email = csvArray[2];
 
-     return false;
- }
+            return true;
+        }
+    }
+
+    return false;
+}
 
 /**
  * Импорт записей из csv-формата
