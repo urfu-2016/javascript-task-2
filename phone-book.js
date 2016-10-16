@@ -24,7 +24,7 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-    if (isSameEntries(phone, email) || !isCorrectData(phone, name)) {
+    if (isSameEntries(phone, email) || !isCorrectData(phone, name) || arguments.length > 3) {
 
         return false;
     }
@@ -64,11 +64,11 @@ function isCorrectType(phone, name, email) {
 }
 
 function isNotEmpty(phone, name, email) {
-    if (phone.replace(/^\s+/, "").length === 0 || name.replace(/^\s+/, "").length === 0) {
+    if (phone.replace(/^\s+/, '').length === 0 || name.replace(/^\s+/, '').length === 0) {
 
         return false;
     }
-    if (email !== undefined && email.replace(/^\s+/, "").length === 0) {
+    if (email !== undefined && email.replace(/^\s+/, '').length === 0) {
 
         return false;
     }
