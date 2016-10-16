@@ -82,6 +82,23 @@ function index(element, array) {
     return -1;
 }
 
+function correctPhone(phone) {
+    return /^5{3}([0-9])\1{2}([0-9])\2{1}([0-9])\3{1}$/.test(phone);
+}
+
+function correctName(name) {
+    return (typeof(name) === 'string' && name.trim() !== '');
+}
+
+function contains(phone) {
+    var entries = Object.keys(phoneBook);
+    for (var i = 0; i < entries.length; i++) {
+        if (phone === entries[i]) {
+            return true;
+        }
+    }
+    return false;
+}
 
 /**
  * Добавление записи в телефонную книгу
@@ -91,17 +108,9 @@ function index(element, array) {
  * @returns {boolean} success
  */
 exports.add = function (phone, name, email) {
-    var checkPhone = /^5{3}([0-9])\1{2}([0-9])\2{1}([0-9])\3{1}$/.test(phone);
 
-    if (!checkPhone || typeof(name) !== 'string' || name.trim() === '') {
+    if (!(correctName(name) && correctPhone(phone)) || contains(phone)) {
         return false;
-    }
-
-    var entries = Object.keys(phoneBook);
-    for (var i = 0; i < entries.length; i++) {
-        if (phone === entries[i]) {
-            return false;
-        }
     }
 
     var blank = [];
@@ -127,8 +136,8 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
 
-    var nameCheck = (typeof(name) === 'string') && (name.trim() !== '');
-    var entryCheck = Object.keys(phoneBook).indexOf(phone) >= 0;
+    var nameCheck = correctName(name);
+    var entryCheck = contains(phone);
     var emailRemove = ((typeof(email) === 'string' && email.trim() === '') ||
                         typeof(email) === 'undefined');
 
@@ -136,17 +145,14 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    phoneBook[phone][0] = name;
-
-    if (phoneBook[phone].length === 3) {
-        if (emailRemove) {
-            phoneBook[phone].pop();
-        } else {
-            phoneBook[phone][2] = email;
-        }
-    } else if (!emailRemove) {
-        phoneBook[phone].push(email);
+    var blank = [];
+    blank.push(name);
+    blank.push(phone);
+    if (!emailRemove) {
+        blank.push(email);
     }
+
+    phoneBook[phone] = blank;
 
     return true;
 
