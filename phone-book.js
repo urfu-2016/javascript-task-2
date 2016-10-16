@@ -38,11 +38,22 @@ function valEmail(email) {
 
 function formatPhone(phone) {
 
-    var one = phone.slice(0, 3);
-    var two = phone.slice(3, 6);
-    var three = phone.slice(6, 8);
-    var four = phone.slice(8, 10);
-    var result = '+7 ' + '(' + one + ')' + ' ' + two + '-' + three + '-' + four;
+    var result = '+7 ({1}) {2}-{3}-{4}'
+    .replace('{1}', phone.slice(0, 3))
+    .replace('{2}', phone.slice(3, 6))
+    .replace('{3}', phone.slice(6, 8))
+    .replace('{4}', phone.slice(8, 10));
+
+    return result;
+
+}
+
+function concatString(name, phone, email) {
+
+    var result = '{1}, {2}, {3}'
+            .replace('{1}', name)
+            .replace('{2}', phone)
+            .replace('{3}', email);
 
     return result;
 
@@ -86,11 +97,13 @@ function checkEntry(phone) {
 
     return resultsEntry;
 }
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} - true или false от успеха операции
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
@@ -101,7 +114,7 @@ exports.add = function (phone, name, email) {
 
     if (isEmptyQuery(uName)) {
 
-       return false;
+        return false;
     }
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
@@ -126,6 +139,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} - true или false от успеха операции
  */
 exports.update = function (phone, name, email) {
     var upPhone = '';
@@ -160,6 +174,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} - Число удаленных записей
  */
 exports.findAndRemove = function (query) {
     var counter = 0;
@@ -188,6 +203,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {String} Результат поиска
  */
 exports.find = function (query) {
     var searchResult = [];
@@ -206,7 +222,8 @@ exports.find = function (query) {
 
             if (findIndex(query, findPhone, findName, findEmail)) {
                 convertedPhone = formatPhone(findPhone);
-                concatResult = findName + ',' + ' ' + convertedPhone + ',' + ' ' + findEmail;
+                concatResult = concatString(findName, convertedPhone, findEmail);
+
                 searchResult.push(concatResult);
             }
 
@@ -221,10 +238,11 @@ exports.find = function (query) {
     if (query === '*') {
 
         phoneBook.forEach(function (object, index) {
-            findPhone = phoneBook[index].username;
+            findName = phoneBook[index].username;
             findEmail = phoneBook[index].mail;
             convertedPhone = formatPhone(phoneBook[index].number);
-            concatResult = findPhone + ',' + ' ' + convertedPhone + ',' + ' ' + findEmail;
+            concatResult = concatString(findName, convertedPhone, findEmail);
+
             searchResult.push(concatResult);
         });
 
@@ -234,7 +252,7 @@ exports.find = function (query) {
 
     } else if (query === '') {
 
-        return false;
+        return [];
     }
 
 };
