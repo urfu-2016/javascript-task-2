@@ -35,24 +35,22 @@ exports.add = function (phone, name, email) {
 };
 
 function isCorrectData(phone, name, email) {
-    var i;
     if (name === undefined || phone.match(/\d/g).length !== 10) {
         return false;
     }
-    if (name.match(/\w/g)) {
+    if (name.match(/\w/g || arguments.length > 3)) {
         return false;
     }
-    if (email !== undefined && (email.indexOf('@') == -1 ||  email.indexOf('.') == -1)){
-        return false;
-    }
+    if (email !== undefined && (email.indexOf('@') === -1 || email.indexOf('.') === -1)) {
 
+        return false;
+    }
 
     return true;
 }
 
 function isSameEntries(phone, email) {
-    var i;
-    for (i = 0; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         if (phone === phoneBook[i].phone || email === phoneBook[i].email) {
             return true;
         }
@@ -69,14 +67,13 @@ function isSameEntries(phone, email) {
  * @returns {Boolean} Entry was updated or no.
  */
 exports.update = function (phone, name, email) {
-    var i;
     if (!isCorrectData(phone, name, email)) {
         return false;
     }
     if (email === undefined) {
         email = '';
     }
-    for (i = 0; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         if (phone === phoneBook[i].phone) {
             phoneBook[i].name = name;
             phoneBook[i].email = email;
@@ -94,10 +91,9 @@ exports.update = function (phone, name, email) {
  * @returns {Number} The count of operations.
  */
 exports.findAndRemove = function (query) {
-    var i;
     var counter = 0;
     var entries = entriesToString();
-    for (i = 0; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         if (entries[i].indexOf(query) !== -1 && query !== '') {
             entries.splice(i, 1);
             phoneBook.splice(i, 1);
@@ -116,12 +112,11 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    var i;
     var entries = entriesToString();
     if (query === '*') {
         return allEntries();
     }
-    for (i = 0; i < entries.length; i++) {
+    for (var i = 0; i < entries.length; i++) {
         if (entries[i].indexOf(query) !== -1 && query !== '') {
             result.push(phoneToFormat(entries[i]));
         }
@@ -133,8 +128,7 @@ exports.find = function (query) {
 function entriesToString() {
     var result = [];
     var entry;
-    var i;
-    for (i = 0; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         entry = phoneBook[i].name + ' ' + phoneBook[i].phone;
         if (phoneBook[i].email !== '' && phoneBook[i].email !== undefined) {
             entry += ' ' + phoneBook[i].email;
@@ -159,10 +153,9 @@ function phoneToFormat(entry) {
 }
 
 function allEntries() {
-    var i;
     var result = [];
     var entries = entriesToString();
-    for (i = 0; i < entries.length; i++) {
+    for (var i = 0; i < entries.length; i++) {
         result.push(phoneToFormat(entries[i]));
     }
 
@@ -170,8 +163,7 @@ function allEntries() {
 }
 
 function isEntryExist(csv) {
-    var i;
-    for (i = 0; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         if (csv[1] === phoneBook[i].phone) {
             phoneBook[i].phone = csv[1];
             phoneBook[i].name = csv[0];
@@ -191,20 +183,18 @@ function isEntryExist(csv) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    var i;
-    var parseCSV = csv.split(/\s/g);
-    var counter = parseCSV.length;
-    for (i = 0; i < parseCSV.length; i++) {
-        parseCSV[i] = parseCSV[i].split(';');
-        if (!isCorrectData(parseCSV[i][1], parseCSV[i][0], parseCSV[i][2])) {
+    var pCSV = csv.split(/\s/g);
+    var counter = pCSV.length;
+    for (var i = 0; i < pCSV.length; i++) {
+        pCSV[i] = pCSV[i].split(';');
+        if (!isCorrectData(pCSV[i][1], pCSV[i][0], pCSV[i][2]) || pCSV[i].length > 3) {
             counter--;
-            break;
         }
-        if (!isEntryExist(parseCSV[i])) {
+        else if (!isEntryExist(pCSV[i])) {
             phoneBook.push({
-                phone: parseCSV[i][1],
-                name: parseCSV[i][0],
-                email: parseCSV[i][2]
+                phone: pCSV[i][1],
+                name: pCSV[i][0],
+                email: pCSV[i][2]
             });
         }
     }
