@@ -108,22 +108,23 @@ exports.findAndRemove = function (query) {
     var deleteCounter = 0;
     if (correctData(query)) {
         var refreshedBook = phoneBook.filter(function (element) {
-            if (query === '*') {
-                
-                return;
-            }
             var realEmail = emailSugar(element.email);
 
             return (element.phone.indexOf(query) === -1 &&
                 element.name.indexOf(query) === -1 &&
                 realEmail.indexOf(query) === -1);
         });
+        if (query === "*") {
+            deleteCounter = phoneBook.length;
+            phoneBook = [];
 
+            return deleteCounter;
+        }
         deleteCounter = phoneBook.length - refreshedBook.length;
         phoneBook = refreshedBook;
-        
+
     }
-    
+
     return deleteCounter;
 
 };
