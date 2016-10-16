@@ -20,6 +20,9 @@ function getRegexpFromQuery(query) {
     if (query === '*') {
         return new RegExp('.' + query);
     }
+    if (query === '') {
+        return null;
+    }
 
     return new RegExp('.*' + query + '.*');
 }
@@ -105,6 +108,9 @@ exports.findAndRemove = function (query) {
 function findKeys(query) {
     var result = [];
     var re = getRegexpFromQuery(query);
+    if (!re) {
+        return result;
+    }
     var keys = Object.keys(phoneBook);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
