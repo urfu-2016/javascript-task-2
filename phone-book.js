@@ -41,7 +41,7 @@ function checkUnique(element) {
  * @param {String} email
  * @returns {Bool} – успех или не успех операции
  */
-exports.add = function(phone, name, email) {
+exports.add = function (phone, name, email) {
     if (correctNumber(phone) && correctData(name) && checkUnique(phone)) {
         if (email === undefined || correctData(email)) {
             phoneBook.push({
@@ -106,8 +106,8 @@ exports.findAndRemove = function (query) {
             }
             var realEmail = emailSugar(element.email);
 
-            return (element.phone.indexOf(query) === -1 && 
-                element.name.indexOf(query) === -1 && 
+            return (element.phone.indexOf(query) === -1 &&
+                element.name.indexOf(query) === -1 &&
                 realEmail.indexOf(query) === -1);
         });
 
