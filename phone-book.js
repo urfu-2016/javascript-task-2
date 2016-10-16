@@ -19,14 +19,16 @@ var phoneBook = [];
  * @returns {Boolean} Entry was added or no.
  */
 exports.add = function (phone, name, email) {
-
-    if (!isCorrectType(phone, name, email) || !isNotEmpty(phone, name, email)) {
+    if (!isCorrectType(phone, name, email)) {
 
         return false;
     }
-    if (isSameEntries(phone, email) || !isCorrectData(phone, name) || arguments.length > 3) {
+    if (isSameEntries(phone, email) || !isCorrectData(phone, name, email) || arguments.length > 3) {
 
         return false;
+    }
+    if (email !== undefined) {
+        email = email.trim();
     }
     phoneBook.push({
         phone: phone.trim(),
@@ -37,8 +39,8 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function isCorrectData(phone, name) {
-    if (name === undefined || name === null) {
+function isCorrectData(phone, name, email) {
+    if (name === undefined || name === null || !isNotEmpty(phone, name, email)) {
 
         return false;
     }
@@ -98,10 +100,7 @@ function isSameEntries(phone, email) {
  * @returns {Boolean} Entry was updated or no.
  */
 exports.update = function (phone, name, email) {
-    if (!isNotEmpty(phone, name, email)) {
-        return false;
-    }
-    if (!isCorrectType(phone, name, email) || !isCorrectData(phone, name)) {
+    if (!isCorrectType(phone, name, email) || !isCorrectData(phone, name, email)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -207,19 +206,19 @@ function isEntryExist(csv) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    var pCSV = csv.split(/\s/g);
+    var pCSV = csv.split('\n');
     var counter = pCSV.length;
     for (var i = 0; i < pCSV.length; i++) {
         pCSV[i] = pCSV[i].split(';');
-        if (!isNotEmpty(pCSV[i][1], pCSV[i][0], pCSV[i][2])) {
-            counter--;
+        if (pCSV[i][2] !== undefined) {
+            pCSV[i][2] = pCSV[i][2].trim();
         }
-        if (!isCorrectData(pCSV[i][1], pCSV[i][0]) || pCSV[i].length > 3) {
+        if (!isCorrectData(pCSV[i][1], pCSV[i][0], pCSV[i][2]) || pCSV[i].length > 3) {
             counter--;
         } else if (!isEntryExist(pCSV[i])) {
             phoneBook.push({
-                phone: pCSV[i][1],
-                name: pCSV[i][0],
+                phone: pCSV[i][1].trim(),
+                name: pCSV[i][0].trim(),
                 email: pCSV[i][2]
             });
         }
