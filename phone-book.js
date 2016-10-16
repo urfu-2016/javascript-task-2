@@ -185,7 +185,7 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
 
     var amount = 0;
-    csv.forEach(function (item) {
+    csv.split('\n').forEach(function (item) {
         var items = item.split(';');
         if (items.length < 2) {
             return;
