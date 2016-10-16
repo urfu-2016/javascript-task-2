@@ -87,7 +87,7 @@ exports.add = function (phone, name, email) {
 };
 
 /**
- * Обновление записи в телефонной книге
+ * Обновление записи в телефонной книгге
  * @param {String} phone
  * @param {String} name
  * @param {String} email
