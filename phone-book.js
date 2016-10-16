@@ -25,14 +25,16 @@ function Abonent(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} is it correct
  */
 exports.add = function (phone, name, email) {
-    if (!isIncorrectInput(phone,name,email)) {
+    if (!isIncorrectInput(phone, name, email)) {
         return false;
     }
     var abonent = new Abonent(phone, name, email);
     if (!isDuplicated(phone)) {
         phoneBook.push(abonent);
+
         return true;
     }
 
@@ -44,15 +46,17 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} is it correct
  */
 exports.update = function (phone, name, email) {
-    if (!isIncorrectInput(phone,name,email) && Search(phone)) {
+    if (!isIncorrectInput(phone, name, email) && mySearch(phone)) {
         return false;
     }
     function changing(item) {
         if (item.phone === phone) {
             return new Abonent(phone, name, email);
         }
+
         return item;
     }
     phoneBook = phoneBook.map(changing);
@@ -63,6 +67,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} number of removed strings
  */
 exports.findAndRemove = function (query) {
     var counter = 0;
@@ -72,22 +77,10 @@ exports.findAndRemove = function (query) {
             if (elem.email !== undefined && elem[properties[i]].indexOf(query) !== -1) {
                 counter++;
                 delete phoneBook[index];
+
                 return elem;
             }
         }
-        /*if (elem.name.indexOf(query) !== -1) {
-            counter++;
-            delete phoneBook[index];
-            return elem;
-        } else if (elem.email !== undefined && elem.email.indexOf(query) !== -1) {
-            counter++;
-            delete phoneBook[index];
-            return elem;
-        } else if (elem.phone.indexOf(query) !== -1) {
-            counter++;
-            delete phoneBook[index];
-            return elem;
-        }*/
 
         return undefined;
     }
@@ -99,9 +92,10 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} array contains found strings
  */
 exports.find = function (query) {
-    function search(elem, index) {
+    function search(elem) {
         if (query === '*') {
             return elem;
         }
@@ -110,15 +104,7 @@ exports.find = function (query) {
             if (elem.email !== undefined && elem[properties[i]].indexOf(query) !== -1) {
                 return elem;
             }
-        }/*
-        if (elem.name.indexOf(query) !== -1) {
-            return elem;
-        } else if (elem.email !== undefined && elem.email.indexOf(query) !== -1) {
-            return elem;
-        } else if (elem.phone.indexOf(query) !== -1) {
-            return elem;
-        }*/
-        //Ошибка может быть ТУТ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
 
         return undefined;
     }
@@ -131,17 +117,16 @@ exports.find = function (query) {
         }
 
         return 0;
-        
     }
-    function funcConvert(prev ,n) {
+    function funcConvert(prev, n) {
         var num = '+7 (' + n.phone.slice(0, -7) + ') ' + n.phone.slice(3, -4) + '-';
         num += n.phone.slice(6, -2) + '-' + n.phone.slice(8);
         if (n.email !== undefined) {
             return prev.concat(n.name + ' ' + n.email + ' ' + num || []);
         }
+    
         return prev.concat(n.name + ' ' + num || []);
     }
-    
     var finedList = phoneBook.filter(search)
         .sort(mySort)
         .reduce(funcConvert, []);
@@ -149,8 +134,6 @@ exports.find = function (query) {
 
         return finedList;
     }
-    
-    //ошибка может быть ТУТ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     return undefined;
 };
@@ -182,6 +165,7 @@ exports.importFromCsv = function (csv) {
         }
     }
     data.map(adding).join('\n');
+
     return data.length;
 };
 
@@ -222,8 +206,7 @@ function isCorrectName(name) {
 }
 
 function isDuplicated(phone) {
-    
-    if (phoneBook.length !== 0 && Search(phone)) {
+    if (phoneBook.length !== 0 && mySearch(phone)) {
 
         return true;
     }
@@ -232,10 +215,11 @@ function isDuplicated(phone) {
 }
 
 /**
+ * @param {String} phone
  * @return {boolean}
  */
-function Search(phone) {
-    function searsh(item, index) {
+function mySearch(phone) {
+    function searsh(item) {
 
         return item.phone === phone;
     }
