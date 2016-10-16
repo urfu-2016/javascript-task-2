@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidEmail(email) {
-    return /^\S+@\S+\.\S+$/.test(email) || email === undefined;
+    return email !== '' || email === undefined;
 }
 
 function isValidPhone(phone) {
