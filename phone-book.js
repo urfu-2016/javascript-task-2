@@ -7,7 +7,7 @@ exports.add = function (phone, name, email) {
     if (!validPhoneAndName(phone, name) || isNaN(Number(phone))) {
         return false;
     }
-    if (!checkExistPhone(phone)) {
+    if (checkExistPhone(phone) === false) {
         if (typeof(email) !== 'string') {
             email = '';
         }
@@ -43,10 +43,10 @@ function checkExistPhone(phone) {
 
 exports.update = function (phone, name, email) {
     if (!validPhoneAndName(phone, name)) {
-
+        
         return false;
     }
-    if (checkExistPhone(phone)) {
+    if (checkExistPhone(phone) !== false) {
         phoneBook[checkExistPhone(phone)].phone = phone;
         phoneBook[checkExistPhone(phone)].name = name;
         if (typeof(email) !== 'string') {
