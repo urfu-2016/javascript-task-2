@@ -19,7 +19,7 @@ function validateString(string) {
 
 function validatePhone(phone) {
     validateString(phone);
-    if (phone.length !== 10 || isNaN(parseInt(phone))) {
+    if (phone.length !== 10 || phone.trim().length !== 10 || isNaN(parseInt(phone))) {
         throw new TypeError();
     }
 }
@@ -99,9 +99,7 @@ exports.update = function (phone, name, email) {
     }
     var record = getRecord(phone);
     if (record === null) {
-        exports.add(phone, name, email);
-
-        return true;
+        return false;
     }
     record.name = String(name);
     record.email = typeof(email) === 'undefined' ? null : String(email);
