@@ -19,7 +19,7 @@ function validateString(string) {
 
 function validatePhone(phone) {
     validateString(phone);
-    if (phone.length !== 10 || phone.test(/\d{10}/)) {
+    if (phone.length !== 10 || !phone.test(/\d{10}/)) {
         throw new TypeError();
     }
 }
