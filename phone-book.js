@@ -23,7 +23,7 @@ function checkPhone(phone) {
         }
     }
 
-    return true;
+    return /(\d)\1\1(\d)\2\2(\d)\3(\d)\4/.test(phone);
 }
 
 function checkDefinition(name) {
