@@ -4,12 +4,18 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /**
  * Телефонная книга
  */
-var phoneBook;
+var phoneBook = new Array();
+
+var phoneBookEntry = {
+    name: null,
+    phone: null,
+    email: null
+}
 
 /**
  * Добавление записи в телефонную книгу
@@ -18,7 +24,18 @@ var phoneBook;
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
+    if(!isValidArguments(phone, name, email) || isEntryExists(phone)) {
+        return false;
+    }
+    var entry = Object.create(phoneBookEntry);
+    entry.name = name;
+    entry.phone = phone;
+    if(email != undefined) {
+        entry.email = email;
+    }
+    phoneBook.push(entry);
 
+    return true;
 };
 
 /**
@@ -28,7 +45,14 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  */
 exports.update = function (phone, name, email) {
+    if(!isValidArguments(phone, name, email) || !isEntryExists(phone)) {
+        return false;
+    }
+    var entry = phoneBook[getEntryPositionByPhone(phone)];
+    entry.name = name;
+    entry.email = (email === undefined) ? null : email;
 
+    return true;
 };
 
 /**
@@ -36,7 +60,14 @@ exports.update = function (phone, name, email) {
  * @param {String} query
  */
 exports.findAndRemove = function (query) {
-
+    if(!isNotEmpty(query)) {
+        return 0;
+    }
+    if(query === '*') {
+        return removeAllEntries();
+    } else {
+        return removeEntriesByQuery(query);
+    }
 };
 
 /**
@@ -44,7 +75,14 @@ exports.findAndRemove = function (query) {
  * @param {String} query
  */
 exports.find = function (query) {
-
+    if(!isNotEmpty(query)) {
+        return new Array();
+    }
+    if(query === '*') {
+        return getAllEntries();
+    } else {
+        return getEntriesByQuery(query);
+    }
 };
 
 /**
@@ -60,3 +98,104 @@ exports.importFromCsv = function (csv) {
 
     return csv.split('\n').length;
 };
+
+function isValidArguments(phone, name, email) {
+    return isValidPhone(phone) && isValidName(name) && isValidEmail(email);
+}
+
+function isNotEmpty(param) {
+    return param !== null && param !== undefined && typeof param === 'string' && param.length > 0;
+}
+
+var phonePattern = new RegExp('\\d{10}');
+
+function isValidPhone(phone) {
+    return isNotEmpty(phone) && phone.length === 10 && phonePattern.exec(phone) !== null;
+}
+
+var namePattern = new RegExp('^[А-Яа-я]*$');
+
+function isValidName(name) {
+    return isNotEmpty(name) && namePattern.exec(name.toLowerCase()) !== null;
+}
+
+var emailPattern = new RegExp('^\\w+@\\w+[.]\\w+$');
+
+function isValidEmail(email) {
+    return (email === undefined || (typeof email === 'string' && emailPattern.exec(email) != null));
+}
+
+function isEntryExists(phone) {
+    return getEntryPositionByPhone(phone) !== -1;
+}
+
+function getEntryPositionByPhone(phone) {
+    for(var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+function formatEntry(entry) {
+    var keys = Object.keys(entry);
+    var entryString = '';
+    for(var k = 0; k < keys.length; k++) {
+        entryString += (entry[keys[k]] === null) ? '' : ((keys[k] === 'phone') ? formatPhone(entry[keys[k]]) : entry[keys[k]]) + ', ';
+    }
+
+    return entryString;
+}
+
+function formatPhone(phone) {
+    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
+}
+
+function getAllEntries() {
+    var entries = new Array();
+    for(var i = 0; i < phoneBook.length; i++) {
+        entries.push(formatEntry(phoneBook[i]).slice(0, -2));
+    }
+
+    return entries.sort();
+}
+
+function getEntriesByQuery(query) {
+    var entries = new Array();
+    for(var i = 0; i < phoneBook.length; i++) {
+        var entry = phoneBook[i];
+        var keys = Object.keys(entry);
+        for(var k = 0; k < keys.length; k++) {
+            if(entry[keys[k]] !== null && entry[keys[k]].indexOf(query) !== -1) {
+                entries.push(formatEntry(entry).slice(0, -2));
+                continue;
+            }
+        }
+    }
+
+    return entries.sort();
+}
+
+function removeAllEntries() {
+    return phoneBook.splice(0, phoneBook.length).length;
+}
+
+function removeEntriesByQuery(query) {
+    var removedCount = 0;
+    for(var i = 0; i < phoneBook.length; i++) {
+        var entry = phoneBook[i];
+        var keys = Object.keys(entry);
+        for(var k = 0; k < keys.length; k++) {
+            if(entry[keys[k]] !== null && entry[keys[k]].indexOf(query) !== -1) {
+                phoneBook.splice(i, 1);
+                i--;
+                removedCount++;
+                continue;
+            }
+        }
+    }
+
+    return removedCount;
+}
