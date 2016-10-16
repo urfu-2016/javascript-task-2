@@ -34,7 +34,7 @@ function getFormattedRecord(record) {
 
 function isValidRecord(phone, name, email) {
     return isValidPhone(phone) && isValidEmail(email) &&
-        typeof name === 'string' && name;
+        typeof name === 'string' && name !== '';
 }
 
 function findRecordIndex(phone) {
