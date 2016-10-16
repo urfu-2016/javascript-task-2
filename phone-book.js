@@ -30,6 +30,15 @@ function checkDefinition(name) {
     return typeof(name) !== 'undefined';
 }
 
+function checkPhoneAndName(phone, name) {
+    if (checkDefinition(phone)) {
+
+        return checkPhone(phone) && checkDefinition(name);
+    }
+
+    return false;
+}
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -38,12 +47,14 @@ function checkDefinition(name) {
  * @returns {Boolean} – added or not
  */
 exports.add = function (phone, name, email) {
-    if (checkDefinition(phone)) {
-        if (checkPhone(phone) && checkDefinition(name)) {
+    if (checkPhoneAndName(phone, name)) {
+        if (checkDefinition(email)) {
             phoneBook[phone] = { 'name': name, 'email': email };
-
-            return true;
+        } else {
+            phoneBook[phone] = { 'name': name, 'email': email };
         }
+
+        return true;
     }
 
     return false;
