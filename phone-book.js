@@ -109,9 +109,9 @@ exports.importFromCsv = function (csv) {
 };
 
 function checkPhone(phone) {
-    var phonRegex = /\d{10}/;
+    var phoneRegex = /^\d{10}$/;
 
-    return phone.search(phonRegex) >= 0;
+    return phone.search(phoneRegex) >= 0;
 }
 
 function checkName(name) {
