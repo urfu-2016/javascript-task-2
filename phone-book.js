@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function validateString(string) {
-    if (typeof(string) !== 'string') {
+    if (typeof(string) !== 'string' || string.length === 0) {
         throw new TypeError();
     }
 }
@@ -185,9 +185,6 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-    if (typeof(csv) !== 'string') {
-        return 0;
-    }
     var amount = 0;
     csv.split('\n').forEach(function (item) {
         var items = item.split(';');
