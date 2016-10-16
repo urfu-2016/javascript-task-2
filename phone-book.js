@@ -23,6 +23,14 @@ function correctNumber(phone) {
     return phone !== undefined && (phone.search(phoneReg) !== -1);
 }
 
+function validEmail(email) {
+    var emailReg = /\w+@\w+-?\w+.\w{2,255}/;
+
+    return (email !== undefined && email.search(emailReg) !== -1) ? email : undefined;
+
+}
+
+
 function checkUnique(element) {
     for (var i = 0; i < phoneBook.length; i++) {
         if (element === phoneBook[i].phone) {
@@ -47,7 +55,7 @@ exports.add = function (phone, name, email) {
             phoneBook.push({
                 phone: phone,
                 name: name,
-                email: email
+                email: validEmail(email)
             });
 
             return true;
@@ -80,7 +88,7 @@ exports.update = function (phone, name, email) {
         var probableUpdate = traverseNoteAndFind(phone);
         if (probableUpdate !== false) {
             probableUpdate.name = name;
-            probableUpdate.email = email;
+            probableUpdate.email = validEmail(email);
 
             return true;
         }
@@ -101,8 +109,8 @@ exports.findAndRemove = function (query) {
     if (correctData(query)) {
         var refreshedBook = phoneBook.filter(function (element) {
             if (query === '*') {
-
-                return [];
+                
+                return;
             }
             var realEmail = emailSugar(element.email);
 
@@ -113,8 +121,9 @@ exports.findAndRemove = function (query) {
 
         deleteCounter = phoneBook.length - refreshedBook.length;
         phoneBook = refreshedBook;
+        
     }
-
+    
     return deleteCounter;
 
 };
