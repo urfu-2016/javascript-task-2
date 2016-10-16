@@ -130,27 +130,14 @@ exports.update = function (phone, name, email) {
         }
 
         function nameIsCorrect() {
+            if (typeof(name) !== 'string' || name === '') {
 
-            if (typeof(name) === 'string') {
-                name = name.trim();
-                if (name !== '') {
-
-                    return true;
-                }
-
-                name = undefined;
+                return false;
             }
 
-            if (name === null) {
-                name = undefined;
-            }
+            name = name.trim();
 
-            if (name === undefined) {
-
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
         function emailIsCorrect() {
@@ -250,7 +237,7 @@ exports.findAndRemove = function (query) {
 
     if (query === '*') {
         numberOfDeletedNotes = phoneBook.length;
-        phoneBook = phoneBook.splice(0, numberOfDeletedNotes);
+        phoneBook = [];
     } else {
         query = query.toLowerCase();
         phoneBook.forEach(isNoteMatchQuery);
@@ -267,7 +254,7 @@ exports.findAndRemove = function (query) {
  * @returns {Object} array of strings, representing finded notes
  */
 exports.find = function (query) {
-    var arrayOfFindedNotes;
+    var arrayOfFindedNotes = [];
 
     function createResultStringArray(arrayOfNotes) {
         var resultStringArray = [];
@@ -310,15 +297,10 @@ exports.find = function (query) {
         return false;
     }
 
-    if (typeof(query) !== 'string' || query === '') {
-
-        return undefined;
-    }
-
 
     if (query === '*') {
         arrayOfFindedNotes = phoneBook.slice();
-    } else {
+    } else if (typeof(query) === 'string' && query !== '') {
         query = query.toLowerCase();
         arrayOfFindedNotes = phoneBook.filter(isNoteMatchQuery);
     }
