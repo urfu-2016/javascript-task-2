@@ -56,8 +56,8 @@ function getRecord(phone) {
 
 function checkMatch(record, query) {
     var phoneMatch = record.phone.indexOf(query) !== -1;
-    var nameMatch = record.name.indexOf(query) !== -1;
-    var emailMatch = record.email === null ? false : record.email.indexOf(query) !== -1;
+    var nameMatch = record.name.toLowerCase.indexOf(query) !== -1;
+    var emailMatch = record.email === null ? false : record.email.toLowerCase.indexOf(query) !== -1;
 
     return phoneMatch || nameMatch || emailMatch;
 }
@@ -139,7 +139,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     if (query === '') {
-        return;
+        return [];
     }
     var records;
     if (query === '*') {
