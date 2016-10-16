@@ -23,20 +23,22 @@ function correctNumber(phone) {
 }
 
 function checkUnique(element) {
-    for ( var i = 0; i < phoneBook.length; i++ ) {
-        if (element === phoneBook[i].phone)
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (element === phoneBook[i].phone) {
+
             return false;
+        }
     }
-        
+
     return true;
 }
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
  * @param {String} email
  */
-
 exports.add = function(phone, name, email) {
     if (correctNumber(phone) && correctData(name) && checkUnique(phone)) {
         if (email === undefined || correctData(email)) {
@@ -45,7 +47,7 @@ exports.add = function(phone, name, email) {
                 name: name,
                 email: email
             });
-            
+
             return true;
         }
     }
@@ -53,6 +55,16 @@ exports.add = function(phone, name, email) {
     return false;
 }
 
+function traverseNoteAndFind(phone) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+
+            return phoneBook[i];
+        }
+    }
+
+    return false;
+}
 
 /**
  * Обновление записи в телефонной книге
@@ -62,13 +74,13 @@ exports.add = function(phone, name, email) {
  */
 exports.update = function(phone, name, email) {
     if (correctNumber(phone) && correctData(name)) {
-        for (var i = 0; i < phoneBook.length; i++)
-            if (phoneBook[i].phone === phone) {
-                phoneBook[i].name = name;
-                phoneBook[i].email = email;
-                
-                return true;
-            }
+        var probableUpdate = traverseNoteAndFind(phone);
+        if (probableUpdate !== false) {
+            probableUpdate.name = name;
+            probableUpdate.email = email;
+
+            return true;
+        }
 
     }
 
@@ -84,8 +96,9 @@ exports.findAndRemove = function(query) {
     var deleteCounter = 0;
     if (correctData(query)) {
         var refreshedBook = phoneBook.filter(function(element) {
-            if (query === '*')
+            if (query === '*') {
                 return [];
+            }
             var realEmail = emailSugar(element.email);
             return (element.phone.indexOf(query) === -1 && 
                 element.name.indexOf(query) === -1 && 
@@ -100,10 +113,6 @@ exports.findAndRemove = function(query) {
 
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 function comfortFormat(phone) {
     return (
         '+7 (' + phone.slice(0, 3) +
@@ -113,11 +122,17 @@ function comfortFormat(phone) {
 }
 
 function emailSugar(email) {
-    if (email === undefined)
+    if (email === undefined) {
         return '';
+    }
+
     return ', ' + email;
 }
 
+/**
+ * Поиск записей по запросу в телефонной книге
+ * @param {String} query
+ */
 exports.find = function(query) {
     if (correctData(query)) {
         return phoneBook.filter(function(element) {
@@ -125,14 +140,17 @@ exports.find = function(query) {
                 return element;
             }
             return element.phone.indexOf(query) >= 0 || element.name.indexOf(query) >= 0 ||
-                (correctData(element.email) && element.email.indexOf(query) >= 0)
-        }).sort(function(first, second) {
+                (correctData(element.email) && element.email.indexOf(query) >= 0);
+        })
+        .sort(function(first, second) {
             return first.name > second.name;
-        }).map(function(element) {
+        })
+        .map(function(element) {
             var realEmail = emailSugar(element.email);
             return element.name + ', ' + comfortFormat(element.phone) + realEmail;
         })
     }
+    
     return '';
 
 };
