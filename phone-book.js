@@ -159,6 +159,9 @@ exports.importFromCsv = function (csv) {
         if (item.length === 3) {
             email = item[2];
         }
+        if (exports.update(phone, name, email)) {
+            return 1;
+        }
         if (exports.add(phone, name, email)) {
             return 1;
         }
