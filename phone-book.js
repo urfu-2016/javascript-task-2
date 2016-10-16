@@ -6,7 +6,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidPhone(phone) {
-    var validPhone = /\d{10}/;
+    var validPhone = /^\d{10}$/;
 
     return validPhone.test(phone);
 }
