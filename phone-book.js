@@ -56,7 +56,12 @@ function emailIsCorrect(email) {
 
 function inputCheck(phone, name, email) {
 
-    return phoneIsCorrect(phone) && nameIsCorrect(name) && emailIsCorrect(email);
+    if (phoneIsCorrect(phone) && nameIsCorrect(name) && emailIsCorrect(email)) {
+
+        return true;
+    }
+
+    return false;
 }
 
 function deleteNotes(indexesOfFindedNotes) {
@@ -65,6 +70,8 @@ function deleteNotes(indexesOfFindedNotes) {
         var indexToDelete = indexesOfFindedNotes[i];
         phoneBook.splice(indexToDelete, 1);
     }
+
+    return;
 }
 
 
