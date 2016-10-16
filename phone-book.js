@@ -123,8 +123,7 @@ exports.find = function (query) {
         num += n.phone.slice(6, -2) + '-' + n.phone.slice(8);
         if (n.email !== undefined) {
             return prev.concat(n.name + ' ' + n.email + ' ' + num || []);
-        }
-    
+
         return prev.concat(n.name + ' ' + num || []);
     }
     var finedList = phoneBook.filter(search)
@@ -216,7 +215,7 @@ function isDuplicated(phone) {
 
 /**
  * @param {String} phone
- * @return {boolean}
+ * @return {Boolean} is found phone
  */
 function mySearch(phone) {
     function searsh(item) {
