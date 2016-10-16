@@ -109,16 +109,19 @@ exports.findAndRemove = function (query) {
     if (correctData(query)) {
         var refreshedBook = phoneBook.filter(function (element) {
             var realEmail = emailSugar(element.email);
+            var lowQuery = query.toLowerCase();
 
             return (element.phone.indexOf(query) === -1 &&
-                element.name.indexOf(query) === -1 &&
-                realEmail.indexOf(query) === -1);
+                element.name.toLowerCase().indexOf(lowQuery) === -1 &&
+                realEmail.toLowerCase().indexOf(lowQuery) === -1);
+
         });
         if (query === '*') {
             deleteCounter = phoneBook.length;
             phoneBook = [];
 
             return deleteCounter;
+
         }
         deleteCounter = phoneBook.length - refreshedBook.length;
         phoneBook = refreshedBook;
@@ -158,13 +161,23 @@ exports.find = function (query) {
             if (query === '*') {
                 return element;
             }
+            var lowQuery = query.toLowerCase();
 
-            return element.phone.indexOf(query) >= 0 || element.name.indexOf(query) >= 0 ||
-                (correctData(element.email) && element.email.indexOf(query) >= 0);
+            return element.phone.indexOf(lowQuery) >= 0 || element.name.toLowerCase().indexOf(lowQuery) >= 0 ||
+                (correctData(element.email) && element.email.toLowerCase().indexOf(lowQuery) >= 0);
         })
         .sort(function (first, second) {
+            if (first.name.toLowerCase() < second.name.toLowerCase()) {
 
-            return first.name.toLowerCase() > second.name.toLowerCase();
+                return -1;
+            }
+            if (first.name.toLowerCase() > second.name.toLowerCase()) {
+
+                return 1;
+            }
+
+            return 0;
+
         })
         .map(function (element) {
             var realEmail = emailSugar(element.email);
