@@ -156,9 +156,9 @@ function tryToUpdate(value) {
         var name = splitted[0];
         var phone = splitted[1];
         var email = splitted[2];
-        if (exports.update(phone, name, email)){
+        if (exports.update(phone, name, email)) {
             return 1;
-       }
+        }
     }
 
     return 0;
