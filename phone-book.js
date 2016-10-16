@@ -136,17 +136,23 @@ function isValidCSV(csv) {
 }
 
 function tryToAdd(value) {
-    var name = value.split(';')[0];
-    var phone = value.split(';')[1];
-    var email = value.split(';')[2];
-    exports.add(phone, name, email);
+    var splitted = value.split(';');
+    if (splitted.length <= 3) {
+        var name = splitted[0];
+        var phone = splitted[1];
+        var email = splitted[2];
+        exports.add(phone, name, email);
+    }
 }
 
 function tryToUpdate(value) {
-    var name = value.split(';')[0];
-    var phone = value.split(';')[1];
-    var email = value.split(';')[2];
-    exports.update(phone, name, email);
+    var splitted = value.split(';');
+    if (splitted.length <= 3) {
+        var name = splitted[0];
+        var phone = splitted[1];
+        var email = splitted[2];
+        exports.update(phone, name, email);
+    }
 }
 
 exports.importFromCsv = function (csv) {
