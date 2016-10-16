@@ -125,7 +125,7 @@ exports.findAndRemove = function (query) {
     phoneBook.forEach(function (record, key) {
         if (checkMatch(record, query)) {
             removed += 1;
-            delete phoneBook[key];
+            phoneBook.splice(key, 1);
         }
     });
 
