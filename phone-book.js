@@ -12,9 +12,9 @@ exports.isStar = false;
 var phoneBook = [];
 
 var phoneBookEntry = {
-    name: null,
-    phone: null,
-    email: null
+    name: undefined,
+    phone: undefined,
+    email: undefined
 };
 
 /**
@@ -29,11 +29,9 @@ exports.add = function (phone, name, email) {
         return false;
     }
     var entry = Object.create(phoneBookEntry);
-    entry.name = name.trim();
-    entry.phone = phone.trim();
-    if (email !== undefined) {
-        entry.email = email.trim();
-    }
+    entry.name = name;
+    entry.phone = phone;
+    entry.email = email;
     phoneBook.push(entry);
 
     return true;
@@ -51,8 +49,8 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var entry = phoneBook[getEntryPositionByPhone(phone)];
-    entry.name = name.trim();
-    entry.email = (email === undefined) ? null : email.trim();
+    entry.name = name;
+    entry.email = email;
 
     return true;
 };
@@ -66,7 +64,7 @@ exports.findAndRemove = function (query) {
     if (!isNotEmpty(query)) {
         return 0;
     }
-    query = query.trim();
+    query = query.trim().toLowerCase();
     if (query === '*') {
         return removeAllEntries();
     }
@@ -83,7 +81,7 @@ exports.find = function (query) {
     if (!isNotEmpty(query)) {
         return [];
     }
-    query = query.trim();
+    query = query.trim().toLowerCase();
     if (query === '*') {
         return getAllEntries();
     }
@@ -110,31 +108,25 @@ function isValidArguments(phone, name, email) {
 }
 
 function isNotEmpty(param) {
-    var paramDefined = param !== null && param !== undefined;
-    var paramNotEmpty = typeof param === 'string' && param.trim().length > 0;
-
-    return paramDefined && paramNotEmpty;
+    return typeof param === 'string' && param.trim().length > 0;
 }
 
-var phonePattern = new RegExp('[5]{3}(\\d)\\1{2}(\\d)\\2{1}(\\d)\\3{1}');
+var phonePattern = new RegExp('^[5]{3}(\\d)\\1{2}(\\d)\\2{1}(\\d)\\3{1}$');
 
 function isValidPhone(phone) {
-    return isNotEmpty(phone) && phone.length === 10 && phonePattern.exec(phone) !== null;
+    return isNotEmpty(phone) && phonePattern.exec(phone);
 }
-
-var namePattern = new RegExp('^[А-Яа-я ]+$');
 
 function isValidName(name) {
-    return isNotEmpty(name) && namePattern.exec(name) !== null;
+    return isNotEmpty(name);
 }
 
-var emailPattern = new RegExp('^\\w+@\\w+[.]\\w+$');
+var emailPattern = new RegExp('^\\w+@\\w+[.]\\w{2,}$');
 
 function isValidEmail(email) {
-    var emailIsUndefined = email === undefined;
-    var emailIsValid = typeof email === 'string' && emailPattern.exec(email) !== null;
+    var emailIsValid = isNotEmpty(email) && emailPattern.exec(email);
 
-    return email !== null && (emailIsUndefined || emailIsValid);
+    return email === undefined || emailIsValid;
 }
 
 function isEntryExists(phone) {
@@ -152,13 +144,9 @@ function getEntryPositionByPhone(phone) {
 }
 
 function formatEntry(e) {
-    var keys = Object.keys(e);
-    var result = '';
-    for (var k = 0; k < keys.length; k++) {
-        if (e[keys[k]] !== null) {
-            result += (keys[k] === 'phone') ? formatPhone(e[keys[k]]) : e[keys[k]];
-            result += ', ';
-        }
+    var result = e.name + ', ' + formatPhone(e.phone);
+    if (e.email) {
+        result += ', ' + e.email;
     }
 
     return result;
@@ -177,17 +165,16 @@ function formatPhone(phone) {
 function getAllEntries() {
     var entries = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        entries.push(formatEntry(phoneBook[i]).slice(0, -2));
+        entries.push(formatEntry(phoneBook[i]));
     }
 
     return entries.sort();
 }
 
 function isEntrySatisfiedQuery(e, q) {
-    q = q.toLowerCase();
     var keys = Object.keys(e);
     for (var k = 0; k < keys.length; k++) {
-        if (e[keys[k]] !== null && e[keys[k]].toLowerCase().indexOf(q) !== -1) {
+        if (e[keys[k]] && e[keys[k]].toLowerCase().indexOf(q) !== -1) {
             return true;
         }
     }
@@ -200,7 +187,7 @@ function getEntriesByQuery(query) {
     for (var i = 0; i < phoneBook.length; i++) {
         var entry = phoneBook[i];
         if (isEntrySatisfiedQuery(entry, query)) {
-            entries.push(formatEntry(entry).slice(0, -2));
+            entries.push(formatEntry(entry));
         }
     }
 
