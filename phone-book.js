@@ -165,8 +165,8 @@ exports.find = function (query) {
 
             return element.phone.indexOf(lowQuery) >= 0 ||
              element.name.toLowerCase().indexOf(lowQuery) >= 0 ||
-                (correctData(element.email)
-                    && element.email.toLowerCase().indexOf(lowQuery) >= 0);
+                (correctData(element.email) &&
+                    element.email.toLowerCase().indexOf(lowQuery) >= 0);
         })
         .sort(function (first, second) {
             if (first.name.toLowerCase() < second.name.toLowerCase()) {
