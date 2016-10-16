@@ -22,9 +22,6 @@ exports.add = function (phone, name, email) {
     if (!isCorrectData(phone, name) || isSameEntries(phone, email)) {
         return false;
     }
-    if (email === undefined) {
-        email = '';
-    }
     phoneBook.push({
         phone: phone,
         name: name,
@@ -65,9 +62,6 @@ function isSameEntries(phone, email) {
 exports.update = function (phone, name, email) {
     if (!isCorrectData(phone, name)) {
         return false;
-    }
-    if (email === undefined) {
-        email = '';
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phone === phoneBook[i].phone) {
