@@ -29,8 +29,8 @@ exports.add = function (phone, name, email) {
         return false;
     }
     var entry = Object.create(phoneBookEntry);
-    entry.name = name.trim();;
-    entry.phone = phone.trim();;
+    entry.name = name.trim();
+    entry.phone = phone.trim();
     if (email !== undefined) {
         entry.email = email.trim();
     }
@@ -66,7 +66,7 @@ exports.findAndRemove = function (query) {
     if (!isNotEmpty(query)) {
         return 0;
     }
-	query = query.trim();
+    query = query.trim();
     if (query === '*') {
         return removeAllEntries();
     }
@@ -83,7 +83,7 @@ exports.find = function (query) {
     if (!isNotEmpty(query)) {
         return [];
     }
-	query = query.trim();
+    query = query.trim();
     if (query === '*') {
         return getAllEntries();
     }
@@ -110,7 +110,9 @@ function isValidArguments(phone, name, email) {
 }
 
 function isNotEmpty(param) {
-    return param !== null && param !== undefined && typeof param === 'string' && param.trim().length > 0;
+    var paramDefined = param !== null && param !== undefined;
+    var paramNotEmpty = typeof param === 'string' && param.trim().length > 0;
+    return paramDefined && paramNotEmpty;
 }
 
 var phonePattern = new RegExp('[5]{3}(\\d)\\1{2}(\\d)\\2{1}(\\d)\\3{1}');
