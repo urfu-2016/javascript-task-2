@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {Boolean} Entry was added or no.
  */
 exports.add = function (phone, name, email) {
-    if (!isCorrectData(phone, name)) {
+    if (!isCorrectData(phone, name, email) || isSameEntries(phone, email)) {
         return false;
     }
     if (email === undefined) {
@@ -34,18 +34,31 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function isCorrectData(phone, name) {
+function isCorrectData(phone, name, email) {
     var i;
     if (name === undefined || phone.match(/\d/g).length !== 10) {
         return false;
     }
+    if (name.match(/\w/g)) {
+        return false;
+    }
+    if (email !== undefined && (email.indexOf('@') == -1 ||  email.indexOf('.') == -1)){
+        return false;
+    }
+
+
+    return true;
+}
+
+function isSameEntries(phone, email) {
+    var i;
     for (i = 0; i < phoneBook.length; i++) {
-        if (phone === phoneBook[i].phone) {
-            return false;
+        if (phone === phoneBook[i].phone || email === phoneBook[i].email) {
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 /**
@@ -57,7 +70,7 @@ function isCorrectData(phone, name) {
  */
 exports.update = function (phone, name, email) {
     var i;
-    if (name === undefined) {
+    if (!isCorrectData(phone, name, email)) {
         return false;
     }
     if (email === undefined) {
@@ -183,7 +196,7 @@ exports.importFromCsv = function (csv) {
     var counter = parseCSV.length;
     for (i = 0; i < parseCSV.length; i++) {
         parseCSV[i] = parseCSV[i].split(';');
-        if (parseCSV[i][0] === undefined || parseCSV[i][1].match(/\d/g).length !== 10) {
+        if (!isCorrectData(parseCSV[i][1], parseCSV[i][0], parseCSV[i][2])) {
             counter--;
             break;
         }
