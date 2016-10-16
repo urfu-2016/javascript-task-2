@@ -30,7 +30,7 @@ function isUndefined(value) {
 function isCorrect(phone, name, email) {
     var isCorrectPhone = isString(phone);
     var isCorrectName = isString(name) && name !== '';
-    var isCorrectEmail = isString(email) || isUndefined(email);
+    var isCorrectEmail = (isString(email) && email.indexOf('@') !== -1) || isUndefined(email);
     var isCorrectForm = correctPhone.test(phone);
 
     return isCorrectPhone && isCorrectForm && isCorrectName && isCorrectEmail;
