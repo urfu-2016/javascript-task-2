@@ -126,7 +126,7 @@ function isValidName(name) {
 var emailPattern = new RegExp('^\\w+@\\w+[.]\\w+$');
 
 function isValidEmail(email) {
-    return param !== null && (email === undefined || (typeof email === 'string' && emailPattern.exec(email) !== null));
+    return email !== null && (email === undefined || (typeof email === 'string' && emailPattern.exec(email) !== null));
 }
 
 function isEntryExists(phone) {
@@ -151,7 +151,7 @@ function formatEntry(entry) {
             if (keys[k] === 'phone') {
                 entryString += formatPhone(entry[keys[k]]);
             } else {
-                entryString += entry[keys[k]]);
+                entryString += entry[keys[k]];
             }
             entryString += ', ';
         }
