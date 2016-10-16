@@ -56,8 +56,8 @@ function getRecord(phone) {
 
 function checkMatch(record, query) {
     var phoneMatch = record.phone.indexOf(query) !== -1;
-    var nameMatch = record.phone.indexOf(query) !== -1;
-    var emailMatch = record.email === null ? false : record.phone.indexOf(query) !== -1;
+    var nameMatch = record.name.indexOf(query) !== -1;
+    var emailMatch = record.email === null ? false : record.email.indexOf(query) !== -1;
 
     return phoneMatch || nameMatch || emailMatch;
 }
@@ -127,7 +127,7 @@ exports.findAndRemove = function (query) {
             removed += 1;
             delete phoneBook[key];
         }
-    }, this);
+    });
 
     return removed;
 };
@@ -143,7 +143,7 @@ exports.find = function (query) {
     }
     var records;
     if (query === '*') {
-        records = phoneBook;
+        records = phoneBook.slice();
     } else {
         records = phoneBook.filter(function (record) {
             return checkMatch(record, query);
