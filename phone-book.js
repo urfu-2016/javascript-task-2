@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidEmail(email) {
-    return email !== '' || email === undefined;
+    return /^\S+@\S+\.\S+$/.test(email) || email === undefined;
 }
 
 function isValidPhone(phone) {
@@ -111,7 +111,7 @@ exports.findAndRemove = function (query) {
     var found = findAll(query);
     for (var i = 0; i < found; i++) {
         var record = found[i];
-        phoneBook.splice(indexOf(record.phone, record.name, record.email), 1);
+        phoneBook = phoneBook.splice(indexOf(record.phone, record.name, record.email), 1);
     }
 
     return found.length;
@@ -208,4 +208,8 @@ exports.add = function (phone, name, email) {
 
 exports.update = function (phone, name, email) {
     return update(phone, name, email);
+};
+
+exports.areValid = function (phone, name, email) {
+    return areValid(phone, name, email);
 };
