@@ -13,11 +13,12 @@ var phoneBook = {};
 
 
 function checkPhone(phone) {
-    if (phone.length !== 10 || phoneBook.hasOwnProperty(phone)) {
+    if (phone.length !== 10) {
         return false;
     }
+    var telForm = /^[0-9]{10}$/;
 
-    return /(\d)\1\1(\d)\2\2(\d)\3(\d)\4/.test(phone);
+    return telForm.test(phone);
 }
 
 function checkDefinition(name) {
@@ -41,12 +42,8 @@ function checkPhoneAndName(phone, name) {
  * @returns {Boolean} – added or not
  */
 exports.add = function (phone, name, email) {
-    if (checkPhoneAndName(phone, name)) {
-        if (checkDefinition(email) && checkString(email)) {
-            phoneBook[phone] = { 'name': name, 'email': email };
-        } else if (!checkDefinition(email)) {
-            phoneBook[phone] = { 'name': name };
-        }
+    if (checkPhoneAndName(phone, name) && !phoneBook.hasOwnProperty(phone)) {
+        phoneBook[phone] = { 'name': name, 'email': email };
 
         return true;
     }
@@ -63,12 +60,8 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     if (typeof(name) !== 'undefined' && Object.keys(phoneBook).includes(phone) &&
-        name.length !== 0) {
-        if (typeof(email) !== 'undefined') {
-            phoneBook[phone] = { 'name': name, 'email': email };
-        } else {
-            phoneBook[phone] = { 'name': name };
-        }
+        name.length !== 0 && checkPhoneAndName(phone, name)) {
+        phoneBook[phone] = { 'name': name, 'email': email };
 
         return true;
     }
@@ -161,12 +154,10 @@ exports.importFromCsv = function (csv) {
         var mail;
         if (phoneNote.length === 2) {
             mail = undefined;
+        } else {
+            mail = phoneNote[2];
         }
-        if (Object.keys(phoneBook).includes(phone)) {
-            if (exports.update(phone, name, mail)) {
-                added++;
-            }
-        } else if (exports.add(phone, name, mail)) {
+        if (exports.add(phone, name, mail) || exports.update(phone, name, mail)) {
             added++;
         }
     });
