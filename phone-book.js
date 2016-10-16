@@ -24,9 +24,8 @@ function correctNumber(phone) {
 }
 
 function validEmail(email) {
-    var emailReg = /\w+@\w+-?\w+.\w{2,255}/;
 
-    return (email !== undefined && emailReg.test(email)) ? email : undefined;
+    return (email !== undefined && correctData(email)) ? email : undefined;
 
 }
 
