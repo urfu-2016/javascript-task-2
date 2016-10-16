@@ -131,7 +131,7 @@ function entriesToString() {
 
 function phoneToFormat(entry) {
     var phoneFormat;
-    var p = entry.split(" ");
+    var p = entry.split(' ');
     phoneFormat = '+7 (' + p[1].slice(0, 3) + ') ';
     phoneFormat += p[1].slice(3, 6) + '-' + p[1].slice(6, 8) + '-' + p[1].slice(8, 10);
 
