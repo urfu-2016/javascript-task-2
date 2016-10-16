@@ -86,7 +86,7 @@ exports.findAndRemove = function (query) {
             if (elem.email !== undefined && elem.email.indexOf(query) !== -1 && query !== '') {
                 counter++;
                 delete phoneBook[index];
-        
+
                 return elem;
             }
 
