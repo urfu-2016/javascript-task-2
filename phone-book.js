@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -96,11 +96,22 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
+    if (!isNotEmpty(csv)) {
+        return 0;
+    }
+    var handledEntries = 0;
+    var entries = csv.split('\n');
+    for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i].split(';');
+        if (!isValidArguments(entry[1], entry[0], entry[2])) {
+            continue;
+        }
+        if (isEntryHandled(entry)) {
+            handledEntries++;
+        }
+    }
 
-    return csv.split('\n').length;
+    return handledEntries;
 };
 
 function isValidArguments(phone, name, email) {
@@ -210,4 +221,16 @@ function removeEntriesByQuery(query) {
     }
 
     return removedCount;
+}
+
+function isEntryHandled(entry) {
+    var added = false;
+    var updated = false;
+    if (isEntryExists(entry[1])) {
+        updated = exports.update(entry[1], entry[0], entry[2]);
+    } else {
+        added = exports.add(entry[1], entry[0], entry[2]);
+    }
+
+    return added || updated;
 }
