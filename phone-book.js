@@ -18,15 +18,15 @@ function correctData(value) {
 }
 
 function correctNumber(phone) {
-    var phoneReg = /^[0-9]{10}$/;
+    var phoneReg = /^\d{10}$/;
 
-    return phone !== undefined && (phone.search(phoneReg) !== -1);
+    return phone !== undefined && phoneReg.test(phone);
 }
 
 function validEmail(email) {
     var emailReg = /\w+@\w+-?\w+.\w{2,255}/;
 
-    return (email !== undefined && email.search(emailReg) !== -1) ? email : undefined;
+    return (email !== undefined && emailReg.test(email)) ? email : undefined;
 
 }
 
