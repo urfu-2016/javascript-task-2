@@ -1,62 +1,169 @@
 'use strict';
 
-/**
- * Сделано задание на звездочку
- * Реализован метод importFromCsv
- */
 exports.isStar = true;
 
-/**
- * Телефонная книга
- */
-var phoneBook;
-
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
-exports.add = function (phone, name, email) {
-
+var Contact = function (phone, name, email) {
+    this.phone = phone;
+    this.phoneRaw = phone;
+    this.name = name;
+    this.email = email;
 };
 
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
-exports.update = function (phone, name, email) {
+Contact.strFormat = ['name', 'phone', 'email'];
 
+Contact.phoneFormat = new RegExp(/\d{10}/);
+Contact.formattedPhone = function (phone) {
+    if (!Contact.phoneFormat.test(phone)) {
+        throw new TypeError('Wrong phone format');
+    }
+
+    return '+7 ({0}) {1}-{2}-{3}'
+        .replace('{0}', phone.slice(0, 3))
+        .replace('{1}', phone.slice(3, 6))
+        .replace('{2}', phone.slice(6, 8))
+        .replace('{3}', phone.slice(8, 10));
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
-exports.findAndRemove = function (query) {
+Contact.sortFunction = function (a, b) {
+    var x = a.name.toLowerCase();
+    var y = b.name.toLowerCase();
 
+    if (x < y) {
+        return -1;
+    } else if (x > y) {
+        return 1;
+    }
+
+    return 1;
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
-exports.find = function (query) {
+Object.defineProperty(Contact.prototype, 'phone', {
+    get: function () {
+        return this._phone;
+    },
+    set: function (phone) {
+        this._phone = Contact.formattedPhone(phone);
+    },
+    enumerable: true
+});
 
+Contact.prototype.toString = function () {
+    var $this = this;
+
+    return Contact.strFormat
+        .filter(function (prop) {
+            return $this[prop] !== undefined;
+        })
+        .map(function (prop) {
+            return $this[prop].toString();
+        })
+        .join(', ');
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
-exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
+var phoneBook = {};
 
-    return csv.split('\n').length;
+var placeContact = function (phone, name, email) {
+    try {
+        phoneBook[phone] = new Contact(phone, name, email);
+    } catch (e) {
+        if (e instanceof TypeError) {
+            return false;
+        }
+
+        throw e;
+    }
+
+    return true;
 };
+
+var add = function (phone, name, email) {
+    if (phone === undefined || name === undefined) {
+        return false;
+    }
+
+    if (phoneBook[phone] !== undefined) {
+        return false;
+    }
+
+    return placeContact(phone, name, email);
+};
+
+var update = function (phone, name, email) {
+    if (phone === undefined || name === undefined) {
+        return false;
+    }
+
+    if (phoneBook[phone] === undefined) {
+        return false;
+    }
+
+    return placeContact(phone, name, email);
+};
+
+var findContacts = function (query) {
+    if (query === '') {
+        return [];
+    }
+
+    var allContacts = Object.keys(phoneBook)
+        .map(function (phoneNumber) {
+            return phoneBook[phoneNumber];
+        });
+
+    var found = query === '*'
+        ? allContacts
+        : allContacts
+            .filter(function (contact) {
+                return Object.getOwnPropertyNames(contact)
+                    .map(function (prop) {
+                        return contact[prop];
+                    })
+                    .filter(function (propValue) {
+                        return propValue !== undefined;
+                    })
+                    .some(function (propValue) {
+                        return propValue.indexOf(query) !== -1;
+                    });
+            });
+
+    return found.sort(Contact.sortFunction);
+};
+
+var find = function (query) {
+    return findContacts(query)
+        .map(function (contact) {
+            return contact.toString();
+        });
+};
+
+var findAndRemove = function (query) {
+    return findContacts(query)
+        .reduce(function (count, contact) {
+            phoneBook[contact.phoneRaw] = undefined;
+
+            return count + 1;
+        }, 0);
+};
+
+var importFromCsv = function (csv) {
+    return csv
+        .split('\n')
+        .reduce(function (count, contact) {
+            var data = contact.split(';');
+            if (!data[0] || !data[1]) {
+                return count;
+            }
+
+            var success = placeContact(data[1], data[0], data[2]);
+
+            return success ? count + 1 : count;
+        }, 0);
+};
+
+Object.assign(exports, {
+    add: add,
+    update: update,
+    find: find,
+    findAndRemove: findAndRemove,
+    importFromCsv: importFromCsv
+});
