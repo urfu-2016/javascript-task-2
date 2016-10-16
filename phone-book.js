@@ -62,10 +62,12 @@ function createRecord(phone, name, email) {
 
 
 function add(phone, name, email) {
+    if (email === '') {
+        return false;
+    }
     if (email === undefined) {
         email = '';
     }
-    phone = phone.toString();
     if (!areValid(phone, name, email)) {
         return false;
     }
@@ -85,10 +87,12 @@ function add(phone, name, email) {
  */
 
 function update(phone, name, email) {
+    if (email === '') {
+        return false;
+    }
     if (email === undefined) {
         email = '';
     }
-    phone = phone.toString();
     if (!areValid(phone, name, email)) {
         return false;
     }
