@@ -56,7 +56,7 @@ function checkUniqueness(phone, name, email) {
  */
 
 exports.add = function (phone, name, email) {
-    if ((typeof name !== 'string') || (name === '') || (checkIfPhone(phone) === false)) {
+    if ((isValidContact(phone, name, email) === false)) {
 
         return false;
     }
@@ -83,7 +83,7 @@ exports.add = function (phone, name, email) {
 
 exports.update = function (phone, name, email) {
     var phoneInd = (findIndexOfPhone(phone));
-    if ((checkIfPhone(phone) === false) || (phoneInd === -1)) {
+    if ((isValidContact(phone, name, email) === false) || (phoneInd === -1)) {
 
         return false;
     }
@@ -212,4 +212,14 @@ function convertObjToStr(objWithQuery) {
     var strWithEmail = strWithoutEmail + ', ' + objWithQuery.email;
 
     return strWithEmail;
+}
+
+function isValidContact(phone, name, email) {
+    if (((typeof email !== 'string') && (email !== undefined)) ||
+        (typeof name !== 'string') || (name === '') || (checkIfPhone(phone) === false)) {
+
+        return false;
+    }
+
+    return true;
 }
