@@ -126,7 +126,9 @@ function isValidName(name) {
 var emailPattern = new RegExp('^\\w+@\\w+[.]\\w+$');
 
 function isValidEmail(email) {
-    return email !== null && (email === undefined || (typeof email === 'string' && emailPattern.exec(email) !== null));
+    var emailIsUndefined = email === undefined;
+    var emailIsValid = typeof email === 'string' && emailPattern.exec(email) !== null;
+    return email !== null && (emailIsUndefined || emailIsValid);
 }
 
 function isEntryExists(phone) {
@@ -143,21 +145,17 @@ function getEntryPositionByPhone(phone) {
     return -1;
 }
 
-function formatEntry(entry) {
-    var keys = Object.keys(entry);
-    var entryString = '';
+function formatEntry(e) {
+    var keys = Object.keys(e);
+    var result = '';
     for (var k = 0; k < keys.length; k++) {
-        if (entry[keys[k]] !== null) {
-            if (keys[k] === 'phone') {
-                entryString += formatPhone(entry[keys[k]]);
-            } else {
-                entryString += entry[keys[k]];
-            }
-            entryString += ', ';
+        if (e[keys[k]] !== null) {
+            result += (keys[k] === 'phone') ? formatPhone(e[keys[k]]) : e[keys[k]];
+            result += ', ';
         }
     }
 
-    return entryString;
+    return result;
 }
 
 function formatPhone(phone) {
@@ -166,6 +164,7 @@ function formatPhone(phone) {
     result += phone.slice(3, 6) + '-';
     result += phone.slice(6, 8) + '-';
     result += phone.slice(8, 10);
+
     return result;
 }
 
