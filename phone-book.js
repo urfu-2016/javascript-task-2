@@ -62,9 +62,10 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
+    var diff = 0;
     if (isValidQuery(query)) {
         if (query === '*') {
-            var diff = phoneBook.length;
+            diff = phoneBook.length;
             phoneBook = [];
 
             return diff;
@@ -72,7 +73,7 @@ exports.findAndRemove = function (query) {
         var otherFields = phoneBook.filter(function (value) {
             return !findQuery(value, query);
         });
-        var diff = phoneBook.length - otherFields.length;
+        diff = phoneBook.length - otherFields.length;
         phoneBook = otherFields;
 
         return diff;
