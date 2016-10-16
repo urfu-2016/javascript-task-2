@@ -3,7 +3,7 @@
 exports.isStar = true;
 
 var Contact = function (phone, name, email) {
-    this.phone = phone;
+    this.phone = Contact.formattedPhone(phone);
     this.phoneRaw = phone;
     this.name = name;
     this.email = email;
@@ -11,40 +11,21 @@ var Contact = function (phone, name, email) {
 
 Contact.strFormat = ['name', 'phone', 'email'];
 
-Contact.phoneFormat = new RegExp(/^\d{10}$/);
+Contact.phoneFormat = new RegExp(/^(\d{3})(\d{3})(\d{2})(\d{2})$/);
 Contact.formattedPhone = function (phone) {
     if (!Contact.phoneFormat.test(phone)) {
         throw new TypeError('Wrong phone format');
     }
 
-    return '+7 ({0}) {1}-{2}-{3}'
-        .replace('{0}', phone.slice(0, 3))
-        .replace('{1}', phone.slice(3, 6))
-        .replace('{2}', phone.slice(6, 8))
-        .replace('{3}', phone.slice(8, 10));
+    return phone.replace(Contact.phoneFormat, '+7 ($1) $2-$3-$4');
 };
 
 Contact.sortFunction = function (a, b) {
     var x = a.name.toLowerCase();
     var y = b.name.toLowerCase();
 
-    if (x < y) {
-        return -1;
-    } else if (x > y) {
-        return 1;
-    }
-
-    return 0;
+    return x > y;
 };
-
-Object.defineProperty(Contact.prototype, 'phone', {
-    get: function () {
-        return this._phone;
-    },
-    set: function (phone) {
-        this._phone = Contact.formattedPhone(phone);
-    }
-});
 
 Contact.prototype.toString = function () {
     var $this = this;
@@ -109,6 +90,9 @@ var findContacts = function (query) {
     }
 
     var allContacts = Object.keys(phoneBook)
+        .filter(function (phoneNumber) {
+            return phoneBook[phoneNumber] !== undefined;
+        })
         .map(function (phoneNumber) {
             return phoneBook[phoneNumber];
         });
@@ -153,9 +137,10 @@ var importFromCsv = function (csv) {
         .split('\n')
         .reduce(function (count, contact) {
             var data = contact.split(';');
-            var success = placeContact(data[1], data[0], data[2]);
 
-            return success ? count + 1 : count;
+            return placeContact(data[1], data[0], data[2])
+                ? count + 1
+                : count;
         }, 0);
 };
 
