@@ -54,6 +54,7 @@ function createRecord(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 function add(phone, name, email) {
     if (!areValid(phone, name, email)) {
@@ -73,17 +74,13 @@ function add(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 function update(phone, name, email) {
-    if (email === '') {
-        return false;
-    }
-    if (email === undefined) {
-        email = '';
-    }
     if (!areValid(phone, name, email)) {
         return false;
     }
+    email = (email === undefined) ? '' : email;
     var index = findPhone(phone);
     if (index === -1) {
         return false;
