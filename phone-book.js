@@ -12,6 +12,7 @@ var Contact = function (phone, name, email) {
 Contact.strFormat = ['name', 'phone', 'email'];
 
 Contact.phoneFormat = new RegExp(/^(\d{3})(\d{3})(\d{2})(\d{2})$/);
+
 Contact.formattedPhone = function (phone) {
     if (!Contact.phoneFormat.test(phone)) {
         throw new TypeError('Wrong phone format');
@@ -21,10 +22,7 @@ Contact.formattedPhone = function (phone) {
 };
 
 Contact.sortFunction = function (a, b) {
-    var x = a.name.toLowerCase();
-    var y = b.name.toLowerCase();
-
-    return x > y;
+    return a.name > b.name;
 };
 
 Contact.prototype.toString = function () {
@@ -50,38 +48,18 @@ var placeContact = function (phone, name, email) {
     try {
         phoneBook[phone] = new Contact(phone, name, email);
     } catch (e) {
-        if (e instanceof TypeError) {
-            return false;
-        }
-
-        throw e;
+        return false;
     }
 
     return true;
 };
 
 var add = function (phone, name, email) {
-    if (!phone || !name) {
-        return false;
-    }
-
-    if (phoneBook[phone] !== undefined) {
-        return false;
-    }
-
-    return placeContact(phone, name, email);
+    return phone && !phoneBook[phone] && placeContact(phone, name, email);
 };
 
 var update = function (phone, name, email) {
-    if (!phone || !name) {
-        return false;
-    }
-
-    if (phoneBook[phone] === undefined) {
-        return false;
-    }
-
-    return placeContact(phone, name, email);
+    return phone && phoneBook[phone] && placeContact(phone, name, email);
 };
 
 var findContacts = function (query) {
@@ -90,18 +68,15 @@ var findContacts = function (query) {
     }
 
     var allContacts = Object.keys(phoneBook)
-        .filter(function (phoneNumber) {
-            return phoneBook[phoneNumber] !== undefined;
-        })
-        .map(function (phoneNumber) {
-            return phoneBook[phoneNumber];
+        .map(function (phone) {
+            return phoneBook[phone];
         });
 
     var found = query === '*'
         ? allContacts
         : allContacts
             .filter(function (contact) {
-                return Object.getOwnPropertyNames(contact)
+                return ['name', 'email', 'phoneRaw']
                     .map(function (prop) {
                         return contact[prop];
                     })
@@ -126,7 +101,7 @@ var find = function (query) {
 var findAndRemove = function (query) {
     return findContacts(query)
         .reduce(function (count, contact) {
-            phoneBook[contact.phoneRaw] = undefined;
+            delete phoneBook[contact.phoneRaw];
 
             return count + 1;
         }, 0);
