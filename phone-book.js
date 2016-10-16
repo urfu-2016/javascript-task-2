@@ -111,7 +111,7 @@ exports.find = function (query) {
         }
     }
 
-    return result;
+    return result.sort();
 };
 
 function entriesToString() {
@@ -146,7 +146,7 @@ function allEntries() {
         result.push(phoneToFormat(entries[i]));
     }
 
-    return result;
+    return result.sort();
 }
 
 function isEntryExist(csvArray) {
