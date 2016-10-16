@@ -12,7 +12,7 @@ function isValidPhone(phone) {
 }
 
 function isValidEmail(email) {
-    var validEmail = /^\w+@\w+(-\w+)?.\w{2,255}$/;
+    var validEmail = /^\w+@\w+.\w{2,255}$/;
 
     return validEmail.test(email) || email === undefined;
 }
@@ -121,10 +121,6 @@ exports.find = function (query) {
 };
 
 exports.importFromCsv = function (csv) {
-    if (typeof csv !== 'string') {
-
-        return 0;
-    }
 
     return csv.split('\n').reduce(function (acc, item) {
         var args = item.split(';');
