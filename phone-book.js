@@ -36,11 +36,9 @@ function isAddingPossible(row) {
 
 function isInputCorrect(row) {
     var isPhoneFormatCorrect = /^\d{10}$/.test(row.phone);
-    var isNameCorrect = typeof row.name === 'string' && row.name.trim() !== '';
-    var isEmailCorrect = row.email === undefined || typeof row.email === 'string' ||
-        row.email.trim() !== '';
+    var isNameCorrect = Boolean(row.name);
 
-    return isPhoneFormatCorrect && isNameCorrect && isEmailCorrect;
+    return isPhoneFormatCorrect && isNameCorrect;
 }
 
 function isRowAlreadyExists(row) {
@@ -96,7 +94,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    var phones = query === '*' ? getAllKeys(phoneBook) : findRowsByQuery(query);
+    var phones = findRowsByQuery(query);
     for (var i = 0; i < phones.length; i++) {
         var currentRow = phoneBook[phones[i]];
         var email = currentRow.email === undefined ? '' : ', ' + currentRow.email;
@@ -123,8 +121,11 @@ function getAllKeys(obj) {
 }
 
 function findRowsByQuery(query) {
-    if (typeof query !== 'string' || query.trim() === '') {
+    if (!query) {
         return [];
+    }
+    if (query === '*') {
+        return getAllKeys(phoneBook);
     }
     var result = [];
     for (var phone in phoneBook) {
