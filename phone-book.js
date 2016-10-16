@@ -109,7 +109,7 @@ function findPhone(phone) {
  */
 exports.findAndRemove = function (query) {
     var found = findAll(query);
-    for (var i = 0; i < found; i++) {
+    for (var i = 0; i < found.length; i++) {
         var record = found[i];
         phoneBook = phoneBook.splice(indexOf(record.phone, record.name, record.email), 1);
     }
