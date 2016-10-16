@@ -72,14 +72,20 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var counter = 0;
     function search(elem, index) {
-        var properties = ['name', 'email', 'phone'];
-        for (var i = 0; i < 3; i++) {
-            if (elem.email !== undefined && elem[properties[i]].indexOf(query) !== -1) {
+        var properties = ['name', 'phone'];
+        for (var i = 0; i < 2; i++) {
+            if (elem[properties[i]].indexOf(query) !== -1) {
                 counter++;
                 delete phoneBook[index];
 
                 return elem;
             }
+        }
+        if (elem.email !== undefined && elem.email.indexOf(query) !== -1) {
+            counter++;
+            delete phoneBook[index];
+
+            return elem;
         }
 
         return undefined;
@@ -99,11 +105,14 @@ exports.find = function (query) {
         if (query === '*') {
             return elem;
         }
-        var properties = ['name', 'email', 'phone'];
-        for (var i = 0; i < 3; i++) {
-            if (elem.email !== undefined && elem[properties[i]].indexOf(query) !== -1) {
+        var properties = ['name', 'phone'];
+        for (var i = 0; i < 2; i++) {
+            if (elem[properties[i]].indexOf(query) !== -1 ) {
                 return elem;
             }
+        }
+        if (elem.email !== undefined && elem.email.indexOf(query) !== -1) {
+            return elem;
         }
 
         return undefined;
@@ -136,7 +145,7 @@ exports.find = function (query) {
         return finedList;
     }
 
-    return undefined;
+    return [];
 };
 
 /**
