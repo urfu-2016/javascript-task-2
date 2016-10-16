@@ -38,6 +38,7 @@ function checkUnique(element) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool} – успех или не успех операции
  */
 exports.add = function(phone, name, email) {
     if (correctNumber(phone) && correctData(name) && checkUnique(phone)) {
@@ -71,6 +72,7 @@ function traverseNoteAndFind(phone) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Bool} – успех или не успех операции
  */
 exports.update = function(phone, name, email) {
     if (correctNumber(phone) && correctData(name)) {
@@ -91,6 +93,7 @@ exports.update = function(phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} – кол-во удалённых записей
  */
 exports.findAndRemove = function(query) {
     var deleteCounter = 0;
@@ -103,7 +106,7 @@ exports.findAndRemove = function(query) {
             return (element.phone.indexOf(query) === -1 && 
                 element.name.indexOf(query) === -1 && 
                 realEmail.indexOf(query) === -1);
-        })
+        });
 
         deleteCounter = phoneBook.length - refreshedBook.length;
         phoneBook = refreshedBook;
@@ -123,6 +126,7 @@ function comfortFormat(phone) {
 
 function emailSugar(email) {
     if (email === undefined) {
+
         return '';
     }
 
@@ -132,25 +136,30 @@ function emailSugar(email) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Number} – записи, удовлетворяющие условию
  */
 exports.find = function(query) {
     if (correctData(query)) {
+
         return phoneBook.filter(function(element) {
-            if (query === "*") {
+            if (query === '*') {
                 return element;
             }
+
             return element.phone.indexOf(query) >= 0 || element.name.indexOf(query) >= 0 ||
                 (correctData(element.email) && element.email.indexOf(query) >= 0);
         })
         .sort(function(first, second) {
+
             return first.name > second.name;
         })
         .map(function(element) {
             var realEmail = emailSugar(element.email);
+
             return element.name + ', ' + comfortFormat(element.phone) + realEmail;
-        })
+        });
     }
-    
+
     return '';
 
 };
