@@ -18,11 +18,11 @@ function Entry(phone, name, email) {
 }
 
 function isPhoneValid(phone) {
-    return /^\d{10}$/.test(phone.toString());
+    return phone && /^\d{10}$/.test(phone.toString());
 }
 
 function isNameValid(name) {
-    return name.length !== 0 && Object.prototype.toString.call(name) === '[object String]';
+    return name && name.length !== 0 && Object.prototype.toString.call(name) === '[object String]';
 }
 
 function isArgumentsValid(phone, name, email) {
