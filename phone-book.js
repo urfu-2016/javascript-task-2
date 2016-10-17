@@ -11,8 +11,8 @@ exports.isStar = true;
  */
 var phoneBook = [];
 var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
-var nameRegExp = /^[a-zA-Zа-яА-Я ]+$/;
-var emailRegExp = /^([a-zA-Z0-9_]+)@([a-zA-Z0-9_]+).([a-zA-Z0-9_]+)$/;
+//var nameRegExp = /^[a-zA-Zа-яА-Я ]+$/;
+//var emailRegExp = /^([a-zA-Z0-9_]+)@([a-zA-Z0-9_]+).([a-zA-Z0-9_]+)$/;
 
 function phoneFormat(phone) {
     var phoneMatch = phone.match(phoneRegExp);
@@ -59,9 +59,8 @@ function findPhone(phone) {
  */
 exports.add = function (phone, name, email) {
     try {
-        if ((name.match(nameRegExp) === null) ||
-            (phone.match(phoneRegExp) === null) ||
-            ((email !== undefined) && (email.match(emailRegExp) === null))) {
+        if ((name.match(/.+/) === null) ||
+            (phone.match(phoneRegExp) === null)) {
             throw new TypeError();
         }
         if (findPhone(phone)) {
@@ -85,9 +84,8 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     try {
-        if ((name.match(nameRegExp) === null) ||
-            (phone.match(phoneRegExp) === null) ||
-            ((email !== undefined) && (email.match(emailRegExp) === null))) {
+        if ((name.match(/.+/) === null) ||
+            (phone.match(phoneRegExp) === null)) {
             throw new TypeError();
         }
         var del = exports.findAndRemove(phone);
