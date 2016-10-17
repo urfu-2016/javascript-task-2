@@ -66,7 +66,7 @@ exports.update = function (phone, name, email) {
 function addIndexArray(resultIndex) {
     var arr = [];
     for (var n = 0; n < resultIndex.length; n++) {
-        resultIndex[n].forEach(function (item, n) {
+        resultIndex[n].forEach(function (item) {
             arr.push(item);
         });
     }
@@ -74,7 +74,7 @@ function addIndexArray(resultIndex) {
     return arr;
 }
 
-function addNewBook(arr, resultIndex) {
+function addNewBook(arr) {
     var newBook = {
         phone: [],
         name: [],
@@ -108,13 +108,13 @@ exports.findAndRemove = function (query) {
     resultIndex.push(findIndex(phoneBook.email, query));
     if (resultIndex !== []) {
 		var arr = addIndexArray(resultIndex);
-        phoneBook = addNewBook(arr, resultIndex);
+        phoneBook = addNewBook(arr);
         return arr.length;
     }
     return 0;
 };
 
-function findIndex(arr,str) {
+function findIndex(arr, str) {
     var result = [];
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].indexOf(str) !== -1) {
@@ -127,9 +127,9 @@ function findIndex(arr,str) {
 
 function strPhone(phone) {
     var str = '+7 ';
-    str += '(' + phone.substring(0,3) + ') ';
-    str += phone.substring(3,6) + '-';
-    str += phone.substring(6,8) + '-';
+    str += '(' + phone.substring(0, 3) + ') ';
+    str += phone.substring(3, 6) + '-';
+    str += phone.substring(6, 8) + '-';
     str += phone.substring(8);
 
     return str;
@@ -138,12 +138,12 @@ function strPhone(phone) {
 function dictionary(arr) {
     var res = [];
     for (var i = 0; i < arr.length; i++) {
-        arr[i].forEach(function(item, i, a) {
-            var strP = strPhone(phoneBook.phone[item])
+        arr[i].forEach(function (item) {
+            var strP = strPhone(phoneBook.phone[item]);
             if (phoneBook.email[item] === '') {
-                res.push(phoneBook.name[item] + ', ' + strP)
+                res.push(phoneBook.name[item] + ', ' + strP);
             } else {
-                res.push(phoneBook.name[i] + ', ' + strP + ', ' + phoneBook.email[i])
+                res.push(phoneBook.name[item] + ', ' + strP + ', ' + phoneBook.email[item]);
             }
         })
     }
@@ -154,7 +154,7 @@ function dictionary(arr) {
 function addData(i, res) {
     var strP = strPhone(phoneBook.phone[i])
     if (phoneBook.email[i] === '') {
-        res.push(phoneBook.name[i] + ', ' + strP)
+        res.push(phoneBook.name[i] + ', ' + strP);
     } else {
         res.push(phoneBook.name[i] + ', ' + strP + ', ' + phoneBook.email[i]);
     }
