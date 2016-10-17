@@ -68,7 +68,7 @@ exports.findAndRemove = function (query) {
     switch (query) {
         case '*':
             del = phoneBook.length;
-            phoneBook = [];
+            phoneBook.clear();
             break;
         case '':
             break;
