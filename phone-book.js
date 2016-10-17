@@ -99,14 +99,14 @@ exports.update = function (phone, name, email) {
     }
 
     var contact = data[phone];
-    if (contact.hasOwnProperty('name')) {
-        phoneBook[phone].name = contact.name;
-    }
-    if (contact.hasOwnProperty('email')) {
-        phoneBook[phone].email = contact.email;
-    } else {
-        delete phoneBook[phone].email;
-    }
+    //if (contact.hasOwnProperty('name')) {
+    phoneBook[phone].name = contact.name;
+    //}
+    //if (contact.hasOwnProperty('email')) {
+    phoneBook[phone].email = contact.email;
+    //} else {
+    //delete phoneBook[phone].email;
+    //}
 
     return true;
 };
