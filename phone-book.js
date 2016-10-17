@@ -40,21 +40,23 @@ exports.findAndRemove = function (query) {
 
         return (phoneBook.length - 1);
     }
-    if (query === '') {
+    else {
+        if (query === '') {
 
         return 0;
-    }
-    var s = 0;
-    var foundRegExp = new RegExp(query);
-    for (var i = 0; i < phoneBook.length; i++) {
-        if ((foundRegExp.test((phoneBook[i])[0])) ||
-        (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
-            phoneBook.splice(i, 1);
-            s++;
         }
-    }
+        var s = 0;
+        var foundRegExp = new RegExp(query);
+        for (var i = 0; i < phoneBook.length; i++) {
+            if ((foundRegExp.test((phoneBook[i])[0])) ||
+            (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
+                phoneBook.splice(i, 1);
+                s++;
+            }
+        }
 
-    return s;
+        return s;
+    }
 };
 
 exports.find = function (query) {
@@ -63,20 +65,22 @@ exports.find = function (query) {
 
         return null;
     }
-    if (query === '*') {
-        help1();
-    }
-    var foundRegExp = new RegExp(query);
-    for (var i = 0; i < phoneBook.length; i++) {
-        if ((foundRegExp.test((phoneBook[i])[0])) ||
-        (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
-            var sp = ((phoneBook[i])[0]).split('');
-            var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
-            sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
-            arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
+    else {
+        if (query === '*') {
+            help1();
         }
+        var foundRegExp = new RegExp(query);
+        for (var i = 0; i < phoneBook.length; i++) {
+            if ((foundRegExp.test((phoneBook[i])[0])) ||
+            (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
+                var sp = ((phoneBook[i])[0]).split('');
+                var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
+                sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
+                arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
+            }
+        }
+        help2();
     }
-    help2();
 };
 
 function help2() {
