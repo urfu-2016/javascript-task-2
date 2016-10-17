@@ -52,7 +52,13 @@ exports.find = function (query) {
     if (query === '') {
         return result;
     }
+    result = getContactsList(query);
 
+    return result.map(format);
+};
+
+function getContactsList(query) {
+    var result = [];
     var keys = (Object.keys(phoneBook));
     keys.forEach(function (phone) {
         if (query === '*' || contains(phone, query)) {
@@ -61,15 +67,14 @@ exports.find = function (query) {
     });
 
     result.sort(function (first, second) {
-        return phoneBook[first][0].localeCompare(phoneBook[second][0])
+        return phoneBook[first][0].localeCompare(phoneBook[second][0]);
     });
 
-    return result.map(format);
-};
-
+    return result;
+}
 function contains(phone, query) {
     return (phone.indexOf(query) !== -1 || phoneBook[phone][0].indexOf(query) !== -1 ||
-    (phoneBook[phone][1] != undefined && phoneBook[phone][1].indexOf(query) !== -1 ))
+    (phoneBook[phone][1] !== undefined && phoneBook[phone][1].indexOf(query) !== -1));
 }
 
 function format(phone) {
@@ -83,20 +88,12 @@ function format(phone) {
 }
 
 exports.findAndRemove = function (query) {
-    var array = exports.find(query);
-    var count = 0;
-    var beginSlice;
-    var endSlice;
-    var phone;
-    for (var i = 0; i < array.length; i++) {
-        beginSlice = array[i].indexOf('+');
-        endSlice = array[i].indexOf(',', beginSlice);
-        phone = array[i].slice(beginSlice, endSlice);
-        delete phoneBook[phone];
-        count++;
+    var phones = getContactsList(query);
+    for (var i = 0; i < phones.length; i++) {
+        delete phoneBook[phones[i]];
     }
 
-    return count;
+    return phones.length;
 };
 
 
