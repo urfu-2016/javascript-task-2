@@ -9,21 +9,16 @@ function getPhone(phone) {
 }
 
 exports.add = function (phone, name, email) {
-    if (isPhoneCorrect(phone) && isNameCorrect(name)) {
-        phoneBook[phone] = [name, email];
-
-        return true;
+    if (!isPhoneCorrect(phone) || !name || !isPhoneUnique(phone)) {
+        return false;
     }
+    phoneBook[phone] = [name, email];
 
-    return false;
+    return true;
 };
 
-function isNameCorrect(name) {
-    return (name);
-}
-
 function isPhoneCorrect(phone) {
-    return (/^\d{10}$/.test(phone) && isPhoneUnique(phone));
+    return (/^\d{10}$/.test(phone));
 
 }
 
@@ -32,7 +27,7 @@ function isPhoneUnique(phone) {
 }
 
 exports.update = function (phone, name, email) {
-    if (!isNameCorrect(name)) {
+    if (!isPhoneCorrect(phone) || !name) {
         return false;
     }
     phoneBook[phone][0] = name;
