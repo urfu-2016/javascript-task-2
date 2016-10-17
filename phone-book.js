@@ -115,11 +115,10 @@ exports.update = function (phone, name, email) {
 
 function gettingRightNumbers(query) {
     var search = [];
-    var quer = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     var keys = Object.keys(phoneBook);
     for (var id = 0; id < keys.length; id++) {
 
-        if (successFind(quer, keys[id])) {
+        if (keys[id] && successFind(query, keys[id])) {
             search.push(keys[id]);
         }
     }
@@ -162,20 +161,20 @@ exports.findAndRemove = function (query) {
 function comfortFormat(phone) {
 
     return ('+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
-        phone.slice(6, 8) + '-' + phone.slice(8));
+        phone.slice(6, 8) + '-' + phone.slice(8, 10));
 
 }
 
-function emailSugar(email) {
-    if (email === undefined) {
+// function emailSugar(email) {
+//     if (email === undefined) {
 
-        return '';
+//         return '';
 
-    }
+//     }
 
-    return ', ' + email;
+//     return ', ' + email;
 
-}
+// }
 
 function successFind(query, phone) {
 
@@ -199,9 +198,18 @@ exports.find = function (query) {
     if (query === '*') {
 
         return Object.keys(phoneBook).map(function (element) {
-            var realEmail = emailSugar(phoneBook[element].email);
+            // var realEmail = emailSugar(phoneBook[element].email);
+            if (phoneBook[element].email) {
 
-            return phoneBook[element].name + ', ' + comfortFormat(element) + realEmail;
+                return phoneBook[element].name + ', ' + comfortFormat(element) + ', ' +
+                phoneBook[element].email;
+
+            }
+            else {
+
+                return phoneBook[element].name + ', ' +  comfortFormat(element);
+
+            }
 
         })
         .sort();
@@ -227,9 +235,18 @@ exports.find = function (query) {
     }
 
     return searchFor.map(function (element) {
-        var realEmail = emailSugar(phoneBook[element].email);
+        // var realEmail = emailSugar(phoneBook[element].email);
+        if (phoneBook[element].email) {
 
-        return phoneBook[element].name + ', ' + comfortFormat(element) + realEmail;
+            return phoneBook[element].name + ', ' + comfortFormat(element) + ', ' + 
+            phoneBook[element].email;
+
+        }
+        else {
+
+            return phoneBook[element].name + ', ' + comfortFormat(element);
+
+        }
 
     })
     .sort();
