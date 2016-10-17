@@ -17,7 +17,7 @@ exports.add = function (phone, name, email) {
             return false;
         }
     }
-    if ((check(phone, name)) && (isNaN(name))) {
+    if ((check(phone, name)) && (isNaN(name)) && (name.length > 0)) {
         var em = {
             n: name,
             p: phone,
@@ -42,7 +42,8 @@ function check(phone, name) {
 exports.update = function (phone, name, email) {
     var flag = false;
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i].p === phone) && (check(phone, name)) && (isNaN(name))) {
+        if ((phoneBook[i].p === phone) && (check(phone, name)) &&
+        (isNaN(name)) && (name.length > 0)) {
             phoneBook[i].n = name;
             phoneBook[i].e = email;
 
@@ -191,16 +192,21 @@ function under(email) {
 }
 
 exports.importFromCsv = function (csv) {
-    return csv.split('\n').length;
-    // for (i = 0; i < csv.length, i++) {
-    //    new_.push(csv[i].split('\n'));
-    // }
-    // for (j = 0; j < new_.length, j++) {
-    //    newest.push(new_[i].split(';'));
-    //    if ((newest[i] === 10) {
-    //        exports.add(newest[i], newest[i-1], newest[i+1];
-    //        exports.update(newest[i], newest[i-1], newest[i+1];
-    //    }
-    // }
+    csv = csv.split('\n');
+    var res = 0;
+    var data = [];
+    var phone;
+    var name;
+    var email;
+    for (var i = 0; i < csv.length; i++) {
+        data = csv[i].split(';');
+        phone = data[0];
+        name = data[1];
+        email = data[2];
+        if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
+            res++;
+        }
+    }
 
+    return res;
 };
