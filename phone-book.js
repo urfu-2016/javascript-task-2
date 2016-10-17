@@ -210,6 +210,7 @@ exports.importFromCsv = function (csv) {
             var phone = Object.keys(contact)[0];
             var name = contact[phone].name;
             var email = contact[phone].email;
+            var result = false;
             if (phoneBook.hasOwnProperty(phone)) {
                 result = exports.update(phone, name, email);
             } else {
