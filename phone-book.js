@@ -64,7 +64,7 @@ function isCorrectQuery(i, query) {
         return true;
     }
 
-    return true;
+    return false;
 }
 
 function parsePhone(phone) {
