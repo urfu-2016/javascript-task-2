@@ -76,6 +76,12 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
+
+function boolUpd(phone, name, email) {
+    
+    return (!inPhoneBook(phone) || !validMail(email) || !validName(name) || !isPhone(phone))
+}
+
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
@@ -84,10 +90,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (!inPhoneBook(phone) || !validName(name) || !isPhone(phone)) {
-        return false;
-    }
-    if (!validMail(email)) {
+    if (boolUpd) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
