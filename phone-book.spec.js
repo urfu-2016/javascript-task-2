@@ -46,6 +46,18 @@ describe('phone-book', function () {
         assert.strictEqual(phoneBook.findAndRemove('@'), 3);
     });
 
+    it('должен добавлять записи2', function () {
+        assert.ok(phoneBook.add('5554440044', 'Григорий', 'grisha@example.com'));
+        assert.ok(phoneBook.add('5552220022', 'Борис', 'boris@example.com'));
+        assert.ok(phoneBook.add('5551110011', 'Алекс'));
+    });
+
+    it('должен искать все записи по запросу ""', function () {
+        assert.deepStrictEqual(phoneBook.find(''), [
+            
+        ]);
+    });
+
     if (phoneBook.isStar) {
         it('должен экспортировать из cvs', function () {
             var csv = [

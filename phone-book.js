@@ -138,6 +138,9 @@ exports.find = function (query) {
 
         return resultPhoneBook(phoneBook);
     }
+    if (query === '') {
+        return [];
+    }
     var resultBook = phoneBook.filter(function (item) {
 
         return (item.phone === query || item.phone.indexOf(query) !== -1) ||
