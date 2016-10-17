@@ -69,6 +69,9 @@ exports.update = function (phone, name, email) {
  * @returns {Integer}
  */
 exports.findAndRemove = function (query) {
+    if (!query) {
+        return 0;
+    }
     var foundPhones = getFoundPhones(query).map(function (record) {
         return record.phone;
     });
@@ -85,11 +88,16 @@ exports.findAndRemove = function (query) {
  * @returns {array}
  */
 exports.find = function (query) {
+    if (!query) {
+        return [];
+    }
+
     if (query === '*') {
         return phoneBook.sort(function (a, b) {
             return a.name > b.name;
         }).map(formatPhoneRecord);
     }
+
     var foundPhones = getFoundPhones(query);
 
     return foundPhones.sort(function (a, b) {
