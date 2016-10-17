@@ -11,6 +11,7 @@ function compareFunction(a, b) {
     if (a._name > b._name) {
         return 1;
     }
+
     return 0;
 }
 
@@ -18,13 +19,15 @@ function isConstains(i, object) {
     if (i._phone === object._phone && i._name === object._name && i._email === object._email) {
         return true;
     }
+
     return false;
 }
 
-function isFound(i, query) {
-    if (i._email.indexOf(query) === -1 && i._phone.indexOf(query) === -1 && i._name.indexOf(query) === -1) {
+function isFound(i, q) {
+    if (i._email.indexOf(q) === -1 && i._phone.indexOf(q) === -1 && i._name.indexOf(q) === -1) {
         return false;
     }
+
     return true;
 }
 
@@ -46,6 +49,7 @@ exports.add = function (phone, name, email) {
         }
     }
     phoneBook.push(object);
+
     return true;
 }
 
@@ -62,6 +66,7 @@ exports.update = function (phone, name, email) {
             return false;
         }
     }
+
     return false;
 }
 
@@ -79,9 +84,10 @@ exports.findAndRemove = function (query) {
         if (isFound(phoneBook[i],query)) {
             phoneBook.splice(i,1);
             t = t + 1;
+        }
     }
+
     return t;
-    }
 }
 
 exports.find = function (query) {
@@ -111,21 +117,22 @@ exports.find = function (query) {
             arr.push(phoneBook1[i]._name + ', ' + '7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ' + phoneBook[i]._email);
         }
     }
+
     return arr;
-    console.log(arr.length);
 }
 
 exports.importFromCsv = function (csv) {
     var t = 0;
     for (var i = 0; i < csv.length; i++) {
         var str = csv[i].split(';');
-        if (add(str[1], str[0], str[2] == true)) {
+        if (add(str[1], str[0], str[2] === true)) {
             t = t + 1;
         } else {
-            if (update(str[1], str[0], str[2] == true)) {
+            if (update(str[1], str[0], str[2] === true)) {
                 t = t + 1;
             }
         }
     }
+
     return t;
 }
