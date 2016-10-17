@@ -50,7 +50,7 @@ function getCorrectData(phone, name, email) {
 
     if (correctPhone) {
         data[correctPhone] = {};
-        if (isNameIncorrect(name)) {
+        if (!name) {
             return false;
         }
         data[correctPhone].name = name;
@@ -110,10 +110,6 @@ exports.update = function (phone, name, email) {
 
     return true;
 };
-
-function isNameIncorrect(name) {
-    return typeof name !== 'string' || name === '';
-}
 
 /**
  * Удаление записей по запросу из телефонной книги
