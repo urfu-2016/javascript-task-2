@@ -10,7 +10,7 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-var rPhone = /\d/g;
+var rPhone = /^\d{10}$/;
 
 /**
  * Добавление записи в телефонную книгу
@@ -183,12 +183,11 @@ function isEmpty(str) {
 }
 
 function isCorrectPhone(phone) {
-    var reg = phone.match(rPhone);
-    if (reg === null) {
+    if (phone === null || phone === undefined) {
 
         return false;
     }
-    if (reg.length === 10) {
+    if (rPhone.test(phone) ) {
 
         return true;
     }
