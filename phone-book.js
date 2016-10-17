@@ -115,8 +115,9 @@ exports.update = function (phone, name, email) {
 function gettingRightNumbers(query) {
     var search = [];
     var keys = Object.keys(phoneBook);
-    for (var id = 0; id < keys.length; id +=1) {
-        if (psuccessFind(query, keys[id])) {
+    for (var id = 0; id < keys.length; id++) {
+        // console.log(keys[id].indexOf(query));
+        if (successFind(query, keys[id])) {
             search.push(keys[id]);
         }
     }
@@ -174,10 +175,10 @@ function emailSugar(email) {
 }
 
 function successFind(query, phone) {
-    if (phone.indexOf(query) > -1 || (phoneBook[phone].email && phoneBook[
-            phone].email.indexOf(query > -1)) || phoneBook[phone].name.indexOf(
-            query) > -1) {
-        console.log(phone);
+
+    if (phone.indexOf(query) > -1 || (phoneBook[phone].email && phoneBook[phone].email.indexOf(query) > -1)
+        || phoneBook[phone].name.indexOf(query) > -1) {
+  
         return true;
     }
 
@@ -207,11 +208,14 @@ exports.find = function (query) {
 
     }
     var searchFor = [];
-    for (var phone in phoneBook) {
-        if (phone && successFind(query, phone)) {
-            searchFor.push(phone);
+    var keys = Object.keys(phoneBook);
+    
+    for (var id=0; id < keys.length; id++) {
+        if (successFind(query, keys[id])) {
+            searchFor.push(keys[id]);
         }
     }
+
     if (searchFor.length === 0) {
 
         return [];
