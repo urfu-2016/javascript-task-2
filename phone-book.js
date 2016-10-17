@@ -134,6 +134,9 @@ exports.find = function (query) {
         // return transformBook(phoneBook).sort();
     }
     var indexsOfRecords = findIndexsOfRecords(query);
+    if (indexsOfRecords.length === 0) {
+        return [];
+    }
     var resultBook = [];
     for (var i = 0; i < indexsOfRecords.length; i++) {
         resultBook.push(phoneBook[indexsOfRecords[i]]);
