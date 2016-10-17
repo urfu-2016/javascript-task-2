@@ -12,10 +12,10 @@ exports.isStar = true;
 var phoneBook = [];
 
 function isValidData(phone, name) {
-    if (!phone || transformPhone(phone) === '') {
+    if (!phone || typeof(phone) !== 'string' || transformPhone(phone) === '') {
         return false;
     }
-    if (!name) {
+    if (!name || typeof(name) !== 'string') {
         return false;
     }
 
