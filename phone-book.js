@@ -73,7 +73,7 @@ function undefinedNaNPhone(phone) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (checkName(name) && phoneBook[phone]) {
+    if (checkName(name) && checkPhone(phone) && phoneBook[phone]) {
         phoneBook[phone].name = name;
         if (typeof email === 'undefined') {
             delete phoneBook[phone].email;
