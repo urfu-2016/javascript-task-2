@@ -36,10 +36,10 @@ exports.add = function (phone, name, email) {
                 name: name,
                 email: email
             });
-        };
+        }
 
         return true;
-    };
+    }
 
     return false;
 };
