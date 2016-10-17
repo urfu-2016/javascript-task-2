@@ -1,46 +1,24 @@
 'use strict';
-
-/**
- * Сделано задание на звездочку
- * Реализован метод importFromCsv
- */
 exports.isStar = false;
-
-/**
- * Телефонная книга
- */
 var phoneBook = [];
-
-/**
- * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.add = function (phone, name, email) {
     var phoneRegEx = /^\d{10}$/;
     var currentPhone = new RegExp(phone);
-    if ((!phoneRegEx.test(phone)) || (name === '') || (name === undefined) || (currentPhone.exec(phoneBook))){
+    if ((!phoneRegEx.test(phone)) || (name === '') ||
+    (name === undefined) || (currentPhone.exec(phoneBook))) {
         return false;
     }
     phoneBook.push([phone, name, email]);
     return true;
 };
-
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
 exports.update = function (phone, name, email) {
     var phoneRegEx = /^\d{10}$/;
     var currentPhone = new RegExp(phone);
-    if ((!phoneRegEx.test(phone)) || (name === '') || (name === undefined)){
+    if ((!phoneRegEx.test(phone)) || (name === '') || (name === undefined)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (currentPhone.exec(phoneBook[i])){
+        if (currentPhone.exec(phoneBook[i])) {
             phoneBook.splice(i, 1);
             phoneBook.splice(i, 0, [phone, name, email]);
             return true;
@@ -48,74 +26,61 @@ exports.update = function (phone, name, email) {
     }
     return false;
 };
-
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
 exports.findAndRemove = function (query) {
-    if (query === '*'){
+    if (query === '*') {
         phoneBook = [];
         return (phoneBook.length - 1);
     }
-    if (query === ''){
+    if (query === '') {
         return 0;
     }
     var s = 0;
     var foundRegExp = new RegExp(query);
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((foundRegExp.test((phoneBook[i])[0])) || (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))){            
+        if ((foundRegExp.test((phoneBook[i])[0])) ||
+        (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
             phoneBook.splice(i, 1);
             s++;
         }
     }
     return s;
 };
-
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 exports.find = function (query) {
     var arrayOfFounded = [];
-    if (query === ''){
+    if (query === '') {
         return null;
     }
-    if (query === '*'){
-        for (var i = 0; i < phoneBook.length; i++) {
-            var sp = ((phoneBook[i])[0]).split('');
-            var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] + sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
-            arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
+    if (query === '*') {
+        for (var j = 0; j < phoneBook.length; j++) {
+            var sph = ((phoneBook[j])[0]).split('');
+            var phone = '+7 (' + sph[0] + sph[1] + sph[2] + ') ' + sph[3] +
+            sph[4] + sph[5] + '-' + sph[6] + sph[7] + '-' + sph[8] + sph[9];
+            arrayOfFounded.push([(phoneBook[j])[1], phone, (phoneBook[j])[2]]);
         }
-        var sortedArray = arrayOfFounded.sort();
-        var sortedArrayOfStrings = [];
-        for (var i = 0; i < sortedArray.length; i++) {
-            sortedArrayOfStrings.push((sortedArray[i]).join(', '));
+        var sortedArrayX = arrayOfFounded.sort();
+        var sortedArrayOfStringsX = [];
+        for (var k = 0; k < sortedArrayX.length; k++) {
+            sortedArrayOfStringsX.push((sortedArrayX[k]).join(', '));
         }
-        return sortedArrayOfStrings;
+        return sortedArrayOfStringsX;
     }
     var foundRegExp = new RegExp(query);
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((foundRegExp.test((phoneBook[i])[0])) || (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))){
+        if ((foundRegExp.test((phoneBook[i])[0])) ||
+        (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
             var sp = ((phoneBook[i])[0]).split('');
-            var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] + sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
+            var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
+            sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
             arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
         }
     }
     var sortedArray = arrayOfFounded.sort();
     var sortedArrayOfStrings = [];
-    for (var i = 0; i < sortedArray.length; i++) {
-        sortedArrayOfStrings.push((sortedArray[i]).join(', '));
+    for (var l = 0; l < sortedArray.length; l++) {
+        sortedArrayOfStrings.push((sortedArray[l]).join(', '));
     }
     return sortedArrayOfStrings;
 };
-
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
 exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
