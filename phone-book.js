@@ -136,6 +136,21 @@ exports.find = function (query) {
     return allFound;
 };
 
+function countUnqPhn(notesCsv) {
+    var unqPhones = [];
+    var phone;
+    var n = 0;
+    for (var i = 0; i < notesCsv.length; i++) {
+        phone = notesCsv[i].split(';')[1];
+        if (unqPhones.indexOf(phone) === -1){
+            n++;
+            unqPhones.push(phone);
+        }
+    }
+
+    return n;
+}
+
 /**
  * Импорт записей из csv-формата
  * @star
@@ -151,15 +166,13 @@ exports.importFromCsv = function (csv) {
     var name;
     var phone;
     var email;
-    var n = 0;
+    var n = countUnqPhn(notesCsv);
     for (var i = 0; i < notesCsv.length; i++) {
         name = notesCsv[i].split(';')[0];
         phone = notesCsv[i].split(';')[1];
         email = notesCsv[i].split(';')[2];
         if (!exports.add(phone, name, email)) {
-            n += exports.update(phone, name, email);
-        } else {
-            n += 1;
+            n += exports.update(phone, name, email) - 1;
         }
     }
 
