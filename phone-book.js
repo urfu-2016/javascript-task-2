@@ -44,9 +44,6 @@ function isString(name) {
 
 function isCorrectPhone(phone1) {
     var phone = String(phone1);
-    if (phone === '') {
-        return true;
-    }
     var reg = '[0123456789]{10}';
     if (!phone.match(reg) || phone.length !== 10) {
         return false;
