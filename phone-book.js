@@ -45,7 +45,7 @@ function isCorrectPhone(phone) {
         return false;
     }
 
-    return true
+    return true;
 }
 
 exports.add = function (phone, name, email) {
