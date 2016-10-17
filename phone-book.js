@@ -36,9 +36,6 @@ exports.add = function (phone, name, email) {
 function getContact(phone, name, email) {
     var data = getCorrectData(phone, name, email);
     if (data && data.hasOwnProperty(phone)) {
-        if (phoneBook.hasOwnProperty(phone)) {
-            return false;
-        }
 
         return data[phone];
     }
@@ -50,7 +47,7 @@ function getCorrectData(phone, name, email) {
 
     if (correctPhone) {
         data[correctPhone] = {};
-        if (name) {
+        if (typeof name !== 'string' || name === '') {
             return false;
         }
         data[correctPhone].name = name;
