@@ -153,7 +153,7 @@ exports.importFromCsv = function (csv) {
         if (!isCorrectInput(sData[1], sData[0], sData[2]) || sData.length > 3) {
             continue;
         }
-        if (mySearch(sData[1]), sData[2]) {
+        if (mySearch(sData[1], sData[2])) {
             exports.update(sData[1], sData[0], sData[2]);
             counter++;
         } else {
@@ -237,6 +237,7 @@ function mySearch(phone, email) {
         if (email !== undefined) {
             return item.phone === phone || item.email === email;
         }
+
         return item.phone === phone;
     });
 }
