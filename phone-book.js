@@ -111,13 +111,12 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var records = [];
-    var contactProperties = [];
     if (!checkQuery) {
 
         return records;
     }
-    return findRecords(query);
 
+    return findRecords(query);
 };
 
 function findRecords(query) {
