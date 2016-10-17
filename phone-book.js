@@ -110,7 +110,7 @@ exports.findAndRemove = function (query) {
             var realEmail = emailSugar(element.email);
             var lowQuery = query.toLowerCase();
 
-            return (element.phone.indexOf(LowQuery) === -1 &&
+            return (element.phone.indexOf(lowQuery) === -1 &&
                 element.name.toLowerCase().indexOf(lowQuery) === -1 &&
                 realEmail.toLowerCase().indexOf(lowQuery) === -1);
 
@@ -118,13 +118,14 @@ exports.findAndRemove = function (query) {
         if (query === '*') {
             deleteCounter = phoneBook.length;
             phoneBook = [];
+
             return deleteCounter;
 
         }
-    
+
         deleteCounter = phoneBook.length - refreshedBook.length;
         phoneBook = refreshedBook;
-        
+
     }
 
     return deleteCounter;
