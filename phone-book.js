@@ -6,15 +6,17 @@
  */
 exports.isStar = true;
 
-var phoneBook=[];
+var phoneBook = [];
+function checkNew(phone, name) {
+    return (phone && /^\d{10}$/.test(phone) && name);
+}
 
 exports.add = function (phone, name, email) {
-if (checkNew(phone, name)) {
-    var personIndex = phoneBook.NewIndex(function (person) {
-        
+    if (checkNew(phone, name)) {
+    var personIndex = phoneBook.newIndex(function (person) {
         return phone === person.phone;
     });
-    if (NewIndex !== -1) {
+    if (newIndex !== -1) {
         phoneBook[personIndex] = {
             phone: phone,
             name: name,
@@ -29,11 +31,11 @@ if (checkNew(phone, name)) {
 };
 
 exports.update = function (phone, name, email) {
-if (!checkNew(phone, name)) {
+    if (!checkNew(phone, name)) {
     return false;
 }
     if (phoneBook[phone] === undefined) {
-        return false;
+    return false;
     }
     phoneBook[phone] = [name, email];
     
