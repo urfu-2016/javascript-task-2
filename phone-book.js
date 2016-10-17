@@ -91,7 +91,7 @@ exports.update = function (phone, name, email) {
  * @returns {int}
  */
 exports.findAndRemove = function (query) {
-    if (!query) {
+    if (!query || typeof(query) !== 'string') {
         return 0;
     }
     var countRecordsForRemove;
@@ -126,7 +126,7 @@ function removeRecords(indexs) {
  * @returns {String}
  */
 exports.find = function (query) {
-    if (!query) {
+    if (!query || typeof(query) !== 'string') {
         return [];
     }
     if (query === '*') {
