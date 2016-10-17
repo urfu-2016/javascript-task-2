@@ -19,7 +19,7 @@ var phoneBook = {};
  * @returns {Boolean} success
  */
 exports.add = function (phone, name, email) {
-    if (!name || !isPhoneCorrect(phone)) {
+    if (!name || !isPhoneCorrect(phone) || !isEmailCorrect(email)) {
         return false;
     }
 
@@ -36,9 +36,16 @@ exports.add = function (phone, name, email) {
 };
 
 function isPhoneCorrect(phone) {
-    var pattern = /\d{10}/;
+    var pattern = /\d{10}$/;
 
     return pattern.test(phone);
+}
+
+
+function isEmailCorrect(email) {
+    var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+    return pattern.test(email) || email === undefined;
 }
 
 /**
