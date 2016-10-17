@@ -37,7 +37,7 @@ function getContact(phone, name, email) {
     var data = getCorrectData(phone, name, email);
     if (data && data.hasOwnProperty(phone)) {
         if (phoneBook.hasOwnProperty(phone)) {
-            return phoneBook[phone];
+            return false;
         }
 
         return data[phone];
@@ -50,6 +50,9 @@ function getCorrectData(phone, name, email) {
 
     if (correctPhone) {
         data[correctPhone] = {};
+        if (typeof name !== 'string' || string === '') {
+            return false;
+        }
         data[correctPhone].name = name;
         data[correctPhone] = addEntryToData(
             data[correctPhone], email, 'email', /^[\w\d_-]+@\w+-?.\w{2,}$/);
