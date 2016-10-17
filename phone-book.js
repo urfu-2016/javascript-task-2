@@ -33,7 +33,7 @@ exports.add = function (phone, name, email) {
 function createContact(phone, name, email) {
     var contact = Object();
     contact.name = name;
-    if (email !== undefined && checkEmail(email)) {
+    if (typeof email !== 'undefined' && checkEmail(email)) {
         contact.email = email;
         phoneBook[phone] = contact;
     } else {
@@ -49,7 +49,7 @@ function checkEmail(email) {
 
 function checkName(name) {
 
-    return name !== undefined && typeof name === 'string' &&
+    return typeof name !== 'undefined' && typeof name === 'string' &&
      name.length > 0;
 }
 
@@ -62,7 +62,7 @@ function checkPhone(phone) {
 
 function undefinedNaNPhone(phone) {
 
-    return phone !== undefined && !isNaN(parseInt(phone));
+    return typeof phone !== 'undefined' && !isNaN(Number(phone));
 }
 
 /**
@@ -75,7 +75,7 @@ function undefinedNaNPhone(phone) {
 exports.update = function (phone, name, email) {
     if (checkName(name) && phoneBook[phone]) {
         phoneBook[phone].name = name;
-        if (email === undefined) {
+        if (typeof email === 'undefined') {
             delete phoneBook[phone].email;
 
             return true;
