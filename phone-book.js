@@ -29,7 +29,7 @@ exports.add = function (phone, name, email) {
 };
 
 function isPhoneCorrect(phone) {
-    return (/\d{10}/.test(phone));
+    return (/^\d{10}$/.test(phone));
 }
 
 function isPhoneUnique(phone) {
