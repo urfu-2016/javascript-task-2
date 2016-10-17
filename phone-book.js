@@ -24,7 +24,7 @@ function isConstains(i, object) {
 }
 
 function isFound(i, q) {
-    if (i._email !== q || i._phone !== q || i._name !== q) {
+    if (i._email === q || i._phone === q || i._name === q) {
         return true;
     }
 
@@ -120,7 +120,7 @@ exports.findAndRemove = function (query) {
         return 0;
     }
     if (query === '*') {
-        var x = phoneBook.length();
+        var x = phoneBook.length;
         phoneBook = [];
 
         return x;
