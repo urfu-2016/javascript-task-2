@@ -59,7 +59,7 @@ exports.findAndRemove = function (query) {
     var resa = slice_(query, new_);
     var newest = [];
     for (var j = 0; j < new_.length; j++) {
-        newest = remove_(query, res[j], resa);
+        newest = remove_(query, res[j], resa, j);
     }
     for (var i = 0; i < res.length; i++) {
         delete_(res[i]);
@@ -90,11 +90,11 @@ function delete_(arr) {
     }
 }
 
-function remove_(query, element, array) {
+function remove_(query, element, array, idx) {
     var res = exports.find(query);
     for (var m = 0; m < array.length; m++) {
         if (element.indexOf(array[m]) !== -1) {
-            res.splice(element, 1);
+            res.splice(idx, 1);
         }
     }
 
