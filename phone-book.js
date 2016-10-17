@@ -11,7 +11,7 @@ function check(phone, name) {
     return true;
 }
 
-exports.isStar = false;
+exports.isStar = true;
 
 var phoneBook = {
     phone: [],
@@ -191,16 +191,28 @@ exports.find = function (query) {
     return [];
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
-exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
+function helper(line) {
+    var info = line.split(';');
+    if (info.length > 3) {
+        return false;
+    }
+    var isAdd = exports.add(info[1], info[0], info[2]);
+    var isUpdate = exports.update(info[1], info[0], info[2]);
+    return isUpdate || isAdd;
+}
 
-    return csv.split('\n').length;
+exports.importFromCsv = function (csv) {
+    var count = 0
+    if (typeof csv === 'string' ) {
+        var arrayLineCsv = csv.split('\n')
+        arrayLineCsv.forEach(function (item) {
+           if (helper(item)) {
+                count += 1;
+           }
+        });
+
+        return count;
+    }
+
+    return 0;
 };
