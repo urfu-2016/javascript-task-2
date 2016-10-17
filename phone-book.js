@@ -44,7 +44,7 @@ function checkToCorrectName(name) {
 }
 
 
-function checkHaveRecordVidPhone(record) {
+function checkHaveRecordViaPhone(record) {
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === record.phone) {
             return true;
@@ -75,7 +75,7 @@ exports.add = function (phone, name, email) {
     */
     var record = createRecord(phone, name, email);
     if (!checkToCorrectNumber(record.phone) || !checkToCorrectName(record.name) ||
-        checkHaveRecordVidPhone(record)) {
+        checkHaveRecordViaPhone(record)) {
         return false;
     }
     phoneBook.push(record);
@@ -121,7 +121,7 @@ function bypassingPhoneBook(phoneForRemoval) {
     for (var j = 0; j < phoneBook.length; j++) {
         var phoneFromBook = formatPhoneNumber(phoneBook[j].phone);
         if (phoneForRemoval === phoneFromBook) {
-            phoneFromBook.splice(j, 1);
+            phoneBook.splice(j, 1);
 
             return;
         }
