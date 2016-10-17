@@ -100,7 +100,7 @@ exports.find = function (query) {
     var contactProperties = [];
     var properties = Object.getOwnPropertyNames(phoneBook);
     if (query === '*') {
-        records = findAll(properties, records, contactProperties);
+        records = findAll(records, contactProperties);
 
         return records;
     }
@@ -111,16 +111,17 @@ exports.find = function (query) {
             continue;
         }
         for (var j = 0; j < contactProperties.length; j++) {
-            records = checkProperties(properties, i, records);
+            records = records.concat(checkProperties(i, j, records, query));
         }
     }
 
     return records.sort();
 };
 
-/*eslint max-params: ["error", 3]*/
-/*eslint-env es6*/
-function checkProperties(properties, i, j, records, contactProperties, query) {
+function checkProperties(i, j, records, query) {
+	var records = [];
+    var properties = Object.getOwnPropertyNames(phoneBook);
+    var contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
     if ((phoneBook[properties[i]][contactProperties[j]]).indexOf(query) > -1) {
         var record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]) +
          ', ' + phoneBook[properties[i]].email;
@@ -130,7 +131,8 @@ function checkProperties(properties, i, j, records, contactProperties, query) {
     return records;
 }
 
-function findAll(properties, records, contactProperties) {
+function findAll(records, contactProperties) {
+    var properties = Object.getOwnPropertyNames(phoneBook);
     for (var k = 0; k < properties.length; k++) {
         contactProperties = Object.getOwnPropertyNames(phoneBook[properties[k]]);
         records = ifEmail(contactProperties, properties, k, records);
