@@ -90,7 +90,7 @@ function boolUpd(phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (boolUpd(phone, name, email) {
+    if (boolUpd(phone, name, email)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
