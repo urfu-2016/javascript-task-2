@@ -50,11 +50,8 @@ function validName(name) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isPhone(phone) || !validName(name) || inPhoneBook(phone)) {
+    if (!isPhone(phone) || !validName(email) || !validName(name) || inPhoneBook(phone)) {
 
-        return false;
-    }
-    if (!validName(email)) {
         return false;
     }
     var note = {
