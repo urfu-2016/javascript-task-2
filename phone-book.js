@@ -47,7 +47,7 @@ function getCorrectData(phone, name, email) {
 
     if (correctPhone) {
         data[correctPhone] = {};
-        if (typeof name !== 'string' || name === '') {
+        if (typeof name !== 'string' || name.length === 0) {
             return false;
         }
         data[correctPhone].name = name;
@@ -92,7 +92,7 @@ function addEntryToData(data, string, key, regExp) {
  */
 exports.update = function (phone, name, email) {
     var data = getCorrectData(phone, name, email);
-    if (!data || !phoneBook.hasOwnProperty(phone)) {
+    if (!data || !phoneBook.hasOwnProperty(phone) || !name) {
         return false;
     }
 
@@ -102,7 +102,7 @@ exports.update = function (phone, name, email) {
     }
     if (contact.hasOwnProperty('email')) {
         phoneBook[phone].email = contact.email;
-    } else if (phoneBook[phone].hasOwnProperty('email')) {
+    } else {
         delete phoneBook[phone].email;
     }
 
