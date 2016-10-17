@@ -112,9 +112,17 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var records = [];
     var contactProperties = [];
-    if (typeof query !== 'string' || query.length === 0) {
+    if (!checkQuery) {
+
         return records;
     }
+    return findRecords(query);
+
+};
+
+function findRecords(query) {
+    var records = [];
+    var contactProperties = [];
     var properties = Object.getOwnPropertyNames(phoneBook);
     if (query === '*') {
         records = findAll(records, contactProperties);
@@ -133,7 +141,7 @@ exports.find = function (query) {
     }
 
     return records.sort();
-};
+}
 
 function checkProperties(i, j, query) {
     var records = [];
@@ -146,6 +154,14 @@ function checkProperties(i, j, query) {
     }
 
     return records;
+}
+
+function checkQuery(query) {
+    if (typeof query === 'string' && query.length !== 0) {
+        return true;
+    }
+
+    return false;
 }
 
 function findAll(records, contactProperties) {
