@@ -17,7 +17,7 @@ exports.add = function (phone, name, email) {
             return false;
         }
     }
-    if ((check(phone, name)) && (isNaN(name)) && (name.length > 0)) {
+    if (check(phone, name) && (name.length > 0)) {
         var em = {
             n: name,
             p: phone,
@@ -42,8 +42,7 @@ function check(phone, name) {
 exports.update = function (phone, name, email) {
     var flag = false;
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i].p === phone) && (check(phone, name)) &&
-        (isNaN(name)) && (name.length > 0)) {
+        if ((phoneBook[i].p === phone) && check(phone, name) && (name.length > 0)) {
             phoneBook[i].n = name;
             phoneBook[i].e = email;
 
