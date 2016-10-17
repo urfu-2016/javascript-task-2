@@ -153,7 +153,7 @@ exports.importFromCsv = function (csv) {
         if (!isCorrectInput(sData[1], sData[0], sData[2]) || sData.length > 3) {
             continue;
         }
-        if (isDuplicated(sData[1], sData[2])) {
+        if (mySearch(sData[1]), sData[2]) {
             exports.update(sData[1], sData[0], sData[2]);
             counter++;
         } else {
@@ -233,10 +233,11 @@ function isDuplicated(phone, email) {
  * @returns {Boolean} isFound
  */
 function mySearch(phone, email) {
-
     return phoneBook.some(function (item) {
-
-        return item.phone === phone || item.email === email;
+        if (email !== undefined) {
+            return item.phone === phone || item.email === email;
+        }
+        return item.phone === phone;
     });
 }
 
