@@ -72,6 +72,11 @@ exports.findAndRemove = function (query) {
     if (!query) {
         return 0;
     }
+    if (query === '*') {
+        var countPhones = phoneBook.length;
+        phoneBook = [];
+        return countPhones;
+    }
     var foundPhones = getFoundPhones(query).map(function (record) {
         return record.phone;
     });
@@ -85,7 +90,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {array}
+ * @returns {Array}
  */
 exports.find = function (query) {
     if (!query) {
@@ -107,10 +112,10 @@ exports.find = function (query) {
 
 function getFoundPhones(query) {
     return phoneBook.filter(function (phoneRecord) {
-        return (phoneRecord.name.indexOf(query) >= 0 ||
-        phoneRecord.phone.indexOf(query) >= 0 ||
+        return (phoneRecord.name.indexOf(query) !== -1 ||
+        phoneRecord.phone.indexOf(query) !== -1 ||
         (phoneRecord.email
-            ? phoneRecord.email.indexOf(query) >= 0
+            ? phoneRecord.email.indexOf(query) !== -1
             : false));
     });
 }
