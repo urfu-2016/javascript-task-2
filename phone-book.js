@@ -48,6 +48,9 @@ exports.add = function (phone, name, email) {
     if (!isString(name)) {
         return false;
     }
+    if (!isString(email)) {
+        return false;
+    }
     var reg = '[0123456789]{10}';
     if (!phone.match(reg) || phone.length !== 10) {
         return false;
