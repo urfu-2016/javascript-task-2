@@ -20,6 +20,7 @@ function checkExist(phone) {
 
     return false;
 }
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -27,17 +28,27 @@ function checkExist(phone) {
  * @param {String} email
  */
 
- function testPhone(phone) {
+function testPhone(phone) {
     var regvalidPhone = /\d{10}/;
     
     return regvalidPhone.test(phone);
- }
+}
 
 
- function testEmail(email) {
+function testEmail(email) {
     var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/;
 
     return regvalidEmail.test(email) || email === undefined;
+}
+
+
+ function addEntry(name, phone, email) {
+    if (email === undefined) {
+        phoneBook.push([name, phone]);
+    }
+    phoneBook.push([name, phone, email]);
+
+    return true;
  }
 
 
@@ -46,29 +57,12 @@ exports.add = function (phone, name, email) {
         return false;
     }
     if (testEmail(email) && testPhone(phone) && phoneBook.length === 0) {
-        if (email === undefined) {
-            phoneBook.push([name, phone]);
-            return true;
-        }
-        else {
-            phoneBook.push([name, phone, email]);
-            return true;
-        }
+        return addEntry(name, phone, email);
     }
     if (testEmail(email) && testPhone(phone) && phoneBook.length !== 0 && !checkExist(phone)) {
-        if (email === undefined) {
-            phoneBook.push([name, phone]);
-            return true;
-        }
-        else {
-            phoneBook.push([name, phone, email]);
-            return true;
-        }
+        return addEntry(name, phone, email);
     }
-    else {
-        return false;
-    }
-    
+
     return false;
 };
 
@@ -88,6 +82,7 @@ function findEntryByPhone(phone) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @return {Bool} flag
  */
 exports.update = function (phone, name, email) {
     if (name === undefined) {
@@ -98,10 +93,11 @@ exports.update = function (phone, name, email) {
         if (testEmail(email)) {
             phoneBook[entry][0] = name;
             phoneBook[entry][2] = email;
-        }        
-        if (email === undefined) {
-            phoneBook[entry] = [name, phone]
         }
+        if (email === undefined) {
+            phoneBook[entry] = [name, phone];
+        }
+
         return true;
     }
 
@@ -111,10 +107,12 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @return {Integer} counter
  */
 exports.findAndRemove = function (query) {
     var counter = 0;
-    for (var entry = 0; entry < phoneBook.length; entry++) {
+    for (var entry1 = 0; entry1 < phoneBook.length; entry1++) {
+        var entry = entry1;
         var foundEntry = findEntry(query, entry);
         if (foundEntry !== -1) {
             delete phoneBook[entry];
@@ -122,7 +120,8 @@ exports.findAndRemove = function (query) {
         }
     }
     var newPhoneBook = [];
-    for (var entry = 0; entry < phoneBook.length; entry++) {
+    for (var entry2 = 0; entry2 < phoneBook.length; entry2++) {
+        var entry = entry2;
         if (phoneBook[entry] !== undefined) {
             newPhoneBook.push(phoneBook[entry]);
         }
@@ -147,6 +146,7 @@ function getEntryForOut(entry) {
 
     return entry[0] + ', ' + getPhoneForOut(entry[1]);
 }
+
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
@@ -178,20 +178,22 @@ function findEntry(query, ent) {
 exports.find = function (query) {
     var result = [];
     if (query === '*') {
-        for (var entry = 0; entry < phoneBook.length; entry++) {
-            result.push(phoneBook[entry]);
+        for (var entry1 = 0; entry1 < phoneBook.length; entry1++) {
+            result.push(phoneBook[entry1]);
         }
-        console.log(sortArray(result));
+        sortArray(result);
+
         return true;
     }
-    for (var entry = 0; entry < phoneBook.length; entry++) {
+    for (var entry2 = 0; entry2 < phoneBook.length; entry2++) {
+        var entry = entry2;
         var foundEntry = findEntry(query, entry);
         if (foundEntry !== -1) {
             result.push(phoneBook[entry]);
         }
     }
-    console.log(sortArray(result));
-    
+    sortArray(result);
+
     return result.length !== 0;
 };
 
