@@ -50,6 +50,9 @@ function getCorrectData(phone, name, email) {
 
     if (correctPhone) {
         data[correctPhone] = {};
+        if (isNameIncorrect(name)) {
+            return false;
+        }
         data[correctPhone].name = name;
         data[correctPhone] = addEntryToData(
             data[correctPhone], email, 'email', /^[\w\d_-]+@\w+\.\w{2,4}$/);
@@ -92,7 +95,6 @@ function addEntryToData(data, string, key, regExp) {
  */
 exports.update = function (phone, name, email) {
     if (!phoneBook.hasOwnProperty(phone)) {
-        // return exports.add(phone, name, email);
         return false;
     }
 
@@ -109,6 +111,10 @@ exports.update = function (phone, name, email) {
 
     return true;
 };
+
+function isNameIncorrect(name) {
+    return typeof name !== 'string' || name === '';
+}
 
 /**
  * Удаление записей по запросу из телефонной книги
