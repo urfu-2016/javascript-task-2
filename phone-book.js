@@ -58,7 +58,7 @@ exports.add = function (phone, name, email) {
         phoneBook.push({
             'phone': phone.toString(),
             'name': name.toString(),
-            'email': email.toString() });
+            'email': email });
 
         return true;
     }
