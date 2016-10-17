@@ -54,6 +54,8 @@ function getCorrectData(phone, name, email) {
         data[phone].name = name;
         if (typeof email === 'string' && email !== '') {
             data[phone].email = email;
+        } else if (email !== undefined) {
+            return false;
         }
     } else {
         return false;
