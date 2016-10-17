@@ -30,7 +30,7 @@ function getEntries(query) {
         return entries;
     }
 
-    query = new RegExp(query, 'i');
+    query = new RegExp(query, 'i'); //
 
     return entries.filter(function (entry) {
         var take = false;
@@ -78,7 +78,7 @@ exports.add = function (phone, name, email) {
     phoneBook[phone] = {
         phone: phone,
         name: name,
-        email: email ? email : ''
+        email: email || ''
     };
 
     return true;
@@ -132,7 +132,7 @@ exports.find = function (query) {
  */
 exports.importFromCsv = function (csv) {
     return csv.split('\n')
-        .map(function (record) {
+        .filter(function (record) {
             var fields = record.split(';');
             if (fields.length > 3) {
                 return false;
@@ -143,7 +143,5 @@ exports.importFromCsv = function (csv) {
 
             return exports.add(phone, name, email) || exports.update(phone, name, email);
         })
-        .reduce(function (a, b) {
-            return a + b;
-        });
+        .length;
 };
