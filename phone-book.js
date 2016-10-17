@@ -35,16 +35,15 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
-    if (query === '*') {
+switch (query) {
+    case '*':
         phoneBook = [];
 
         return (phoneBook.length - 1);
-    }
-    else {
-        if (query === '') {
+    case '':
 
         return 0;
-        }
+    default:
         var s = 0;
         var foundRegExp = new RegExp(query);
         for (var i = 0; i < phoneBook.length; i++) {
@@ -53,34 +52,32 @@ exports.findAndRemove = function (query) {
                 phoneBook.splice(i, 1);
                 s++;
             }
-        }
+        }  
 
         return s;
     }
 };
 
 exports.find = function (query) {
-    var arrayOfFounded = [];
-    if (query === '') {
-
+var arrayOfFounded = [];
+switch (query) {
+    case '':
         return null;
-    }
-    else {
-        if (query === '*') {
-            help1();
+    case '*':
+        help1();
+    default:
+    var foundRegExp = new RegExp(query);
+    for (var i = 0; i < phoneBook.length; i++) {
+        if ((foundRegExp.test((phoneBook[i])[0])) ||
+        (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
+            var sp = ((phoneBook[i])[0]).split('');
+            var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
+            sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
+            arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
         }
-        var foundRegExp = new RegExp(query);
-        for (var i = 0; i < phoneBook.length; i++) {
-            if ((foundRegExp.test((phoneBook[i])[0])) ||
-            (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
-                var sp = ((phoneBook[i])[0]).split('');
-                var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
-                sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
-                arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
-            }
-        }
-        help2();
     }
+    help2();
+}
 };
 
 function help2() {
