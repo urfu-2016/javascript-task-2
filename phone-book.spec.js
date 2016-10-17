@@ -11,6 +11,7 @@ describe('phone-book', function () {
         assert.ok(phoneBook.add('5552220022', 'Борис', 'boris@example.com'));
         assert.ok(phoneBook.add('5551110011', 'Алекс'));
         assert.ok(phoneBook.add('5553330033', 'Валерий', 'valera@example.com'));
+        assert.ok(!phoneBook.add('5553330034', '', 'v'));
     });
 
     it('не должен добавлять неправильные записи', function () {
@@ -22,6 +23,7 @@ describe('phone-book', function () {
     it('должен обновлять существующие записи', function () {
         assert.ok(phoneBook.update('5551110011', 'Алексей', 'alex@example.com'));
         assert.ok(phoneBook.update('5553330033', 'Валерий'));
+        assert.ok(!phoneBook.update('5553330033', '' ));
     });
 
     it('должен искать все записи по запросу "*"', function () {
@@ -43,7 +45,13 @@ describe('phone-book', function () {
     });
 
     it('должен удалять элементы из телефонной книги', function () {
-        assert.strictEqual(phoneBook.findAndRemove('@'), 3);
+        assert.strictEqual(phoneBook.findAndRemove('ferve'), 0);
+    });
+
+
+
+    it('должен удалять элементы из телефонной книги2', function () {
+        assert.strictEqual(phoneBook.findAndRemove(''), 0);
     });
 
     if (phoneBook.isStar) {

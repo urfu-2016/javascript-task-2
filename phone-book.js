@@ -134,21 +134,24 @@ function resultDeletedPhoneBook(query) {
  * @returns {Array} - массив
  */
 exports.find = function (query) {
-    if (typeof query !== 'string') {
+    if (!query || typeof query !== 'string' || query === '') {
 
         return [];
     }
+    
     if (query === '*') {
 
         return resultPhoneBook(phoneBook);
     }
-    if (query === '') {
-        return [];
-    }
+
     var resultBook = phoneBook.filter(function (item) {
-        return (item.phone === query || item.phone.indexOf(query) !== -1) ||
-            (item.name === query || item.name.indexOf(query) !== -1) ||
-            (item.email === query || item.email.indexOf(query) !== -1);
+        var result = item.phone.indexOf(query) !== -1 ||
+            item.name.indexOf(query) !== -1;
+        if (item.email) {
+            result = result || item.email.indexOf(query) !== -1;
+        }
+
+        return result;
     });
 
     return resultPhoneBook(resultBook);
