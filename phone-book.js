@@ -102,7 +102,7 @@ function removeNote(i, foundNotes) {
                             foundNotes[i].split(',')[1].slice(10, 13) +
                             foundNotes[i].split(',')[1].slice(14, 16) +
                             foundNotes[i].split(',')[1].slice(17))) {
-                phoneBook.splice(j,1);
+            phoneBook.splice(j, 1);
         }
     }
 }
@@ -110,10 +110,13 @@ function removeNote(i, foundNotes) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array}
  */
 exports.find = function (query) {
     var result = [];
-    if (!isNameCorrect(query)) return result;
+    if (!isNameCorrect(query)) {
+        return result;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
         var keys = Object.keys(note);
@@ -127,10 +130,11 @@ exports.find = function (query) {
 
 function findSubstring(keys, note, query) {
     for (var j = 0; j < keys.length; j++) {
-        if ((note[keys[j]].indexOf(query) !== -1))  {
+        if ((note[keys[j]].indexOf(query) !== -1)) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -143,7 +147,10 @@ function pushResult(keys, note, result) {
     if (note[keys[2]] === '') {
         result.push(note[keys[0]] + ', ' + getRightPhone(note[keys[1]]));
     }
-    else result.push(note[keys[0]] + ', ' + getRightPhone(note[keys[1]]) + ', ' + note[keys[2]]);
+    else {
+        result.push(note[keys[0]] + ', ' + getRightPhone(note[keys[1]]) + ', ' + note[keys[2]]);
+    }
+
     return result;
 }
 
