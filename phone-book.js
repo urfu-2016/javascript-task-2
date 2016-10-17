@@ -19,7 +19,7 @@ var phoneBook = Object();
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (checkName(name) && checkPhone(phone)) {
+    if (checkName(name) && checkPhone(phone) && email !== undefined) {
         if (!phoneBook[phone]) {
             createContact(phone, name, email);
 
