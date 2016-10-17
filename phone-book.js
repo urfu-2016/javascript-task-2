@@ -205,11 +205,8 @@ exports.find = function (query) {
                 phoneBook[element].email;
 
             }
-            else {
 
-                return phoneBook[element].name + ', ' +  comfortFormat(element);
-
-            }
+            return phoneBook[element].name + ', ' + comfortFormat(element);
 
         })
         .sort();
@@ -242,11 +239,8 @@ exports.find = function (query) {
             phoneBook[element].email;
 
         }
-        else {
 
-            return phoneBook[element].name + ', ' + comfortFormat(element);
-
-        }
+        return phoneBook[element].name + ', ' + comfortFormat(element);
 
     })
     .sort();
