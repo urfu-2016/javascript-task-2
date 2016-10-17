@@ -92,7 +92,7 @@ exports.findAndRemove = function (query) {
 
         return 0;
     }
-    var records = this.find(query);
+    var records = exports.find(query);
     var length = records.length;
     for (var j = 0; j < records.length; j++) {
         var phone = records[j].split(',')[1];
@@ -101,10 +101,11 @@ exports.findAndRemove = function (query) {
         phone = phone.replace(') ', '');
         phone = phone.replace('-', '');
         phone = phone.replace('-', '');
+        phone = phone.replace(' ', '');
         delete phoneBook[phone];
-
-        return length;
     }
+
+    return length;
 };
 
 /**
