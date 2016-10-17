@@ -11,22 +11,12 @@ exports.isStar = true;
  */
 var phoneBook = {};
 
-function Entry(phone, name, email) {
-    this.phone = phone.toString();
-    this.name = name;
-    this.email = email ? email : '';
-}
-
 function isPhoneValid(phone) {
-    return phone && /^\d{10}$/.test(phone.toString());
+    return /^\d{10}$/.test(phone);
 }
 
-function isNameValid(name) {
-    return name && name.length !== 0 && Object.prototype.toString.call(name) === '[object String]';
-}
-
-function isArgumentsValid(phone, name, email) {
-    return isPhoneValid(phone) && isNameValid(name) && (email ? /@/.test(email) : true);
+function isArgumentsValid(phone, name) {
+    return isPhoneValid(phone) && name;
 }
 
 function getEntries(query) {
@@ -45,8 +35,8 @@ function getEntries(query) {
     return entries.filter(function (entry) {
         var take = false;
         for (var key in entry) {
-            if (entry.hasOwnProperty(key)) {
-                take += query.test(entry[key]);
+            if ((take = query.test(entry[key])) && entry.hasOwnProperty(key)) {
+                break;
             }
         }
 
@@ -81,11 +71,15 @@ function formatEntries(entries) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isArgumentsValid(phone, name, email) || phone in phoneBook) {
+    if (!isArgumentsValid(phone, name) || phone in phoneBook) {
         return false;
     }
 
-    phoneBook[phone] = new Entry(phone, name, email);
+    phoneBook[phone] = {
+        phone: phone,
+        name: name,
+        email: email ? email : ''
+    };
 
     return true;
 };
@@ -98,7 +92,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (!isArgumentsValid(phone, name, email) || !(phone in phoneBook)) {
+    if (!isArgumentsValid(phone, name) || !(phone in phoneBook)) {
         return false;
     }
     phoneBook[phone].name = name;
@@ -115,13 +109,9 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = getEntries(query)
         .map(function (entry) {
-            if (entry.phone in phoneBook) {
-                delete phoneBook[entry.phone];
+            delete phoneBook[entry.phone];
 
-                return true;
-            }
-
-            return false;
+            return true;
         })
         .reduce(function (a, b) {
             return a + b;
