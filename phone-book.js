@@ -22,7 +22,7 @@ exports.isCorrect = function (phone, name, email) {
     var cPhone = ((/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
     (phone[1] === phone[2]) && (phone[3] === phone[4]) &&
     (phone[4] === phone[5]) && (phone[6] === phone[7]) && (phone[8] === phone[9]));
-    var cName = ((name.length > 0) && (typeof name === 'string'));
+    var cName = ((name !== '') && (typeof name === 'string'));
     var cEmail = ((typeof email === 'string') || (typeof email === 'undefined'));
 
     return (cName && cPhone && cEmail);
