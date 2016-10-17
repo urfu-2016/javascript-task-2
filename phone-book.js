@@ -73,7 +73,7 @@ exports.update = function (phone, name, email) {
     if (transformPhone(phone) === '') {
         return false;
     }
-    var indexOfNeedRecords = findIndexsOfNeedRecords(phone);
+    var indexOfNeedRecords = findIndexsOfRecords(phone);
     if (indexOfNeedRecords.length !== 1) {
         return false;
     }
@@ -108,7 +108,7 @@ exports.findAndRemove = function (query) {
 
         return countRecordsForRemove;
     }
-    var indexsRecordsForRemove = findIndexsOfNeedRecords(query);
+    var indexsRecordsForRemove = findIndexsOfRecords(query);
     countRecordsForRemove = indexsRecordsForRemove.length;
     removeRecords(indexsRecordsForRemove);
 
@@ -137,43 +137,43 @@ exports.find = function (query) {
         return [];
     }
     if (query === '*') {
-        return transformRecords(phoneBook).sort();
+        return transformBook(phoneBook).sort();
     }
-    var needRecords = findIndexsOfNeedRecords(query);
-    var resultRecords = [];
-    for (var i = 0; i < needRecords.length; i++) {
-        resultRecords.push(phoneBook[needRecords[i]]);
+    var indexsOfRecords = findIndexsOfRecords(query);
+    var resultBook = [];
+    for (var i = 0; i < indexsOfRecords.length; i++) {
+        resultBook.push(phoneBook[indexsOfRecords[i]]);
     }
 
-    return transformRecords(resultRecords).sort();
+    return transformBook(resultBook).sort();
 };
 
-function findIndexsOfNeedRecords(query) {
-    var indexsOfNeedRecords = [];
+function transformBook(book) {
+    var recordsAsStrings = [];
+    for (var i = 0; i < book.length; i++) {
+        var record = book[i].name + ', ' + transformPhone(book[i].phone);
+        if (book[i].email !== undefined) {
+            record += ', ' + book[i].email;
+        }
+        recordsAsStrings.push(record);
+    }
+
+    return recordsAsStrings;
+}
+
+function findIndexsOfRecords(query) {
+    var indexsOfRecords = [];
     for (var i = 0; i < phoneBook.length; i++) {
         var reg = new RegExp(query, 'i');
         var execName = reg.exec(phoneBook[i].name);
         var execPhone = reg.exec(phoneBook[i].phone);
-        var execEmail = reg.exec(phoneBook[i].email);
+        var execEmail = phoneBook[i].email !== undefined && reg.exec(phoneBook[i].email);
         if (execName || execPhone || execEmail) {
-            indexsOfNeedRecords.push(i);
+            indexsOfRecords.push(i);
         }
     }
 
-    return indexsOfNeedRecords;
-}
-
-function transformRecords(book) {
-    var strings = [];
-    for (var i = 0; i < book.length; i++) {
-        var needSrting = book[i].name + ', ' + transformPhone(book[i].phone);
-        if (book[i].email !== undefined) {
-            needSrting += ', ' + book[i].email;
-        }
-        strings.push(needSrting);
-    }
-
-    return strings;
+    return indexsOfRecords;
 }
 
 /**
