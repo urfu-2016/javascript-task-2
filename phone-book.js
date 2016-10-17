@@ -13,6 +13,9 @@ var phoneBook = [];
 
 
 exports.add = function (phone, name, email) {
+    if (typeof name !== 'string' || name === '') {
+        return false;
+    }
     if (exports.find(name).length === 0 && exports.find(phone).length === 0 &&
         phone.length === 10 && phone.match(/\d{10}/) !== null) {
         var obj = {};
