@@ -28,7 +28,7 @@ function formatPhone(phone) {
 }
 
 function getStringView(record) {
-    var res = [formatPhone(record.phone), record.name];
+    var res = [record.name, formatPhone(record.phone)];
     if (record.email) {
         res.push(record.email);
     }
