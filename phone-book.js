@@ -3,8 +3,10 @@
 function check(phone, name) {
     var isEmpty = name === '' || phone === '';
     var isStringP = typeof Number(phone) !== 'number';
+    var isPositive = Number(phone) < 0;
     var isString = typeof name !== 'string';
-    if (phone.length !== 10 || isString || isEmpty || isStringP) {
+    if (phone.length !== 10 || isString || isEmpty || isStringP || isPositive) {
+
         return false;
     }
 
@@ -21,10 +23,14 @@ var phoneBook = {
 
 function addEmail(email) {
     if (typeof email === 'undefined') {
-        return '';
-    }
 
-    return email;
+        return ['',true];
+    }
+    if (typeof email === 'string')
+
+        return [email, email];
+
+    return [false,false];
 }
 
 exports.add = function (phone, name, email) {
@@ -32,10 +38,11 @@ exports.add = function (phone, name, email) {
         var indexP = phoneBook.phone.indexOf(phone) === -1;
         var indexN = phoneBook.name.indexOf(name) === -1;
         var indexE = phoneBook.email.indexOf(email) === -1;
-        if (indexE && indexN && indexP) {
+        var correctEmail = addEmail(email);
+        if (indexE && indexN && indexP && correctEmail[1]) {
             phoneBook.phone.push(phone);
             phoneBook.name.push(name);
-            phoneBook.email.push(addEmail(email));
+            phoneBook.email.push(correctEmail[0]);
 
             return true;
         }
