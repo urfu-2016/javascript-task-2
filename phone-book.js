@@ -12,6 +12,9 @@ exports.isStar = true;
 var phoneBook = [];
 
 function transformPhone(phone) {
+    if (phone === '') {
+        return '';
+    }
     var parts = /^(\d{3})(\d{3})(\d{2})(\d{2})$/.exec(phone);
     if (parts === null) {
         return '';
