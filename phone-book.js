@@ -111,15 +111,15 @@ exports.find = function (query) {
             continue;
         }
         for (var j = 0; j < contactProperties.length; j++) {
-            records = records.concat(checkProperties(i, j, records, query));
+            records = records.concat(checkProperties(i, j, query));
         }
     }
 
     return records.sort();
 };
 
-function checkProperties(i, j, records, query) {
-	var records = [];
+function checkProperties(i, j, query) {
+    var records = [];
     var properties = Object.getOwnPropertyNames(phoneBook);
     var contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
     if ((phoneBook[properties[i]][contactProperties[j]]).indexOf(query) > -1) {
