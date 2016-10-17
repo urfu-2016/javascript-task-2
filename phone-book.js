@@ -10,38 +10,38 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
+function checkPhone(phoneTest) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneTest === phoneBook[i].phone) {
+            return false;
+        }
+    }
+    if ((phoneTest) && (typeof(phoneTest) === 'string') && (/^\d{10}$/.test(phoneTest))) {
+        return true;
+    }
+
+    return false;
+
+}
+
+function checkName(testName) {
+    if ((testName) && (testName !== '') && (typeof(testName) === 'string') &&
+    (testName !== undefined)) {
+        return true;
+    }
+
+    return false;
+}
+
+function checkMail(mail) {
+    if ((mail === undefined) || (typeof(mail) === 'string')) {
+        return true;
+    }
+
+    return false;
+}
 
 exports.add = function (phone, name, email) {
-    function checkPhone(phoneTest) {
-        for (var i = 0; i < phoneBook.length; i++) {
-            if (phoneTest === phoneBook[i].phone) {
-                return false;
-            }
-        }
-        if ((phoneTest) && (typeof(phoneTest) === 'string') && (/^\d{10}$/.test(phoneTest))) {
-            return true;
-        }
-
-        return false;
-
-    }
-
-    function checkName(testName) {
-        if ((testName) && (testName !== '') && (typeof(testName) === 'string')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    function checkMail(mail) {
-        if ((mail === undefined) || (typeof(mail) === 'string')) {
-            return true;
-        }
-
-        return false;
-    }
-
     if (checkPhone(phone) && checkName(name) && checkMail(email)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
@@ -52,29 +52,16 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if ((name === undefined) || (typeof(name) !== 'string')) {
+    if ((!checkName(name) || (!checkMail))) {
         return false;
     }
-    var indexToChange = findPhone(phone);
-
-    function findPhone(nphone) {
-        for (var i = 0; i < phoneBook.length; i++) {
-            if (phoneBook[i].phone === nphone) {
-                return i;
-            }
-        }
-    }
-
-    if (indexToChange !== undefined) {
-        phoneBook[indexToChange].name = name;
-        if (email === undefined) {
-            phoneBook[indexToChange].email = '';
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            phoneBook[i].name = name;
+            phoneBook[i].email = email;
 
             return true;
         }
-        phoneBook[indexToChange].email = email;
-
-        return true;
     }
 
     return false;
@@ -98,7 +85,7 @@ exports.findAndRemove = function (query) {
 };
 exports.find = function (query) {
     var result = [];
-    if (!query) {
+    if ((!query) || (query === '') || (query === undefined)) {
         return [];
     }
     if (query === '*') {
@@ -109,7 +96,7 @@ exports.find = function (query) {
 
 
     function findEntry(person) {
-        if (person.email) {
+        if (person.email !== undefined) {
             return (person.name.indexOf(query) !== -1) ||
         (person.phone.indexOf(query) !== -1) ||
         (person.email.indexOf(query) !== -1);
