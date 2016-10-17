@@ -46,28 +46,6 @@ describe('phone-book', function () {
         assert.strictEqual(phoneBook.findAndRemove('@'), 3);
     });
 
-    it('должен добавлять записи2', function () {
-        assert.ok(phoneBook.add('5554440044', 'Григорий', 'grisha@example.com'));
-        assert.ok(phoneBook.add('5552220022', 'Борис', 'boris@example.com'));
-        assert.ok(phoneBook.add('5551110011', 'Алекс'));
-        assert.ok(phoneBook.add('5553330033', 'Валерий', 'valera@example.com'));
-    });
-
-    it('должен удалить элементы с номером 555', function() {
-        assert.strictEqual(phoneBook.findAndRemove('555'), 4);
-    });
-
-    it('должен добавлять записи3', function () {
-        assert.ok(phoneBook.add('5554440044', 'Григорий', 'grisha@example.com'));
-        assert.ok(phoneBook.add('5552220022', 'Борис', 'boris@example.com'));
-        assert.ok(phoneBook.add('5551110011', 'Алекс'));
-        assert.ok(phoneBook.add('5553330033', 'Валерий', 'valera@example.com'));
-    });
-
-    it('должен удалить элементы с именем гор', function() {
-        assert.strictEqual(phoneBook.findAndRemove('гор'), 1);
-    });
-
     if (phoneBook.isStar) {
         it('должен экспортировать из cvs', function () {
             var csv = [
