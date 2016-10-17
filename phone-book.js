@@ -146,36 +146,34 @@ exports.find = function (query) {
         return [];
     }
     var resultBook = phoneBook.filter(function (item) {
-
         return (item.phone === query || item.phone.indexOf(query) !== -1) ||
             (item.name === query || item.name.indexOf(query) !== -1) ||
             (item.email === query || item.email.indexOf(query) !== -1);
     });
-
+    console.log(resultBook);
     return resultPhoneBook(resultBook);
 };
 
 function resultPhoneBook(array) {
     array = array.sort(compare);
-    var result = [];
-    for (var i = 0; i < array.length; i++) {
-        var phone = array[i].phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
-        if (array[i].email !== '') {
-            result[i] = array[i].name + ', ' + phone + ', ' + array[i].email;
-        } else {
-            result[i] = array[i].name + ', ' + phone;
-        }
-    }
+    console.log(array);
+    return array.map(function (item) {
+        var result = item.name + ', ' + item.phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
 
-    return result;
+        if (item.email) {
+            result += ', ' + item.email;
+        }
+        console.log(result);
+        return result;
+    });
 }
 
 function compare(a, b) {
-    if (a.name < b.name) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
 
         return -1;
     }
-    if (a.name > b.name) {
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
 
         return 1;
     }
