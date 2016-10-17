@@ -104,6 +104,11 @@ function normalize(phone) {
 }
 
 function findContact(query) {
+    if (typeof(query) !== 'string') {
+
+        return [];
+    }
+
     var result = [];
     var removeIndex = 0;
 
@@ -115,9 +120,9 @@ function findContact(query) {
     phoneBook.forEach(function (item, i) {
         if (query === '*') {
             result.push(new FoundRecords(item, -1));
-        } else if (item.name.indexOf(query) > -1 ||
-            item.phone.indexOf(query) > -1 ||
-            item.email.indexOf(query) > -1) {
+        } else if (item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+            item.phone.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+            item.email.toLowerCase().indexOf(query.toLowerCase()) > -1) {
             var newItem = new Entry(item.name, item.phone, item.email);
             result.push(new FoundRecords(newItem, i - removeIndex++));
         }
