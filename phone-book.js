@@ -141,7 +141,7 @@ function createClient(contact) {
 }
 
 exports.find = function (query) {
-    if (!checkQuery) {
+    if (query.length === 0 || typeof query !== 'string') {
 
         return [];
     }
@@ -157,16 +157,6 @@ exports.find = function (query) {
 
     return newPhoneBook.sort();
 };
-
-
-function checkQuery(query) {
-    if (typeof query === 'string' && query.length !== 0) {
-        return true;
-    }
-
-    return false;
-}
-
 
 function toChangePhone(phone) {
     var ph = '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6);
