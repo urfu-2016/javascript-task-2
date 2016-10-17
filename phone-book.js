@@ -40,8 +40,8 @@ exports.findAndRemove = function (query) {
         var name = phoneBook[phone].name;
         var email = phoneBook[phone].email;
 
-        if ((phone.indexOf(query) !== -1) || (name.indexOf(query) !== -1) || (query === '*') ||
-            (email && (email.indexOf(query) !== -1))) {
+        if (query && ((phone.indexOf(query) !== -1) || (name.indexOf(query) !== -1) ||
+            (query === '*') || (email && (email.indexOf(query) !== -1)))) {
             delete phoneBook[phone];
             deleted = deleted + 1;
         }
@@ -59,12 +59,13 @@ exports.find = function (query) {
         var name = phoneBook[phone].name;
         var email = phoneBook[phone].email;
 
-        if ((phone.indexOf(query) === -1) && (name.indexOf(query) === -1) && (query !== '*') &&
-            (email && (email.indexOf(query) !== -1))) {
+        if ((phone.indexOf(query) === -1) && (name.indexOf(query) === -1) && query &&
+            (query !== '*') && (email && (email.indexOf(query) !== -1))) {
             array.push(name + ', ' + formatPhone(phone) + ', ' + email);
         }
 
-        if ((phone.indexOf(query) !== -1) || (name.indexOf(query) !== -1) || (query === '*')) {
+        if (query && ((phone.indexOf(query) !== -1) || (name.indexOf(query) !== -1)) ||
+            (query === '*')) {
             array.push(name + ', ' + formatPhone(phone) + returnEmail(email));
         }
     }
