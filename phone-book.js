@@ -93,7 +93,6 @@ exports.findAndRemove = function (query) {
         phone = phone.replace(') ', '');
         phone = phone.replace('-', '');
         phone = phone.replace('-', '');
-        console.log(phone);
         delete phoneBook[phone];
 
         return length;
