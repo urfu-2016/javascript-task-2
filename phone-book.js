@@ -122,15 +122,9 @@ exports.findAndRemove = function (query) {
     if (query === '') {
         return 0;
     }
-    if (query === '*') {
-        var x = phoneBook.length;
-        phoneBook = [];
-
-        return x;
-    }
     var t = 0;
     for (var i = 0; i < phoneBook.length; i++) {
-        if (isFound(phoneBook[i], query)) {
+        if (isCorrectQuery(phoneBook[i], query)) {
             phoneBook.splice(i, 1);
             t = t + 1;
         }
