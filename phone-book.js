@@ -19,7 +19,7 @@ var phoneBook = Object();
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (name && checkPhone(phone) && name.length > 0) {
+    if (checkName(name) && checkPhone(phone)) {
         if (!phoneBook[phone]) {
             createContact(phone, name, email);
 
@@ -37,12 +37,23 @@ function createContact(phone, name, email) {
     phoneBook[phone] = contact;
 }
 
+function checkName(name) {
+
+    return name && name !== undefined && typeof name === 'string' &&
+    name.length > 0;
+}
+
 function checkPhone(phone) {
     var reg = /\d{10}/;
 
-    return reg.test(phone);
+    return reg.test(phone) && phone.length === 10 &&
+    undefinedNaNPhone(phone);
 }
 
+function undefinedNaNPhone(phone) {
+
+    return phone !== undefined && !isNaN(parseInt(phone));
+}
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
@@ -51,7 +62,7 @@ function checkPhone(phone) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (name && phoneBook[phone]) {
+    if (checkName(name) && phoneBook[phone]) {
         phoneBook[phone].name = name;
         if (email === undefined) {
             delete phoneBook[phone].email;
