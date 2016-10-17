@@ -93,6 +93,9 @@ exports.update = function (phone, name, email) {
  * @returns {Number} nStr
  */
 exports.findAndRemove = function (query) {
+    if (!validName(query)) {
+        return 0;
+    }
     var nStr = 0;
     var lenBook = phoneBook.length; // !!!!!!!!!!
     var allNotes = (query === '*');
