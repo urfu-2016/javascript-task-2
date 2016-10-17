@@ -54,6 +54,7 @@ function undefinedNaNPhone(phone) {
 
     return phone !== undefined && !isNaN(parseInt(phone));
 }
+
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
