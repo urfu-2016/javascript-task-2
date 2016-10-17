@@ -86,14 +86,6 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var records = this.find(query);
     var length = records.length;
-    if (query === '@') {
-        var keys = Object.keys(phoneBook);
-        for (var i = 0; i < keys.length; i++) {
-            delete phoneBook[keys[i]];
-        }
-
-        return length;
-    }
     for (var j = 0; j < records.length; j++) {
         var phone = records[j].split(',')[1];
         phone.replace('+7 ', '');
