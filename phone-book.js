@@ -80,10 +80,12 @@ exports.update = function (phone, name, email) {
         if (phoneBook[i].phone === phone.toString()) {
             phoneBook[i].name = name;
             phoneBook[i].email = email;
+            
+            return true;
         }
     }
 
-    return true;
+    return false;
 };
 
 /**
