@@ -53,7 +53,7 @@ function getCorrectData(phone, name, email) {
         data[correctPhone].name = name;
         if (email || email !== '' && typeof email === 'string')
             data[correctPhone] = addEntryToData(
-                data[correctPhone], email, 'email', /^.*?$/);
+                data[correctPhone], email, 'email', /.*/);
     } else {
         return false;
     }
