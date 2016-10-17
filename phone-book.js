@@ -49,13 +49,13 @@ function correctMail(mail) {
 }
 
 /**
-* Добавление записи в телефонную книгу
-* @param {String} phone
-* @param {String} name
-* @param {String} email
-* @returns {Bool} – успех или не успех операции
-*/
-exports.add = function (phone, name, email) {
+ * Добавление записи в телефонную книгу
+ * @param {String} phone
+ * @param {String} name
+ * @param {String} email
+ * @returns {Bool} – успех или не успех операции
+ */
+exports.add = function(phone, name, email) {
     if (!correctNumber(phone)) {
 
         return false;
@@ -87,7 +87,7 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  * @returns {Bool} – успех или не успех операции
  */
-exports.update = function (phone, name, email) {
+exports.update = function(phone, name, email) {
     if (!correctNumber(phone)) {
 
         return false;
@@ -116,7 +116,8 @@ function gettingRightNumbers(query) {
     var search = [];
 
     for (var number in phoneBook) {
-        if (number && successFind(query, number)) {
+        var queryStatus = successFind(query, number); 
+        if (number && queryStatus) {
             search.push(number);
         }
     }
@@ -128,7 +129,7 @@ function gettingRightNumbers(query) {
  * @param {String} query
  * @returns {Number} – кол-во удалённых записей
  */
-exports.findAndRemove = function (query) {
+exports.findAndRemove = function(query) {
     var firstSize = Object.keys(phoneBook).length;
     if (query === '*') {
         phoneBook = {};
@@ -175,8 +176,8 @@ function emailSugar(email) {
 
 function successFind(query, phone) {
     if (phone.indexOf(query) >= 0 || (phoneBook[phone].email && phoneBook[
-        phone].email.indexOf(query >= 0)) || phoneBook[phone].name.indexOf(
-        query) >= 0) {
+            phone].email.indexOf(query >= 0)) || phoneBook[phone].name.indexOf(
+            query) >= 0) {
 
         return true;
     }
@@ -186,21 +187,21 @@ function successFind(query, phone) {
 }
 
 /**
-* Поиск записей по запросу в телефонной книге
-* @param {String} query
-* @returns {Number} – записи, удовлетворяющие условию
-*/
-exports.find = function (query) {
+ * Поиск записей по запросу в телефонной книге
+ * @param {String} query
+ * @returns {Number} – записи, удовлетворяющие условию
+ */
+exports.find = function(query) {
     if (query === '*') {
 
-        return Object.keys(phoneBook).map(function (element) {
-            var realEmail = emailSugar(phoneBook[element].email);
+        return Object.keys(phoneBook).map(function(element) {
+                var realEmail = emailSugar(phoneBook[element].email);
 
-            return phoneBook[element].name + ', ' + comfortFormat(
-                element) + realEmail;
+                return phoneBook[element].name + ', ' + comfortFormat(
+                    element) + realEmail;
 
-        })
-        .sort();
+            })
+            .sort();
     }
     if (!correctData(query)) {
 
@@ -219,13 +220,13 @@ exports.find = function (query) {
 
     }
     return searchFor.map(function(element) {
-        var realEmail = emailSugar(phoneBook[element].email);
+            var realEmail = emailSugar(phoneBook[element].email);
 
-        return phoneBook[element].name + ', ' + comfortFormat(
-            element) + realEmail;
+            return phoneBook[element].name + ', ' + comfortFormat(
+                element) + realEmail;
 
-    })
-    .sort();
+        })
+        .sort();
 };
 
 /**
@@ -234,7 +235,7 @@ exports.find = function (query) {
  * @param {String} csv
  * @returns {Number} – количество добавленных и обновленных записей
  */
-exports.importFromCsv = function (csv) {
+exports.importFromCsv = function(csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
