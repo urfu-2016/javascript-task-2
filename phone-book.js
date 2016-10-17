@@ -11,6 +11,22 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
+function isValidPhone(phone) {
+    if (!phone || transformPhone(phone) === '') {
+        return false;
+    }
+
+    return true;
+}
+
+function isValidName(name) {
+    if (!name) {
+        return false;
+    }
+
+    return true;
+}
+
 function transformPhone(phone) {
     var parts = /^(\d{3})(\d{3})(\d{2})(\d{2})$/.exec(phone);
     if (parts === null) {
@@ -28,7 +44,7 @@ function transformPhone(phone) {
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (!isValidData(phone, name)) {
+    if (!isValidPhone(phone) || !isValidName(name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -49,17 +65,6 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function isValidData(phone, name) {
-    if (phone === undefined || phone === '' || transformPhone(phone) === '') {
-        return false;
-    }
-    if (name === undefined || name === '') {
-        return false;
-    }
-
-    return true;
-}
-
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
@@ -68,7 +73,7 @@ function isValidData(phone, name) {
  * @returns {bool}
  */
 exports.update = function (phone, name, email) {
-    if (!isValidData(phone, name)) {
+    if (!isValidPhone(phone) || !isValidName(name)) {
         return false;
     }
     var indexOfNeedRecords = findIndexsOfRecords(phone);
