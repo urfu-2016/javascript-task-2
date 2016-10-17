@@ -9,7 +9,7 @@
     /**
      * Телефонная книга
      */
-    var  = {};
+    var phoneBook  = {};
     exports.add = function (phone, name, email) {
         if (!checkForExistence(phone, name, email) && checkAddArguments(name, phone, email)) {
             phoneBookItems[phone] = { 'name': name, 'phone': phone, 'email': email };
