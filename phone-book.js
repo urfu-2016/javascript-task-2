@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -30,12 +30,12 @@ function getEntries(query) {
         return entries;
     }
 
-    query = new RegExp(query, 'i'); //
+    // query = new RegExp(query, 'i');
 
     return entries.filter(function (entry) {
         var take = false;
         for (var key in entry) {
-            if ((take = query.test(entry[key])) && entry.hasOwnProperty(key)) {
+            if ((take = (entry[key].toLowerCase().indexOf(query.toLowerCase()) !== -1))) {
                 break;
             }
         }
