@@ -132,15 +132,17 @@ exports.find = function (query) {
         });
     }
     findedPhones = findedPhones.sort(compareNode);
-    var resultNode = [];
-    findedPhones.forEach(function (node) {
+    var resultNode = findedPhones.map(function (node) {
+        var arrayNode = [];
         var phone = node.phone.match(/^(\d{3})(\d{3})(\d{2})(\d{2})$/);
         var formattedPhone = '+7 (' + phone[1] + ') ' + phone[2] + '-' + phone[3] + '-' + phone[4];
-        resultNode.push(node.name);
-        resultNode.push(formattedPhone);
+        arrayNode.push(node.name);
+        arrayNode.push(formattedPhone);
         if (node.email) {
-            resultNode.push(node.email);
+            arrayNode.push(node.email);
         }
+
+        return arrayNode;
     });
 
     return resultNode;
