@@ -16,7 +16,7 @@ var phoneBook = [];
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {boolean}
+ * @returns {Boolean}
  */
 exports.isCorrect = function (phone, name, email) {
     var cPhone = ((/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
@@ -32,7 +32,7 @@ exports.isCorrect = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {Integer}
+ * @returns {Integer} индекс вхождения
  */
 exports.indexOf = function (phone) {
     for (var i = 0; i < phoneBook.length; i++) {
@@ -50,7 +50,7 @@ exports.indexOf = function (phone) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {boolean}
+ * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
     if (exports.indexOf(phone) === -1 && exports.isCorrect(phone, name, email)) {
@@ -71,7 +71,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {boolean}
+ * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
     if (name === '') {
@@ -95,7 +95,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
- * @returns {Integer}
+ * @returns {Integer} количество удаленных записей
  */
 exports.findAndRemove = function (query) {
     var result = [];
@@ -143,7 +143,7 @@ exports.findInNote = function (note, query) {
 /**
  * Приведение телефона к формату вывода на экран
  * @param {String} phone
- * @returns {String}
+ * @returns {String} строка для вывода на экран
  */
 exports.phoneToPrint = function (phone) {
     return '+7 (' + phone.substr(0, 3) + ') ' + phone.substr(3, 3) + '-' +
@@ -153,7 +153,7 @@ exports.phoneToPrint = function (phone) {
 /**
  * Приведение всей записи к формату вывода на экран
  * @param {Object} note
- * @returns {String}
+ * @returns {String} строка для вывода на экран
  */
 exports.noteToPrint = function (note) {
     var line = '';
@@ -169,7 +169,7 @@ exports.noteToPrint = function (note) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {Array}
+ * @returns {Array} массив найденных записей
  */
 exports.find = function (query) {
     if (query === '') {
