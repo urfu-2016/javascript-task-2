@@ -51,6 +51,14 @@ function isCorrectPhone(phone) {
     return true;
 }
 
+function isCorrectQuery(i, query) {
+    if (isFound(i, query) || query === '*') {
+        return true;
+    }
+
+    return true;
+}
+
 exports.add = function (phone, name, email) {
     var object = {
         _phone: phone,
@@ -117,14 +125,18 @@ exports.find = function (query) {
         return '';
     }
     for (var i = 0; i < phoneBook1.length; i++) {
-        if (isFound(phoneBook1[i], query) || query === '*') {
+        if (isCorrectQuery(phoneBook1[i], query)) {
             var str = phoneBook1[i]._phone;
             var x1 = str.substring(0, 3);
             var x2 = str.substring(3, 6);
             var x3 = str.substring(6, 8);
             var x4 = str.substring(8, 10);
-            var x = ', 7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ';
-            arr.push(phoneBook1[i]._name + x + phoneBook[i]._email);
+            var x = ', 7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4;
+            var email = '';
+            if (isString(phoneBook[i]._email)) {
+                x = x + ', ' + isString(phoneBook[i]._email);
+            }
+            arr.push(phoneBook1[i]._name + x + phoneBook[i]._email + email);
         }
     }
 
