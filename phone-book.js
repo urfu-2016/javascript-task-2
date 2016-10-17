@@ -11,13 +11,6 @@
      * Телефонная книга
      */
     var phoneBook = {};
-
-    /**
-     * Добавление записи в телефонную книгу
-     * @param {String} phone
-     * @param {String} name
-     * @param {String} email
-     */
     exports.add = function (phone, name, email) {
         if (!checkForExistence(phone, name, email) && checkAddArguments(name, phone, email)) {
             phoneBook[phone] = { 'name': name, 'phone': phone, 'email': email };
@@ -35,13 +28,6 @@
         typeof(name) !== 'undefined' && name !== null &&
         /^\d{10}$/.test(phone) && typeof(phone) !== 'undefined';
     }
-
-    /**
-     * Обновление записи в телефонной книге
-     * @param {String} phone
-     * @param {String} name
-     * @param {String} email
-     */
     exports.update = function (phone, name, email) {
         if (typeof(name) !== 'undefined' && name !== '' && checkForExistence(phone)) {
             if (typeof(email) === 'undefined') {
@@ -54,11 +40,6 @@
 
         return false;
     };
-
-    /**
-     * Удаление записей по запросу из телефонной книги
-     * @param {String} query
-     */
     exports.findAndRemove = function (query) {
         var deletedItems = exports.find(query, true);
 
@@ -113,13 +94,6 @@
         return '+7 (' + number.substr(0, 3) + ') ' +
         [number.substr(3, 3), number.substr(6, 2), number.substr(8, 2)].join('-');
     }
-
-    /**
-     * Импорт записей из csv-формата
-     * @star
-     * @param {String} csv
-     * @returns {Number} – количество добавленных и обновленных записей
-     */
     exports.importFromCsv = function (csv) {
         var lines = csv.split('\n');
         var successesCount = 0;
