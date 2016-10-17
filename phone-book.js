@@ -46,10 +46,6 @@ var placeContact = function (phone, name, email) {
 
     phone = phone.toString();
 
-    if (!email) {
-        email = undefined;
-    }
-
     try {
         phoneBook[phone] = new Contact(phone, name, email);
     } catch (e) {
@@ -60,18 +56,10 @@ var placeContact = function (phone, name, email) {
 };
 
 var add = function (phone, name, email) {
-    if (phone) {
-        phone = phone.toString();
-    }
-
     return phone && !phoneBook[phone] && placeContact(phone, name, email);
 };
 
 var update = function (phone, name, email) {
-    if (phone) {
-        phone = phone.toString();
-    }
-
     return phone && phoneBook[phone] && placeContact(phone, name, email);
 };
 
@@ -85,7 +73,7 @@ var findContacts = function (query) {
             return phoneBook[phone];
         });
 
-    var found = query === '*'
+    return query === '*'
         ? allContacts
         : allContacts
             .filter(function (contact) {
@@ -98,12 +86,11 @@ var findContacts = function (query) {
                         return propValue.indexOf(query) !== -1;
                     });
             });
-
-    return found.sort(Contact.sortFunction);
 };
 
 var find = function (query) {
     return findContacts(query)
+        .sort()
         .map(function (contact) {
             return contact.toString();
         });
