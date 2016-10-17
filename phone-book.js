@@ -52,7 +52,7 @@ function getCorrectData(phone, name, email) {
         }
         data[correctPhone].name = name;
         data[correctPhone] = addEntryToData(
-            data[correctPhone], email, 'email', /^\w+@\w+.\w{1,}$/);
+            data[correctPhone], email, 'email', /.*?/);
     } else {
         return false;
     }
