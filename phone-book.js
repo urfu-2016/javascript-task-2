@@ -37,7 +37,7 @@ exports.add = function (phone, name, email) {
         _name: name,
         _email: email
     };
-    if (name === '') {
+    if (name === '' || typeof name === 'undefined') {
         return false;
     }
     if (phone.length !== 10) {
