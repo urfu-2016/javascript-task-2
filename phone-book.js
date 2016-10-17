@@ -37,10 +37,11 @@ function findInNote(query, note) {
 }
 
 
-function validName(name){
+function validName(name) {
 
     return (/\w+/.test(name) && Boolean(name));
 }
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
