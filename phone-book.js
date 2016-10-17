@@ -78,8 +78,8 @@ function sortTreeArray(arr) {
             return -1;
         }
         return 0;
-    }
-                    }
+    });
+}
 function findPersonByQuery(query) {
         
         return phoneBook.filter(function (person) {
