@@ -43,12 +43,12 @@ function createContact(phone, name, email) {
 
 function checkName(name) {
 
-    return typeof name !== 'undefined' && typeof name === 'string' &&
-     name.length > 0;
+    return name !== undefined && typeof name === 'string' &&
+     name.length !== 0;
 }
 
 function checkPhone(phone) {
-    var reg = /\d{10}/;
+    var reg = /\d{10}/g;
 
     return reg.test(phone) && phone.length === 10 &&
     undefinedNaNPhone(phone);
@@ -56,7 +56,7 @@ function checkPhone(phone) {
 
 function undefinedNaNPhone(phone) {
 
-    return typeof phone !== 'undefined' && !isNaN(Number(phone));
+    return phone !== undefined && !isNaN(Number(phone));
 }
 
 /**
@@ -69,7 +69,7 @@ function undefinedNaNPhone(phone) {
 exports.update = function (phone, name, email) {
     if (checkName(name) && checkPhone(phone) && phoneBook[phone]) {
         phoneBook[phone].name = name;
-        if (typeof email === 'undefined') {
+        if (email === undefined) {
             delete phoneBook[phone].email;
 
             return true;
