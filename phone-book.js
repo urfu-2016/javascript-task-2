@@ -45,11 +45,6 @@
 
         return deletedItems.length;
     };
-
-    /**
-     * Поиск записей по запросу в телефонной книге
-     * @param {String} query
-     */
     exports.find = function (query, needToDelete) {
         if (typeof(needToDelete) === 'undefined') {
             needToDelete = false;
@@ -83,7 +78,7 @@
         });
 
         return resultStrings;
-    }
+    };
     function recordContains(record, query) {
         return record.phone.includes(query) ||
             (typeof(record.email) !== 'undefined' &&
