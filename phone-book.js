@@ -124,7 +124,7 @@ function searchString(query) {
 }
 
 function newFormatPhone(record) {
-    return ('+7 (' + record.substring(0, 3) + ') ' + record.substring(4, 6) + '-' +
+    return ('+7 (' + record.substring(0, 3) + ') ' + record.substring(3, 6) + '-' +
         record.substring(6, 8) + '-' + record.substring(8, 10));
 }
 
