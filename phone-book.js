@@ -28,11 +28,11 @@ exports.testPersonality = function (phone) {
         }
     }
 
-    return true;
+    return -1;
 };
 
 exports.add = function (phone, name, email) {
-    if (exports.correctData(phone, name, email) && exports.testPersonality(phone) === true) {
+    if (exports.correctData(phone, name, email) && exports.testPersonality(phone) === -1) {
         if (typeof email === 'undefined') {
             phoneBook.push({ phone: phone, name: name });
         } else {
@@ -46,13 +46,13 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    var phoneId = (exports.testPersonality(phone));
-    if (exports.correctData(phone, name, email) && exports.testPersonality !== true) {
+    var phoneId = exports.testPersonality(phone);
+    if (exports.correctData(phone, name, email) && phoneId > -1) {
         phoneBook[phoneId].name = name;
-        if (typeof email === 'undefined') {
-            delete phoneBook[phoneId].email;
-        } else {
+        if (typeof email !== 'undefined') {
             phoneBook[phoneId].email = email;
+        } else {
+            delete phoneBook[phoneId].email;
         }
 
         return true;
@@ -65,7 +65,7 @@ exports.find = function (query) {
     var flag = [];
     if (query === '') {
 
-        return [];
+        flag = [];
     } else if (query === '*') {
         rewrite(flag);
     } else {
@@ -73,24 +73,6 @@ exports.find = function (query) {
     }
 
     return flag.sort();
-};
-
-exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
-    var arrayCsv = csv.split('\n');
-    var res;
-    var count = 0;
-    for (var i = 0; i < arrayCsv.length; i++) {
-        res = arrayCsv[i].split(';');
-        if (exports.update(res[1], res[0], res[2]) ||
-        (exports.add(res[1], res[0], res[2]))) {
-            count++;
-        }
-    }
-
-    return count;
 };
 
 function rewrite(flag) {
@@ -162,4 +144,22 @@ exports.findAndRemove = function (query) {
     }
 
     return numDel;
+};
+
+exports.importFromCsv = function (csv) {
+    // Парсим csv
+    // Добавляем в телефонную книгу
+    // Либо обновляем, если запись с таким телефоном уже существует
+    var arrayCsv = csv.split('\n');
+    var res;
+    var count = 0;
+    for (var i = 0; i < arrayCsv.length; i++) {
+        res = arrayCsv[i].split(';');
+        if (exports.update(res[1], res[0], res[2]) ||
+        (exports.add(res[1], res[0], res[2]))) {
+            count++;
+        }
+    }
+
+    return count;
 };
