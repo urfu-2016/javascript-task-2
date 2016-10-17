@@ -176,9 +176,7 @@ exports.importFromCsv = function (csv) {
     var addRecord = 0;
     for (var i = 0; i < book.length; i++) {
         var record = book[i];
-        console.info(record);
         addRecord += addRecordInBook(record);
-        console.info(addRecord);
     }
 
     return addRecord;
