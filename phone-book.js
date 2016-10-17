@@ -52,6 +52,11 @@ function isDataCorrect(phone, email, name) {
 }
 
 exports.update = function (phone, name, email) {
+    if (!isDataCorrect(phone, email, name)) {
+
+        return false;
+    }
+
     var entry = phoneBook.filter(function (item) {
         return item.phone === phone;
     });
