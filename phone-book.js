@@ -83,6 +83,9 @@ function format(phone) {
 }
 
 exports.findAndRemove = function (query) {
+    if (query === undefined || query === '') {
+        return 0;
+    }
     var phones = getContactsList(query);
     for (var i = 0; i < phones.length; i++) {
         delete phoneBook[phones[i]];
