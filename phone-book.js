@@ -75,7 +75,11 @@
         foundItems.forEach(function (record) {
             var result = [record.name,
                 convertPhoneNumberToUnified(record.phone),
-                record.email].join(', ');
+                record.email]
+                    .filter(function (value) {
+                        return value;
+                    })
+                    .join(', ');
             resultStrings.push(result);
         });
 
