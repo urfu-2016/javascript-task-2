@@ -190,6 +190,10 @@ exports.importFromCsv = function (csv) {
     var contactsStrings = csv.split('\n');
     var changedEntrysCount = 0;
 
+    if (contactsStrings.length === 0) {
+        return changedEntrysCount;
+    }
+
     contactsStrings
         .map(function (contactString) {
             var contactParts = contactString.split(';');
