@@ -84,7 +84,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (!inPhoneBook(phone) || !validName(name) || !isPhone(phone)) {
+    if (!inPhoneBook(phone)|| !validMail(email) || !validName(name) || !isPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
