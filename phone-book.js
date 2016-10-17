@@ -55,7 +55,7 @@ function correctMail(mail) {
  * @param {String} email
  * @returns {Bool} – успех или не успех операции
  */
-exports.add = function(phone, name, email) {
+exports.add = function (phone, name, email) {
     if (!correctNumber(phone)) {
 
         return false;
@@ -87,7 +87,7 @@ exports.add = function(phone, name, email) {
  * @param {String} email
  * @returns {Bool} – успех или не успех операции
  */
-exports.update = function(phone, name, email) {
+exports.update = function (phone, name, email) {
     if (!correctNumber(phone)) {
 
         return false;
@@ -116,14 +116,16 @@ function gettingRightNumbers(query) {
     var search = [];
 
     for (var number in phoneBook) {
-        var queryStatus = successFind(query, number); 
-        if (number && queryStatus) {
+        if (phoneBook.hasOwnProperty(number) && 
+            successFind(query, number) && number) {
+            
             search.push(number);
         }
     }
 
     return search;
 }
+
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
@@ -191,17 +193,16 @@ function successFind(query, phone) {
  * @param {String} query
  * @returns {Number} – записи, удовлетворяющие условию
  */
-exports.find = function(query) {
+exports.find = function (query) {
     if (query === '*') {
 
-        return Object.keys(phoneBook).map(function(element) {
-                var realEmail = emailSugar(phoneBook[element].email);
+        return Object.keys(phoneBook).map(function (element) {
+            var realEmail = emailSugar(phoneBook[element].email);
 
-                return phoneBook[element].name + ', ' + comfortFormat(
-                    element) + realEmail;
+            return phoneBook[element].name + ', ' + comfortFormat(element) + realEmail;
 
-            })
-            .sort();
+        })
+        .sort();
     }
     if (!correctData(query)) {
 
@@ -219,14 +220,14 @@ exports.find = function(query) {
         return [];
 
     }
+
     return searchFor.map(function(element) {
-            var realEmail = emailSugar(phoneBook[element].email);
+        var realEmail = emailSugar(phoneBook[element].email);
 
-            return phoneBook[element].name + ', ' + comfortFormat(
-                element) + realEmail;
+        return phoneBook[element].name + ', ' + comfortFormat(element) + realEmail;
 
-        })
-        .sort();
+    })
+    .sort();
 };
 
 /**
