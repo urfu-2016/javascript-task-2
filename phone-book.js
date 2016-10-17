@@ -55,10 +55,12 @@ exports.update = function (phone, name, email) {
                 name: name,
                 email: email
             });
+
+            return true;
         }
     }
 
-    return true;
+    return false;
 };
 
 /**
@@ -141,21 +143,19 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    var data = csv.split('\n');
     var counter = 0;
-    for (var i = 0; i < data.length; i++) {
-        var sData = data[i].split(';');
-        if (!isCorrectInput(sData[1], sData[0], sData[2]) || sData.length > 3) {
-            continue;
+    var data = csv.split('\n');
+    data.forEach(function (str) {
+        var sData = str.split(';');
+        if (isCorrectInput(sData[1], sData[0], sData[2]) && sData.length < 4) {
+            if (exports.update(sData[1], sData[0], sData[2])) {
+                counter++;
+            }
+            if (exports.add(sData[1], sData[0], sData[2])) {
+                counter++;
+            }
         }
-        if (mySearch(sData[1])) {
-            exports.update(sData[1], sData[0], sData[2]);
-            counter++;
-        } else {
-            exports.add(sData[1], sData[0], sData[2]);
-            counter++;
-        }
-    }
+    });
 
     return counter;
 };
