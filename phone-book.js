@@ -163,6 +163,9 @@ function transformBook(book) {
 }
 
 function findIndexsOfRecords(query) {
+    if (query === undefined) {
+        return [];
+    }
     var indexsOfRecords = [];
     for (var i = 0; i < phoneBook.length; i++) {
         var reg = new RegExp(query, 'i');
