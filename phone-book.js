@@ -95,8 +95,9 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var nStr = 0;
     var lenBook = phoneBook.length; // !!!!!!!!!!
+    var allNotes = (query === '*');
     for (var i = lenBook - 1; i > -1; i--) {
-        if (findInNote(query, phoneBook[i])) {
+        if (findInNote(query, phoneBook[i]) || allNotes) {
             phoneBook.splice(i, 1);
             nStr += 1;
         }
