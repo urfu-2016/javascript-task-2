@@ -19,14 +19,14 @@ var phoneBook = {};
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!checkArgument(phone) || phoneBook.hasOwnProperty(phone)) {
+    if (phoneBook.hasOwnProperty(phone)) {
 
         return false;
     }
 
-    var contact = getContact(phone, name, email);
-    if (contact) {
-        phoneBook[phone] = contact;
+    var data = getCorrectData(phone, name, email);
+    if (data && data.hasOwnProperty(phone)) {
+        phoneBook[phone] = data[phone];
 
         return true;
     }
@@ -38,18 +38,10 @@ function checkArgument(argument) {
     return (typeof argument === 'string' && argument.length !== 0);
 }
 
-function getContact(phone, name, email) {
-    var data = getCorrectData(phone, name, email);
-    if (data && data.hasOwnProperty(phone)) {
-
-        return data[phone];
-    }
-}
-
 function getCorrectData(phone, name, email) {
     var data = {};
 
-    if (getMatch(phone, /^\d{10}$/)) {
+    if (phone.match(/^\d{10}$/)) {
         data[phone] = {};
         if (!checkArgument(name)) {
             return false;
@@ -66,15 +58,6 @@ function getCorrectData(phone, name, email) {
     }
 
     return data;
-}
-
-function getMatch(string, regExp) {
-    if (string) {
-        var match = string.match(regExp);
-        if (match) {
-            return match[0];
-        }
-    }
 }
 
 /**
@@ -134,7 +117,7 @@ exports.find = function (query) {
     var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
     if (!checkArgument(query)) {
-        return 0;
+        return;
     }
 
     return Object.keys(phoneBook)
@@ -158,9 +141,10 @@ function isContactRelevant(phone, query) {
         return true;
     }
 
-    return Object.keys(phoneBook[phone]).some(function (key) {
-        return phoneBook[phone][key].indexOf(query) !== -1;
-    });
+    return Object.keys(phoneBook[phone])
+        .some(function (key) {
+            return phoneBook[phone][key].indexOf(query) !== -1;
+        });
 }
 
 /**
