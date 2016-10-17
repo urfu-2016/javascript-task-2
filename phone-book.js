@@ -114,9 +114,8 @@ var queryArray = sortTreeArray(inputQuery);
          }
  
         return queryLine;
-    };
-  };
-};                         
+    });
+  };                         
 
 /**
  * Импорт записей из csv-формата
