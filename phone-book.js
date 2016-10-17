@@ -68,7 +68,7 @@ exports.find = function (query) {
 };
 
 function findPhones(query) {
-    if (query === '') {
+    if (query === '' || query === undefined) {
         return [];
     }
     if (query === '*') {
