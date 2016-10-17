@@ -30,7 +30,6 @@ function checkExist(phone) {
 
 function testPhone(phone) {
     var regvalidPhone = /\d{10}/;
-    var valid = regvalidPhone.test(phone);
 
     return phone !== '' && regvalidPhone.test(phone);
 }
