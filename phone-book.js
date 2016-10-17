@@ -50,8 +50,7 @@ function getCorrectData(phone, name, email) {
 
     if (correctPhone) {
         data[correctPhone] = {};
-        data[correctPhone] = addEntryToData(
-            data[correctPhone], name, 'name', /^[А-Яа-яA-Za-z]+$/);
+        data[correctPhone].name = name;
         data[correctPhone] = addEntryToData(
             data[correctPhone], email, 'email', /^[\w\d_-]+@\w+\.\w{2,4}$/);
     } else {
