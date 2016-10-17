@@ -37,7 +37,7 @@ exports.add = function (phone, name, email) {
 };
 
 function checkPhoneFormat(phone) {
-    return phone && phone.length === 10 && !phone.match(/[^0-9]/);
+    return phone.length === 10 && !phone.match(/[^0-9]/);
 }
 
 /**
