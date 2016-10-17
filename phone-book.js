@@ -6,11 +6,11 @@
  */
 exports.isStar = true;
 exports.isStar = false;
+
 /**
  * Телефонная книга
  */
 var phoneBook;
-var phoneBook = [];
 
 /**
  * Добавление записи в телефонную книгу
@@ -19,7 +19,7 @@ var phoneBook = [];
  * @param {String} email
  * @returns {Bool}
  */
-function checkPhone(phone){
+function checkPhone(phone) {
     var phoneReg = /^\d{10}$/;
     if (phone !== undefined && !phoneReg.test(phone)) {
 
@@ -36,10 +36,10 @@ exports.add = function (phone, name, email) {
                 name: name,
                 email: email
             });
-        }
+        };
 
         return true;
-    }
+    };
 
     return false;
 };
@@ -105,6 +105,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Bool}
  */
 exports.findAndRemove = function (query) {
     var Counter = 0;
@@ -112,9 +113,9 @@ exports.findAndRemove = function (query) {
     if (correctName(query)) {
         var refreshedBook = phoneBook.filter(function (element) {
             if (element.email === undefined) {
-                realEmail='';
+                realEmail = '';
             } else {
-                realEmail=', ' + element.email;
+                realEmail = ', ' + element.email;
             }
             var lowerQuery = query.toLowerCase();
 
@@ -159,6 +160,7 @@ function comfortFormat(phone) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Bool}
  */
 function search(query) {
     var coincidencePhone = [];
@@ -173,14 +175,13 @@ function search(query) {
         }
         if (Name || Phone || Email) {
             var currentName = phoneBook[i]._name;
-            var currentPhone = formatPhone(phoneBook[i]._phone);
+            var currentPhone = comfortFormat(phoneBook[i]._phone);
             var currentEmail = phoneBook[i]._email;
-            
             coincidencePhone.push(returnEmail(currentName, currentPhone, currentEmail));
-      }
-   }
+        }
+    }
 
-   return coincidencePhone;
+    return coincidencePhone;
 }
 
 exports.find = function (query) {
@@ -192,10 +193,10 @@ exports.find = function (query) {
     if (query === '*') {
         query = '';
     }
-    var phoneBook = search(query);
-    phoneBook.sort();
+    var Book = search(query);
+    Book.sort();
 
-    return phoneBook;
+    return Book;
 };
 
 /**
