@@ -42,8 +42,7 @@ function checkMail(testMail) {
 
 exports.add = function (phone, name, email) {
     if (checkPhone(phone) && checkName(name) && (checkMail(email))) {
-        phoneBook.push({ phone: phone, name: name, email:
-            typeof(email) === undefined ? '' : email });
+        phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
     }
@@ -58,7 +57,7 @@ exports.update = function (phone, name, email) {
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             phoneBook[i].name = name;
-            phoneBook[i].email = typeof(email) === undefined ? '' : email;
+            phoneBook[i].email = email;
 
             return true;
         }
