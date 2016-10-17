@@ -42,6 +42,15 @@ function validName(name) {
     return (/\S+/.test(name) && Boolean(name));
 }
 
+function validMail(email) {
+    if (email !== undefined){
+        
+        return (email.length !== 0)
+    }
+    
+    return true;
+}
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -50,7 +59,7 @@ function validName(name) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isPhone(phone) || !validName(name) || inPhoneBook(phone)) {
+    if (!isPhone(phone) || !validMail || !validName(name) || inPhoneBook(phone)) {
 
         return false;
     }
