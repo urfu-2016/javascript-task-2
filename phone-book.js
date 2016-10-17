@@ -29,14 +29,14 @@ var phoneBook = {
 function addEmail(email) {
     if (typeof email === 'undefined') {
 
-        return ['', true];
+        return '';
     }
-    if (typeof email === 'string') {
+    if (typeof email === 'string'){
 
-        return [email, email];
+        return email;
     }
 
-    return [false, false];
+    return false;
 }
 
 exports.add = function (phone, name, email) {
@@ -45,10 +45,11 @@ exports.add = function (phone, name, email) {
         var indexN = phoneBook.name.indexOf(name) === -1;
         var indexE = phoneBook.email.indexOf(email) === -1;
         var correctEmail = addEmail(email);
-        if (indexE && indexN && indexP && correctEmail[1]) {
+        if (indexE && indexN && indexP && 
+            (correctEmail === '' || correctEmail !== false)) {
             phoneBook.phone.push(phone);
             phoneBook.name.push(name);
-            phoneBook.email.push(correctEmail[0]);
+            phoneBook.email.push(correctEmail);
 
             return true;
         }
