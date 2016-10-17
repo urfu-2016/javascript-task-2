@@ -121,7 +121,7 @@ exports.find = function (query) {
             contact.name.indexOf(query) !== -1 ||
             (contact.email !== undefined && contact.email.indexOf(query) !== -1));
     });
-    phoneList.map(doPatheticContact).sort();
+    phoneList = phoneList.map(doPatheticContact).sort();
 
     return phoneList;
 };
