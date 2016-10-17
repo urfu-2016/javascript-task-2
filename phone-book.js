@@ -71,11 +71,15 @@ exports.update = function (phone, name, email) {
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
+            console.info('ok');
             phoneBook[i].name = name;
             phoneBook[i].email = email;
+
+            return true;
         }
 
-    return true;
+    }
+
 };
 
 /**
@@ -85,7 +89,8 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var nStr = 0;
-    for (var i = 0; i < phoneBook.length; i++) {
+    var lenBook = phoneBook.length; // !!!!!!!!!!
+    for (var i = lenBook - 1; i > -1; i--) {
         if (findInNote(query, phoneBook[i])) {
             phoneBook.splice(i, 1);
             nStr += 1;
@@ -111,12 +116,14 @@ exports.find = function (query) {
             var phone = '+7 (' + phoneBook[i].phone.slice(0, 3) + ') ' +
             phoneBook[i].phone.slice(3, 6) + '-' + phoneBook[i].phone.slice(6, 8) + '-' +
             phoneBook[i].phone.slice(8);
-            var strValue = phoneBook[i].name + ', ' + phone + ', ' + phoneBook[i].email;
+            var strValue = phoneBook[i].name + ', ' + phone;
+            var endStr = phoneBook[i].email ? ', ' + phoneBook[i].email : '';
+            strValue += endStr;
             allFound.push(strValue);
         }
     }
     allFound.sort();
-    
+
     return allFound;
 };
 
@@ -135,17 +142,16 @@ exports.importFromCsv = function (csv) {
     var name;
     var phone;
     var email;
-    var n = notesCsv.length;
+    var n = 0;
     for (var i = 0; i < notesCsv.length; i++) {
         name = notesCsv[i].split(';')[0];
-        name = notesCsv[i].split(';')[1];
-        name = notesCsv[i].split(';')[2];
-        var samePhone = csv.search(phone);
-        n += 1 - samePhone.length;
-        if (!exports.add(name, phone, email)) {
-            exports.update(name, phone, email);
+        phone = notesCsv[i].split(';')[1];
+        email = notesCsv[i].split(';')[2];
+        if (!exports.add(phone, name, email)) {
+            n += exports.update(phone, name, email);
+        } else {
+            n += 1;
         }
-
     }
 
     return n;
