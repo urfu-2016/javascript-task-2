@@ -3,64 +3,114 @@
     <script>
     'use strict';
 
-    var assert = require('assert');
+    /**
+     * Сделано задание на звездочку
+     * Реализован метод importFromCsv
+     */
+    var exports = {};
+    exports.isStar = true;
 
-    var phoneBook = require('./phone-book');
+    /**
+     * Телефонная книга
+     */
+    var phoneBook = {};
+    exports.add = function (phone, name, email) {
+        if (!checkForExistence(phone, name, email) && checkAddArguments(name, phone)) {
+            phoneBook[phone] = { 'name': name, 'phone': phone, 'email': email };
 
-    describe('phone-book', function () {
-        it('должен добавлять записи', function () {
-            assert.ok(phoneBook.add('5554440044', 'Григорий', 'grisha@example.com'));
-            assert.ok(phoneBook.add('5552220022', 'Борис', 'boris@example.com'));
-            assert.ok(phoneBook.add('5551110011', 'Алекс'));
-            assert.ok(phoneBook.add('5553330033', 'Валерий', 'valera@example.com'));
-        });
-
-        it('не должен добавлять неправильные записи', function () {
-            assert.ok(!phoneBook.add('3330033', 'Неизвестный', 'unknown@example.com'));
-            assert.ok(!phoneBook.add('5551110011', 'Алексей'));
-            assert.ok(!phoneBook.add('5555550055'));
-        });
-
-        it('должен обновлять существующие записи', function () {
-            assert.ok(phoneBook.update('5551110011', 'Алексей', 'alex@example.com'));
-            assert.ok(phoneBook.update('5553330033', 'Валерий'));
-        });
-
-        it('должен искать все записи по запросу "*"', function () {
-            assert.deepStrictEqual(phoneBook.find('*'), [
-                'Алексей, +7 (555) 111-00-11, alex@example.com',
-                'Борис, +7 (555) 222-00-22, boris@example.com',
-                'Валерий, +7 (555) 333-00-33',
-                'Григорий, +7 (555) 444-00-44, grisha@example.com'
-            ]);
-        });
-
-        it('должен искать все записи по запросу "555"', function () {
-            assert.deepStrictEqual(phoneBook.find('555'), [
-                'Алексей, +7 (555) 111-00-11, alex@example.com',
-                'Борис, +7 (555) 222-00-22, boris@example.com',
-                'Валерий, +7 (555) 333-00-33',
-                'Григорий, +7 (555) 444-00-44, grisha@example.com'
-            ]);
-        });
-
-        it('должен удалять элементы из телефонной книги', function () {
-            assert.strictEqual(phoneBook.findAndRemove('@'), 3);
-        });
-
-        if (phoneBook.isStar) {
-            it('должен экспортировать из cvs', function () {
-                var csv = [
-                    'Борис;5552220022;boris@example.com',
-                    'Григорий;5554440044;grisha@example.com',
-                    'Алексей;5551110011;alex@example.com',
-                    'Валерий;5553330033;valera@example.com',
-                    'Неизвестный;3330033;unknown@example.com'
-                ].join('\n');
-                assert.strictEqual(phoneBook.importFromCsv(csv), 4);
-            });
+            return true;
         }
-    });
+
+        return false;
+    };
+    function checkForExistence(phone) {
+        return (phone in phoneBook);
+    }
+    function checkAddArguments(name, phone) {
+        return name !== '' && typeof(name) !== 'undefined' &&
+        typeof(name) !== 'undefined' && name !== null &&
+        /^\d{10}$/.test(phone) && typeof(phone) !== 'undefined';
+    }
+    exports.update = function (phone, name, email) {
+        if (typeof(name) !== 'undefined' && name !== '' && checkForExistence(phone)) {
+            if (typeof(email) === 'undefined') {
+                email = '';
+            }
+            phoneBook[phone] = { 'phone': phone, 'email': email };
+
+            return true;
+        }
+
+        return false;
+    };
+    exports.findAndRemove = function (query) {
+        var deletedItems = exports.find(query, true);
+
+        return deletedItems.length;
+    };
+    exports.find = function (query, needToDelete) {
+        if (typeof(needToDelete) === 'undefined') {
+            needToDelete = false;
+        }
+        if (query.length === 0) {
+            return [];
+        }
+        if (query === '*') {
+            query = '';
+        }
+        var foundItems = [];
+        Object.keys(phoneBook).forEach(function (item) {
+            var record = phoneBook[item];
+            if (!recordContains(record, query)) {
+                return;
+            }
+            if (needToDelete) {
+                delete phoneBook[item];
+            }
+            foundItems.push(record);
+        });
+        foundItems.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+        });
+        var resultStrings = [];
+        foundItems.forEach(function (record) {
+            var result = [record.name,
+                convertPhoneNumberToUnified(record.phone),
+                record.email].join(', ');
+            resultStrings.push(result);
+        });
+
+        return resultStrings;
+    };
+    function recordContains(record, query) {
+        return record.phone.includes(query) ||
+            (typeof(record.email) !== 'undefined' &&
+            record.email.includes(query)) ||
+            record.name.includes(query);
+    }
+    function convertPhoneNumberToUnified(number) {
+        return '+7 (' + number.substr(0, 3) + ') ' +
+        [number.substr(3, 3), number.substr(6, 2), number.substr(8, 2)].join('-');
+    }
+    exports.importFromCsv = function (csv) {
+        var lines = csv.split('\n');
+        var successesCount = 0;
+        lines.forEach(function (line) {
+            var splitted = line.split(';');
+            var record = { 'name': splitted[0], 'phone': splitted[1], 'email': splitted[2] };
+            var isResultSuccessfull = false;
+            if (checkForExistence(record.phone)) {
+                isResultSuccessfull = exports.update(record.phone, record.name, record.email);
+            } else {
+                isResultSuccessfull = exports.add(record.phone, record.name, record.email);
+            }
+            if (isResultSuccessfull) {
+                successesCount += 1;
+            }
+        });
+
+        return successesCount;
+    };
     
     </script>
 </head>

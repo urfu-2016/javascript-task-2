@@ -32,7 +32,7 @@
             if (typeof(email) === 'undefined') {
                 email = '';
             }
-            phoneBook[phone] = { 'phone': phone, 'email': email };
+            phoneBook[phone] = { 'name': name, 'phone': phone, 'email': email };
 
             return true;
         }
