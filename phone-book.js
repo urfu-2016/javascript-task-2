@@ -54,7 +54,7 @@ exports.update = function (phone, name, email) {
 
         return bookPhone.phone === phone;
     });
-    if (containsPhone) {
+    if (containsPhone && name) {
         phoneBook[findingRecord] = { 'phone': phone, 'name': name, 'email': email };
 
         return true;
