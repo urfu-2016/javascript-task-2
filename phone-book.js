@@ -75,6 +75,7 @@ exports.findAndRemove = function (query) {
     if (query === '*') {
         var countPhones = phoneBook.length;
         phoneBook = [];
+
         return countPhones;
     }
     var foundPhones = getFoundPhones(query).map(function (record) {
