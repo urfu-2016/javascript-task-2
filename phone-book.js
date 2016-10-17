@@ -78,8 +78,8 @@ exports.add = function (phone, name, email) {
 
 
 function boolUpd(phone, name, email) {
-    
-    return (!inPhoneBook(phone) || !validMail(email) || !validName(name) || !isPhone(phone))
+
+    return (!inPhoneBook(phone) || !validMail(email) || !validName(name) || !isPhone(phone));
 }
 
 /**
