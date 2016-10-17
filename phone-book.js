@@ -3,6 +3,7 @@
 function strAndEmp(phone, name) {
     var isString = typeof name !== 'string';
     var isEmpty = name === '' || phone === '';
+
     return isString || isEmpty;
 }
 
