@@ -4,7 +4,7 @@
  * Ñäåëàíî çàäàíèå íà çâåçäî÷êó
  * Ðåàëèçîâàí ìåòîä importFromCsv
  */
-exports.isStar = true;
+exports.isStar = false;
 
 /**
  * Òåëåôîííàÿ êíèãà
@@ -48,7 +48,7 @@ function checkName(name) {
 }
 
 function checkPhone(phone) {
-    var reg = /\d{10}/;
+    var reg = /\d{10}/g;
 
     return reg.test(phone) && phone.length === 10 &&
         undefinedNaNPhone(phone);
