@@ -55,7 +55,7 @@ exports.add = function (phone, name, email) {
     if (isUnique(phone) && isCorrect(phone, name, email)) {
         phoneBook.push({
             'phone': phone.toString(),
-            'name': name.toString(),
+            'name': name,
             'email': email });
 
         return true;
@@ -78,7 +78,7 @@ exports.update = function (phone, name, email) {
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone.toString()) {
-            phoneBook[i].name = name.toString();
+            phoneBook[i].name = name;
             phoneBook[i].email = email;
         }
     }
