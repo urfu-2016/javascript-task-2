@@ -60,15 +60,6 @@ function isEmail(email, x) {
     return x;
 }
 
-function isCorrectEmail(email) {
-    var mail = String(email);
-    if (mail.indexOf('@') !== -1 || email === '') {
-        return true;
-    }
-
-    return false;
-}
-
 function isCorrectQuery(i, query) {
     if (isFound(i, query) || query === '*') {
         return true;
@@ -99,9 +90,6 @@ exports.add = function (phone, name, email) {
     if (!isCorrectPhone(phone)) {
         return false;
     }
-    if (!isCorrectEmail(email)) {
-        return false;
-    }
     for (var i = 0; i < phoneBook.length; i++) {
         if (isConstains(phoneBook[i], object)) {
             return false;
@@ -114,9 +102,6 @@ exports.add = function (phone, name, email) {
 
 exports.update = function (phone, name, email) {
     if (!isString(name)) {
-        return false;
-    }
-    if (!isCorrectEmail(email)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
