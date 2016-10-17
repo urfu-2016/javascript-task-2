@@ -41,15 +41,13 @@ function checkPhone(phone) {
 
 function valEmail(email) {
 
-    var regExpEmail = /^([a-z]+)@([a-z]+\.com)$/;
-
     if (email === '') {
 
         return true;
+
     }
 
-    return email.match(regExpEmail);
-
+    return email;
 }
 
 function formatPhone(phone) {
