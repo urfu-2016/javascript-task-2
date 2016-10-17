@@ -82,7 +82,7 @@ function undefinedNaNPhone(phone) {
  */
 
 exports.update = function (phone, name, email) {
-    if (!checkName(name) || !checkPhone(phone) || !checkPhoneBook(phone)) {
+    if (!checkName(name) || !checkPhone(phone) || checkPhoneBook(phone)) {
         return false;
     }
 
