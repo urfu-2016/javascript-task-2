@@ -183,7 +183,12 @@ function isEmpty(str) {
 }
 
 function isCorrectPhone(phone) {
-    if (phone.match(rPhone).length === 10) {
+    var reg = phone.match(rPhone);
+    if (reg === null) {
+
+        return false;
+    }
+    if (reg.length === 10) {
 
         return true;
     }
