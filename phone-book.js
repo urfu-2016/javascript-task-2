@@ -198,7 +198,7 @@ function isCorrectInput(phone, name, email) {
 }
 
 function isCorrectPhone(phone) {
-    if (phone.match(rPhone).length === 10 && typeof phone === 'string') {
+    if (typeof phone === 'string' && phone.match(rPhone).length === 10) {
 
         return true;
     }
@@ -207,7 +207,7 @@ function isCorrectPhone(phone) {
 }
 
 function isCorrectName(name) {
-    if (regExpName.test(name) && name !== undefined && typeof name === 'string') {
+    if (typeof name === 'string' && regExpName.test(name) && name !== undefined) {
 
         return true;
     }
@@ -216,7 +216,7 @@ function isCorrectName(name) {
 }
 
 function isCorrectEmail(email) {
-    if (email !== undefined && typeof email === 'string') {
+    if (typeof email === 'string' && email !== undefined) {
 
         return true;
     } else if (email === undefined) {
