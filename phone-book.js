@@ -9,10 +9,10 @@
     /**
      * Телефонная книга
      */
-    var phoneBook  = {};
+    var phoneBook = {};
     exports.add = function (phone, name, email) {
-        if (!checkForExistence(phone, name, email) && checkAddArguments(name, phone, email)) {
-            phoneBookItems[phone] = { 'name': name, 'phone': phone, 'email': email };
+        if (!checkForExistence(phone, name, email) && checkAddArguments(name, phone)) {
+            phoneBook[phone] = { 'name': name, 'phone': phone, 'email': email };
 
             return true;
         }
@@ -20,7 +20,7 @@
         return false;
     };
     function checkForExistence(phone) {
-        return (phone in phoneBookItems);
+        return (phone in phoneBook);
     }
     function checkAddArguments(name, phone) {
         return name !== '' && typeof(name) !== 'undefined' &&
