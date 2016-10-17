@@ -54,7 +54,7 @@ function addEntry(name, phone, email) {
 
 
 exports.add = function (phone, name, email) {
-    if (name === undefined) {
+    if (name === undefined && typeof(name) === 'string') {
         return false;
     }
     if (testEmail(email) && testPhone(phone) && phoneBook.length === 0) {
@@ -86,7 +86,7 @@ function findEntryByPhone(phone) {
  * @returns {Bool} flag
  */
 exports.update = function (phone, name, email) {
-    if (name === undefined) {
+    if (name === undefined && typeof(name) === 'string') {
         return false;
     }
     var entry = findEntryByPhone(phone);
