@@ -53,10 +53,10 @@ function isEmailCorrect(email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {Boolean} success
+    * @returns {Boolean} success
  */
 exports.update = function (phone, name, email) {
-    if (!name || !isPhoneCorrect(phone) || !isEmailCorrect(email)) {
+    if (!name || !isPhoneCorrect(phone)) {
         return false;
     }
 
@@ -73,6 +73,10 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
+    if (query === '' || query === undefined) {
+        return 0;
+    }
+
     var contacts = getContactsBy(query);
     contacts.forEach(function deleteFromBook(phone) {
         delete phoneBook[phone];
@@ -111,7 +115,7 @@ function getContactsBy(query) {
  * @returns {Array} Array of formatted lines
  */
 exports.find = function (query) {
-    if (!query) {
+    if (query === '' || query === undefined) {
         return [];
     }
 
