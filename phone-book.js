@@ -103,7 +103,7 @@ exports.update = function (phone, name, email) {
 
         return false;
     }
-    
+
     if (!(phone in phoneBook)) {
 
         return false;
