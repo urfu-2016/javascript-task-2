@@ -90,7 +90,7 @@ exports.find = function (query) {
         return [];
     }
     if (query === '*') {
-        return getNPE(phoneBook);
+        return getNPE(phoneBook).sort();
     }
 
     return getNPE(searchString(query)).sort();
