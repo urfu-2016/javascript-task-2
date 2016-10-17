@@ -59,6 +59,16 @@ function isCorrectQuery(i, query) {
     return true;
 }
 
+function parsePhone(phone) {
+    var str = phone;
+    var x1 = str.substring(0, 3);
+    var x2 = str.substring(3, 6);
+    var x3 = str.substring(6, 8);
+    var x4 = str.substring(8, 10);
+
+    return ', 7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4;
+}
+
 exports.add = function (phone, name, email) {
     var object = {
         _phone: phone,
@@ -126,12 +136,7 @@ exports.find = function (query) {
     }
     for (var i = 0; i < phoneBook1.length; i++) {
         if (isCorrectQuery(phoneBook1[i], query)) {
-            var str = phoneBook1[i]._phone;
-            var x1 = str.substring(0, 3);
-            var x2 = str.substring(3, 6);
-            var x3 = str.substring(6, 8);
-            var x4 = str.substring(8, 10);
-            var x = ', 7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4;
+            var x = parsePhone(phoneBook1[i]._phone);
             var email = '';
             if (isString(phoneBook[i]._email)) {
                 x = x + ', ' + isString(phoneBook[i]._email);
