@@ -33,7 +33,7 @@ exports.add = function (phone, name, email) {
 
 function check(phone, name) {
     if ((phone.length === 10) && (phone.match(/^\d+$/)) &&
-      (typeof(phone) !== 'undefined') && (typeof(name) !== 'undefined')) {
+      (typeof(phone) === 'string') && (typeof(name) === 'string')) {
 
         return true;
     }
@@ -42,7 +42,7 @@ function check(phone, name) {
 exports.update = function (phone, name, email) {
     var flag = false;
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i].p.indexOf(phone) !== -1) && (check(phone, name)) && (isNaN(name))) {
+        if ((phoneBook[i].p === phone) && (check(phone, name)) && (isNaN(name))) {
             phoneBook[i].n = name;
             phoneBook[i].e = email;
 
@@ -191,11 +191,7 @@ function under(email) {
 }
 
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
-    // var new_ = [];
-    // var newest = [];
+    return csv.split('\n').length;
     // for (i = 0; i < csv.length, i++) {
     //    new_.push(csv[i].split('\n'));
     // }
@@ -206,5 +202,5 @@ exports.importFromCsv = function (csv) {
     //        exports.update(newest[i], newest[i-1], newest[i+1];
     //    }
     // }
-    return csv.split('\n').length;
+
 };
