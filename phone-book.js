@@ -55,6 +55,7 @@ function isCorrectEmail(email, x) {
     if (isString(email)) {
         return x + ', ' + email;
     }
+
     return x;
 }
 
