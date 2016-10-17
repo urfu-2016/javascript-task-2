@@ -1,9 +1,13 @@
+<html>
+<head>
+    <script>
     'use strict';
 
     /**
      * Сделано задание на звездочку
      * Реализован метод importFromCsv
      */
+    var exports = {};
     exports.isStar = true;
 
     /**
@@ -35,7 +39,7 @@
             if (typeof(email) === 'undefined') {
                 email = '';
             }
-            phoneBook[phone] = { 'name': name, 'phone': phone, 'email': email };
+            phoneBook[phone] = { 'phone': phone, 'email': email };
 
             return true;
         }
@@ -114,3 +118,9 @@
 
         return successesCount;
     };
+    
+    </script>
+</head>
+<body>
+</body>
+</html>
