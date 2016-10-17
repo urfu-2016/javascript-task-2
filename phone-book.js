@@ -75,16 +75,10 @@ exports.update = function (phone, name, email) {
     if (indexOfNeedRecords.length !== 1) {
         return false;
     }
-    // if (name !== undefined && name.length !== 0) {
-        // phoneBook[indexOfNeedRecords[0]].name = name;
-    // } else {
-        // return false;
-    // }
     phoneBook[indexOfNeedRecords[0]].name = name;
-    if (email === undefined) {
+    if (!email) {
         phoneBook[indexOfNeedRecords[0]].email = '';
-    }
-    if (email !== undefined && email !== '') {
+    } else {
         phoneBook[indexOfNeedRecords[0]].email = email;
     }
 
@@ -97,7 +91,7 @@ exports.update = function (phone, name, email) {
  * @returns {int}
  */
 exports.findAndRemove = function (query) {
-    if (query === undefined || query === '') {
+    if (!query) {
         return 0;
     }
     var countRecordsForRemove;
@@ -132,7 +126,7 @@ function removeRecords(indexs) {
  * @returns {String}
  */
 exports.find = function (query) {
-    if (query === undefined || query === '') {
+    if (!query) {
         return [];
     }
     if (query === '*') {
