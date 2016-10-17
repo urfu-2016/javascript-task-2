@@ -178,6 +178,7 @@ exports.importFromCsv = function (csv) {
         }
         if (!isCorrectInput(sData[1], sData[0], sData[2])) {
             data.splice(index, 1);
+
             return undefined;
         }
     }
