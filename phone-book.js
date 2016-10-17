@@ -11,22 +11,22 @@ exports.isStar = false;
  */
 var phoneBook = [];
 
+function findNodeByPhone(phone) {
+    return phoneBook.findIndex(function (node, index) {
+        if (node.phone === phone) {
+            return true;
+        }
+
+        return false;
+    });
+}
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
  * @param {String} email
  */
-
-function findNodeByPhone(phone) {
-    return phoneBook.findIndex(function (node, index, array) {
-        if (node.phone === phone) {
-            return true;
-        }
-        return false;
-    });
-}
-
 exports.add = function (phone, name, email) {
     var regPhone = /^\d{10}$/;
     email = (!email) ? '' : email;
@@ -45,6 +45,7 @@ exports.add = function (phone, name, email) {
 
     return true;
 };
+
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
@@ -83,8 +84,10 @@ exports.findAndRemove = function (query) {
                 return false;
             }
         }
+        
         return true;
     });
+
     return lengthPhoneBook - phoneBook.length;
 };
 
@@ -92,7 +95,6 @@ exports.findAndRemove = function (query) {
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
  */
-
 function compareNode(nodeA, nodeB) {
     if (nodeA.name > nodeB.name) {
         return 1;
