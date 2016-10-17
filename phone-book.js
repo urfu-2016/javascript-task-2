@@ -82,7 +82,7 @@ exports.findAndRemove = function (query) {
         return removedCount;
     }
     var searchResult = search(query);
-    if (searchResult === false) {
+    if (searchResult.length === 0) {
         return 0;
     }
     var positionsToRemove = searchResult.slice();
@@ -161,10 +161,7 @@ function renderPhone(phone) {
 function search(query) {
     if (query === '' || typeof query !== 'string') {
 
-        return false;
-    }
-    if (query === '*') {
-        return phoneBook.split();
+        return [];
     }
     var postionsArray = [];
     for (var i = 0; i < phoneBook.length; i++) {
