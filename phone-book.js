@@ -23,7 +23,7 @@ Contact.formattedPhone = function (phone) {
 };
 
 Contact.sortFunction = function (a, b) {
-    return a.name.toLowerCase() > b.name.toLowerCase();
+    return a.name > b.name;
 };
 
 Contact.prototype.toString = function () {
@@ -43,6 +43,8 @@ var placeContact = function (phone, name, email) {
     if (!phone || !name) {
         return false;
     }
+
+    phone = phone.toString();
 
     if (!email) {
         email = undefined;
@@ -78,8 +80,6 @@ var findContacts = function (query) {
         return [];
     }
 
-    var lquery = query.toLowerCase();
-
     var allContacts = Object.keys(phoneBook)
         .map(function (phone) {
             return phoneBook[phone];
@@ -94,11 +94,8 @@ var findContacts = function (query) {
                         return contact[prop];
                     })
                     .filter(Boolean)
-                    .map(function (propValue) {
-                        return propValue.toLowerCase();
-                    })
                     .some(function (propValue) {
-                        return propValue.indexOf(lquery) !== -1;
+                        return propValue.indexOf(query) !== -1;
                     });
             });
 
