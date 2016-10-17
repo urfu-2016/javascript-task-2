@@ -127,21 +127,20 @@ function slice_(query, array) {
 // 'Алексей;5551110011;alex@example.com',
 // 'Валерий;5553330033;valera@example.com',
 exports.find = function (query) {
-    var arr = [];
+    var res = [];
     if (query === '' || query === undefined) {
 
-        return arr;
+        return res;
     }
     if ((typeof query === 'string') || (query instanceof String)) {
-        var res = [];
         if (query === '*') {
             res = zv();
         } else {
             res = is(query);
         }
-
-        return res.sort();
     }
+
+    return res.sort();
 };
 
 function zv() {
@@ -200,8 +199,8 @@ exports.importFromCsv = function (csv) {
     var email;
     for (var i = 0; i < csv.length; i++) {
         data = csv[i].split(';');
-        phone = data[0];
-        name = data[1];
+        phone = data[1];
+        name = data[0];
         email = data[2];
         if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
             res++;
