@@ -28,14 +28,14 @@ function createSign(phone, name, email) {
             iPhone: phone,
             iName: name
         };
-    }
-    else {
+    } else {
         sign = {
             iPhone: phone,
             iName: name,
             iEmail: email
         };
     }
+
     return sign;
 }
 
@@ -71,8 +71,7 @@ exports.add = function (phone, name, email) {
         phoneBook.push(sign);
 
         return true;
-    }
-    catch(e) {
+    } catch(e) {
         return false;
     }
 };
@@ -98,13 +97,12 @@ exports.update = function (phone, name, email) {
         phoneBook.push(createSign(phone, name, email));
 
         return true;
-    }
-    catch(e) {
+    } catch(e) {
         return false;
     }
 };
 
-function findSubString(query, sign){
+function findSubString(query, sign) {
     if (query === '') {
         return false;
     }
