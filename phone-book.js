@@ -96,7 +96,7 @@ function findPersonByQuery(query) {
 
 exports.find = function (query) {
     var inputQuery;    
-if (!query || typeof query !== 'string')
+if (!query || typeof query !== 'string') {
     return [];
 	}
 if (query !== '*') {
@@ -115,7 +115,7 @@ var queryArray = sortTreeArray(inputQuery);
  
         return queryLine;
     });
-  };                         
+};                         
 
 /**
  * Импорт записей из csv-формата
