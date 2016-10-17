@@ -116,7 +116,10 @@ exports.update = function (phone, name, email) {
  * @param {String} query
  * @returns {Integer} counter
  */
-exports.findAndRemove = function (query) {
+exports.findAndRemove = function (query) {    
+    if (query === '') {
+        return 0;
+    }
     var counter = 0;
     for (var entry1 = 0; entry1 < phoneBook.length; entry1++) {
         var foundEntry = findEntry(query, entry1);
