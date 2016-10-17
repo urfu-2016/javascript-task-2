@@ -187,7 +187,7 @@ function findedInEntry(query, index) {
 function compileArrayByPositions(positionsArray) {
     var resultArray = [];
     for (var i = 0; i < positionsArray.length; i++) {
-        resultArray.push(phoneBook[i]);
+        resultArray.push(phoneBook[positionsArray[i]]);
     }
 
     return resultArray;
