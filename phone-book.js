@@ -19,7 +19,7 @@ var phoneBook = [];
  * @returns {boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!checkPhoneFormat(phone) || !name) {
+    if (!checkPhoneFormat(phone) || !name || typeof name !== 'string') {
         return false;
     }
 
@@ -37,7 +37,7 @@ exports.add = function (phone, name, email) {
 };
 
 function checkPhoneFormat(phone) {
-    return phone && phone.length === 10 && !phone.match(/[^0-9]/gi);
+    return phone && phone.length === 10 && !phone.match(/[^0-9]/gi) && !isNaN(Number(phone));
 }
 
 /**
@@ -48,6 +48,9 @@ function checkPhoneFormat(phone) {
  * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
+    if (typeof name !== 'string' || !name) {
+        return false;
+    }
     var findingRecord = -1;
     var containsPhone = phoneBook.some(function (bookPhone, index) {
         findingRecord = index;
@@ -113,11 +116,15 @@ exports.find = function (query) {
 
 function getFoundPhones(query) {
     return phoneBook.filter(function (phoneRecord) {
-        return (phoneRecord.name.indexOf(query) !== -1 ||
-        phoneRecord.phone.indexOf(query) !== -1 ||
-        (phoneRecord.email
-            ? phoneRecord.email.indexOf(query) !== -1
-            : false));
+        if (phoneRecord.name.indexOf(query) !== -1 ||
+            phoneRecord.phone.indexOf(query) !== -1) {
+            return true;
+        }
+        if (phoneRecord.email) {
+            return phoneRecord.email.indexOf(query) !== -1;
+        }
+
+        return false;
     });
 }
 
