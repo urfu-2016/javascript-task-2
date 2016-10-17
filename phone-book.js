@@ -28,10 +28,7 @@ function transformPhone(phone) {
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (transformPhone(phone) === '') {
-        return false;
-    }
-    if (name === undefined) {
+    if (!isValidData(phone, name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -50,6 +47,17 @@ exports.add = function (phone, name, email) {
 
     return true;
 };
+
+function isValidData(phone, name) {
+    if (phone === undefined || transformPhone(phone) === '') {
+        return false;
+    }
+    if (name === undefined || name.length === 0) {
+        return false;
+    }
+
+    return true;
+}
 
 /**
  * Обновление записи в телефонной книге
