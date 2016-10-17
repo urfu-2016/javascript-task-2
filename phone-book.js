@@ -18,17 +18,17 @@ var phoneBook = [];
  * @param {String} email
  */
 
- function findNodeByPhone(phone) {
+function findNodeByPhone(phone) {
     var existNodeIndex = phoneBook.findIndex(function(node, index, array) {
         if (node.phone === phone) {
             return true;
-        } else {
-            return false;
-        }
+        } 
+        
+        return false;
     });
 
     return existNodeIndex;
- };
+};
 
 exports.add = function (phone, name, email) {
     var regPhone = /^\d{10}$/;
