@@ -40,7 +40,7 @@ exports.add = function (phone, name, email) {
         name: name,
         phone: phone
     };
-    if (email !== undefined) {
+    if (email !== undefined && email.length !== 0) {
         newRecord.email = email;
     }
     phoneBook.push(newRecord);
