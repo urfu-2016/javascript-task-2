@@ -95,8 +95,10 @@ function addEntryToData(data, string, key, regExp) {
  */
 exports.update = function (phone, name, email) {
     var data = getCorrectData(phone, name, email);
-    if (!data || !phoneBook.hasOwnProperty(phone)) {
+    if (!data) {
         return false;
+    } else if (!phoneBook.hasOwnProperty(phone)) {
+        exports.add(phone, name, email);
     }
     var contact = data[phone];
     if (contact.hasOwnProperty('name')) {
