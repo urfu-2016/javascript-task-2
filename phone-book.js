@@ -71,7 +71,7 @@ exports.add = function (phone, name, email) {
         phoneBook.push(sign);
 
         return true;
-    } catch(e) {
+    } catch (e) {
         return false;
     }
 };
@@ -97,7 +97,7 @@ exports.update = function (phone, name, email) {
         phoneBook.push(createSign(phone, name, email));
 
         return true;
-    } catch(e) {
+    } catch (e) {
         return false;
     }
 };
