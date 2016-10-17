@@ -245,5 +245,6 @@ function isString(query) {
 
         return false;
     }
-        return true;
+
+    return true;
 }
