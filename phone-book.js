@@ -125,10 +125,10 @@ exports.importFromCsv = function (csv) {
     var t = 0;
     for (var i = 0; i < csv.length; i++) {
         var str = csv[i].split(';');
-        if (add(str[1], str[0], str[2] === true)) {
+        if (exports.add(str[1], str[0], str[2] === true)) {
             t = t + 1;
         } else {
-            if (update(str[1], str[0], str[2] === true)) {
+            if (exports.update(str[1], str[0], str[2] === true)) {
                 t = t + 1;
             }
         }
