@@ -41,9 +41,10 @@ exports.add = function (phone, name, email) {
     }
     var newRecord = {
         name: name,
-        phone: phone
+        phone: phone,
+        email: ''
     };
-    if (email !== undefined && email.length !== 0) {
+    if (email !== undefined && email !== '') {
         newRecord.email = email;
     }
     phoneBook.push(newRecord);
@@ -55,7 +56,7 @@ function isValidData(phone, name) {
     if (phone === undefined || transformPhone(phone) === '') {
         return false;
     }
-    if (name === undefined || name.length === 0) {
+    if (name === undefined || name === '') {
         return false;
     }
 
@@ -77,15 +78,16 @@ exports.update = function (phone, name, email) {
     if (indexOfNeedRecords.length !== 1) {
         return false;
     }
-    if (email === undefined && phoneBook[indexOfNeedRecords[0]].hasOwnProperty('email')) {
-        delete phoneBook[indexOfNeedRecords[0]].email;
+    // if (name !== undefined && name.length !== 0) {
+        // phoneBook[indexOfNeedRecords[0]].name = name;
+    // } else {
+        // return false;
+    // }
+    phoneBook[indexOfNeedRecords[0]].name = name;
+    if (email === undefined) {
+        phoneBook[indexOfNeedRecords[0]].email = '';
     }
-    if (name !== undefined && name.length !== 0) {
-        phoneBook[indexOfNeedRecords[0]].name = name;
-    } else {
-        return false;
-    }
-    if (email !== undefined) {
+    if (email !== undefined && email !== '') {
         phoneBook[indexOfNeedRecords[0]].email = email;
     }
 
@@ -152,7 +154,7 @@ function transformBook(book) {
     var recordsAsStrings = [];
     for (var i = 0; i < book.length; i++) {
         var record = book[i].name + ', ' + transformPhone(book[i].phone);
-        if (book[i].email !== undefined) {
+        if (book[i].email !== '') {
             record += ', ' + book[i].email;
         }
         recordsAsStrings.push(record);
@@ -167,7 +169,7 @@ function findIndexsOfRecords(query) {
         var reg = new RegExp(query, 'i');
         var execName = reg.exec(phoneBook[i].name);
         var execPhone = reg.exec(phoneBook[i].phone);
-        var execEmail = phoneBook[i].email !== undefined && reg.exec(phoneBook[i].email);
+        var execEmail = phoneBook[i].email !== '' && reg.exec(phoneBook[i].email);
         if (execName || execPhone || execEmail) {
             indexsOfRecords.push(i);
         }
