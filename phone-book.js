@@ -99,18 +99,13 @@ function normalize(phone) {
 }
 
 function findContact(query) {
-    if (typeof(query) !== 'string') {
+    if (query === '') {
 
         return [];
     }
-
+    
     var result = [];
     var removeIndex = 0;
-
-    if (query === '') {
-
-        return result;
-    }
 
     phoneBook.forEach(function (item, i) {
         if (query === '*') {
