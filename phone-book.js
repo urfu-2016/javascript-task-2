@@ -15,15 +15,10 @@ function Entry(phone, name, email) {
     this.phone = phone.toString();
     this.name = name;
     this.email = email ? email : '';
-
-    this.update = function (entry) {
-        this.name = entry.name;
-        this.email = entry.email;
-    };
 }
 
 function isPhoneValid(phone) {
-    return /\d{10}/.test(phone.toString());
+    return /^\d{10}$/.test(phone.toString());
 }
 
 function isString(str) {
