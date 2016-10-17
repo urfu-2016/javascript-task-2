@@ -62,11 +62,11 @@ function checkUnique(element) {
  */
 exports.add = function (phone, name, email) {
     if (correctNumber(phone) && correctData(name) && checkUnique(phone)) {
-        if (email === undefined || correctData(email)) {
+        if (correctMail(email)) {
             phoneBook.push({
                 phone: phone,
                 name: name,
-                email: validEmail(email)
+                email: email
             });
 
             return true;
