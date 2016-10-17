@@ -134,6 +134,10 @@ function resultDeletedPhoneBook(query) {
  * @returns {Array} - массив
  */
 exports.find = function (query) {
+    if (typeof query !== 'string') {
+
+        return [];
+    }
     if (query === '*') {
 
         return resultPhoneBook(phoneBook);
