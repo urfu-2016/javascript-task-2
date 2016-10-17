@@ -50,6 +50,7 @@ function getCorrectData(phone, name, email) {
         if (typeof name !== 'string' || name.length === 0) {
             return false;
         }
+
         data[phone].name = name;
         if (typeof email === 'string') {
             data[phone].email = email;
