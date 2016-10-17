@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -104,7 +104,9 @@ exports.findAndRemove = function (query) {
         return 0;
     }
     if (query === '*') {
-        return phoneBook.length;
+        var j = phoneBook.length;
+        phoneBook = [];
+        return j;
     }
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
@@ -198,6 +200,15 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    var listOfNotes = csv.split('\n');
+    var countNotes = 0;
+    for (var i = 0; i < listOfNotes.length; i++) {
+        var note = listOfNotes[i].split(';');
+        if (exports.update(note[1], note[0], note[2]) ||
+        (exports.add(note[1], note[0], note[2]))) {
+            countNotes++;
+        }
+    }
 
-    return csv.split('\n').length;
+    return countNotes;
 };
