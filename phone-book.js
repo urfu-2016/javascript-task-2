@@ -11,7 +11,7 @@ exports.isStar = true;
  */
 var phoneBook = [];
 var rPhone = /\d/g;
-var regExpName = /^[ _a-zA-Zа-яА-Я0-9]+$/;
+var regExpName = /^[\sa-zA-Zа-яА-Я0-9]+$/;
 
 function Abonent(phone, name, email) {
     this.phone = phone.trim();
@@ -35,7 +35,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
     var abonent = new Abonent(phone, name, email);
-    if (!isDuplicated(phone)) {
+    if (!isDuplicated(phone, email)) {
         phoneBook.push(abonent);
 
         return true;
@@ -52,29 +52,19 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} is it correct
  */
 exports.update = function (phone, name, email) {
-    if (!isCorrectInput(phone, name, email) || !mySearch(phone)) {
+    if (!isCorrectInput(phone, name, email) || !isDuplicated(phone, email)) {
         return false;
     }
-    function changing(item) {
+    phoneBook = phoneBook.map(function (item) {
         if (item.phone === phone) {
             return new Abonent(phone, name, email);
         }
 
         return item;
-    }
-    phoneBook = phoneBook.map(changing);
+    });
 
     return true;
 };
-
-function isString(query) {
-    if (typeof(query) !== 'string' || query === '') {
-
-        return false;
-    }
-
-    return true;
-}
 
 /**
  * Удаление записей по запросу из телефонной книги
@@ -163,7 +153,7 @@ exports.importFromCsv = function (csv) {
         if (!isCorrectInput(sData[1], sData[0], sData[2]) || sData.length > 3) {
             continue;
         }
-        if (exports.find(sData[1]).length !== 0) {
+        if (isDuplicated(sData[1], sData[2])) {
             exports.update(sData[1], sData[0], sData[2]);
             counter++;
         } else {
@@ -198,8 +188,7 @@ function isEmpty(str) {
 }
 
 function isCorrectPhone(phone) {
-    var reg = phone.match(rPhone);
-    if (reg.length === 10) {
+    if (phone.match(rPhone).length === 10) {
 
         return true;
     }
@@ -229,8 +218,8 @@ function isCorrectEmail(email) {
     return false;
 }
 
-function isDuplicated(phone) {
-    if (phoneBook.length !== 0 && mySearch(phone)) {
+function isDuplicated(phone, email) {
+    if (phoneBook.length !== 0 && mySearch(phone, email)) {
 
         return true;
     }
@@ -240,13 +229,21 @@ function isDuplicated(phone) {
 
 /**
  * @param {String} phone
+ * @param {String} email
  * @returns {Boolean} isFound
  */
-function mySearch(phone) {
-    function searsh(item) {
+function mySearch(phone, email) {
 
-        return item.phone === phone;
+    return phoneBook.some(function (item) {
+
+        return item.phone === phone || item.email === email;
+    });
+}
+
+function isString(query) {
+    if (typeof(query) !== 'string' || query === '') {
+
+        return false;
     }
-
-    return phoneBook.some(searsh);
+        return true;
 }
