@@ -116,7 +116,7 @@ exports.update = function (phone, name, email) {
  * @param {String} query
  * @returns {Integer} counter
  */
-exports.findAndRemove = function (query) {    
+exports.findAndRemove = function (query) {
     if (query === '') {
         return 0;
     }
