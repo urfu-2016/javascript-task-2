@@ -96,7 +96,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     phoneBook[phone].name = name;
-    phoneBook[phone].email = email ? email : '';
+    phoneBook[phone].email = email || '';
 
     return true;
 };
@@ -107,17 +107,12 @@ exports.update = function (phone, name, email) {
  * @returns {Number}
  */
 exports.findAndRemove = function (query) {
-    var result = getEntries(query)
-        .map(function (entry) {
-            delete phoneBook[entry.phone];
+    var entriesToRemove = getEntries(query);
+    entriesToRemove.forEach(function (entry) {
+        delete phoneBook[entry.phone];
+    });
 
-            return true;
-        })
-        .reduce(function (a, b) {
-            return a + b;
-        });
-
-    return result;
+    return entriesToRemove.length;
 };
 
 /**
@@ -139,6 +134,9 @@ exports.importFromCsv = function (csv) {
     return csv.split('\n')
         .map(function (record) {
             var fields = record.split(';');
+            if (fields.length > 3) {
+                return false;
+            }
             var name = fields[0];
             var phone = fields[1];
             var email = fields[2];
