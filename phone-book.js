@@ -19,7 +19,7 @@ var phoneBook = {};
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!name || phoneBook.hasOwnProperty(phone) || !phone) {
+    if (!checkArgument(phone, name, email) || phoneBook.hasOwnProperty(phone)) {
 
         return false;
     }
@@ -34,6 +34,10 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
+function checkArgument(argument) {
+    return (typeof argument === 'string' && argument.length !== 0);
+}
+
 function getContact(phone, name, email) {
     var data = getCorrectData(phone, name, email);
     if (data && data.hasOwnProperty(phone)) {
@@ -47,12 +51,12 @@ function getCorrectData(phone, name, email) {
 
     if (getMatch(phone, /^\d{10}$/)) {
         data[phone] = {};
-        if (typeof name !== 'string' || name.length === 0) {
+        if (!checkArgument(name)) {
             return false;
         }
 
         data[phone].name = name;
-        if (typeof email === 'string' && email !== '') {
+        if (checkArgument(email)) {
             data[phone].email = email;
         } else if (email !== undefined) {
             return false;
@@ -82,7 +86,7 @@ function getMatch(string, regExp) {
  */
 exports.update = function (phone, name, email) {
     var data = getCorrectData(phone, name, email);
-    if (!data || !phoneBook.hasOwnProperty(phone) || !name) {
+    if (!data || !phoneBook.hasOwnProperty(phone)) {
         return false;
     }
 
@@ -129,7 +133,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
-    if (!query || typeof query !== 'string') {
+    if (!checkArgument(query)) {
         return false;
     }
 
