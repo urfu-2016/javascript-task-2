@@ -37,6 +37,8 @@ function check(phone, name) {
 
         return true;
     }
+
+    return false;
 }
 
 exports.update = function (phone, name, email) {
