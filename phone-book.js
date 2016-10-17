@@ -142,7 +142,7 @@ function countUnqPhn(notesCsv) {
     var n = 0;
     for (var i = 0; i < notesCsv.length; i++) {
         phone = notesCsv[i].split(';')[1];
-        if (unqPhones.indexOf(phone) === -1){
+        if (unqPhones.indexOf(phone) === -1) {
             n++;
             unqPhones.push(phone);
         }
