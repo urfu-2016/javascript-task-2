@@ -42,6 +42,15 @@ function validName(name) {
     return (/\S+/.test(name) && Boolean(name));
 }
 
+function validMail(mail) {
+    if (email !== undefined) {
+        if (email.length === 0 || email === ' '){
+            
+            return false;
+        }
+    }
+    return true;
+}
 
 /**
  * Добавление записи в телефонную книгу
@@ -51,12 +60,7 @@ function validName(name) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isPhone(phone) || !validName(name) || inPhoneBook(phone)) {
-
-        return false;
-    }
-
-    if (email !== undefined && email.length === 0) {
+    if (!isPhone(phone) || !validMail(email) || !validName(name) || inPhoneBook(phone)) {
 
         return false;
     }
