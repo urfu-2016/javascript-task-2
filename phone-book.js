@@ -55,7 +55,6 @@ exports.add = function (phone, name, email) {
         return false;
     }
     if (!Boolean(email)) {
-        
         return false;
     }
     var note = {
