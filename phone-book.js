@@ -49,7 +49,7 @@ function validMail(email) {
             return false;
         }
     }
-    
+
     return true;
 }
 
