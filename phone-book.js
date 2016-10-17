@@ -100,6 +100,8 @@ exports.findAndRemove = function (query) {
 function removePosition(position) {
     if (position === 0) {
         phoneBook.shift();
+
+        return;
     }
     if (position === phoneBook.length) {
         phoneBook.pop();
