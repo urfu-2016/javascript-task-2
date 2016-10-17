@@ -9,43 +9,118 @@ exports.isStar = true;
 /**
  * Телефонная книга
  */
-var phoneBook;
+var phoneBook = {};
 
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 exports.add = function (phone, name, email) {
+    if (!name || !isPhoneCorrect(phone)) {
+        return false;
+    }
 
+    if (phoneBook.hasOwnProperty(phone)) {
+        return false;
+    }
+
+    phoneBook[phone] = {
+        name: name,
+        email: email
+    };
+
+    return true;
 };
+
+function isPhoneCorrect(phone) {
+    var pattern = /\d{10}/;
+
+    return pattern.test(phone);
+}
 
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 exports.update = function (phone, name, email) {
+    if (!name || !isPhoneCorrect(phone)) {
+        return false;
+    }
 
+    if (!phoneBook.hasOwnProperty(phone)) {
+        return false;
+    }
+
+    phoneBook[phone] = {
+        name: name,
+        email: email
+    };
+
+    return true;
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
 exports.findAndRemove = function (query) {
+    var contacts = getContactsBy(query);
+    contacts.forEach(function deleteFromBook(phone) {
+        delete phoneBook[phone];
+    });
 
+    return contacts.length;
 };
+
+function formatPhone(phone) {
+
+    return phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
+}
+
+function getContactsBy(query) {
+    var phones = Object.keys(phoneBook);
+    if (query === '*') {
+        return phones;
+    }
+
+    var contacts = [];
+    phones.forEach(function (phone) {
+        var contact = phoneBook[phone];
+        if (phone.indexOf(query) !== -1 || contact.name.indexOf(query) !== -1 ||
+            (contact.email !== undefined && contact.email.indexOf(query) !== -1)) {
+
+            contacts.push(phone);
+        }
+    });
+
+    return contacts;
+}
 
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} Array of formatted lines
  */
 exports.find = function (query) {
+    if (!query) {
+        return [];
+    }
 
+    var contacts = getContactsBy(query);
+
+    contacts.sort(function byName(one, another) {
+        return (phoneBook[one].name).localeCompare(phoneBook[another].name);
+    });
+
+    function formatOutput(phone) {
+        return [phoneBook[phone].name, formatPhone(phone), phoneBook[phone].email].join(', ');
+    }
+
+    return contacts.map(formatOutput);
 };
+
 
 /**
  * Импорт записей из csv-формата
