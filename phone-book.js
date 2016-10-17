@@ -87,7 +87,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    if (email === undefined || typeof email !== 'string') { 
+    if (email === undefined || typeof email !== 'string') {
         email = '';
     }
     phoneBook[objIndex] = { phone: phone, name: name, email: email };
@@ -101,7 +101,7 @@ exports.update = function (phone, name, email) {
  * @returns {Number} - количество удаленных записей
  */
 exports.findAndRemove = function (query) {
-    if (query == '*') {
+    if (query === '*') {
 
         return resultDeletedPhoneBook(-1);
     }
@@ -109,7 +109,7 @@ exports.findAndRemove = function (query) {
     return resultDeletedPhoneBook(query);
 };
 
-function resultDeletedPhoneBook (query) {
+function resultDeletedPhoneBook(query) {
     var arrayForDelete = findAnyMatches(query);
     for (var i = 0; i < arrayForDelete.length; i++) {
         phoneBook = phoneBook.splice(arrayForDelete[i], 1);
@@ -124,13 +124,13 @@ function resultDeletedPhoneBook (query) {
  * @returns {Array} - массив
  */
 exports.find = function (query) {
-    if (query == '*') {
+    if (query === '*') {
 
         return resultPhoneBook(phoneBook);
     }
     var resultBook = phoneBook.filter(function (item) {
-        
-        return (item.phone === query  || item.phone.indexOf(query) !== -1) ||
+
+        return (item.phone === query || item.phone.indexOf(query) !== -1) ||
             (item.name === query || item.name.indexOf(query) !== -1) ||
             (item.email === query || item.email.indexOf(query) !== -1);
     });
@@ -142,7 +142,7 @@ function resultPhoneBook(array) {
     array = array.sort(compare);
     var result = [];
     for (var i = 0; i < array.length; i++) {
-        var phone = array[i].phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, "+7 ($1) $2-$3-$4");
+        var phone = array[i].phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
         if (array[i].email !== '') {
             result[i] = array[i].name + ', ' + phone + ', ' + array[i].email;
         } else {
@@ -160,10 +160,10 @@ function compare(a, b) {
     }
     if (a.name > b.name) {
 
-        return 1;   
+        return 1;
     }
 
-        return 0;
+    return 0;
 }
 
 /**
@@ -172,14 +172,15 @@ function compare(a, b) {
  * @param {String} csv
  * @returns {Number} – количество добавленных и обновленных записей
  */
-exports.importFromCsv = function(csv) {
+exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует 
+    // Либо обновляем, если запись с таким телефоном уже существует
     var parsed = csv.split('\n');
 
     return parsed.length - 1;
-    /*for (var i= 0; i < parsed.length; i++) {
+
+    /* for (var i= 0; i < parsed.length; i++) {
         var pars = parsed[i].split(';');
         var name = pars[0];
         var phone = pars[1];
@@ -187,5 +188,5 @@ exports.importFromCsv = function(csv) {
     }
 
     return exports.add(name, phone, email) || exports.update(name, phone,email);*/
-}
+};
 
