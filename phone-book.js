@@ -188,13 +188,25 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    var countOfPrevSigns = phoneBook.length;
+    var countOfNewSigns = 0;
+    var countOfRefreshSigns = 0;
     var csvList = csv.split('\n');
     var csvLen = csvList.length;
     for (var i = 0; i < csvLen; i++) {
         var address = csvList[i].split(';');
-        exports.add(address[1], address[0], address[2]);
+        var phone = address[1];
+        var name = address[0];
+        var email = address[2];
+        if (findPhone(phone)) {
+            if (exports.update(phone, name, email)) {
+                countOfNewSigns++;
+            }
+        } else {
+            if (exports.add(phone, name, email)) {
+                countOfRefreshSigns++;
+            }
+        }
     }
 
-    return phoneBook.length - countOfPrevSigns;
+    return countOfNewSigns + countOfRefreshSigns;
 };
