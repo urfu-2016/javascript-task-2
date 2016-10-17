@@ -20,7 +20,7 @@ var phoneBook = [];
 
 function checkPhone(phone) {
 
-    return phone.toString().match(/^[0-9]{10}$/);
+    return phone.toString().match(/^[0-9]{10}$/) !== null;
 }
 
 function checkName(name) {
@@ -54,14 +54,15 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    for (var i; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
-            phoneBook[i].name = name;
-            phoneBook[i].email = email;
+            phoneBook[i] = { 'phone': phone, 'name': name, 'email': email };
+
+            return true;
         }
     }
 
-    return true;
+    return false;
 };
 
 /*
