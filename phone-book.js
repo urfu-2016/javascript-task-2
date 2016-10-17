@@ -51,9 +51,8 @@ function getCorrectData(phone, name, email) {
             return false;
         }
         data[correctPhone].name = name;
-        If (email)
-            data[correctPhone] = addEntryToData(
-                data[correctPhone], email, 'email', /.*?/);
+        data[correctPhone] = addEntryToData(
+            data[correctPhone], email, 'email', /^\w+@\w+[_-]\w+.\w+$/);
     } else {
         return false;
     }
