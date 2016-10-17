@@ -101,14 +101,21 @@ function slice_(query, array) {
 // 'Алексей;5551110011;alex@example.com',
 // 'Валерий;5553330033;valera@example.com',
 exports.find = function (query) {
-    var res = [];
-    if (query === '*') {
-        res = zv();
-    } else {
-        res = is(query);
-    }
+    var arr = [];
+    if (query === '') {
 
-    return res.sort();
+        return arr;
+    }
+    if ((typeof query === 'string') || (query instanceof String)) {
+        var res = [];
+        if (query === '*') {
+            res = zv();
+        } else {
+            res = is(query);
+        }
+
+        return res.sort();
+}
 };
 
 function zv() {
@@ -176,4 +183,3 @@ exports.importFromCsv = function (csv) {
     // }
     return csv.split('\n').length;
 };
-
