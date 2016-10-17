@@ -52,12 +52,21 @@ function isCorrectPhone(phone1) {
     return true;
 }
 
-function isCorrectEmail(email, x) {
+function isEmail(email, x) {
     if (isString(email)) {
         return x + ', ' + email;
     }
 
     return x;
+}
+
+function isCorrectEmail(email) {
+    var mail = String(email);
+    if (mail.indexOf('@') !== -1 || email === '') {
+        return true;
+    }
+
+    return false;
 }
 
 function isCorrectQuery(i, query) {
@@ -90,6 +99,9 @@ exports.add = function (phone, name, email) {
     if (!isCorrectPhone(phone)) {
         return false;
     }
+    if (!isCorrectEmail(email)) {
+        return false
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         if (isConstains(phoneBook[i], object)) {
             return false;
@@ -104,8 +116,8 @@ exports.update = function (phone, name, email) {
     if (!isString(name)) {
         return false;
     }
-    if (!isCorrectPhone(phone)) {
-        return false;
+    if (!isCorrectEmail(email)) {
+        return false
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i]._phone === phone) {
@@ -144,7 +156,7 @@ exports.find = function (query) {
     for (var i = 0; i < phoneBook1.length; i++) {
         if (isCorrectQuery(phoneBook1[i], query)) {
             var x = parsePhone(phoneBook1[i]._phone);
-            x = isCorrectEmail(phoneBook[i]._email, x);
+            x = isEmail(phoneBook[i]._email, x);
             arr.push(phoneBook1[i]._name + x);
         }
     }
