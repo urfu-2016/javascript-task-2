@@ -20,7 +20,7 @@ var phoneBook = [];
 
 exports.add = function (phone, name, email) {
     var unique = this.find(phone).length === 0;
-    if (isDataCorrect(phone, email) && arguments.length >= 2 && unique) {
+    if (isDataCorrect(phone, email, name) && unique) {
         if (email === undefined) {
             email = '';
         }
@@ -32,18 +32,9 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
-function isDataCorrect(phone, email) {
-    var rePhone = /^\+?(\d+)? ?\(?\d{3}\)? ?\d{3}(\s|-)?\d(\s|-)?\d{3}$/;
-    var count = 0;
-    for (var i = 0; i < phone.length; i++) {
-        if (phone[i] === '(') {
-            count++;
-        }
-        if (phone[i] === ')') {
-            count--;
-        }
-    }
-    var isPhoneCorrect = rePhone.test(phone) && count === 0;
+function isDataCorrect(phone, email, name) {
+    var rePhone = /^\d\d\d\d\d\d\d\d\d\d$/;
+    var isPhoneCorrect = rePhone.test(phone);
 
     var isEmailCorrect = null;
     if (email === undefined) {
@@ -53,7 +44,9 @@ function isDataCorrect(phone, email) {
         isEmailCorrect = reEmail.test(email);
     }
 
-    return isEmailCorrect && isPhoneCorrect;
+    var isNameCorrect = name !== undefined;
+
+    return isEmailCorrect && isPhoneCorrect && isNameCorrect;
 }
 
 exports.update = function (phone, name, email) {
