@@ -30,11 +30,15 @@ function correctPhone(phone) {
  * @returns {Boolean}
  */
 function index(i, query) {
-    if ((phoneBook[i][NAME].indexOf(query) >= 0) ||
-       (phoneBook[i][PHONE].indexOf(query) >= 0) ||
-       (phoneBook[i][EMAIL].indexOf(query) >= 0)) {
+    try {
+        if ((phoneBook[i][NAME].indexOf(query) >= 0) ||
+           (phoneBook[i][PHONE].indexOf(query) >= 0) ||
+           (phoneBook[i][EMAIL].indexOf(query) >= 0)) {
 
-        return true;
+            return true;
+        }
+    } catch (err) {
+        return false;
     }
 
     return false;
@@ -129,7 +133,7 @@ function correctUpdate(phone, name, email) {
     return true;
 }
 exports.update = function (phone, name, email) {
-    if (!correctUpdate(phone, name)) {
+    if (!correctUpdate(phone, name, email)) {
 
         return false;
 
