@@ -72,6 +72,7 @@ exports.findAndRemove = function (query) {
     if (query === '*') {
         var count = Object.keys(phoneBook).length;
         phoneBook = {};
+
         return count;
     }
     var findRec = searchString(query);
