@@ -25,7 +25,7 @@ function isHavePhone(phone) {
 exports.update = update;
 
 function update(phone, name, email) {
-    if (isCorrectPhone(phone) && name !== undefined) {
+    if (isCorrectPhone(phone) && name !== undefined && name !== '') {
         phoneBook[phone] = {
             name: name
         };
@@ -58,7 +58,7 @@ exports.find = function (query) {
         foundPhones[i] = item;
     }
     foundPhones.sort(function (a, b) {
-        return a[0] > b[0];
+        return a[0].localeCompare(b[0]);
     });
     for (var j = 0; j < foundPhones.length; j++) {
         foundPhones[j] = foundPhones[j].join(', ');
