@@ -73,9 +73,6 @@ exports.findAndRemove = function (query) {
     findRec.forEach(function (x) {
         delete phoneBook[x[0]];
     });
-    // for (var rec in findRec) {
-    //    delete phoneBook[findRec[rec][0]];
-    // }
 
     return findRec.length;
 };
@@ -90,10 +87,10 @@ exports.find = function (query) {
         return [];
     }
     if (query === '*') {
-        return getNPE(phoneBook).sort();
+        return getNPE(phoneBook).sort(compare);
     }
 
-    return getNPE(searchString(query)).sort();
+    return getNPE(searchString(query)).sort(compare);
 };
 
 function getNPE(records) {
@@ -108,6 +105,10 @@ function getNPE(records) {
     }
 
     return answer;
+}
+
+function compare(x, y) {
+    return x[0].localeCompare(y[0]);
 }
 
 function searchString(query) {
