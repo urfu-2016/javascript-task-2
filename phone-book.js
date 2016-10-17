@@ -17,7 +17,7 @@ function FoundRecords(entry, index) {
 }
 
 var phoneBook = [];
-
+exports.book = phoneBook;
 exports.add = function (phone, name, email) {
     var unique = this.find(phone).length === 0;
     if (this.isDataCorrect(phone, name) && unique) {
@@ -66,9 +66,9 @@ exports.findAndRemove = function (query) {
     for (var i = 0; i < contacts.length; i++) {
         count++;
         var index = contacts[i].index;
-        if (index === -1) {
-            break;
-        }
+        // if (index === -1) {
+        //     break;
+        // }
         phoneBook.splice(index, 1);
     }
 
@@ -101,7 +101,7 @@ function normalize(phone) {
 }
 
 function findContact(query) {
-    if (query === '') {
+    if (query === '' || query === undefined) {
 
         return [];
     }
