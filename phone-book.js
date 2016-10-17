@@ -42,10 +42,8 @@ function checkMail(testMail) {
 
 exports.add = function (phone, name, email) {
     if (checkPhone(phone) && checkName(name) && (checkMail(email))) {
-        if (typeof(email) === undefined) {
-            phoneBook.push({ phone: phone, name: name, email: '' });
-        }
-        phoneBook.push({ phone: phone, name: name, email: email });
+        phoneBook.push({ phone: phone, name: name, email:
+            typeof(email) === undefined ? '' : email });
 
         return true;
     }
@@ -60,7 +58,7 @@ exports.update = function (phone, name, email) {
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             phoneBook[i].name = name;
-            phoneBook[i].email = email || '';
+            phoneBook[i].email = typeof(email) === undefined ? '' : email;
 
             return true;
         }
@@ -101,7 +99,7 @@ exports.find = function (query) {
 
 
     function findEntry(person) {
-        if (person.email !== '') {
+        if (person.email !== undefined) {
             return (person.name.indexOf(query) !== -1) ||
         (person.phone.indexOf(query) !== -1) ||
         (person.email.indexOf(query) !== -1);
@@ -127,7 +125,7 @@ exports.find = function (query) {
     }
 
     function correctOutput(person) {
-        if (person.email !== '') {
+        if (person.email !== undefined) {
             return person.name + ', ' + correctPhoneOutput(person.phone) + ', ' + person.email;
         }
 
