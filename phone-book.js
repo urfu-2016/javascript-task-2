@@ -133,16 +133,16 @@ exports.find = function (query) {
     }
     findedPhones = findedPhones.sort(compareNode);
     var resultNode = findedPhones.map(function (node) {
-        var arrayNode = [];
+        var strNode = '';
         var phone = node.phone.match(/^(\d{3})(\d{3})(\d{2})(\d{2})$/);
         var formattedPhone = '+7 (' + phone[1] + ') ' + phone[2] + '-' + phone[3] + '-' + phone[4];
-        arrayNode.push(node.name);
-        arrayNode.push(formattedPhone);
+        strNode += node.name + ', ';
+        strNode += formattedPhone;
         if (node.email) {
-            arrayNode.push(node.email);
+            strNode += ', ' + node.email;
         }
 
-        return arrayNode;
+        return strNode;
     });
 
     return resultNode;
