@@ -8,6 +8,7 @@ exports.add = function (phone, name, email) {
     if (!isHavePhone(phone)) {
         return update(phone, name, email);
     }
+    
     return false;
 };
 
@@ -34,6 +35,7 @@ function update(phone, name, email) {
 
         return true;
     }
+    
     return false;
 }
 
@@ -55,11 +57,11 @@ exports.find = function (query) {
         }
         foundPhones[i] = item;
     }
-    foundPhones.sort(function(a, b) {
+    foundPhones.sort(function (a, b) {
         return a[0] > b[0];
     });
-    for (var i = 0; i < foundPhones.length; i++) {
-        foundPhones[i] = foundPhones[i].join(', ');
+    for (var j = 0; j < foundPhones.length; j++) {
+        foundPhones[j] = foundPhones[j].join(', ');
     }
 
     return foundPhones;
@@ -108,5 +110,6 @@ exports.importFromCsv = function (csv) {
             success++;
         }
     }
+
     return success;
 };
