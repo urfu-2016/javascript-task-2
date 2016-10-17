@@ -11,12 +11,7 @@ exports.isStar = true;
  */
 var phoneBook = [];
 function checkPhone(phoneTest) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phoneTest) {
-            return false;
-        }
-    }
-    if (/^\d{10}$/.test(phoneTest) && typeof(phoneTest) === 'string') {
+    if (/^\d{10}$/.test(phoneTest)) {
         return true;
     }
 
@@ -25,16 +20,18 @@ function checkPhone(phoneTest) {
 }
 
 function checkName(testName) {
-    if ((typeof(testName) !== 'undefined') && (typeof(testName) === 'string') &&
-    (testName.length > 0)) {
+    if ((testName !== undefined) && (typeof(testName) === 'string') &&
+    (testName !== '')) {
         return true;
     }
 
     return false;
 }
-
 exports.add = function (phone, name, email) {
-    if (checkPhone(phone) && checkName(name)) {
+    var used = phoneBook.some(function (person) {
+        return person.phone === phone;
+    });
+    if (checkPhone(phone) && checkName(name) && !used) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -44,7 +41,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if ((!checkName(name))) {
+    if ((!checkName(name)) && (!checkPhone(phone))) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -77,7 +74,7 @@ exports.findAndRemove = function (query) {
 };
 exports.find = function (query) {
     var result = [];
-    if ((typeof(query) !== 'string') || (query.length <= 0)) {
+    if ((!query) && (typeof(query) !== 'string') || (query === '')) {
         return [];
     }
     if (query === '*') {
@@ -97,10 +94,10 @@ exports.find = function (query) {
         (person.phone.indexOf(query) !== -1));
     }
     function bookSort(a, b) {
-        if (a.name > b.name) {
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
             return 1;
         }
-        if (a.name < b.name) {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
             return -1;
         }
 
