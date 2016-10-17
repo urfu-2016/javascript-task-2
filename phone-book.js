@@ -4,7 +4,7 @@
  * Naaeaii caaaiea ia caacai?eo
  * ?aaeeciaai iaoia importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Oaeaoiiiay eieaa
