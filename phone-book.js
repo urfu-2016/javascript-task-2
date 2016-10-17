@@ -20,7 +20,7 @@ var phoneBook = Object();
  */
 exports.add = function (phone, name, email) {
     if (name && checkPhone(phone) && name.length > 0) {
-        if (!phoneBook.phone) {
+        if (!phoneBook[phone]) {
             createContact(phone, name, email);
 
             return true;
@@ -59,6 +59,8 @@ exports.update = function (phone, name, email) {
             return true;
         }
         phoneBook[phone].email = email;
+
+        return true;
     }
 
     return false;
