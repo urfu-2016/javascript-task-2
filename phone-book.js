@@ -1,11 +1,15 @@
 'use strict';
 
-function check(phone, name) {
+function strAndEmp(phone, name) {
+    var isString = typeof name !== 'string';
     var isEmpty = name === '' || phone === '';
+    return isString || isEmpty;
+}
+
+function check(phone, name) {
     var isStringP = typeof Number(phone) !== 'number';
     var isPositive = Number(phone) < 0;
-    var isString = typeof name !== 'string';
-    if (phone.length !== 10 || isString || isEmpty || isStringP || isPositive) {
+    if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || isPositive) {
 
         return false;
     }
@@ -24,13 +28,14 @@ var phoneBook = {
 function addEmail(email) {
     if (typeof email === 'undefined') {
 
-        return ['',true];
+        return ['', true];
     }
-    if (typeof email === 'string')
+    if (typeof email === 'string') {
 
         return [email, email];
+    }
 
-    return [false,false];
+    return [false, false];
 }
 
 exports.add = function (phone, name, email) {
