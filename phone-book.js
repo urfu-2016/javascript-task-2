@@ -66,7 +66,7 @@ exports.add = function (phone, name, email) {
         return false;
 
     }
-    if (phone in phoneBook) {
+    if (phone.toString() in phoneBook) {
 
         return false;
 
