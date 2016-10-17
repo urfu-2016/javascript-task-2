@@ -143,7 +143,8 @@ exports.importFromCsv = function (csv) {
 function validate(phone, name, email) {
     return typeof phone === 'string' && /^\d{10}$/.test(phone) &&
         typeof name === 'string' && name !== '' &&
-        (email === undefined || typeof email === 'string');
+        (email === undefined || (typeof email === 'string' &&
+            /^[\w.+-]+@[\w.+-]+\.[\w.+-]+$/.test(email)));
 }
 
 function exists(phone) {
