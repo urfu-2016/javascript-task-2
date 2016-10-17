@@ -27,9 +27,16 @@ function isEmptyQuery(query) {
 
 function checkPhone(phone) {
 
-    var regExpPhone = /^([5]\d{2})([1-5]\d{2})([0]\d{1})([1-5]\d{1})$/;
+    var phoneLength = phone.length;
+    var phoneType = typeof Number(phone) !== 'number';
+    var emptyPhone = phone === '';
 
-    return phone.match(regExpPhone);
+    if (phoneLength < 10 || phoneType || emptyPhone) {
+
+        return false;
+    }
+
+    return true;
 }
 
 function valEmail(email) {
