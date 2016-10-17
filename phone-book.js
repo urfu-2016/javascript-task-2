@@ -42,13 +42,14 @@ function validName(name) {
     return (/\S+/.test(name) && Boolean(name));
 }
 
-function validMail(mail) {
+function validMail(email) {
     if (email !== undefined) {
-        if (email.length === 0 || email === ' '){
-            
+        if (email.length === 0 || email === ' ') {
+
             return false;
         }
     }
+    
     return true;
 }
 
