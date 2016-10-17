@@ -178,15 +178,18 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
     var parsed = csv.split('\n');
 
-    return parsed.length - 1;
+    var counter = 0;
 
-    /* for (var i= 0; i < parsed.length; i++) {
+    for (var i = 0; i < parsed.length; i++) {
         var pars = parsed[i].split(';');
         var name = pars[0];
         var phone = pars[1];
         var email = pars[2];
+        if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
+            counter++;
+        }
     }
 
-    return exports.add(name, phone, email) || exports.update(name, phone,email);*/
+    return counter;
 };
 
