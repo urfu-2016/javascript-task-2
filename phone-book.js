@@ -19,7 +19,7 @@ var phoneBook = Object();
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (name && checkPhone(phone)) {
+    if (name && checkPhone(phone) && name.length > 0) {
         if (!phoneBook.phone) {
             createContact(phone, name, email);
 
@@ -111,11 +111,7 @@ exports.find = function (query) {
             continue;
         }
         for (var j = 0; j < contactProperties.length; j++) {
-            if ((phoneBook[properties[i]][contactProperties[j]]).indexOf(query) > -1) {
-                var record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]) +
-                 ', ' + phoneBook[properties[i]].email;
-                records.push(record);
-            }
+            records = checkProperties(properties, i, j, contactProperties, query, records);
         }
     }
     records.sort();
@@ -123,18 +119,28 @@ exports.find = function (query) {
     return records;
 };
 
+function checkProperties(properties, i, j, contactProperties, query, records) {
+    if ((phoneBook[properties[i]][contactProperties[j]]).indexOf(query) > -1) {
+        var record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]) +
+         ', ' + phoneBook[properties[i]].email;
+        records.push(record);
+    }
+
+    return records;
+}
+
 function findAll(properties, records, contactProperties) {
     for (var k = 0; k < properties.length; k++) {
-            contactProperties = Object.getOwnPropertyNames(phoneBook[properties[k]]);
-            records = ifEmail(contactProperties, properties, k, records);
-        }
-        records.sort();
+        contactProperties = Object.getOwnPropertyNames(phoneBook[properties[k]]);
+        records = ifEmail(contactProperties, properties, k, records);
+    }
+    records.sort();
 
     return records;
 }
 
 function ifEmail(contactProperties, properties, i, records) {
-	var record = '';
+    var record = '';
     if (contactProperties.indexOf('email') > -1) {
         record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]) +
          ', ' + phoneBook[properties[i]].email;
@@ -148,7 +154,9 @@ function ifEmail(contactProperties, properties, i, records) {
 }
 
 function toChangePhone(phone) {
-    return '+7 ' + '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+    var ph = '+7 ' + '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
+     '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+    return ph;
 }
 
 /**
