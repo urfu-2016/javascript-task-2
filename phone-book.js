@@ -40,7 +40,7 @@ function createRecord(phone, name, email) {
 
 
 function checkToCorrectName(name) {
-    return typeof name === 'string';
+    return typeof name === 'string' && name.length !== 0;
 }
 
 
