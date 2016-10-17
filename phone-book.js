@@ -22,9 +22,10 @@ function isUnique(phone) {
     return true;
 }
 
-function isCorrect(phone, name) {
+function isCorrect(phone, name, email) {
     var phoneRe = /^\d{10}$/;
-    if (phoneRe.test(phone) && name !== undefined && name.length > 0) {
+    if (phoneRe.test(phone) && name !== undefined && name.length > 0 && 
+        email !== undefined) {
 
         return true;
     }
@@ -53,7 +54,7 @@ function doPatheticContact(contact) {
  * @returns {Boolean} result of adding
  */
 exports.add = function (phone, name, email) {
-    if (isUnique(phone) && isCorrect(phone, name)) {
+    if (isUnique(phone) && isCorrect(phone, name, email)) {
         phoneBook.push({
             'phone': phone.toString(),
             'name': name.toString(),
@@ -73,7 +74,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} result of adding
  */
 exports.update = function (phone, name, email) {
-    if (!isCorrect(phone, name)) {
+    if (!isCorrect(phone, name, email)) {
 
         return false;
     }
