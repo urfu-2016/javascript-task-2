@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -12,7 +12,7 @@ exports.isStar = false;
 var phoneBook = [];
 
 function isPhone(phone) {
-    var rePhone = /\d{10}/;
+    var rePhone = /^\d{10}$/;
 
     return (rePhone.test(phone) && phone.length === 10);
 }
@@ -44,7 +44,7 @@ function findInNote(query, note) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isPhone(phone) || name === undefined || inPhoneBook(phone)) {
+    if (!isPhone(phone) || name === undefined || name === '' || inPhoneBook(phone)) {
 
         return false;
     }
