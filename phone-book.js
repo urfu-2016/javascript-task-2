@@ -149,7 +149,8 @@ exports.findAndRemove = function (query) {
         return 0;
 
     }
-    for (var index in searchForDelete) {
+
+    for (var index = 0; index < searchForDelete.length; index++) {
         delete phoneBook[searchForDelete[index]];
     }
 
@@ -176,9 +177,10 @@ function emailSugar(email) {
 
 function successFind(query, phone) {
 
-    if (phone.indexOf(query) > -1 || (phoneBook[phone].email && phoneBook[phone].email.indexOf(query) > -1)
-        || phoneBook[phone].name.indexOf(query) > -1) {
-  
+    if (phone.indexOf(query) > -1 || (phoneBook[phone].email &&
+        phoneBook[phone].email.indexOf(query) > -1) ||
+        phoneBook[phone].name.indexOf(query) > -1) {
+
         return true;
     }
 
@@ -209,8 +211,8 @@ exports.find = function (query) {
     }
     var searchFor = [];
     var keys = Object.keys(phoneBook);
-    
-    for (var id=0; id < keys.length; id++) {
+
+    for (var id = 0; id < keys.length; id++) {
         if (successFind(query, keys[id])) {
             searchFor.push(keys[id]);
         }
