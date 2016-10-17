@@ -40,7 +40,7 @@ function doPatheticContact(contact) {
     if (contact.email !== undefined) {
         newContact += ', ' + contact.email;
     } else {
-        newContact += ' ';
+        newContact += '';
     }
 
     return newContact;
