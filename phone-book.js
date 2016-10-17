@@ -70,7 +70,7 @@ function isValidData(phone, name) {
  * @returns {bool}
  */
 exports.update = function (phone, name, email) {
-    if (transformPhone(phone) === '') {
+    if (!isValidData(phone, name)) {
         return false;
     }
     var indexOfNeedRecords = findIndexsOfRecords(phone);
