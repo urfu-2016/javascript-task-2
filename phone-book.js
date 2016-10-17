@@ -1,18 +1,18 @@
 'use strict';
 
 /**
- * Ñäåëàíî çàäàíèå íà çâåçäî÷êó
- * Ðåàëèçîâàí ìåòîä importFromCsv
+ * Сделано задание на звездочку
+ * Реализован метод importFromCsv
  */
 exports.isStar = true;
 
 /**
- * Òåëåôîííàÿ êíèãà
+ * Телефонная книга
  */
 var phoneBook = Object();
 
 /**
- * Äîáàâëåíèå çàïèñè â òåëåôîííóþ êíèãó
+ * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
  * @param {String} email
@@ -33,7 +33,7 @@ exports.add = function (phone, name, email) {
 function createContact(phone, name, email) {
     var contact = Object();
     contact.name = name;
-    if (typeof email !== 'undefined' && checkEmail(email)) {
+    if (email !== undefined) {
         contact.email = email;
         phoneBook[phone] = contact;
     } else {
@@ -41,23 +41,17 @@ function createContact(phone, name, email) {
     }
 }
 
-function checkEmail(email) {
-    var pattern = /[0-9a-z_]+@[0-9a-z_]+\.[a-z]{2,5}/i;
-
-    return pattern.test(email);
-}
-
 function checkName(name) {
 
     return typeof name !== 'undefined' && typeof name === 'string' &&
-        name.length > 0;
+     name.length > 0;
 }
 
 function checkPhone(phone) {
     var reg = /\d{10}/;
 
     return reg.test(phone) && phone.length === 10 &&
-        undefinedNaNPhone(phone);
+    undefinedNaNPhone(phone);
 }
 
 function undefinedNaNPhone(phone) {
@@ -66,7 +60,7 @@ function undefinedNaNPhone(phone) {
 }
 
 /**
- * Îáíîâëåíèå çàïèñè â òåëåôîííîé êíèãå
+ * Обновление записи в телефонной книге
  * @param {String} phone
  * @param {String} name
  * @param {String} email
@@ -89,7 +83,7 @@ exports.update = function (phone, name, email) {
 };
 
 /**
- * Óäàëåíèå çàïèñåé ïî çàïðîñó èç òåëåôîííîé êíèãè
+ * Удаление записей по запросу из телефонной книги
  * @param {String} query
  * @returns {int}
  */
@@ -98,60 +92,72 @@ exports.findAndRemove = function (query) {
 
         return 0;
     }
-    var contactProperties = [];
-    var count = 0;
-    var properties = Object.getOwnPropertyNames(phoneBook);
-    for (var i = 0; i < properties.length; i++) {
-        contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
-        if (isFindNote(properties[i], contactProperties, query) || query === '*') {
-            count++;
-            delete phoneBook[i];
-        }
+    var records = exports.find(query);
+    var length = records.length;
+    for (var j = 0; j < records.length; j++) {
+        var phone = records[j].split(',')[1];
+        phone = phone.replace('+7 ', '');
+        phone = phone.replace('(', '');
+        phone = phone.replace(') ', '');
+        phone = phone.replace('-', '');
+        phone = phone.replace('-', '');
+        phone = phone.replace(' ', '');
+        delete phoneBook[phone];
     }
 
-    return count;
+    return length;
 };
 
-function isFindNote(phone, contactProperties, query) {
-    if (contactProperties.indexOf('email') !== -1) {
-        return (phone.indexOf(query) !== -1 ||
-        phoneBook[phone].email.indexOf(query) !== -1 ||
-        phoneBook[phone].name.indexOf(query) !== -1);
-    }
-
-    return (phone.indexOf(query) !== -1 ||
-    phoneBook[phone].name.indexOf(query) !== -1);
-}
-
-function createClient(phone, contactProperties) {
-    var answer = phoneBook[phone].name + ', ' + toChangePhone(phone);
-    if (contactProperties.indexOf('email') !== -1) {
-        answer += ', ' + phoneBook[phone].email;
-    }
-
-    return answer;
-}
-
+/**
+ * Поиск записей по запросу в телефонной книге
+ * @param {String} query
+ * @returns {Array}
+ */
 exports.find = function (query) {
     var records = [];
-    var contactProperties = [];
-    var newPhoneBook = [];
     if (!checkQuery) {
 
         return records;
     }
 
+    return findRecords(query);
+};
+
+function findRecords(query) {
+    var records = [];
+    var contactProperties = [];
     var properties = Object.getOwnPropertyNames(phoneBook);
+    if (query === '*') {
+        records = findAll(records, contactProperties);
+
+        return records;
+    }
     for (var i = 0; i < properties.length; i++) {
         contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
-        if (isFindNote(properties[i], contactProperties, query) || query === '*') {
-            newPhoneBook.push(createClient(properties[i], contactProperties));
+        if (properties[i].indexOf(query) > -1) {
+            records = ifEmail(contactProperties, properties, i, records);
+            continue;
+        }
+        for (var j = 0; j < contactProperties.length; j++) {
+            records = records.concat(checkProperties(i, j, query));
         }
     }
 
-    return newPhoneBook.sort();
-};
+    return records.sort();
+}
 
+function checkProperties(i, j, query) {
+    var records = [];
+    var properties = Object.getOwnPropertyNames(phoneBook);
+    var contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
+    if ((phoneBook[properties[i]][contactProperties[j]]).indexOf(query) > -1) {
+        var record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]) +
+         ', ' + phoneBook[properties[i]].email;
+        records.push(record);
+    }
+
+    return records;
+}
 
 function checkQuery(query) {
     if (typeof query === 'string' && query.length > 0) {
@@ -161,6 +167,30 @@ function checkQuery(query) {
     return false;
 }
 
+function findAll(records, contactProperties) {
+    var properties = Object.getOwnPropertyNames(phoneBook);
+    for (var k = 0; k < properties.length; k++) {
+        contactProperties = Object.getOwnPropertyNames(phoneBook[properties[k]]);
+        records = ifEmail(contactProperties, properties, k, records);
+    }
+    records.sort();
+
+    return records;
+}
+
+function ifEmail(contactProperties, properties, i, records) {
+    var record = '';
+    if (contactProperties.indexOf('email') > -1) {
+        record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]) +
+         ', ' + phoneBook[properties[i]].email;
+        records.push(record);
+    } else {
+        record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]);
+        records.push(record);
+    }
+
+    return records;
+}
 
 function toChangePhone(phone) {
     var ph = '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6);
@@ -170,10 +200,10 @@ function toChangePhone(phone) {
 }
 
 /**
- * Èìïîðò çàïèñåé èç csv-ôîðìàòà
+ * Импорт записей из csv-формата
  * @star
  * @param {String} csv
- * @returns {Number} – êîëè÷åñòâî äîáàâëåííûõ è îáíîâëåííûõ çàïèñåé
+ * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
     var recordsNumber = 0;
