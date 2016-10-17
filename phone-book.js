@@ -108,7 +108,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var phoneList = [];
-    if (query !== '') {
+    if (query === '') {
 
         return phoneList;
     }
