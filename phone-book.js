@@ -4,7 +4,7 @@ function check(phone, name) {
     var isEmpty = name === '' || phone === '';
     var isStringP = typeof Number(phone) !== 'number';
     var isString = typeof name !== 'string';
-    if (phone.length !== 10 || isString || isEmpty || isStringP){
+    if (phone.length !== 10 || isString || isEmpty || isStringP) {
         return false;
     }
 
@@ -24,7 +24,7 @@ function addEmail(email) {
         return '';
     }
 
-	return email;
+    return email;
 }
 
 exports.add = function (phone, name, email) {
@@ -47,7 +47,7 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     if (check(phone, name)) {
         var index = phoneBook.phone.indexOf(phone);
-        if ( index === -1) {
+        if (index === -1) {
             phoneBook.phone.push(phone);
             phoneBook.name.push(name);
             phoneBook.email.push(addEmail(email));
@@ -56,6 +56,7 @@ exports.update = function (phone, name, email) {
             phoneBook.name[index] = name;
             phoneBook.email[index] = addEmail(email);
         }
+
         return true;
     }
 
@@ -64,8 +65,8 @@ exports.update = function (phone, name, email) {
 
 function addIndexArray(resultIndex) {
     var arr = [];
-    for (var i = 0; i < resultIndex.length; i++) {
-        resultIndex[i].forEach(function(item, i) {
+    for (var n = 0; n < resultIndex.length; n++) {
+        resultIndex[n].forEach(function (item, n) {
             arr.push(item);
         });
     }
@@ -73,13 +74,12 @@ function addIndexArray(resultIndex) {
     return arr;
 }
 
-function addNewBook(resultIndex) {
-	var newBook = {
+function addNewBook(arr, resultIndex) {
+    var newBook = {
         phone: [],
         name: [],
         email: []
-        };
-    var arr = addIndexArray(resultIndex);
+    };
     phoneBook.name.forEach(function (item, j) {
         if (arr.indexOf(j) === -1) {
             newBook.phone.push(phoneBook.phone[j]);
@@ -88,16 +88,18 @@ function addNewBook(resultIndex) {
         }
     });
 
-	return newBook;
+    return newBook;
 }
 
 exports.findAndRemove = function (query) {
     if (typeof query === undefined || query === '') {
+
         return 0;
     }
     if (query === '*') {
         var len = phoneBook.name.length;
         phoneBook = [];
+
         return len;
     }
     var resultIndex = [];
@@ -105,7 +107,8 @@ exports.findAndRemove = function (query) {
     resultIndex.push(findIndex(phoneBook.name, query));
     resultIndex.push(findIndex(phoneBook.email, query));
     if (resultIndex !== []) {
-        phoneBook = addNewBook(resultIndex);
+		var arr = addIndexArray(resultIndex);
+        phoneBook = addNewBook(arr, resultIndex);
         return arr.length;
     }
     return 0;
@@ -124,10 +127,10 @@ function findIndex(arr,str) {
 
 function strPhone(phone) {
     var str = '+7 ';
-    str +='('+phone.substring(0,3)+') ';
-    str +=phone.substring(3,6)+'-';
-    str +=phone.substring(6,8)+'-';
-    str +=phone.substring(8);
+    str += '(' + phone.substring(0,3) + ') ';
+    str += phone.substring(3,6) + '-';
+    str += phone.substring(6,8) + '-';
+    str += phone.substring(8);
 
     return str;
 }
@@ -148,6 +151,15 @@ function dictionary(arr) {
     return res.sort();
 }
 
+function addData(i, res) {
+    var strP = strPhone(phoneBook.phone[i])
+    if (phoneBook.email[i] === '') {
+        res.push(phoneBook.name[i] + ', ' + strP)
+    } else {
+        res.push(phoneBook.name[i] + ', ' + strP + ', ' + phoneBook.email[i]);
+    }
+}
+
 exports.find = function (query) {
     if (typeof query === undefined || query === '') {
         return [];
@@ -156,13 +168,9 @@ exports.find = function (query) {
         var len = phoneBook.name.length;
         var res = [];
         for (var i = 0; i < len; i++) {
-            var strP = strPhone(phoneBook.phone[i])
-            if (phoneBook.email[i] === '') {
-                res.push(phoneBook.name[i] + ', ' + strP)
-            } else {
-                res.push(phoneBook.name[i] + ', ' + strP + ', ' + phoneBook.email[i]);
-            }
+            addData(i, res);
         }
+
         return res.sort();
     }
     var resultIndex = [];
@@ -170,6 +178,7 @@ exports.find = function (query) {
     resultIndex.push(findIndex(phoneBook.name, query));
     resultIndex.push(findIndex(phoneBook.email, query));
     if (resultIndex !== []) {
+
         return dictionary(resultIndex);
     }
 
