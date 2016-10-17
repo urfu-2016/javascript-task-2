@@ -19,12 +19,11 @@ exports.add = function (phone, name, email) {
 };
 
 function isNameCorrect(name) {
-    return (name !== undefined && name.length !== 0);
-
+    return (name);
 }
 
 function isPhoneCorrect(phone) {
-    return (/\d{10}/.test(phone) && isPhoneUnique(phone));
+    return (/^\d{10}$/.test(phone) && isPhoneUnique(phone));
 
 }
 
