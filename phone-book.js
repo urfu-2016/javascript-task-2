@@ -40,28 +40,20 @@ function check(phone, name) {
 }
 
 exports.update = function (phone, name, email) {
-    var flag = false;
     for (var i = 0; i < phoneBook.length; i++) {
         if ((phoneBook[i].p === phone) && check(phone, name) && (name.length > 0)) {
             phoneBook[i].n = name;
             phoneBook[i].e = email;
 
-            flag = true;
+            return true;
         }
     }
 
-    return flag;
+    return false;
 };
 
 exports.findAndRemove = function (query) {
     var res = exports.find(query);
-
-    /* var new_ = split_(query);
-    var resa = slice_(query, new_);
-    var newest = [];
-    for (var j = 0; j < new_.length; j++) {
-        newest = remove_(query, res[j], resa, j);
-    }*/
     for (var i = 0; i < res.length; i++) {
         delete_(res[i]);
     }
@@ -91,39 +83,6 @@ function delete_(arr) {
     }
 }
 
-/* function remove_(query, element, array, idx) {
-    var res = exports.find(query);
-    for (var m = 0; m < array.length; m++) {
-        if (element.indexOf(array[m]) !== -1) {
-            res.splice(idx, 1);
-        }
-    }
-
-    return res;
-}
-
-function split_(query) {
-    var res = exports.find(query);
-    var new_ = [];
-    if (res.length >= 1) {
-        for (var i = 0; i < res.length; i++) {
-            new_.push(res[i].split(','));
-        }
-    }
-
-    return new_;
-}
-
-function slice_(query, array) {
-    var resa = [];
-    for (var j = 0; j < array.length; j++) {
-        if (String(array[j]).replace(/D/g, '') > 2) {
-            resa[j].push(array[j].trim().slice(1));
-        }
-    }
-
-    return resa;
-}*/
 // 'Алексей;5551110011;alex@example.com',
 // 'Валерий;5553330033;valera@example.com',
 exports.find = function (query) {
@@ -132,7 +91,7 @@ exports.find = function (query) {
 
         return res;
     }
-    if ((typeof query === 'string') || (query instanceof String)) {
+    if (typeof query === 'string') {
         if (query === '*') {
             res = zv();
         } else {
