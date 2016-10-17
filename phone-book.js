@@ -12,8 +12,7 @@ exports.isStar = false;
 var phoneBook = {};
 
 function correctData(value) {
-    return value !== undefined && (typeof value === 'string') && value !==
-        '';
+    return value !== undefined && (typeof value === 'string') && value.length > 0;
 }
 
 function correctNumber(phone) {
