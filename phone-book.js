@@ -10,7 +10,7 @@ var Contact = function (phone, name, email) {
 };
 
 Contact.strFormat = ['name', 'phone', 'email'];
-Contact.findProps = ['name', 'phoneRaw', 'email'];
+Contact.findProps = ['phoneRaw', 'name', 'email'];
 
 Contact.phoneFormat = new RegExp(/^(\d{3})(\d{3})(\d{2})(\d{2})$/);
 
@@ -27,12 +27,10 @@ Contact.sortFunction = function (a, b) {
 };
 
 Contact.prototype.toString = function () {
-    var $this = this;
-
     return Contact.strFormat
         .map(function (prop) {
-            return $this[prop];
-        })
+            return this[prop];
+        }, this)
         .filter(Boolean)
         .join(', ');
 };
@@ -46,11 +44,19 @@ var placeContact = function (phone, name, email) {
 
     phone = phone.toString();
 
-    try {
-        phoneBook[phone] = new Contact(phone, name, email);
-    } catch (e) {
+    if (!Contact.phoneFormat.test(phone)) {
         return false;
     }
+
+    name = name.toString();
+
+    if (email) {
+        email = email.toString();
+    } else {
+        email = undefined;
+    }
+
+    phoneBook[phone] = new Contact(phone, name, email);
 
     return true;
 };
@@ -90,7 +96,7 @@ var findContacts = function (query) {
 
 var find = function (query) {
     return findContacts(query)
-        .sort()
+        .sort(Contact.sortFunction)
         .map(function (contact) {
             return contact.toString();
         });
