@@ -170,17 +170,15 @@ exports.importFromCsv = function (csv) {
         if (sData.length > 3) {
             return undefined;
         }
-        if (!isCorrectInput(sData[1], sData[0], sData[2])) {
-            data.splice(index, 1);
-        }
         if (exports.add(sData[1], sData[0], sData[2])) {
             return prev;
         }
         if (exports.update(sData[1], sData[0], sData[2])) {
             return prev;
         }
-        if (exports.findAndRemove(sData[1]).length !== 0) {
-            return prev;
+        if (!isCorrectInput(sData[1], sData[0], sData[2])) {
+            data.splice(index, 1);
+            return undefined;
         }
     }
     data.map(adding).join('\n');
@@ -189,6 +187,10 @@ exports.importFromCsv = function (csv) {
 };
 
 function isCorrectInput(phone, name, email) {
+    if (isEmpty(phone) || isEmpty(name)) {
+
+        return false;
+    }
     if (isCorrectPhone(phone) && isCorrectName(name) && isCorrectEmail(email)) {
 
         return true;
@@ -197,8 +199,18 @@ function isCorrectInput(phone, name, email) {
     return false;
 }
 
+function isEmpty(str) {
+    if (typeof str === 'string' && str !== undefined && str.trim().length !== 0) {
+
+        return false;
+    }
+
+    return true;
+}
+
 function isCorrectPhone(phone) {
-    if (typeof phone === 'string' && phone.match(rPhone).length === 10) {
+    var reg = phone.match(rPhone);
+    if (reg.length === 10) {
 
         return true;
     }
@@ -207,7 +219,7 @@ function isCorrectPhone(phone) {
 }
 
 function isCorrectName(name) {
-    if (typeof name === 'string' && regExpName.test(name) && name !== undefined) {
+    if (regExpName.test(name)) {
 
         return true;
     }
@@ -216,10 +228,11 @@ function isCorrectName(name) {
 }
 
 function isCorrectEmail(email) {
-    if (typeof email === 'string' && email !== undefined) {
+    if (!isEmpty(email)) {
 
         return true;
-    } else if (email === undefined) {
+    }
+    if (email !== null && email === undefined) {
 
         return true;
     }
