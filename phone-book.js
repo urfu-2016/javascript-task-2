@@ -146,7 +146,7 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var upPhone = '';
-    var checkEmail = isEmptyQuery(email) ? '' : email.trim().toLowerCase();
+    var checkEmail = isEmptyQuery(email) ? '' : email;
 
     if (isEmptyQuery(name) && isEmptyQuery(phone)) {
 
@@ -182,7 +182,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var counter = 0;
 
-    if (checkQuery(query.trim())) {
+    if (checkQuery(query)) {
 
         phoneBook.forEach(function (object, index) {
 
@@ -217,7 +217,7 @@ exports.find = function (query) {
     var findName;
     var findEmail;
 
-    if (checkQuery(query.trim()) && query !== '*' && query !== '') {
+    if (checkQuery(query) && !isEmptyQuery(query) && query !== '*' && query !== '') {
 
         phoneBook.forEach(function (object, index) {
             findPhone = phoneBook[index].number;
@@ -258,7 +258,7 @@ exports.find = function (query) {
 
     } else if (query === '') {
 
-        return [];
+        return false;
     }
 
 };
