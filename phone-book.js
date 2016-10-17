@@ -16,6 +16,7 @@ var phoneBook = [];
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
     if (isPhoneCorrect(phone) && isNameCorrect(String(name)) && isPhoneUnique(phone)) {
@@ -34,7 +35,9 @@ function isPhoneCorrect(phone) {
 function isPhoneUnique(phone) {
     var result = true;
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) result = false;
+        if (phoneBook[i].phone === phone) {
+            result = false;
+        }
     }
 
     return result;
@@ -49,18 +52,21 @@ function isNameCorrect(name) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
     var isFound = false;
-    if (isNameCorrect(String(name)) && isPhoneCorrect(phone)) {
-        for (var i = 0; i < phoneBook.length; i++) {
-            var note = phoneBook[i];
-            if (note.phone === phone) {
-                var keys = Object.keys(note);
-                note[keys[0]] = name;
-                note[keys[2]] = getRightEmail(email);
-                isFound = true;
-            }
+    if (!isNameCorrect(String(name)) || !isPhoneCorrect(phone)) {
+
+        return isFound;
+    }
+    for (var i = 0; i < phoneBook.length; i++) {
+        var note = phoneBook[i];
+        if (note.phone === phone) {
+            var keys = Object.keys(note);
+            note[keys[0]] = name;
+            note[keys[2]] = getRightEmail(email);
+            isFound = true;
         }
     }
 
@@ -78,23 +84,28 @@ function getRightEmail(email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number}
  */
 exports.findAndRemove = function (query) {
     var foundNotes = exports.find(query);
     for (var i = 0; i < foundNotes.length; i++) {
-        for (var j = 0; j < phoneBook.length; j++) {
-            var note = phoneBook[j];
-            if (note.phone === (foundNotes[i].split(',')[1].slice(5, 8) +
-                                foundNotes[i].split(',')[1].slice(10, 13) +
-                                foundNotes[i].split(',')[1].slice(14, 16) +
-                                foundNotes[i].split(',')[1].slice(17))) {
-                phoneBook.splice(j,1);
-            }
-        }
+        removeNote(i, foundNotes);
     }
 
     return foundNotes.length;
 };
+
+function removeNote(i, foundNotes) {
+    for (var j = 0; j < phoneBook.length; j++) {
+        var note = phoneBook[j];
+        if (note.phone === (foundNotes[i].split(',')[1].slice(5, 8) +
+                            foundNotes[i].split(',')[1].slice(10, 13) +
+                            foundNotes[i].split(',')[1].slice(14, 16) +
+                            foundNotes[i].split(',')[1].slice(17))) {
+                phoneBook.splice(j,1);
+        }
+    }
+}
 
 /**
  * Поиск записей по запросу в телефонной книге
@@ -102,35 +113,38 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var result = [];
-    if (!isNameCorrect(query)) {
-        return result;
-    }
+    if (!isNameCorrect(query)) return result;
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
         var keys = Object.keys(note);
-        for (var j = 0; j < keys.length; j++) {
-            if ((note[keys[j]].indexOf(query) !== -1) || (query === '*')) {
-                if (note[keys[2]] === '') {
-                    result.push(note[keys[0]] + ', ' +
-                                getRightPhone(note[keys[1]]));
-                }
-                else {
-                    result.push(note[keys[0]] + ', ' +
-                                getRightPhone(note[keys[1]]) + ', ' + note[keys[2]]);
-                }
-                if (query === '*') {
-                    break;
-                }
-            }
+        if ((findSubstring(keys, note, query)) || (query === '*')) {
+            result = pushResult(keys, note, result);
         }
     }
 
     return result.sort();
 };
 
+function findSubstring(keys, note, query) {
+    for (var j = 0; j < keys.length; j++) {
+        if ((note[keys[j]].indexOf(query) !== -1))  {
+            return true;
+        }
+    }
+    return false;
+}
+
 function getRightPhone(phone) {
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
         '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+}
+
+function pushResult(keys, note, result) {
+    if (note[keys[2]] === '') {
+        result.push(note[keys[0]] + ', ' + getRightPhone(note[keys[1]]));
+    }
+    else result.push(note[keys[0]] + ', ' + getRightPhone(note[keys[1]]) + ', ' + note[keys[2]]);
+    return result;
 }
 
 /**
