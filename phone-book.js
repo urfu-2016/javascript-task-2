@@ -129,4 +129,4 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
 
     return csv.split('\n').length;
-};
+}
