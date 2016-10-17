@@ -149,9 +149,17 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    if ((typeof(csv) !== 'string') || (csv = '')) {
+    if (!csv) {
         return 0;
     }
+    var added = 0;
+    csv.split('\n').forEach(function (person) {
+        person = person.split(';');
+        if (exports.add(person[1], person[0], person[2]) ||
+        (exports.update(person[1], person[0], person[2]))) {
+            added++;
+        }
+    });
 
-    return csv.split('\n').length;
+    return added;
 };
