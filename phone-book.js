@@ -95,7 +95,7 @@ exports.update = function (phone, name, email) {
  * @returns {int}
  */
 exports.findAndRemove = function (query) {
-    if (query === '') {
+    if (query === undefined || query === '') {
         return 0;
     }
     var countRecordsForRemove;
@@ -130,7 +130,7 @@ function removeRecords(indexs) {
  * @returns {String}
  */
 exports.find = function (query) {
-    if (query === '') {
+    if (query === undefined || query === '') {
         return [];
     }
     if (query === '*') {
