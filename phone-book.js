@@ -29,7 +29,7 @@ function findNodeByPhone(phone) {
  * @returns {Boolean} success
  */
 exports.add = function (phone, name, email) {
-    if (!(typeof phone === 'string' && typeof name === 'string') {
+    if (!(typeof phone === 'string' && typeof name === 'string')) {
         return false;
     }
     var regPhone = /^\d{10}$/;
