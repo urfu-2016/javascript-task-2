@@ -50,8 +50,6 @@ function getCorrectData(phone, name, email) {
         data[phone].name = name;
         if (checkArgument(email)) {
             data[phone].email = email;
-        } else if (email !== undefined) {
-            return false;
         }
     } else {
         return false;
@@ -118,7 +116,7 @@ exports.find = function (query) {
     var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
     if (!checkArgument(query)) {
-        return false;
+        return;
     }
 
     return Object.keys(phoneBook)
