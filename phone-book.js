@@ -27,7 +27,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
-    if (email) {
+    if (email !== undefined) {
         phoneBookData = { phone: phone, name: name, email: email };
     } else {
         phoneBookData = { phone: phone, name: name };
