@@ -52,7 +52,7 @@ function getCorrectData(phone, name, email) {
         }
 
         data[phone].name = name;
-        if (typeof email === 'string') {
+        if (typeof email === 'string' && email !== '') {
             data[phone].email = email;
         }
     } else {
