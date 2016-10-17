@@ -39,8 +39,6 @@ function doPatheticContact(contact) {
     '-' + contact.phone.slice(6, 8) + '-' + contact.phone.slice(8, 10);
     if (contact.email !== undefined) {
         newContact += ', ' + contact.email;
-    } else {
-        newContact += '';
     }
 
     return newContact;
