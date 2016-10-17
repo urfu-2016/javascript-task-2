@@ -121,7 +121,7 @@ exports.find = function (query) {
     phoneList = phoneBook.filter(function (contact) {
         return (contact.phone.indexOf(query) !== -1 ||
             contact.name.indexOf(query) !== -1 ||
-            contact.email.indexOf(query) !== -1);
+            (contact.email !== undefined && contact.email.indexOf(query) !== -1));
     });
     phoneList.map(doPatheticContact).sort();
 
