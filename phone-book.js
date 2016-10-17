@@ -97,7 +97,7 @@ function formatPhone(phone) {
 
 function findItems(query) {
     if (query === '') {
-        return false;
+        return [];
     }
 
     var result = [];
