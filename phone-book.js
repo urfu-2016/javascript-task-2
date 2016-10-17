@@ -61,9 +61,34 @@ exports.findAndRemove = function (query) {
     for (var j = 0; j < new_.length; j++) {
         newest = remove_(query, res[j], resa);
     }
+    for (var i = 0; i < res.length; i++) {
+        delete_(res[i]);
+    }
 
     return newest.length;
 };
+
+function delete_(arr) {
+    var s = '';
+    for (var y = 0; y < phoneBook.length; y++) {
+        s = phoneBook[y].n;
+        if (s === '') {
+            s += '+7 (' + phoneBook[y].p.slice(0, 3) + ') ' +
+            phoneBook[y].p.slice(3, 6) + '-' +
+            phoneBook[y].p.slice(6, 8) + '-' + phoneBook[y].p.slice(-2);
+        } else {
+            s += ', +7 (' + phoneBook[y].p.slice(0, 3) + ') ' +
+            phoneBook[y].p.slice(3, 6) + '-' +
+            phoneBook[y].p.slice(6, 8) + '-' + phoneBook[y].p.slice(-2);
+        }
+        if (phoneBook[y].e !== undefined) {
+            s += ', ' + phoneBook[y].e;
+        }
+        if (s === arr) {
+            phoneBook.splice(y, 1);
+        }
+    }
+}
 
 function remove_(query, element, array) {
     var res = exports.find(query);
@@ -102,7 +127,7 @@ function slice_(query, array) {
 // 'Валерий;5553330033;valera@example.com',
 exports.find = function (query) {
     var arr = [];
-    if (query === '') {
+    if (query === '' || query === undefined) {
 
         return arr;
     }
@@ -183,4 +208,3 @@ exports.importFromCsv = function (csv) {
     // }
     return csv.split('\n').length;
 };
-
