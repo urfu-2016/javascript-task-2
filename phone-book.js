@@ -100,7 +100,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
     if (!isCorrectEmail(email)) {
-        return false
+        return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (isConstains(phoneBook[i], object)) {
@@ -117,7 +117,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     if (!isCorrectEmail(email)) {
-        return false
+        return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i]._phone === phone) {
