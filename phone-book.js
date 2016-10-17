@@ -29,7 +29,7 @@ function update(phone, name, email) {
         phoneBook[phone] = {
             name: name
         };
-        if (email !== undefined) {
+        if (email !== undefined && email !== '') {
             phoneBook[phone].email = email;
         }
 
@@ -71,9 +71,12 @@ function findPhones(query) {
     if (query === '') {
         return [];
     }
+    if (query === '*') {
+        return Object.keys(phoneBook);
+    }
     var foundPhones = [];
     for (var phone in phoneBook) {
-        if (query === '*' || isHasQuery(phone, query)) {
+        if (isHasQuery(phone, query)) {
             foundPhones.push(phone);
         }
     }
