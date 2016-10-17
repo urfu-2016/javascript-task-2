@@ -114,7 +114,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     var records = [];
-    if (checkQuery) {
+    if (!checkQuery) {
 
         return records;
     }
@@ -159,7 +159,7 @@ function checkProperties(i, j, query) {
 }
 
 function checkQuery(query) {
-    if (typeof query !== 'string' || query.length === 0) {
+    if (typeof query === 'string' && query.length > 0) {
         return true;
     }
 
