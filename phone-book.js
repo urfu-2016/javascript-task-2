@@ -52,6 +52,9 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
+    if ((name === undefined) || (typeof(name) !== 'string')) {
+        return false;
+    }
     var indexToChange = findPhone(phone);
 
     function findPhone(nphone) {
