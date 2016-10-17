@@ -12,7 +12,7 @@ exports.isStar = false;
 var phoneBook = [];
 
 function findNodeByPhone(phone) {
-    return phoneBook.findIndex(function (node, index) {
+    return phoneBook.findIndex(function (node) {
         if (node.phone === phone) {
             return true;
         }
@@ -26,6 +26,7 @@ function findNodeByPhone(phone) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 exports.add = function (phone, name, email) {
     var regPhone = /^\d{10}$/;
@@ -51,6 +52,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} success
  */
 exports.update = function (phone, name, email) {
     var indexInPhoneBook = findNodeByPhone(phone);
@@ -62,7 +64,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     phoneBook[indexInPhoneBook].name = name;
-    phoneBook[indexInPhoneBook].email = email ;
+    phoneBook[indexInPhoneBook].email = email;
 
     return true;
 };
@@ -70,11 +72,13 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Boolean} success
  */
 exports.findAndRemove = function (query) {
     var lengthPhoneBook = phoneBook.length;
     if (query === '*') {
         phoneBook = [];
+
         return lengthPhoneBook;
     }
     phoneBook = phoneBook.filter(function (node) {
@@ -84,17 +88,13 @@ exports.findAndRemove = function (query) {
                 return false;
             }
         }
-        
+
         return true;
     });
 
     return lengthPhoneBook - phoneBook.length;
 };
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
 function compareNode(nodeA, nodeB) {
     if (nodeA.name > nodeB.name) {
         return 1;
@@ -107,6 +107,11 @@ function compareNode(nodeA, nodeB) {
     }
 }
 
+/**
+ * Поиск записей по запросу в телефонной книге
+ * @param {String} query
+ * @returns {Array} result search
+ */
 exports.find = function (query) {
     if (!query) {
         return [];
@@ -122,6 +127,7 @@ exports.find = function (query) {
                     return true;
                 }
             }
+
             return false;
         });
     }
