@@ -107,6 +107,7 @@ exports.findAndRemove = function (query) {
     if (query === '*') {
         var deletedCount = phoneBook.length;
         phoneBook = [];
+
         return deletedCount;
     }
     if (query === '') {
