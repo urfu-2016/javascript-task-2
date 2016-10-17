@@ -53,14 +53,14 @@ exports.indexOf = function (phone) {
  * @returns {boolean}
  */
 exports.add = function (phone, name, email) {
-    if ((exports.indexOf(phone) === -1) && exports.isCorrect(phone, name, email)) {
+    if (exports.indexOf(phone) === -1 && exports.isCorrect(phone, name, email)) {
         if (typeof email === 'undefined') {
             phoneBook.push({ 'phone': phone, 'name': name });
         } else {
             phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
-
-            return true;
         }
+
+        return true;
     }
 
     return false;
@@ -77,10 +77,10 @@ exports.update = function (phone, name, email) {
     if (name === '') {
         return false;
     }
-    if (exports.indexOf(phone) !== -1) {
+    if (exports.indexOf(phone) !== -1 && exports.isCorrect(phone, name, email)) {
         var note = phoneBook[exports.indexOf(phone)];
         note.name = name;
-        if (typeof note.email === 'undefined') {
+        if (typeof email === 'undefined') {
             delete note.email;
         } else {
             note.email = email;
@@ -100,6 +100,12 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var result = [];
     var deletedNote = 0;
+    if (query === '') {
+        return 0;
+    }
+    if (query === '*') {
+        return phoneBook.length;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
         if (!(exports.findInNote (note, query))) {
@@ -121,12 +127,18 @@ exports.findAndRemove = function (query) {
  * @returns {Boolean}
  */
 exports.findInNote = function (note, query) {
-    return ((note.name.indexOf(query) === -1) || (note.phone.indexOf(query) === -1) ||
-    (note.email.indexOf(query) === -1));
+    var key = Object.keys(note);
+    for (var i = 0; i < key.length; i++) {
+        if ((note[key[i]] !== 'underfind') && (note[key[i]].indexOf(query) !== -1)) {
+            return true;
+        }
+    }
+
+    return false;
 };
 
 /**
- * Приведение к формату вывода на экран
+ * Приведение телефона к формату вывода на экран
  * @param {String} phone
  * @returns {String}
  */
@@ -136,26 +148,40 @@ exports.phoneToPrint = function (phone) {
 };
 
 /**
+ * Приведение всей записи к формату вывода на экран
+ * @param {Object} note
+ * @returns {String}
+ */
+exports.noteToPrint = function (note) {
+    if (typeof note.email === 'undefined') {
+        return note.name + ', ' + exports.phoneToPrint(note.phone);
+    }
+
+    return note.name + ', ' + exports.phoneToPrint(note.phone) + ', ' + note.email;
+};
+
+/**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
  * @returns {Array}
  */
 exports.find = function (query) {
-    var result = [];
     if (query === '') {
         return [];
     }
+    var result = [];
+
     if (query === '*') {
         for (var j = 0; j < phoneBook.length; j++) {
-            result.push(phoneBook[j].name + ', ' + exports.phoneToPrint(phoneBook[j].phone) +
-            ', ' + phoneBook[j].email);
+            result.push(exports.noteToPrint(phoneBook[j]));
         }
+
+        return result.sort();
     }
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
         if (exports.findInNote (note, query)) {
-            result.push(note.name + ', ' + exports.phoneToPrint(note.phone) + ', ' +
-            note.email);
+            result.push(exports.noteToPrint(note));
         }
     }
 
