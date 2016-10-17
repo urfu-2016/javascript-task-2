@@ -29,6 +29,9 @@ function findNodeByPhone(phone) {
  * @returns {Boolean} success
  */
 exports.add = function (phone, name, email) {
+    if (!(typeof phone === 'string' && typeof name === 'string') {
+        return false;
+    }
     var regPhone = /^\d{10}$/;
     email = (!email) ? '' : email;
     if (!regPhone.test(phone) || !name) {
