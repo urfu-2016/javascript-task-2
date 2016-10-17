@@ -29,12 +29,12 @@ exports.add = function (phone, name, email) {
         var obj = {};
         obj.name = name;
         obj.phone = phone;
-        if (typeof email !== 'string') {
+        if (email === undefined) {
             phoneBook.push(obj);
 
             return true;
         }
-        if (exports.find(email).length === 0) {
+        if (typeof email === 'string' && exports.find(email).length === 0) {
             obj.email = email;
             phoneBook.push(obj);
 
