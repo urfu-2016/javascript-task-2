@@ -9,7 +9,7 @@ exports.isStar = false;
 /**
  * Телефонная книга
  */
-var phoneBook = [];
+var phoneBook = {};
 
 
 function correctData(value) {
@@ -20,17 +20,22 @@ function correctData(value) {
 function correctNumber(phone) {
     var phoneReg = /^\d{10}$/;
 
-    return phone !== undefined && phoneReg.test(phone);
+    return correctData(phone) && phoneReg.test(phone);
 }
 
 function validEmail(email) {
 
-    return (email !== undefined && correctData(email)) ? email : undefined;
+    if (email !== undefined && correctData(email)) {
+
+        return email;
+    }
+
+    return undefined;
 
 }
 
 function correctMail(mail) {
-    if (mail === undefined) {
+    if (typeof mail === "undefined") {
 
         return true;
     }
@@ -61,31 +66,31 @@ function checkUnique(element) {
  * @returns {Bool} – успех или не успех операции
  */
 exports.add = function (phone, name, email) {
-    if (correctNumber(phone) && correctData(name) && checkUnique(phone)) {
-        if (correctMail(email)) {
-            phoneBook.push({
-                phone: phone,
-                name: name,
-                email: email
-            });
+    if (!correctNumber(phone)) {
 
-            return true;
-        }
+        return false;
     }
 
-    return false;
+    if (!correctData(name) || !correctMail(email)) {
+
+        return false;
+    }
+
+    if (phone in phoneBook) {
+
+        return false;
+    }
+
+    phoneBook[phone] = {
+        name : name,
+        email : email
+    };
+
+    return true;
+
+    
 };
 
-function traverseNoteAndFind(phone) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
-
-            return phoneBook[i];
-        }
-    }
-
-    return false;
-}
 
 /**
  * Обновление записи в телефонной книге
@@ -95,18 +100,27 @@ function traverseNoteAndFind(phone) {
  * @returns {Bool} – успех или не успех операции
  */
 exports.update = function (phone, name, email) {
-    if (correctNumber(phone) && correctData(name) && correctMail(email)) {
-        var probableUpdate = traverseNoteAndFind(phone);
-        if (probableUpdate !== false) {
-            probableUpdate.name = name;
-            probableUpdate.email = validEmail(email);
+    if (!correctNumber(phone)) {
 
-            return true;
-        }
-
+        return false;
     }
 
-    return false;
+    if (!correctData(name) || !correctMail(email)) {
+
+        return false;
+    }
+
+    if (!(phone in phoneBook)) {
+
+        return false;
+    }
+    
+    phoneBook[phone] = {
+        name : name,
+        email : validEmail(email)
+    };
+
+    return true;
 
 };
 
@@ -116,31 +130,39 @@ exports.update = function (phone, name, email) {
  * @returns {Number} – кол-во удалённых записей
  */
 exports.findAndRemove = function (query) {
-    var deleteCounter = 0;
-    if (correctData(query)) {
-        var refreshedBook = phoneBook.filter(function (element) {
-            var realEmail = emailSugar(element.email);
-            var lowQuery = query.toLowerCase();
+    var firstSize = Object.keys(phoneBook).length;
+    if (query === '*') {
+        phoneBook = {};
 
-            return (element.phone.indexOf(lowQuery) === -1 &&
-                element.name.toLowerCase().indexOf(lowQuery) === -1 &&
-                realEmail.toLowerCase().indexOf(lowQuery) === -1);
-
-        });
-        if (query === '*') {
-            deleteCounter = phoneBook.length;
-            phoneBook = [];
-
-            return deleteCounter;
-
-        }
-
-        deleteCounter = phoneBook.length - refreshedBook.length;
-        phoneBook = refreshedBook;
-
+        return firstSize;
     }
 
-    return deleteCounter;
+    if (!correctData(query)) {
+
+        return 0;
+    }
+
+    var searchForDelete = [];
+
+    for (var phone in phoneBook) {
+
+        if (phone && successFind(query, phone)) {
+
+            searchForDelete.push(phone);
+        }
+    }
+
+    if (searchForDelete.length === 0) {
+
+        return 0;
+    }
+
+    for (var phone in searchForDelete) {
+        
+        delete phoneBook[searchForDelete[phone]];
+    }
+
+    return searchForDelete.length;
 
 };
 
@@ -149,7 +171,7 @@ function comfortFormat(phone) {
         '+7 (' + phone.slice(0, 3) +
         ') ' + phone.slice(3, 6) +
         '-' + phone.slice(6, 8) +
-        '-' + phone.slice(8, 10));
+        '-' + phone.slice(8));
 }
 
 function emailSugar(email) {
@@ -161,46 +183,60 @@ function emailSugar(email) {
     return ', ' + email;
 }
 
+function successFind(query, phone) {
+    if (phone.indexOf(query) >= 0 ||
+        (phoneBook[phone].email && phoneBook[phone].email.indexOf(query >= 0)) ||
+        phoneBook[phone].name.indexOf(query) >= 0) {
+
+        return true;
+    }
+
+    return false;
+}
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
  * @returns {Number} – записи, удовлетворяющие условию
  */
 exports.find = function (query) {
-    if (correctData(query)) {
 
-        return phoneBook.filter(function (element) {
-            if (query === '*') {
-                return element;
-            }
-            var lowQuery = query.toLowerCase();
+    if (query === "*") {
 
-            return element.phone.indexOf(lowQuery) >= 0 ||
-             element.name.toLowerCase().indexOf(lowQuery) >= 0 ||
-                (correctData(element.email) &&
-                    element.email.toLowerCase().indexOf(lowQuery) >= 0);
-        })
-        .sort(function (first, second) {
-            if (first.name.toLowerCase() < second.name.toLowerCase()) {
+        return Object.keys(phoneBook).map(function (element) {
+            var realEmail = emailSugar(phoneBook[element].email);
+            
+            return phoneBook[element].name + ", " +
+            comfortFormat(element) + realEmail;
 
-                return -1;
-            }
-            if (first.name.toLowerCase() > second.name.toLowerCase()) {
-
-                return 1;
-            }
-
-            return 0;
-
-        })
-        .map(function (element) {
-            var realEmail = emailSugar(element.email);
-
-            return element.name + ', ' + comfortFormat(element.phone) + realEmail;
-        });
+        }).sort();
+        
     }
 
-    return [];
+    if (!correctData(query)) {
+
+        return false;
+    }
+
+    var searchFor = [];
+
+    for (var phone in phoneBook) {
+
+        if (phone && successFind(query, phone)) {
+
+            searchFor.push(phone);
+        }
+    }
+
+    if (searchFor.length === 0) {
+
+        return [];
+    }
+
+    return searchFor.map(function (element) {
+        var realEmail = emailSugar(phoneBook[element].email);
+        return phoneBook[element].name + ", " +
+        comfortFormat(element) + realEmail;
+    }).sort();
 
 };
 
