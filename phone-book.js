@@ -19,11 +19,11 @@ var phoneBook = [];
  */
 
 function checkPhone(phone) {
-	if (phone === undefined) {
+    if (phone === undefined) {
 
         return false;
     }
-    
+
     return phone.toString().match(/^[0-9]{10}$/) !== null;
 }
 
