@@ -136,6 +136,10 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var numberRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
+    if (!query) {
+        return false;
+    }
+
     return Object.keys(phoneBook)
         .filter(function (phone) {
             return isContactRelevant(phone, query);
