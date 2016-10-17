@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -52,7 +52,7 @@ function getCorrectData(phone, name, email) {
         }
         data[correctPhone].name = name;
         data[correctPhone] = addEntryToData(
-            data[correctPhone], email, 'email', /^[\w\d_-]+@\w+-?\w+.\w{2,}$/);
+            data[correctPhone], email, 'email', /^\w+@\w+.\w{1,}$/);
     } else {
         return false;
     }
