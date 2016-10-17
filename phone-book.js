@@ -16,7 +16,7 @@ var regExpName = /^[\sa-zA-Zа-яА-Я0-9]+$/;
 function Abonent(phone, name, email) {
     this.phone = phone.trim();
     this.name = name.trim();
-    if (email !== undefined) {
+    if (typeof email === 'string') {
         this.email = email.trim();
     } else {
         this.email = email;
@@ -125,7 +125,7 @@ exports.find = function (query) {
         var string;
         string = name + ', +7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
             phone.slice(6, 8) + '-' + phone.slice(8, 10);
-        if (email !== undefined) {
+        if (email !== undefined && email !== '') {
             string += ', ' + email;
         }
 
@@ -205,7 +205,7 @@ function isCorrectName(name) {
 }
 
 function isCorrectEmail(email) {
-    if (!isEmpty(email)) {
+    if (typeof email === 'string') {
 
         return true;
     }
