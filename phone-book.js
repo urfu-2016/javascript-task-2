@@ -39,6 +39,15 @@ function isString(name) {
     return true;
 }
 
+function isCorrectPhone(phone) {
+    var reg = '[0123456789]{10}';
+    if (!phone.match(reg) || phone.length !== 10) {
+        return false;
+    }
+
+    return true
+}
+
 exports.add = function (phone, name, email) {
     var object = {
         _phone: phone,
@@ -51,8 +60,7 @@ exports.add = function (phone, name, email) {
     if (!isString(email)) {
         return false;
     }
-    var reg = '[0123456789]{10}';
-    if (!phone.match(reg) || phone.length !== 10) {
+    if (!isCorrectPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
