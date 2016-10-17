@@ -47,7 +47,7 @@ function getCorrectData(phone, name, email) {
 
     if (getMatch(phone, /^\d{10}$/)) {
         data[phone] = {};
-        if (typeof name !== 'string' || name.length === 0) {
+        if (typeof name !== 'string') {
             return false;
         }
 
@@ -103,6 +103,10 @@ exports.update = function (phone, name, email) {
  * @returns {String}
  */
 exports.findAndRemove = function (query) {
+    if (!query || typeof query !== 'string') {
+        return 0;
+    }
+
     var lengthBeforeDeleting = Object.keys(phoneBook).length;
     Object.keys(phoneBook)
         .filter(function (phone) {
@@ -121,9 +125,9 @@ exports.findAndRemove = function (query) {
  * @returns {Array}
  */
 exports.find = function (query) {
-    var numberRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
+    var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
-    if (!query) {
+    if (!query || typeof query !== 'string') {
         return false;
     }
 
@@ -132,7 +136,7 @@ exports.find = function (query) {
             return isContactRelevant(phone, query);
         })
         .map(function (phone) {
-            var formattedPhone = phone.replace(numberRegExp, '+7 ($1) $2-$3-$4');
+            var formattedPhone = phone.replace(phoneRegExp, '+7 ($1) $2-$3-$4');
             var contactEntry = phoneBook[phone].name + ', ' + formattedPhone;
             if (phoneBook[phone].hasOwnProperty('email')) {
                 contactEntry += ', ' + phoneBook[phone].email;
