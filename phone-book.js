@@ -9,7 +9,7 @@ exports.isStar = true;
 /**
  * Òåëåôîííàÿ êíèãà
  */
-var phoneBook = Object();
+var phoneBook = [];
 
 /**
  * Äîáàâëåíèå çàïèñè â òåëåôîííóþ êíèãó
@@ -18,10 +18,22 @@ var phoneBook = Object();
  * @param {String} email
  * @returns {Boolean}
  */
+
+function checkPhoneBook(phone) {
+    for (var index = 0; index < phoneBook.length; index++) {
+        if (phoneBook[index].phone === phone) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 exports.add = function (phone, name, email) {
     if (checkName(name) && checkPhone(phone)) {
-        if (!phoneBook[phone]) {
-            createContact(phone, name, email);
+        if (checkPhoneBook(phone)) {
+            phoneBook.push(createContact(phone, name, email));
 
             return true;
         }
@@ -30,15 +42,16 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
+
 function createContact(phone, name, email) {
     var contact = Object();
     contact.name = name;
+    contact.phone = phone;
     if (email !== undefined) {
         contact.email = email;
-        phoneBook[phone] = contact;
-    } else {
-        phoneBook[phone] = contact;
     }
+
+    return contact;
 }
 
 
@@ -68,16 +81,14 @@ function undefinedNaNPhone(phone) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (checkName(name) && checkPhone(phone) && phoneBook[phone]) {
-        phoneBook[phone].name = name;
-        if (email === undefined) {
-            delete phoneBook[phone].email;
+    if (checkName(name) && checkPhone(phone) && checkPhoneBook(phone)) {
+        for (var i = 0; i < phoneBook.length; i++) {
+            if (phoneBook[i].phone === phone) {
+                phoneBook[i] = createContact(phone, name, email);
 
-            return true;
+                return true;
+            }
         }
-        phoneBook[phone].email = email;
-
-        return true;
     }
 
     return false;
@@ -93,40 +104,34 @@ exports.findAndRemove = function (query) {
 
         return 0;
     }
-    var contactProperties = [];
-    var count = 0;
-    var properties = Object.getOwnPropertyNames(phoneBook);
-    var phones = [];
-    for (var i = 0; i < properties.length; i++) {
-        contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
-        if (isFindNote(properties[i], contactProperties, query) || query === '*') {
-            count++;
-            phones.push(properties[i]);
+    var newPhoneBook = [];
+    for (var index = 0; index < phoneBook.length; index++) {
+        if (!isFindNote(index, query) && query !== '*') {
+            newPhoneBook.push(phoneBook[index])
         }
     }
-
-    for (var j = 0; j < phones.length; j++) {
-        delete phoneBook[phones[j]];
-    }
+    var count = phoneBook.length - newPhoneBook.length;
+    phoneBook = newPhoneBook;
 
     return count;
 };
 
-function isFindNote(phone, contactProperties, query) {
-    if (contactProperties.indexOf('email') !== -1) {
-        return (phone.indexOf(query) !== -1 ||
-        phoneBook[phone].email.indexOf(query) !== -1 ||
-        phoneBook[phone].name.indexOf(query) !== -1);
+function isFindNote(index, query) {
+    var contact = phoneBook[index];
+    if (contact.hasOwnProperty('email')) {
+        return (contact.phone.indexOf(query) !== -1 ||
+        contact.email.indexOf(query) !== -1 ||
+        contact.name.indexOf(query) !== -1);
     }
 
-    return (phone.indexOf(query) !== -1 ||
-    phoneBook[phone].name.indexOf(query) !== -1);
+    return (contact.phone.indexOf(query) !== -1 ||
+    contact.name.indexOf(query) !== -1);
 }
 
-function createClient(phone, contactProperties) {
-    var answer = phoneBook[phone].name + ', ' + toChangePhone(phone);
-    if (contactProperties.indexOf('email') !== -1) {
-        answer += ', ' + phoneBook[phone].email;
+function createClient(contact) {
+    var answer = contact.name + ', ' + toChangePhone(contact.phone);
+    if (contact.hasOwnProperty('email')) {
+        answer += ', ' + contact.email;
     }
 
     return answer;
@@ -140,12 +145,13 @@ exports.find = function (query) {
         return [];
     }
 
-    var properties = Object.getOwnPropertyNames(phoneBook);
-    for (var i = 0; i < properties.length; i++) {
-        contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
-        if (isFindNote(properties[i], contactProperties, query) || query === '*') {
-            newPhoneBook.push(createClient(properties[i], contactProperties));
+    var newPhoneBook = [];
+    for (var index = 0; index < phoneBook.length; index++) {
+        if (isFindNote(index, query) || query === '*') {
+            var client = phoneBook[index];
+            newPhoneBook.push(createClient(client));
         }
+
     }
 
     return newPhoneBook.sort();
