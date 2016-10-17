@@ -3,22 +3,15 @@
 exports.isStar = true;
 
 var Contact = function (phone, name, email) {
-    this.phone = Contact.formattedPhone(phone);
-    this.phoneRaw = phone;
+    this.phone = phone;
     this.name = name;
     this.email = email;
 };
 
-Contact.strFormat = ['name', 'phone', 'email'];
-Contact.findProps = ['phoneRaw', 'name', 'email'];
-
 Contact.phoneFormat = new RegExp(/^(\d{3})(\d{3})(\d{2})(\d{2})$/);
+Contact.emailFormat = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
 
 Contact.formattedPhone = function (phone) {
-    if (!Contact.phoneFormat.test(phone)) {
-        throw new TypeError('Wrong phone format');
-    }
-
     return phone.replace(Contact.phoneFormat, '+7 ($1) $2-$3-$4');
 };
 
@@ -27,33 +20,48 @@ Contact.sortFunction = function (a, b) {
 };
 
 Contact.prototype.toString = function () {
-    return Contact.strFormat
-        .map(function (prop) {
-            return this[prop];
-        }, this)
-        .filter(Boolean)
-        .join(', ');
+    return this.name + ', ' +
+        Contact.formattedPhone(this.phone) +
+        (!this.email ? '' : ', ' + this.email);
 };
 
 var phoneBook = {};
 
-var placeContact = function (phone, name, email) {
-    if (!phone || !name) {
+var checkPhone = function (phone) {
+    if (!phone || !Contact.phoneFormat.test(phone)) {
         return false;
     }
 
-    phone = phone.toString();
+    return true;
+};
 
-    if (!Contact.phoneFormat.test(phone)) {
+var checkName = function (name) {
+    if (!name) {
         return false;
     }
 
-    name = name.toString();
+    return true;
+};
 
-    if (email) {
-        email = email.toString();
-    } else {
-        email = undefined;
+var checkEmail = function (email) {
+    if (!email && (email !== '' && email !== undefined)) {
+        return false;
+    }
+
+    if (email && !Contact.emailFormat.test(email)) {
+        return false;
+    }
+
+    return true;
+};
+
+var add = function (phone, name, email) {
+    if (!(checkPhone(phone) && checkName(name) && checkEmail(email))) {
+        return false;
+    }
+
+    if (phoneBook[phone]) {
+        return false;
     }
 
     phoneBook[phone] = new Contact(phone, name, email);
@@ -61,12 +69,19 @@ var placeContact = function (phone, name, email) {
     return true;
 };
 
-var add = function (phone, name, email) {
-    return phone && !phoneBook[phone] && placeContact(phone, name, email);
-};
-
 var update = function (phone, name, email) {
-    return phone && phoneBook[phone] && placeContact(phone, name, email);
+    if (!(checkPhone(phone) && checkName(name) && checkEmail(email))) {
+        return false;
+    }
+
+    if (!phoneBook[phone]) {
+        return false;
+    }
+
+    phoneBook[phone].name = name;
+    phoneBook[phone].email = email;
+
+    return true;
 };
 
 var findContacts = function (query) {
@@ -83,14 +98,9 @@ var findContacts = function (query) {
         ? allContacts
         : allContacts
             .filter(function (contact) {
-                return Contact.findProps
-                    .map(function (prop) {
-                        return contact[prop];
-                    })
-                    .filter(Boolean)
-                    .some(function (propValue) {
-                        return propValue.indexOf(query) !== -1;
-                    });
+                return contact.name.indexOf(query) !== -1 ||
+                    contact.phone.indexOf(query) !== -1 ||
+                    (contact.email && contact.email.indexOf(query) !== -1);
             });
 };
 
@@ -105,7 +115,7 @@ var find = function (query) {
 var findAndRemove = function (query) {
     return findContacts(query)
         .reduce(function (count, contact) {
-            delete phoneBook[contact.phoneRaw];
+            delete phoneBook[contact.phone];
 
             return count + 1;
         }, 0);
@@ -117,7 +127,11 @@ var importFromCsv = function (csv) {
         .reduce(function (count, contact) {
             var data = contact.split(';');
 
-            return placeContact(data[1], data[0], data[2])
+            var phone = data[1];
+            var name = data[0];
+            var email = data[2];
+
+            return add(phone, name, email) || update(phone, name, email)
                 ? count + 1
                 : count;
         }, 0);

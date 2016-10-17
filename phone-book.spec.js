@@ -15,6 +15,7 @@ describe('phone-book', function () {
     });
 
     it('не должен добавлять неправильные записи', function () {
+        assert.ok(!phoneBook.add('5551110011'));
         assert.ok(!phoneBook.add('5156248525', '', ''));
         assert.ok(!phoneBook.add('5156248525', ''));
         assert.ok(!phoneBook.add('3330033', 'Неизвестный', 'unknown@example.com'));
