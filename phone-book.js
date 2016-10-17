@@ -114,12 +114,10 @@ exports.update = function (phone, name, email) {
 
 function gettingRightNumbers(query) {
     var search = [];
-
-    for (var number in phoneBook) {
-        if (phoneBook.hasOwnProperty(number) && 
-            successFind(query, number) && number) {
-            
-            search.push(number);
+    var keys = Object.keys(phoneBook);
+    for (var id = 0; id < keys.length; id +=1) {
+        if (psuccessFind(query, keys[id])) {
+            search.push(keys[id]);
         }
     }
 
@@ -131,7 +129,7 @@ function gettingRightNumbers(query) {
  * @param {String} query
  * @returns {Number} – кол-во удалённых записей
  */
-exports.findAndRemove = function(query) {
+exports.findAndRemove = function (query) {
     var firstSize = Object.keys(phoneBook).length;
     if (query === '*') {
         phoneBook = {};
@@ -145,7 +143,6 @@ exports.findAndRemove = function(query) {
 
     }
     var searchForDelete = gettingRightNumbers(query);
-
     if (searchForDelete.length === 0) {
 
         return 0;
@@ -177,10 +174,10 @@ function emailSugar(email) {
 }
 
 function successFind(query, phone) {
-    if (phone.indexOf(query) >= 0 || (phoneBook[phone].email && phoneBook[
-            phone].email.indexOf(query >= 0)) || phoneBook[phone].name.indexOf(
-            query) >= 0) {
-
+    if (phone.indexOf(query) > -1 || (phoneBook[phone].email && phoneBook[
+            phone].email.indexOf(query > -1)) || phoneBook[phone].name.indexOf(
+            query) > -1) {
+        console.log(phone);
         return true;
     }
 
@@ -221,7 +218,7 @@ exports.find = function (query) {
 
     }
 
-    return searchFor.map(function(element) {
+    return searchFor.map(function (element) {
         var realEmail = emailSugar(phoneBook[element].email);
 
         return phoneBook[element].name + ', ' + comfortFormat(element) + realEmail;
@@ -236,7 +233,7 @@ exports.find = function (query) {
  * @param {String} csv
  * @returns {Number} – количество добавленных и обновленных записей
  */
-exports.importFromCsv = function(csv) {
+exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
