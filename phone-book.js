@@ -62,8 +62,6 @@ exports.update = function (phone, name, email) {
             phoneBook[i]._name = name;
             phoneBook[i]._email = email;
             return true;
-        } else {
-            return false;
         }
     }
 
@@ -81,8 +79,8 @@ exports.findAndRemove = function (query) {
     }
     var t = 0;
     for (var i = 0; i < phoneBook.length; i++) {
-        if (isFound(phoneBook[i],query)) {
-            phoneBook.splice(i,1);
+        if (isFound(phoneBook[i], query)) {
+            phoneBook.splice(i, 1);
             t = t + 1;
         }
     }
@@ -99,21 +97,21 @@ exports.find = function (query) {
     if (query === '*') {
         for (var i = 0; i < phoneBook1.length; i++) {
             var str = phoneBook1[i]._phone;
-            var x1 = str.substring(0,3);
-            var x2 = str.substring(3,6);
-            var x3 = str.substring(6,8);
-            var x4 = str.substring(8,10);
+            var x1 = str.substring(0, 3);
+            var x2 = str.substring(3, 6);
+            var x3 = str.substring(6, 8);
+            var x4 = str.substring(8, 10);
             arr.push(phoneBook1[i]._name + ', ' + '7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ' + phoneBook[i]._email);
         }
         return arr;
     }
     for (var i = 0; i < phoneBook1.length; i++) {
-        if (isFound(phoneBook1[i],query)) {
+        if (isFound(phoneBook1[i], query)) {
             var str = phoneBook1[i]._phone;
-            var x1 = str.substring(0,3);
-            var x2 = str.substring(3,6);
-            var x3 = str.substring(6,8);
-            var x4 = str.substring(8,10);
+            var x1 = str.substring(0, 3);
+            var x2 = str.substring(3, 6);
+            var x3 = str.substring(6, 8);
+            var x4 = str.substring(8, 10);
             arr.push(phoneBook1[i]._name + ', ' + '7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ' + phoneBook[i]._email);
         }
     }
