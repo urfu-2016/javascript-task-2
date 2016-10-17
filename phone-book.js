@@ -12,16 +12,24 @@ exports.isStar = true;
 var phoneBook = [];
 
 
+function phoneIsValid(phone) {
+    if (typeof phone !== 'string' || phone.length !== 10 || phone.match(/\d{10}/) === null) {
+        return false;
+    }
+
+    return true;
+}
+
 exports.add = function (phone, name, email) {
     if (typeof name !== 'string' || name === '') {
         return false;
     }
     if (exports.find(name).length === 0 && exports.find(phone).length === 0 &&
-        phone.length === 10 && phone.match(/\d{10}/) !== null) {
+        phoneIsValid(phone)) {
         var obj = {};
         obj.name = name;
         obj.phone = phone;
-        if (typeof email === 'undefined') {
+        if (typeof email !== 'string') {
             phoneBook.push(obj);
 
             return true;
