@@ -19,7 +19,7 @@ var phoneBook = [];
  */
 exports.add = function (phone, name, email) {
     if (isPhoneCorrect(phone) && isNameCorrect(String(name)) && isPhoneUnique(phone)) {
-        phoneBook.push( { name: name, phone: phone, email: getRightEmail(email) } );
+        phoneBook.push({ name: name, phone: phone, email: getRightEmail(email) });
 
         return true;
     }
@@ -27,11 +27,11 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
-function isPhoneCorrect (phone) {
+function isPhoneCorrect(phone) {
     return (/\d{10}/.test(phone));
 }
 
-function isPhoneUnique (phone) {
+function isPhoneUnique(phone) {
     var result = true;
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) result = false;
@@ -40,8 +40,8 @@ function isPhoneUnique (phone) {
     return result;
 }
 
-function isNameCorrect (name) { 
-    return ((name !== "undefined") && (name.length != 0));
+function isNameCorrect(name) {
+    return ((name !== 'undefined') && (name.length !== 0));
 }
 
 /**
@@ -69,7 +69,8 @@ exports.update = function (phone, name, email) {
 
 function getRightEmail(email) {
     if (typeof email === 'undefined') {
-        email = ''; }
+        email = '';
+    }
 
     return email;
 }
@@ -83,9 +84,10 @@ exports.findAndRemove = function (query) {
     for (var i = 0; i < foundNotes.length; i++) {
         for (var j = 0; j < phoneBook.length; j++) {
             var note = phoneBook[j];
-            if (note.phone === (foundNotes[i].split(',')[1].slice(5, 8) + 
-                foundNotes[i].split(',')[1].slice(10, 13) + foundNotes[i].split(',')[1].slice(14, 16) + 
-                foundNotes[i].split(',')[1].slice(17))) {
+            if (note.phone === (foundNotes[i].split(',')[1].slice(5, 8) +
+                                foundNotes[i].split(',')[1].slice(10, 13) +
+                                foundNotes[i].split(',')[1].slice(14, 16) +
+                                foundNotes[i].split(',')[1].slice(17))) {
                 phoneBook.splice(j,1);
             }
         }
@@ -109,14 +111,16 @@ exports.find = function (query) {
         for (var j = 0; j < keys.length; j++) {
             if ((note[keys[j]].indexOf(query) !== -1) || (query === '*')) {
                 if (note[keys[2]] === '') {
-                    result.push(note[keys[0]] + ', ' + 
-                                                        getRightPhone(note[keys[1]]));
+                    result.push(note[keys[0]] + ', ' +
+                                getRightPhone(note[keys[1]]));
                 }
                 else {
-                    result.push(note[keys[0]] + ', ' + 
-                                   getRightPhone(note[keys[1]]) + ', ' + note[keys[2]]);
+                    result.push(note[keys[0]] + ', ' +
+                                getRightPhone(note[keys[1]]) + ', ' + note[keys[2]]);
                 }
-                if (query === '*') break;
+                if (query === '*') {
+                    break;
+                }
             }
         }
     }
@@ -125,7 +129,7 @@ exports.find = function (query) {
 };
 
 function getRightPhone(phone) {
-    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + 
+    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
         '-' + phone.slice(6, 8) + '-' + phone.slice(8);
 }
 
@@ -144,7 +148,7 @@ exports.importFromCsv = function (csv) {
     csv = csv.split('\n');
     for (var i = 0; i < csv.length; i++) {
         var note = csv[i].split(';');
-        if ((exports.add(note[1], note[0], note[2])) || 
+        if ((exports.add(note[1], note[0], note[2])) ||
             (exports.update(note[1], note[0], note[2]))) {
             result++;
         }
