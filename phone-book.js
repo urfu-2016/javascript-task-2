@@ -19,7 +19,7 @@ var phoneBook = {};
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!phone || phoneBook.hasOwnProperty(phone)) {
+    if (!phone || !name || phoneBook.hasOwnProperty(phone)) {
         return false;
     }
 
@@ -55,7 +55,7 @@ function getCorrectData(phone, name, email) {
         }
         data[correctPhone].name = name;
         data[correctPhone] = addEntryToData(
-            data[correctPhone], email, 'email', /^[\w\d_-]+@\w+\.\w{2,4}$/);
+            data[correctPhone], email, 'email', /^[\w\d_-]+@\w+-?\.\w{2,10}$/);
     } else {
         return false;
     }
