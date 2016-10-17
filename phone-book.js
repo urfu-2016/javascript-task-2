@@ -146,8 +146,7 @@ function getRightPhone(phone) {
 function pushResult(keys, note, result) {
     if (note[keys[2]] === '') {
         result.push(note[keys[0]] + ', ' + getRightPhone(note[keys[1]]));
-    }
-    else {
+    } else {
         result.push(note[keys[0]] + ', ' + getRightPhone(note[keys[1]]) + ', ' + note[keys[2]]);
     }
 
