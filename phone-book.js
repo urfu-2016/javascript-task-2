@@ -180,9 +180,8 @@ exports.find = function (query) {
         for (var entry1 = 0; entry1 < phoneBook.length; entry1++) {
             result.push(phoneBook[entry1]);
         }
-        sortArray(result);
 
-        return true;
+        return sortArray(result);
     }
     for (var entry2 = 0; entry2 < phoneBook.length; entry2++) {
         var entry = entry2;
@@ -191,9 +190,8 @@ exports.find = function (query) {
             result.push(phoneBook[entry]);
         }
     }
-    sortArray(result);
 
-    return result.length !== 0;
+    return sortArray(result);
 };
 
 /**
