@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -19,7 +19,11 @@ var phoneBook = [];
  */
 
 function checkPhone(phone) {
+	if (phone === undefined) {
 
+        return false;
+    }
+    
     return phone.toString().match(/^[0-9]{10}$/) !== null;
 }
 
