@@ -94,7 +94,7 @@ function correctData(data) {
  * @returns {Boolean} добавили нет
  */
 exports.add = function (phone, name, email) {
-    if (!(/^555\d\d\d\d\d\d\d$/.test(phone))) {
+    if (!correctUpdate(phone, name, email)) {
 
         return false;
     }
@@ -120,8 +120,8 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  * @returns {Boolean} обновили или нет
  */
-function correctUpdate(phone, name) {
-    if (!(/^555\d\d\d\d\d\d\d$/.test(phone)) || (name === undefined)) {
+function correctUpdate(phone, name, email) {
+    if (!(/^555\d\d\d\d\d\d\d$/.test(phone)) || (name === undefined) || (email === null)) {
 
         return false;
     }
