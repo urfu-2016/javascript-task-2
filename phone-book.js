@@ -198,10 +198,8 @@ exports.importFromCsv = function (csv) {
         .map(function (contactString) {
             var contactParts = contactString.split(';');
             var result = false;
-            if (contactParts.length > 0) {
-                var phone = contactParts[1];
-                result = getCorrectData(phone, contactParts[0], contactParts[2]);
-            }
+            var phone = contactParts[1];
+            result = getCorrectData(phone, contactParts[0], contactParts[2]);
 
             return result;
         })
@@ -213,11 +211,13 @@ exports.importFromCsv = function (csv) {
             var name = contact[phone].name;
             var email = contact[phone].email;
             if (phoneBook.hasOwnProperty(phone)) {
-                exports.update(phone, name, email);
+                result = exports.update(phone, name, email);
             } else {
-                exports.add(phone, name, email);
+                result = exports.add(phone, name, email);
             }
-            changedEntrysCount++;
+            if (result) {
+                changedEntrysCount++;
+            }
         });
 
     return changedEntrysCount;
