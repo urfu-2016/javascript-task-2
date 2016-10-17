@@ -165,7 +165,7 @@ function isCorrectInput(phone, name, email) {
 
         return false;
     }
-    if (isCorrectPhone(phone)&& isCorrectEmail(email)) {
+    if (isCorrectPhone(phone) && isCorrectEmail(email)) {
 
         return true;
     }
