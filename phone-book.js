@@ -115,7 +115,8 @@ exports.find = function (query) {
     });
 
     function formatOutput(phone) {
-        return [phoneBook[phone].name, formatPhone(phone), phoneBook[phone].email].join(', ');
+        return [phoneBook[phone].name, formatPhone(phone), phoneBook[phone].email]
+            .filter(Boolean).join(', ');
     }
 
     return contacts.map(formatOutput);
@@ -129,9 +130,23 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
+    var count = 0;
 
-    return csv.split('\n').length;
+    var lines = csv.split('\n');
+    lines.forEach(function processLine(line) {
+        var data = line.split(';');
+
+        var name = data[0];
+        var phone = data[1];
+        var email = data[2];
+
+        var containsPhone = phoneBook.hasOwnProperty(phone);
+        if (!containsPhone) {
+            count += exports.add(phone, name, email);
+        } else {
+            count += exports.update(phone, name, email);
+        }
+    });
+
+    return count;
 };
