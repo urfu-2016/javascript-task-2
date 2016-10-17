@@ -78,8 +78,9 @@ exports.findAndRemove = function (query) {
 		if (isFound(phoneBook[i],query)) {
             phoneBook.splice(i,1);
             t = t + 1;
-    }
+	    }
     return t;
+    }
 }
 
 /**
@@ -139,4 +140,4 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     return t;
-};
+}
