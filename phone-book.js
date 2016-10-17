@@ -1,18 +1,18 @@
 'use strict';
 
 /**
- * Ñäåëàíî çàäàíèå íà çâåçäî÷êó
- * Ðåàëèçîâàí ìåòîä importFromCsv
+ * Naaeaii caaaiea ia caacai?eo
+ * ?aaeeciaai iaoia importFromCsv
  */
 exports.isStar = true;
 
 /**
- * Òåëåôîííàÿ êíèãà
+ * Oaeaoiiiay eieaa
  */
 var phoneBook = [];
 
 /**
- * Äîáàâëåíèå çàïèñè â òåëåôîííóþ êíèãó
+ * Aiaaaeaiea caiene a oaeaoiiio? eieao
  * @param {String} phone
  * @param {String} name
  * @param {String} email
@@ -74,20 +74,23 @@ function undefinedNaNPhone(phone) {
 }
 
 /**
- * Îáíîâëåíèå çàïèñè â òåëåôîííîé êíèãå
+ * Iaiiaeaiea caiene a oaeaoiiiie eieaa
  * @param {String} phone
  * @param {String} name
  * @param {String} email
  * @returns {Boolean}
  */
-exports.update = function (phone, name, email) {
-    if (checkName(name) && checkPhone(phone) && checkPhoneBook(phone)) {
-        for (var i = 0; i < phoneBook.length; i++) {
-            if (phoneBook[i].phone === phone) {
-                phoneBook[i] = createContact(phone, name, email);
 
-                return true;
-            }
+exports.update = function (phone, name, email) {
+    if (!checkName(name) || !checkPhone(phone) || !checkPhoneBook(phone)) {
+        return false;
+    }
+
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            phoneBook[i] = createContact(phone, name, email);
+
+            return true;
         }
     }
 
@@ -95,7 +98,7 @@ exports.update = function (phone, name, email) {
 };
 
 /**
- * Óäàëåíèå çàïèñåé ïî çàïðîñó èç òåëåôîííîé êíèãè
+ * Oaaeaiea caienae ii cai?ino ec oaeaoiiiie eieae
  * @param {String} query
  * @returns {int}
  */
@@ -107,7 +110,7 @@ exports.findAndRemove = function (query) {
     var newPhoneBook = [];
     for (var index = 0; index < phoneBook.length; index++) {
         if (!isFindNote(index, query) && query !== '*') {
-            newPhoneBook.push(phoneBook[index])
+            newPhoneBook.push(phoneBook[index]);
         }
     }
     var count = phoneBook.length - newPhoneBook.length;
@@ -138,8 +141,6 @@ function createClient(contact) {
 }
 
 exports.find = function (query) {
-    var contactProperties = [];
-    var newPhoneBook = [];
     if (!checkQuery) {
 
         return [];
@@ -175,10 +176,10 @@ function toChangePhone(phone) {
 }
 
 /**
- * Èìïîðò çàïèñåé èç csv-ôîðìàòà
+ * Eiii?o caienae ec csv-oi?iaoa
  * @star
  * @param {String} csv
- * @returns {Number} – êîëè÷åñòâî äîáàâëåííûõ è îáíîâëåííûõ çàïèñåé
+ * @returns {Number} – eiee?anoai aiaaaeaiiuo e iaiiaeaiiuo caienae
  */
 exports.importFromCsv = function (csv) {
     var recordsNumber = 0;
