@@ -41,10 +41,11 @@ function createContact(phone, name, email) {
     }
 }
 
+
 function checkName(name) {
 
     return name !== undefined && typeof name === 'string' &&
-        name.length !== 0 && name;
+        name.length !== 0;
 }
 
 function checkPhone(phone) {
@@ -95,12 +96,17 @@ exports.findAndRemove = function (query) {
     var contactProperties = [];
     var count = 0;
     var properties = Object.getOwnPropertyNames(phoneBook);
+    var phones = [];
     for (var i = 0; i < properties.length; i++) {
         contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
         if (isFindNote(properties[i], contactProperties, query) || query === '*') {
             count++;
-            delete phoneBook[properties[i]];
+            phones.push(properties[i]);
         }
+    }
+
+    for (var j = 0; j < phones.length; j++) {
+        delete phoneBook[phones[j]];
     }
 
     return count;
@@ -127,12 +133,11 @@ function createClient(phone, contactProperties) {
 }
 
 exports.find = function (query) {
-    var records = [];
     var contactProperties = [];
     var newPhoneBook = [];
     if (!checkQuery) {
 
-        return records;
+        return [];
     }
 
     var properties = Object.getOwnPropertyNames(phoneBook);
@@ -148,7 +153,7 @@ exports.find = function (query) {
 
 
 function checkQuery(query) {
-    if (typeof query === 'string' && query.length > 0) {
+    if (typeof query === 'string' && query.length !== 0) {
         return true;
     }
 
