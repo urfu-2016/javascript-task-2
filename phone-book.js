@@ -92,7 +92,7 @@ function addEntryToData(data, string, key, regExp) {
  */
 exports.update = function (phone, name, email) {
     var data = getCorrectData(phone, name, email);
-    if (!data || !phoneBook.hasOwnProperty(phone) || Object.keys(data).length === 0) {
+    if (!data || !phoneBook.hasOwnProperty(phone)) {
         return false;
     }
 
@@ -102,7 +102,7 @@ exports.update = function (phone, name, email) {
     }
     if (contact.hasOwnProperty('email')) {
         phoneBook[phone].email = contact.email;
-    } else {
+    } else if (phoneBook[phone].hasOwnProperty('email')) {
         delete phoneBook[phone].email;
     }
 
