@@ -16,7 +16,7 @@ function compareFunction(a, b) {
 }
 
 function isConstains(i, object) {
-    if (i._phone === object._phone || i._name === object._name || i._email === object._email) {
+    if (i._phone === object._phone && i._name === object._name && i._email === object._email) {
         return true;
     }
 
