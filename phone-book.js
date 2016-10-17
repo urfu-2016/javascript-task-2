@@ -56,7 +56,9 @@ exports.update = function (phone, name, email) {
     var flag = false;
     phoneBook = phoneBook.map(function (item) {
         if (item.phone === phone) {
-            item.name = name;
+            if (name !== undefined) {
+                item.name = name;
+            }
             delete item.email;
             if (typeof email === 'string') {
                 item.email = email;
