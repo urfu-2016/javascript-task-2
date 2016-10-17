@@ -193,18 +193,16 @@ exports.importFromCsv = function (csv) {
     contactsStrings
         .map(function (contactString) {
             var contactParts = contactString.split(';');
+            var result = false;
             if (contactParts.length > 0) {
                 var phone = contactParts[1];
-                var result = {};
                 result = getCorrectData(phone, contactParts[0], contactParts[2]);
-
-                return result;
             }
 
-            return false;
+            return result;
         })
         .filter(function (contact) {
-            return contact[Object.keys(contact)[0]];
+            return contact || contact[Object.keys(contact)[0]];
         })
         .forEach(function (contact) {
             var phone = Object.keys(contact)[0];
