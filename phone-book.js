@@ -36,7 +36,7 @@ exports.isDataCorrect = function (phone, name) {
     var rePhone = /^\d{10}$/;
     var isPhoneCorrect = rePhone.test(phone);
 
-    var isNameCorrect = name && name.length > 0;
+    var isNameCorrect = name !== undefined && name.length > 0;
 
     return isPhoneCorrect && isNameCorrect;
 };
@@ -87,7 +87,9 @@ exports.find = function (query) {
         result.push(entry);
     }
 
-    return result.sort();
+    return result.sort(function (a, b) {
+        return a.localeCompare(b);
+    });
 };
 
 function normalize(phone) {
@@ -103,7 +105,7 @@ function findContact(query) {
 
         return [];
     }
-    
+
     var result = [];
     var removeIndex = 0;
 
