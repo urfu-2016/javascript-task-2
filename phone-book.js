@@ -39,7 +39,7 @@ function findInNote(query, note) {
 
 function validName(name) {
 
-    return (/\w+/.test(name) && Boolean(name));
+    return (/\S+/.test(name) && Boolean(name));
 }
 
 /**
@@ -77,7 +77,6 @@ exports.update = function (phone, name, email) {
     }
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
-            console.info('ok');
             phoneBook[i].name = name;
             phoneBook[i].email = email;
 
