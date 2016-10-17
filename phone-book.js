@@ -1,5 +1,4 @@
     'use strict';
-    var exports = {};
 
     /**
      * Сделано задание на звездочку
@@ -10,10 +9,10 @@
     /**
      * Телефонная книга
      */
-    var phoneBook = {};
+    var  = {};
     exports.add = function (phone, name, email) {
         if (!checkForExistence(phone, name, email) && checkAddArguments(name, phone, email)) {
-            phoneBook[phone] = { 'name': name, 'phone': phone, 'email': email };
+            phoneBookItems[phone] = { 'name': name, 'phone': phone, 'email': email };
 
             return true;
         }
@@ -21,7 +20,7 @@
         return false;
     };
     function checkForExistence(phone) {
-        return (phone in phoneBook);
+        return (phone in phoneBookItems);
     }
     function checkAddArguments(name, phone) {
         return name !== '' && typeof(name) !== 'undefined' &&
