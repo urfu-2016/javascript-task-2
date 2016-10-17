@@ -12,7 +12,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
     phoneBook.push([phone, name, email]);
-    
+
     return true;
 };
 
@@ -26,22 +26,22 @@ exports.update = function (phone, name, email) {
         if (currentPhone.exec(phoneBook[i])) {
             phoneBook.splice(i, 1);
             phoneBook.splice(i, 0, [phone, name, email]);
-            
+
             return true;
         }
     }
-    
+
     return false;
 };
 
 exports.findAndRemove = function (query) {
     if (query === '*') {
         phoneBook = [];
-        
+
         return (phoneBook.length - 1);
     }
     if (query === '') {
-        
+
         return 0;
     }
     var s = 0;
@@ -53,30 +53,18 @@ exports.findAndRemove = function (query) {
             s++;
         }
     }
-    
+
     return s;
 };
 
 exports.find = function (query) {
     var arrayOfFounded = [];
     if (query === '') {
-        
+
         return null;
     }
     if (query === '*') {
-        for (var j = 0; j < phoneBook.length; j++) {
-            var sph = ((phoneBook[j])[0]).split('');
-            var phoneX = '+7 (' + sph[0] + sph[1] + sph[2] + ') ' + sph[3] +
-            sph[4] + sph[5] + '-' + sph[6] + sph[7] + '-' + sph[8] + sph[9];
-            arrayOfFounded.push([(phoneBook[j])[1], phoneX, (phoneBook[j])[2]]);
-        }
-        var sortedArrayX = arrayOfFounded.sort();
-        var sortedArrayOfStringsX = [];
-        for (var k = 0; k < sortedArrayX.length; k++) {
-            sortedArrayOfStringsX.push((sortedArrayX[k]).join(', '));
-        }
-        
-        return sortedArrayOfStringsX;
+        help1(query);
     }
     var foundRegExp = new RegExp(query);
     for (var i = 0; i < phoneBook.length; i++) {
@@ -93,8 +81,25 @@ exports.find = function (query) {
     for (var l = 0; l < sortedArray.length; l++) {
         sortedArrayOfStrings.push((sortedArray[l]).join(', '));
     }
-    
+
     return sortedArrayOfStrings;
+};
+
+function help1(query) {
+    var arrayOfFounded = [];
+    for (var j = 0; j < phoneBook.length; j++) {
+        var sph = ((phoneBook[j])[0]).split('');
+        var phoneX = '+7 (' + sph[0] + sph[1] + sph[2] + ') ' + sph[3] +
+        sph[4] + sph[5] + '-' + sph[6] + sph[7] + '-' + sph[8] + sph[9];
+        arrayOfFounded.push([(phoneBook[j])[1], phoneX, (phoneBook[j])[2]]);
+    }
+    var sortedArrayX = arrayOfFounded.sort();
+    var sortedArrayOfStringsX = [];
+    for (var k = 0; k < sortedArrayX.length; k++) {
+        sortedArrayOfStringsX.push((sortedArrayX[k]).join(', '));
+    }
+
+    return sortedArrayOfStringsX;
 };
 
 exports.importFromCsv = function (csv) {
