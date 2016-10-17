@@ -53,15 +53,14 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     if (!isCorrectInput(phone, name, email) || !isDuplicated(phone, email)) {
+
         return false;
     }
-    phoneBook = phoneBook.map(function (item) {
-        if (item.phone === phone) {
-            return new Abonent(phone, name, email);
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            phoneBook.splice(i, 1, new Abonent(phone, name, email));
         }
-
-        return item;
-    });
+    }
 
     return true;
 };
