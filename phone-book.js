@@ -52,7 +52,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if ((!checkName(name) || (!checkMail))) {
+    if ((!checkName(name) || (!checkMail(email)))) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -122,7 +122,7 @@ exports.find = function (query) {
     }
 
     function correctOutput(person) {
-        if (person.email) {
+        if (person.email !== undefined) {
             return person.name + ', ' + correctPhoneOutput(person.phone) + ', ' + person.email;
         }
 
