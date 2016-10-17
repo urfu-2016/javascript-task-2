@@ -81,11 +81,16 @@ exports.findAndRemove = function (query) {
 
         return countPhones;
     }
-    var foundPhones = getFoundPhones(query).map(function (record) {
-        return record.phone;
-    });
+    var foundPhones = getFoundPhones(query);
     phoneBook = phoneBook.filter(function (record) {
-        return (record.phone in foundPhones);
+        var flag = true;
+        foundPhones.forEach(function (phone) {
+            if (phone.phone === record.phone) {
+                flag = false;
+            }
+        });
+
+        return flag;
     });
 
     return foundPhones.length;
