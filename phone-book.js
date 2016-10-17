@@ -192,6 +192,9 @@ exports.importFromCsv = function (csv) {
     var countRecords = 0;
     for (var i = 0; i < strings.length; i++) {
         var oneString = strings[i].split(';');
+        if (oneString.length !== 2 && oneString.length !== 3) {
+            continue;
+        }
         var resultAdd = exports.add(oneString[1], oneString[0], oneString[2]);
         if (resultAdd) {
             countRecords++;
