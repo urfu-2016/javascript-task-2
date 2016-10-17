@@ -150,20 +150,21 @@ exports.find = function (query) {
             (item.name === query || item.name.indexOf(query) !== -1) ||
             (item.email === query || item.email.indexOf(query) !== -1);
     });
-    console.log(resultBook);
+
     return resultPhoneBook(resultBook);
 };
 
 function resultPhoneBook(array) {
     array = array.sort(compare);
-    console.log(array);
+
     return array.map(function (item) {
-        var result = item.name + ', ' + item.phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
+        var result = item.name + ', ' +
+            item.phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
 
         if (item.email) {
             result += ', ' + item.email;
         }
-        console.log(result);
+
         return result;
     });
 }
