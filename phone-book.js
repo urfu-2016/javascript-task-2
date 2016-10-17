@@ -24,7 +24,7 @@ function isConstains(i, object) {
 }
 
 function isFound(i, q) {
-    if (i._email === q || i._phone === q || i._name === q) {
+    if (i._email.indexOf(q) !== -1 || i._phone.indexOf(q) !== -1 || i._name.indexOf(q) !== -1) {
         return true;
     }
 
