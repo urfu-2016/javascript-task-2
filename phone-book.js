@@ -77,8 +77,6 @@ exports.find = function (query) {
         }
     }
     help2();
-
-    return sortedArrayOfStrings;
 };
 
 function help2() {
@@ -88,6 +86,8 @@ function help2() {
     for (var l = 0; l < sortedArray.length; l++) {
         sortedArrayOfStrings.push((sortedArray[l]).join(', '));
     }
+
+    return sortedArrayOfStrings;
 }
 
 function help1() {
