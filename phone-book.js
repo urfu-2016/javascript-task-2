@@ -56,7 +56,6 @@ exports.findAndRemove = function (query) {
     
     return counterOfRecords;
 };
-};
 
 /**
  * Поиск записей по запросу в телефонной книге
@@ -97,12 +96,12 @@ function findPersonByQuery(query) {
 
 exports.find = function (query) {
     var inputQuery;    
-if (typeof query !== 'string')
+if (typeof query !== 'string') {
     return '';
 }
 if (query !== '*') {
     inputQuery = findPersonByQuery(query);
-} 
+}
 else {inputQuery = phoneBook;
    }
 var queryArray = sortTreeArray(inputQuery);
