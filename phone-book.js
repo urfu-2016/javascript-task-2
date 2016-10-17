@@ -9,7 +9,7 @@ exports.isStar = false;
 /**
  * Телефонная книга
  */
-var phoneBook;
+var phoneBook = [];
 
 function isUnique(phone) {
     for (var i = 0; i < phoneBook.length; i++) {
