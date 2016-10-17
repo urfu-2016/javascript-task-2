@@ -36,8 +36,9 @@ function isFound(i, q) {
 
 function isString(name) {
     var reg = /\s*/;
-    var name1 = String(name);
-    if (reg.exec(name1)[0].length === name1.length || typeof name1 === 'undefined' || name1 === null) {
+    var n = String(name);
+    var x = reg.exec(n)[0];
+    if (x.length === n.length || typeof n === 'undefined' || n === null) {
         return false;
     }
 
