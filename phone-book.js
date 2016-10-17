@@ -6,9 +6,6 @@
  */
 exports.isStar = true;
 
-/**
- * Телефонная книга
- */
 var phoneBook = [];
 
 
