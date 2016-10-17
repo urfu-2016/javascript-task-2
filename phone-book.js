@@ -23,7 +23,7 @@ exports.isCorrect = function (phone, name, email) {
     (phone[1] === phone[2]) && (phone[3] === phone[4]) &&
     (phone[4] === phone[5]) && (phone[6] === phone[7]) && (phone[8] === phone[9]));
     var cName = ((name !== '') && (typeof name === 'string'));
-    var cEmail = (typeof email === 'string');
+    var cEmail = (typeof email === 'string') || (typeof email === 'undefined');
 
     return (cName && cPhone && cEmail);
 };
@@ -32,17 +32,17 @@ exports.isCorrect = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {boolean}
+ * @returns {Integer}
  */
-exports.isExist = function (phone) {
+exports.indexOf = function (phone) {
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
         if (note.phone === phone) {
-            return true;
+            return i;
         }
     }
 
-    return false;
+    return -1;
 };
 
 /**
@@ -53,10 +53,14 @@ exports.isExist = function (phone) {
  * @returns {boolean}
  */
 exports.add = function (phone, name, email) {
-    if ((! (exports.isExist(phone))) && exports.isCorrect(phone, name, email)) {
-        phoneBook.push({ 'name': name, 'email': email, 'phone': phone });
+    if ((exports.indexOf(phone) === -1) && exports.isCorrect(phone, name, email)) {
+        if (typeof email === 'undefined') {
+            phoneBook.push({ 'name': name, 'phone': phone });
+        } else {
+            phoneBook.push({ 'name': name, 'email': email, 'phone': phone });
 
-        return true;
+            return true;
+        }
     }
 
     return false;
@@ -73,14 +77,16 @@ exports.update = function (phone, name, email) {
     if (name === '') {
         return false;
     }
-    for (var i = 0; i < phoneBook.length; i++) {
-        var note = phoneBook[i];
-        if ((exports.isExist(phone)) && (note.phone === phone)) {
+    if (exports.indexOf(phone) !== -1) {
+        var note = phoneBook[exports.indexOf(phone)];
+        if (typeof note.email === 'undefined') {
+            note.name = name;
+        } else {
             note.name = name;
             note.email = email;
-
-            return true;
         }
+
+        return true;
     }
 
     return false;
