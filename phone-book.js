@@ -76,6 +76,7 @@ exports.findAndRemove = function (query) {
     if (query === '*') {
         var x = phoneBook.length();
         phoneBook = [];
+
         return x;
     }
     var t = 0;
@@ -102,7 +103,8 @@ exports.find = function (query) {
             var x2 = str.substring(3, 6);
             var x3 = str.substring(6, 8);
             var x4 = str.substring(8, 10);
-            arr.push(phoneBook1[i]._name + ', ' + '7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ' + phoneBook[i]._email);
+            var x = ', ' + '7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ';
+            arr.push(phoneBook1[i]._name + x + phoneBook[i]._email);
         }
     }
 
@@ -113,12 +115,10 @@ exports.importFromCsv = function (csv) {
     var t = 0;
     for (var i = 0; i < csv.length; i++) {
         var str = csv[i].split(';');
-        if (exports.add(str[1], str[0], str[2] === true)) {
+        if (exports.add(str[1], str[0], str[2]) === true) {
             t = t + 1;
-        } else {
-            if (exports.update(str[1], str[0], str[2] === true)) {
-                t = t + 1;
-            }
+        } else if (exports.update(str[1], str[0], str[2]) === true) {
+            t = t + 1;
         }
     }
 
