@@ -28,7 +28,7 @@ function transformPhone(phone) {
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (!isValidPhone(phone, name) || !isValidName(name)) {
+    if (!isValidData(phone, name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -49,15 +49,10 @@ exports.add = function (phone, name, email) {
     return true;
 };
 
-function isValidPhone(phone) {
+function isValidData(phone, name) {
     if (phone === undefined || phone === '' || transformPhone(phone) === '') {
         return false;
     }
-
-    return true;
-}
-
-function isValidName(name) {
     if (name === undefined || name === '') {
         return false;
     }
@@ -73,44 +68,27 @@ function isValidName(name) {
  * @returns {bool}
  */
 exports.update = function (phone, name, email) {
-    if (!isValidPhone(phone)) {
+    if (!isValidData(phone, name)) {
         return false;
     }
-    // var indexOfNeedRecords = findIndexsOfRecords(phone);
-    // if (indexOfNeedRecords.length !== 1) {
-        // return false;
-    // }
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone !== phone) {
-            continue;
-        }
-        if (name !== undefined && name !== '') {
-            phoneBook[i].name = name;
-        }
-        if (email === undefined) {
-            phoneBook[i].email = '';
-        } else {
-            phoneBook[i].email = email;
-        }
-
-        return true;
+    var indexOfNeedRecords = findIndexsOfRecords(phone);
+    if (indexOfNeedRecords.length !== 1) {
+        return false;
     }
-
-    return false;
     // if (name !== undefined && name.length !== 0) {
         // phoneBook[indexOfNeedRecords[0]].name = name;
     // } else {
         // return false;
     // }
-    // phoneBook[indexOfNeedRecords[0]].name = name;
-    // if (email === undefined) {
-        // phoneBook[indexOfNeedRecords[0]].email = '';
-    // }
-    // if (email !== undefined && email !== '') {
-        // phoneBook[indexOfNeedRecords[0]].email = email;
-    // }
+    phoneBook[indexOfNeedRecords[0]].name = name;
+    if (email === undefined) {
+        phoneBook[indexOfNeedRecords[0]].email = '';
+    }
+    if (email !== undefined && email !== '') {
+        phoneBook[indexOfNeedRecords[0]].email = email;
+    }
 
-    // return true;
+    return true;
 };
 
 /**
