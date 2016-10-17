@@ -130,7 +130,8 @@ exports.find = function (query) {
         return [];
     }
     if (query === '*') {
-        return transformBook(phoneBook).sort();
+        return transformBook(phoneBook.sort(sortBook));
+        // return transformBook(phoneBook).sort();
     }
     var indexsOfRecords = findIndexsOfRecords(query);
     var resultBook = [];
@@ -138,8 +139,12 @@ exports.find = function (query) {
         resultBook.push(phoneBook[indexsOfRecords[i]]);
     }
 
-    return transformBook(resultBook).sort();
+    return transformBook(resultBook.sort(sortBook));
 };
+
+function sortBook(record1, record2) {
+    return record1.name > record2.name;
+}
 
 function transformBook(book) {
     var recordsAsStrings = [];
