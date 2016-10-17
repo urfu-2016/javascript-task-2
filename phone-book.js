@@ -120,10 +120,19 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  * @returns {Boolean} обновили или нет
  */
-exports.update = function (phone, name, email) {
-    if (!(/^555\d\d\d\d\d\d\d$/.test(phone))) {
+function correctUpdate(phone, name) {
+    if (!(/^555\d\d\d\d\d\d\d$/.test(phone)) || (name === undefined)) {
 
         return false;
+    }
+
+    return true;
+}
+exports.update = function (phone, name, email) {
+    if (!correctUpdate(phone, name)) {
+
+        return false;
+
     }
     if (email === undefined) {
         email = '';
