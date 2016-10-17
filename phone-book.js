@@ -62,26 +62,24 @@ exports.update = function (phone, name, email) {
 };
 
 exports.find = function (query) {
-    var flag = [];
     if (query === '') {
 
-        flag = [];
-    } else if (query === '*') {
-        rewrite(flag);
-    } else {
-        findSubAndConvert(flag, query);
+        return [];
+    }
+    var flag = [];
+    if (query === '*') {
+        for (var i = 0; i < phoneBook.length; i++) {
+            flag.push(convertToString(phoneBook[i]));
+        }
+    }
+    for (var j = 0; j < phoneBook.length; j++) {
+        if (subRecord(phoneBook[j], query)) {
+            flag.push(convertToString(phoneBook[j]));
+        }
     }
 
     return flag.sort();
 };
-
-function rewrite(flag) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        flag.push(convertToString(phoneBook[i]));
-    }
-
-    return flag;
-}
 
 function formatPhone(phone) {
 
@@ -101,22 +99,10 @@ function convertToString(record) {
     return line;
 }
 
-function findSubAndConvert(flag, query) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (checkSub(query, phoneBook[i]) === true) {
-            flag.push(convertToString(phoneBook[i]));
-        }
-    }
-
-    return flag;
-}
-
-function checkSub(query, sub) {
-    var keys = Object.keys(sub);
-    for (var i = 0; i < keys.length; i++) {
-        var key = keys[i];
-        var value = sub[key];
-        if ((value.indexOf(query) !== -1) && (value !== undefined)) {
+function subRecord(record, query) {
+    var key = Object.keys(record);
+    for (var i = 0; i < key.length; i++) {
+        if ((record[key[i]] !== undefined) && (record[key[i]].indexOf(query) !== -1)) {
             return true;
         }
     }
@@ -137,11 +123,12 @@ exports.findAndRemove = function (query) {
         return numDel;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (checkSub (query, phoneBook[i]) === false) {
+        if (!subRecord(phoneBook[i], query)) {
             res.push(phoneBook[i]);
             numDel--;
         }
     }
+    phoneBook = res;
 
     return numDel;
 };
