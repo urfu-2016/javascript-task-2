@@ -111,7 +111,7 @@ exports.findAndRemove = function (query) {
  * @returns {Array} allFound
  */
 exports.find = function (query) {
-    if (query === undefined) {
+    if (!validName(query)) {
         return;
     }
     var allFound = [];
