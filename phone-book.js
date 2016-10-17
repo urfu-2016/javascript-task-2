@@ -165,26 +165,22 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
     var data = csv.split('\n');
-    function adding(prev, index) {
-        var sData = prev.split(';');
-        if (sData.length > 3) {
-            return undefined;
+    var counter = 0;
+    for (var i = 0; i < data.length; i++) {
+        var sData = data[i].split(';');
+        if (!isCorrectInput(sData[1], sData[0], sData[2]) || sData.length > 3) {
+            continue;
         }
-        if (exports.add(sData[1], sData[0], sData[2])) {
-            return prev;
-        }
-        if (exports.update(sData[1], sData[0], sData[2])) {
-            return prev;
-        }
-        if (!isCorrectInput(sData[1], sData[0], sData[2])) {
-            data.splice(index, 1);
-
-            return undefined;
+        if (exports.find(sData[1]).length !== 0) {
+            exports.update(sData[1], sData[0], sData[2]);
+            counter++;
+        } else {
+            exports.add(sData[1], sData[0], sData[2]);
+            counter++;
         }
     }
-    data.map(adding).join('\n');
 
-    return data.length;
+    return counter;
 };
 
 function isCorrectInput(phone, name, email) {
