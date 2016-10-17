@@ -12,11 +12,11 @@ exports.isStar = true;
 var phoneBook = [];
 function checkPhone(phoneTest) {
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneTest === phoneBook[i].phone) {
+        if (phoneBook[i].phone === phoneTest) {
             return false;
         }
     }
-    if (/^\d{10}$/.test(phoneTest)) {
+    if (/^\d{10}$/.test(phoneTest) && typeof(phoneTest) === 'string') {
         return true;
     }
 
@@ -25,7 +25,8 @@ function checkPhone(phoneTest) {
 }
 
 function checkName(testName) {
-    if ((testName !== '') && (typeof(testName) === 'string')) {
+    if ((typeof(testName) !== 'undefined') && (typeof(testName) === 'string') &&
+    (testName.length > 0)) {
         return true;
     }
 
@@ -33,7 +34,7 @@ function checkName(testName) {
 }
 
 function checkMail(testMail) {
-    if ((testMail === undefined) || (typeof(testMail) === 'string')) {
+    if ((typeof(testMail) === 'undefined') || (typeof(testMail) === 'string')) {
         return true;
     }
 
@@ -51,7 +52,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if ((!checkName(name)) || !(/^\d{10}$/.test(phone))) {
+    if ((!checkName(name)) || (!(/^\d{10}$/.test(phone)) || (!checkMail(email)))) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -68,9 +69,6 @@ exports.update = function (phone, name, email) {
 
 
 exports.findAndRemove = function (query) {
-    if ((query === undefined) || (query === '') || (!query)) {
-        return [];
-    }
     var finds = exports.find(query);
     phoneBook = phoneBook.filter(isMatch);
     function isMatch(person) {
@@ -87,7 +85,7 @@ exports.findAndRemove = function (query) {
 };
 exports.find = function (query) {
     var result = [];
-    if ((!query) || (query === '') || (query === undefined)) {
+    if ((typeof(query) !== 'string') || (query.length <= 0)) {
         return [];
     }
     if (query === '*') {
