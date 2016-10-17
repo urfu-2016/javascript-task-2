@@ -33,13 +33,13 @@ function validEmail(email) {
 
 function correctMail(mail) {
     if (typeof mail === 'undefined') {
-    
+
         return true;
 
     }
 
     if (typeof mail === 'string' && mail !== '') {
-  
+
         return true;
 
     }
@@ -55,7 +55,7 @@ function correctMail(mail) {
 * @param {String} email
 * @returns {Bool} – успех или не успех операции
 */
-exports.add = function(phone, name, email) {
+exports.add = function (phone, name, email) {
     if (!correctNumber(phone)) {
 
         return false;
@@ -87,7 +87,7 @@ exports.add = function(phone, name, email) {
  * @param {String} email
  * @returns {Bool} – успех или не успех операции
  */
-exports.update = function(phone, name, email) {
+exports.update = function (phone, name, email) {
     if (!correctNumber(phone)) {
 
         return false;
@@ -107,17 +107,28 @@ exports.update = function(phone, name, email) {
         name: name,
         email: validEmail(email)
     };
-    
+
     return true;
 
 };
 
+function gettingRightNumbers(query) {
+    var search = [];
+
+    for (var number in phoneBook) {
+        if (number && successFind(query, number)) {
+            search.push(number);
+        }
+    }
+
+    return search;
+}
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
  * @returns {Number} – кол-во удалённых записей
  */
-exports.findAndRemove = function(query) {
+exports.findAndRemove = function (query) {
     var firstSize = Object.keys(phoneBook).length;
     if (query === '*') {
         phoneBook = {};
@@ -130,12 +141,8 @@ exports.findAndRemove = function(query) {
         return 0;
 
     }
-    var searchForDelete = [];
-    for (var number in phoneBook) {
-        if (number && successFind(query, number)) {
-            searchForDelete.push(number);
-        }
-    }
+    var searchForDelete = gettingRightNumbers(query);
+
     if (searchForDelete.length === 0) {
 
         return 0;
@@ -186,13 +193,14 @@ function successFind(query, phone) {
 exports.find = function (query) {
     if (query === '*') {
 
-        return Object.keys(phoneBook).map(function(element) {
+        return Object.keys(phoneBook).map(function (element) {
             var realEmail = emailSugar(phoneBook[element].email);
 
-            return phoneBook[element].name + ", " + comfortFormat(
+            return phoneBook[element].name + ', ' + comfortFormat(
                 element) + realEmail;
 
-        }).sort();
+        })
+        .sort();
     }
     if (!correctData(query)) {
 
@@ -216,7 +224,8 @@ exports.find = function (query) {
         return phoneBook[element].name + ', ' + comfortFormat(
             element) + realEmail;
 
-    }).sort();
+    })
+    .sort();
 };
 
 /**
