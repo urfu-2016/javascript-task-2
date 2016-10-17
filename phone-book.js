@@ -42,7 +42,8 @@ function isString(name) {
     return true;
 }
 
-function isCorrectPhone(phone) {
+function isCorrectPhone(phone1) {
+    var phone = String(phone1);
     if (phone === '') {
         return true;
     }
