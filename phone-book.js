@@ -66,8 +66,13 @@ exports.update = function (phone, name, email) {
  * @returns {Number}
  */
 exports.findAndRemove = function (query) {
-    if (query === '' || typeof(query) !== 'string') {
+    if (query === '') {
         return 0;
+    }
+    if (query === '*') {
+        var count = Object.keys(phoneBook).length;
+        phoneBook = {};
+        return count;
     }
     var findRec = searchString(query);
     findRec.forEach(function (x) {
@@ -83,7 +88,7 @@ exports.findAndRemove = function (query) {
  * @returns {Array}
  */
 exports.find = function (query) {
-    if (query === '' || typeof(query) !== 'string') {
+    if (query === '') {
         return [];
     }
     if (query === '*') {
