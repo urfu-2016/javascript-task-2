@@ -46,7 +46,9 @@ function addEntry(name, phone, email) {
     if (email === undefined) {
         phoneBook.push([name, phone]);
     }
-    phoneBook.push([name, phone, email]);
+    else {
+        phoneBook.push([name, phone, email]);
+    }
 
     return true;
 }
