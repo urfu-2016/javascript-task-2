@@ -40,6 +40,12 @@ function update(phone, name, email) {
 }
 
 exports.findAndRemove = function (query) {
+    if (query === '*') {
+        var count = phoneBook.length;
+        phoneBook = {};
+
+        return count;
+    }
     var foundPhones = findPhones(query);
     for (var i = 0; i < foundPhones.length; i++) {
         delete phoneBook[foundPhones[i]];
