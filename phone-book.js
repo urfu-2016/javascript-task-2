@@ -137,7 +137,7 @@ exports.find = function (query) {
     for (var i = 0; i < phoneBook1.length; i++) {
         if (isCorrectQuery(phoneBook1[i], query)) {
             var x = parsePhone(phoneBook1[i]._phone);
-            if (isString(phoneBook[i]._email)) {
+            if (typeof phoneBook[i]._email !== 'undefined') {
                 x = x + ', ' + phoneBook[i]._email;
             }
             arr.push(phoneBook1[i]._name + x);
