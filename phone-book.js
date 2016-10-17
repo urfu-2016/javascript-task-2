@@ -81,7 +81,7 @@ exports.update = function (phone, name, email) {
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone.toString()) {
             phoneBook[i].name = name.toString();
-            phoneBook[i].email = email.toString();
+            phoneBook[i].email = email;
         }
     }
 
