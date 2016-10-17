@@ -58,7 +58,7 @@ exports.update = function (phone, name, email) {
 
             return true;
         }
-    phoneBook[phone].email = email;
+        phoneBook[phone].email = email;
     }
 
     return false;
@@ -86,7 +86,7 @@ exports.findAndRemove = function (query) {
         phone.replace('-', '');
         delete phoneBook[phone];
 
-    return length;
+        return length;
     }
 };
 
@@ -96,14 +96,14 @@ exports.findAndRemove = function (query) {
  * @returns {Array}
  */
 exports.find = function (query) {
-	var records = [];
+    var records = [];
     var contactProperties = [];
     var properties = Object.getOwnPropertyNames(phoneBook);
-	if (query === '*') {
+    if (query === '*') {
         records = findAll(properties, records, contactProperties);
 
         return records;
-	}
+    }
     for (var i = 0; i < properties.length; i++) {
         contactProperties = Object.getOwnPropertyNames(phoneBook[properties[i]]);
         if (properties[i].indexOf(query) > -1) {
@@ -130,7 +130,7 @@ function findAll(properties, records, contactProperties) {
         }
         records.sort();
 
-return records;
+    return records;
 }
 
 function ifEmail(contactProperties, properties, i, records) {
@@ -144,12 +144,11 @@ function ifEmail(contactProperties, properties, i, records) {
         records.push(record);
     }
 
-return records;
+    return records;
 }
 
 function toChangePhone(phone) {
-    return '+7 ' + '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
-     '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+    return '+7 ' + '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) + '-' + phone.slice(8);
 }
 
 /**
