@@ -135,17 +135,21 @@ function strPhone(phone) {
     return str;
 }
 
+function addDataTwo(h, res){
+	arr[h].forEach(function (item) {
+        var strP = strPhone(phoneBook.phone[item]);
+        if (phoneBook.email[item] === '') {
+            res.push(phoneBook.name[item] + ', ' + strP);
+        } else {
+            res.push(phoneBook.name[item] + ', ' + strP + ', ' + phoneBook.email[item]);
+        }
+    })
+}
+
 function dictionary(arr) {
     var res = [];
     for (var i = 0; i < arr.length; i++) {
-        arr[i].forEach(function (item) {
-            var strP = strPhone(phoneBook.phone[item]);
-            if (phoneBook.email[item] === '') {
-                res.push(phoneBook.name[item] + ', ' + strP);
-            } else {
-                res.push(phoneBook.name[item] + ', ' + strP + ', ' + phoneBook.email[item]);
-            }
-        })
+        ddDataTwo (h, res);
     }
 
     return res.sort();
