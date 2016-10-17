@@ -34,17 +34,19 @@ exports.add = function (phone, name, email) {
 
 function isDataCorrect(phone, email, name) {
     var rePhone = /^\d\d\d\d\d\d\d\d\d\d$/;
-    var isPhoneCorrect = rePhone.test(phone);
+    var isPhoneCorrect = rePhone.test(phone) && typeof(phone) === 'string';
 
     var isEmailCorrect = null;
     if (email === undefined) {
         isEmailCorrect = true;
     } else {
         var reEmail = /^\w+@\w[\w-]*?(\.\w+)+$/;
-        isEmailCorrect = reEmail.test(email);
+        isEmailCorrect = reEmail.test(email) && typeof(email) === 'string';
     }
 
-    var isNameCorrect = name !== undefined;
+    var isNameCorrect = name !== undefined &&
+        name.length !== 0 &&
+        typeof(name) === 'string';
 
     return isEmailCorrect && isPhoneCorrect && isNameCorrect;
 }
@@ -116,7 +118,8 @@ function findContact(query) {
         } else if (item.name.indexOf(query) > -1 ||
             item.phone.indexOf(query) > -1 ||
             item.email.indexOf(query) > -1) {
-            result.push(new FoundRecords(item, i - removeIndex++));
+            var newItem = new Entry(item.name, item.phone, item.email);
+            result.push(new FoundRecords(newItem, i - removeIndex++));
         }
     });
 
