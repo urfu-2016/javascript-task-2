@@ -24,17 +24,6 @@ function checkPhoneAndName(phone, name) {
     return true;
 }
 
-function checkIfExists(phone) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
-
-            return i;
-        }
-    }
-
-    return -1;
-}
-
 function findAnyMatches(query) {
     var result = [];
     for (var i = 0; i < phoneBook.length; i++) {
@@ -48,25 +37,34 @@ function findAnyMatches(query) {
     return result;
 }
 
+/**
+ * Добавление записи в телефонную книгу
+ * @param {String} phone
+ * @param {String} name
+ * @param {String} email
+ * @returns {Boolean}
+ */
 exports.add = function (phone, name, email) {
     if (!checkPhoneAndName(phone, name)) {
 
         return false;
     }
 
-    if (checkIfExists(phone) !== -1) {
+    var isExist = phoneBook.some(function (item) {
 
-        return false;
+        return phone === item.phone;
+    });
+
+    if (!isExist) {
+
+        if (email === undefined || typeof email !== 'string') {
+            email = '';
+        }
+
+        phoneBook.push({ phone: phone, name: name, email: email });
+
+        return true;
     }
-
-    if (email === undefined || typeof email !== 'string') {
-        email = '';
-    }
-    phoneBook.push({ phone: phone, name: name, email: email });
-
-    return true;
-
-
 };
 
 /**
@@ -81,7 +79,11 @@ exports.update = function (phone, name, email) {
 
         return false;
     }
-    var objIndex = checkIfExists(phone);
+    var objIndex = phoneBook.findIndex(function (item) {
+
+        return phone === item.phone;
+    });
+
     if (objIndex === -1) {
 
         return false;
@@ -101,6 +103,11 @@ exports.update = function (phone, name, email) {
  * @returns {Number} - количество удаленных записей
  */
 exports.findAndRemove = function (query) {
+    if (!query || typeof query !== 'string') {
+
+        return 0;
+    }
+
     if (query === '*') {
 
         return resultDeletedPhoneBook(-1);
@@ -110,6 +117,13 @@ exports.findAndRemove = function (query) {
 };
 
 function resultDeletedPhoneBook(query) {
+    if (query === -1) {
+        var len = phoneBook.length;
+        phoneBook = [];
+
+        return len;
+    }
+
     var arrayForDelete = findAnyMatches(query);
     for (var i = 0; i < arrayForDelete.length; i++) {
         phoneBook = phoneBook.splice(arrayForDelete[i], 1);
