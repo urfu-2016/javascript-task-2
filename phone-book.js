@@ -79,6 +79,10 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var lengthPhoneBook = phoneBook.length;
+    if (!query) {
+        return 0;
+    }
+
     if (query === '*') {
         phoneBook = [];
 
