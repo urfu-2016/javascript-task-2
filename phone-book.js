@@ -30,15 +30,17 @@ function checkExist(phone) {
 
 function testPhone(phone) {
     var regvalidPhone = /\d{10}/;
+    var valid =  regvalidPhone.test(phone) || phone !== undefined;
 
-    return regvalidPhone.test(phone);
+    return phone !== '' && typeof(phone) === 'string';
 }
 
 
 function testEmail(email) {
     var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/;
+    var valid = regvalidEmail.test(email) || email !== undefined;
 
-    return regvalidEmail.test(email) || email === undefined;
+    return email !== '' && typeof(email) === 'string' && valid;
 }
 
 
