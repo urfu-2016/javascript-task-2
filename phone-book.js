@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -54,7 +54,7 @@ function createRecord(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {Boolean} success
+ * @returns {Boolean}
  */
 function add(phone, name, email) {
     if (!areValid(phone, name, email)) {
@@ -74,7 +74,7 @@ function add(phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {Boolean} success
+ * @returns {Boolean}
  */
 function update(phone, name, email) {
     if (!areValid(phone, name, email)) {
@@ -105,7 +105,7 @@ function findPhone(phone) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
- * @returns {int} length
+ * @returns {int}
  */
 exports.findAndRemove = function (query) {
     var found = findAll(query);
@@ -121,7 +121,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {Array} sortedStringArray
+ * @returns {Array}
  */
 exports.find = function (query) {
     if (typeof query !== 'string' || query === '') {
