@@ -58,7 +58,7 @@ function validMail(email) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isPhone(phone) || !validMail(email) || !validName(name) || inPhoneBook(phone)) {
+    if (!isPhone(phone) || !validName(name) || inPhoneBook(phone)) {
 
         return false;
     }
