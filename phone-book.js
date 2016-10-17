@@ -99,8 +99,6 @@ exports.update = function (phone, name, email) {
 
     }
 
-    
-
     if (!(phone in phoneBook)) {
 
         return false;
@@ -120,7 +118,7 @@ function gettingRightNumbers(query) {
     var quer = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     var keys = Object.keys(phoneBook);
     for (var id = 0; id < keys.length; id++) {
-        
+
         if (successFind(quer, keys[id])) {
             search.push(keys[id]);
         }
