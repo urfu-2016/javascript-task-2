@@ -37,10 +37,11 @@ exports.add = function (phone, name, email) {
         _name: name,
         _email: email
     };
-    if (name === '' || typeof name === 'undefined') {
+    if (name === '' || typeof name === 'undefined' || name === null) {
         return false;
     }
-    if (phone.length !== 10) {
+    var reg = '[0123456789]{10}';
+    if (!phone.match(reg) || phone.length !== 10) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
