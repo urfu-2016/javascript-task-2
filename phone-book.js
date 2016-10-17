@@ -22,13 +22,12 @@ function findNodeByPhone(phone) {
     var existNodeIndex = phoneBook.findIndex(function(node, index, array) {
         if (node.phone === phone) {
             return true;
-        } 
-        
+        }
         return false;
     });
 
     return existNodeIndex;
-};
+}
 
 exports.add = function (phone, name, email) {
     var regPhone = /^\d{10}$/;
@@ -36,7 +35,6 @@ exports.add = function (phone, name, email) {
     if (!regPhone.test(phone) || !name) {
         return false;
     }
-    
     if(findNodeByPhone(phone) !== -1) {
         return false;
     }
@@ -59,10 +57,10 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     var indexInPhoneBook = findNodeByPhone(phone);
     email = (!email)? '':email;
-    if(indexInPhoneBook === -1) {
+    if (indexInPhoneBook === -1) {
         return false;
     }
-    if(!name) {
+    if (!name) {
         return false;
     }
     phoneBook[indexInPhoneBook].name = name;
@@ -77,13 +75,13 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var lengthPhoneBook = phoneBook.length;
-    if(query === '*') {
+    if (query === '*') {
         phoneBook = [];
         return lengthPhoneBook;
     }
     phoneBook = phoneBook.filter(function(node) {
         var findField = ['phone', 'name', 'email'];
-        for(var i = 0; i < findField.length; i++) {
+        for (var i = 0; i < findField.length; i++) {
             if (node[findField[i]].indexOf(query) !== -1) {
                 return false;
             }
@@ -98,24 +96,24 @@ exports.findAndRemove = function (query) {
  * @param {String} query
  */
 
- function compareNode(nodeA, nodeB) {
-    if(nodeA.name > nodeB.name) {
+function compareNode(nodeA, nodeB) {
+    if (nodeA.name > nodeB.name) {
         return 1;
     }
-    if(nodeA.name < nodeB.name) {
+    if (nodeA.name < nodeB.name) {
         return -1;
     }
-    if(nodeA.name === nodeB.name) {
+    if (nodeA.name === nodeB.name) {
         return 0;
     }
- }
+}
 
 exports.find = function (query) {
-    if(!query) {
+    if (!query) {
         return [];
     }
     var findedPhones;
-    if(query === '*') {
+    if (query === '*') {
         findedPhones = phoneBook;
     }
     else {
@@ -136,8 +134,8 @@ exports.find = function (query) {
         var formattedPhone = '+7 (' + phone[1] + ') ' + phone[2] + '-' + phone[3] + '-' + phone[4];
         resultNode.push(node.name);
         resultNode.push(formattedPhone);
-        if(node.email){
-           resultNode.push(node.email); 
+        if (node.email){
+            resultNode.push(node.email); 
         }
     });
 
