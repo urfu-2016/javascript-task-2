@@ -24,19 +24,6 @@ function checkPhoneAndName(phone, name) {
     return true;
 }
 
-function findAnyMatches(query) {
-    var result = [];
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone.indexOf(query) !== -1 ||
-            phoneBook[i].name.indexOf(query) !== -1 ||
-            phoneBook[i].email.indexOf(query) !== -1) {
-            result.push(i);
-        }
-    }
-
-    return result;
-}
-
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -56,15 +43,15 @@ exports.add = function (phone, name, email) {
     });
 
     if (!isExist) {
-
         if (email === undefined || typeof email !== 'string') {
             email = '';
         }
-
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
     }
+
+    return false
 };
 
 /**
@@ -117,19 +104,28 @@ exports.findAndRemove = function (query) {
 };
 
 function resultDeletedPhoneBook(query) {
+    var len;
     if (query === -1) {
-        var len = phoneBook.length;
+        len = phoneBook.length;
         phoneBook = [];
 
         return len;
     }
 
-    var arrayForDelete = findAnyMatches(query);
-    for (var i = 0; i < arrayForDelete.length; i++) {
-        phoneBook = phoneBook.splice(arrayForDelete[i], 1);
-    }
+    var newPhoneBook = phoneBook.filter(function (item) {
+        var result = item.phone.indexOf(query) === -1 &&
+            item.name.indexOf(query) === -1;
+        if (item.email) {
+            result = result && item.email.indexOf(query) === -1;
+        }
 
-    return arrayForDelete.length;
+        return result;
+    });
+
+    len = phoneBook.length - newPhoneBook.length;
+    phoneBook = newPhoneBook;
+
+    return len;
 }
 
 /**
