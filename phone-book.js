@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -33,16 +33,8 @@ function checkName(testName) {
     return false;
 }
 
-function checkMail(testMail) {
-    if ((typeof(testMail) === 'undefined') || (typeof(testMail) === 'string')) {
-        return true;
-    }
-
-    return false;
-}
-
 exports.add = function (phone, name, email) {
-    if (checkPhone(phone) && checkName(name) && (checkMail(email))) {
+    if (checkPhone(phone) && checkName(name)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -52,7 +44,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if ((!checkName(name)) || (!(/^\d{10}$/.test(phone)) || (!checkMail(email)))) {
+    if ((!checkName(name))) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -89,11 +81,10 @@ exports.find = function (query) {
         return [];
     }
     if (query === '*') {
-        result = phoneBook.slice();
-    } else {
-        result = phoneBook.filter(findEntry);
+        return phoneBook.sort(bookSort).map(correctOutput);
     }
-
+    result = phoneBook.filter(findEntry).sort(bookSort)
+    .map(correctOutput);
 
     function findEntry(person) {
         if (person.email !== undefined) {
@@ -105,7 +96,7 @@ exports.find = function (query) {
         return ((person.name.indexOf(query) !== -1) ||
         (person.phone.indexOf(query) !== -1));
     }
-    result.sort(function (a, b) {
+    function bookSort(a, b) {
         if (a.name > b.name) {
             return 1;
         }
@@ -114,7 +105,7 @@ exports.find = function (query) {
         }
 
         return 0;
-    });
+    }
     function correctPhoneOutput(phone) {
         return '+7 (' + phone.slice(0, 3) + ') ' +
         phone.slice(3, 6) + '-' + phone.slice(6, 8) + '-' +
@@ -129,7 +120,7 @@ exports.find = function (query) {
         return person.name + ', ' + correctPhoneOutput(person.phone);
     }
 
-    return result.map(correctOutput);
+    return result;
 };
 
 /**
