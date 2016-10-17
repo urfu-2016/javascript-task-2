@@ -115,7 +115,7 @@ exports.find = function (query) {
         }
 
         return res.sort();
-}
+    }
 };
 
 function zv() {
@@ -183,3 +183,4 @@ exports.importFromCsv = function (csv) {
     // }
     return csv.split('\n').length;
 };
+
