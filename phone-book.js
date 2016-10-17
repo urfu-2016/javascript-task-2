@@ -19,8 +19,8 @@ var phoneBook = [];
  * @returns {boolean}
  */
 exports.isCorrect = function (phone, name, email) {
-    var cPhone = ((/\d{10}/.exec(phone)) && (typeof phone === 'string') &&
-    (phone[0] === phone[1]) && (phone[1] === phone[2]) && (phone[3] === phone[4]) &&
+    var cPhone = ((/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
+    (phone[1] === phone[2]) && (phone[3] === phone[4]) &&
     (phone[4] === phone[5]) && (phone[6] === phone[7]) && (phone[8] === phone[9]));
     var cName = ((name !== '') && (typeof name === 'string'));
     var cEmail = (typeof email === 'string');
@@ -75,7 +75,7 @@ exports.update = function (phone, name, email) {
     }
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
-        if (exports.isExist(phone)) {
+        if ((exports.isExist(phone)) && (note.phone === phone)) {
             note.name = name;
             note.email = email;
 
@@ -96,9 +96,10 @@ exports.findAndRemove = function (query) {
     var deletedNote = 0;
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
-        if (exports.findInNote (note, query)) {
+        if (!(exports.findInNote (note, query))) {
             result.push({ 'email': note.email, 'name': note.name,
             'phone': exports.phoneToPrint(note.phone) });
+        } else {
             deletedNote ++;
         }
     }
@@ -144,8 +145,8 @@ exports.find = function (query) {
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
         if (exports.findInNote (note, query)) {
-            result.push({ 'email': note.email, 'name': note.name,
-            'phone': exports.phoneToPrint(note.phone) });
+            result.push(note.name + ', ' + exports.phoneToPrint(note.phone) + ', ' +
+            note.email);
         }
     }
 
