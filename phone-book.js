@@ -83,7 +83,7 @@ exports.findAndRemove = function (query) {
     }
     var searchResult = search(query);
     if (searchResult === false) {
-        return null;
+        return 0;
     }
     var positionsToRemove = searchResult.slice();
     for (var i = 0; i < searchResult.length; i++) {
