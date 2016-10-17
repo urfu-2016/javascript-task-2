@@ -40,6 +40,9 @@ function isString(name) {
 }
 
 function isCorrectPhone(phone) {
+    if (phone === '') {
+        return true;
+    }
     var reg = '[0123456789]{10}';
     if (!phone.match(reg) || phone.length !== 10) {
         return false;
@@ -55,9 +58,6 @@ exports.add = function (phone, name, email) {
         _email: email
     };
     if (!isString(name)) {
-        return false;
-    }
-    if (!isString(email)) {
         return false;
     }
     if (!isCorrectPhone(phone)) {
