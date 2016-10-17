@@ -168,10 +168,12 @@ function findIndexsOfRecords(query) {
     }
     var indexsOfRecords = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        var reg = new RegExp(query, 'i');
-        var testName = reg.test(phoneBook[i].name);
-        var testPhone = reg.test(phoneBook[i].phone);
-        var testEmail = phoneBook[i].email !== '' && reg.test(phoneBook[i].email);
+        // var testName = reg.test(phoneBook[i].name);
+        // var testPhone = reg.test(phoneBook[i].phone);
+        // var testEmail = phoneBook[i].email !== '' && reg.test(phoneBook[i].email);
+        var testName = phoneBook[i].name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        var testPhone = phoneBook[i].phone.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        var testEmail = phoneBook[i].email.toLowerCase().indexOf(query.toLowerCase()) !== -1;
         if (testName || testPhone || testEmail) {
             indexsOfRecords.push(i);
         }
