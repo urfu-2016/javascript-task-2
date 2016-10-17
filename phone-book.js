@@ -136,7 +136,7 @@ exports.findAndRemove = function (query) {
  */
 exports.find = function (query) {
     if (!validName(query)) {
-        return;
+        return [];
     }
     var allFound = [];
     var addnote = (query === '*');
