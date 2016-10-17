@@ -91,17 +91,21 @@ function setRecordStatus(checkPhone) {
  */
 exports.update = function (phone, name, email) {
     var regPhone = /^\b[\d]{10}\b$/m;
-    if (name === undefined || !regPhone.test(phone)) {
+    if (!regPhone.test(phone) || typeof phone !== 'string') {
         return false;
     }
 
+    if (!validateInputName(name) || !validateInputEmail(email)) {
+        return false;
+    }
+    var count = phoneBook.filter(searchByPhone).length !== 0;
     phoneBook.forEach(searchByPhone);
 
-// callback функция для проверки существования телефона и обнавления данных
+    // callback функция для проверки существования телефона и обнавления данных
     function searchByPhone(item) {
-        if (item.phone === phone) {
+        if (item.phone === phone && (item.name !== name || item.email !== email)) {
             item.name = name;
-            if (email === undefined) {
+            if (email === undefined || !email) {
                 delete item.email;
             } else {
                 item.email = email;
@@ -113,7 +117,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    return phoneBook.filter(searchByPhone).length !== 0;
+    return count;
 };
 
 /*
