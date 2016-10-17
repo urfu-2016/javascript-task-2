@@ -34,8 +34,10 @@ function isFound(i, q) {
     return false;
 }
 
-function isString(name) {
-    if (name === '' || typeof name === 'undefined' || name === null) {
+function isString(m) {
+    var reg = /\s+/;
+    var n = String(m);
+    if (n === '' || typeof m === 'undefined' || m === null  || n.match(reg)) {
         return false;
     }
 
