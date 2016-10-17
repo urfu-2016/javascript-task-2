@@ -121,7 +121,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} обновили или нет
  */
 exports.update = function (phone, name, email) {
-    if (correctData(name) === 0) {
+    if (correctData(phone) === false) {
 
         return false;
     }
