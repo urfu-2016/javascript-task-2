@@ -3,14 +3,17 @@
 function strAndEmp(phone, name) {
     var isString = typeof name !== 'string';
     var isEmpty = name === '' || phone === '';
+    var isUndefuned = typeof name === 'undefined';
 
-    return isString || isEmpty;
+    return isString || isEmpty || isUndefuned;
 }
 
 function check(phone, name) {
     var isStringP = typeof Number(phone) !== 'number';
     var isPositive = Number(phone) < 0;
-    if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || isPositive) {
+    var reg = !/^[0-9]{10}$/.test(phone) || isPositive;
+
+    if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || reg) {
 
         return false;
     }
