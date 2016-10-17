@@ -5,8 +5,15 @@ exports.isStar = true;
 var phoneBook = {};
 
 exports.add = function (phone, name, email) {
-    if (!isHavePhone(phone)) {
-        return update(phone, name, email);
+    if (isCorrectPhone(phone) && name && !isHavePhone(phone)) {
+        phoneBook[phone] = {
+            name: name
+        };
+        if (email) {
+            phoneBook[phone].email = email;
+        }
+
+        return true;
     }
 
     return false;
@@ -22,10 +29,8 @@ function isHavePhone(phone) {
     return phoneBook.hasOwnProperty(phone);
 }
 
-exports.update = update;
-
-function update(phone, name, email) {
-    if (isCorrectPhone(phone) && name) {
+exports.update = function (phone, name, email) {
+    if (isCorrectPhone(phone) && name && isHavePhone(phone)) {
         phoneBook[phone] = {
             name: name
         };
@@ -37,7 +42,7 @@ function update(phone, name, email) {
     }
 
     return false;
-}
+};
 
 exports.findAndRemove = function (query) {
     var foundPhones = findPhones(query);
@@ -108,8 +113,10 @@ exports.importFromCsv = function (csv) {
     var success = 0;
     for (var i = 0; i < items.length; i++) {
         var item = items[i].split(';');
-        if ((item.length === 2 && update(item[1], item[0])) ||
-            (item.length === 3 && update(item[1], item[0], item[2]))) {
+        if ((item.length === 2 && 
+            (this.add(item[1], item[0]) || this.update(item[1], item[0]))) ||
+            (item.length === 3 && 
+            (this.add(item[1], item[0], item[2]) || this.update(item[1], item[0], item[2])))) {
             success++;
         }
     }
