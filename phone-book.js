@@ -56,7 +56,7 @@ function isEmailCorrect(email) {
  * @returns {Boolean} success
  */
 exports.update = function (phone, name, email) {
-    if (!name || !isPhoneCorrect(phone)) {
+    if (!name || !isPhoneCorrect(phone) || !isEmailCorrect(email)) {
         return false;
     }
 
