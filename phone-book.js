@@ -32,7 +32,7 @@ exports.isCorrect = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {Integer} индекс вхождения
+ * @returns {Number} индекс вхождения
  */
 exports.indexOf = function (phone) {
     for (var i = 0; i < phoneBook.length; i++) {
@@ -95,7 +95,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
- * @returns {Integer} количество удаленных записей
+ * @returns {Number} количество удаленных записей
  */
 exports.findAndRemove = function (query) {
     var result = [];
