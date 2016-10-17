@@ -18,17 +18,52 @@ var phoneBook = [];
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
-    var regPhone = /^\b[\d]{10}\b$/m;
+    var phoneBookData = {};
+    var inputPhone = validateInputPhone(phone, name, email);
+    var inputName = validateInputName(name);
+    var inputEmail = validateInputEmail(email);
 
-    if (!regPhone.test(phone) || name === undefined || !setRecordStatus(phone)) {
+    if (!inputPhone || !inputName || !inputEmail) {
         return false;
     }
 
-    var phoneBookData = { phone: phone, name: name, email: email };
+    if (email) {
+        phoneBookData = { phone: phone, name: name, email: email };
+    } else {
+        phoneBookData = { phone: phone, name: name };
+    }
     phoneBook.push(phoneBookData);
 
     return true;
 };
+
+function validateInputPhone(phone, name, email) {
+    var regPhone = /^\b[\d]{10}\b$/m;
+
+    if (!regPhone.test(phone) || !setRecordStatus(phone, name, email)) {
+        return false;
+    }
+
+    return true;
+}
+
+function validateInputName(name) {
+
+    if (!name || typeof name !== 'string' || name === undefined) {
+        return false;
+    }
+
+    return true;
+}
+
+function validateInputEmail(email) {
+
+    if ((email !== undefined && typeof email !== 'string')) {
+        return false;
+    }
+
+    return true;
+}
 
 // Функция проверяет существование записи в телефонной книге
 function setRecordStatus(checkPhone) {
@@ -80,6 +115,10 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var count = 0;
 
+    if (!query || typeof query !== 'string') {
+        return 0;
+    }
+
     while (findForRemove(query)) {
         count++;
     }
@@ -112,8 +151,8 @@ function findForRemove(query) {
  */
 exports.find = function (query) {
 
-    if (!query) {
-        return;
+    if (!query || typeof query !== 'string') {
+        return [];
     }
 
     var contactList = searchByContacts(query);
@@ -189,6 +228,10 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    if (typeof csv !== 'string') {
+        return 0;
+    }
+
     var count = 0;
     var newArr = csv.split('\n');
 
