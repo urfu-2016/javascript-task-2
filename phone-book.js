@@ -138,7 +138,7 @@ exports.find = function (query) {
 
         return [];
     }
-    
+
     if (query === '*') {
 
         return resultPhoneBook(phoneBook);
