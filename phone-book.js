@@ -88,10 +88,12 @@ exports.findAndRemove = function (query) {
     var length = records.length;
     for (var j = 0; j < records.length; j++) {
         var phone = records[j].split(',')[1];
-        phone.replace('+7 ', '');
-        phone.replace('(', '');
-        phone.replace(') ', '');
-        phone.replace('-', '');
+        phone = phone.replace('+7 ', '');
+        phone = phone.replace('(', '');
+        phone = phone.replace(') ', '');
+        phone = phone.replace('-', '');
+        phone = phone.replace('-', '');
+        console.log(phone);
         delete phoneBook[phone];
 
         return length;
