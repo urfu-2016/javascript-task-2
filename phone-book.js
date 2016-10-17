@@ -11,8 +11,6 @@ exports.isStar = true;
  */
 var phoneBook = [];
 var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
-//var nameRegExp = /^[a-zA-Zа-яА-Я ]+$/;
-//var emailRegExp = /^([a-zA-Z0-9_]+)@([a-zA-Z0-9_]+).([a-zA-Z0-9_]+)$/;
 
 function phoneFormat(phone) {
     var phoneMatch = phone.match(phoneRegExp);
