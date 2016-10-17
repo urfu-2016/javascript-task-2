@@ -79,7 +79,7 @@ exports.add = function (phone, name, email) {
 
 function boolUpd(phone, name, email) {
 
-    return (!inPhoneBook(phone) || !validName(name) || !isPhone(phone));
+    return (!inPhoneBook(phone) || !validMail(email) || !validName(name) || !isPhone(phone));
 }
 
 /**
@@ -90,7 +90,7 @@ function boolUpd(phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (boolUpd) {
+    if (boolUpd(phone, name, email) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
