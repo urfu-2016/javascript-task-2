@@ -47,7 +47,7 @@ function getCorrectData(phone, name, email) {
 
     if (getMatch(phone, /^\d{10}$/)) {
         data[phone] = {};
-        if (typeof name !== 'string') {
+        if (typeof name !== 'string' || name.length === 0) {
             return false;
         }
 
@@ -80,7 +80,7 @@ function getMatch(string, regExp) {
  */
 exports.update = function (phone, name, email) {
     var data = getCorrectData(phone, name, email);
-    if (!data || !phoneBook.hasOwnProperty(phone)) {
+    if (!data || !phoneBook.hasOwnProperty(phone) || !name) {
         return false;
     }
 
