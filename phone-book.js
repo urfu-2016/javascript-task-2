@@ -52,7 +52,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} is it correct
  */
 exports.update = function (phone, name, email) {
-    if (!isCorrectInput(phone, name, email) && mySearch(phone)) {
+    if (!isCorrectInput(phone, name, email) || !mySearch(phone)) {
         return false;
     }
     function changing(item) {
