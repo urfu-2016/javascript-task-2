@@ -235,7 +235,7 @@ exports.find = function (query) {
         // var realEmail = emailSugar(phoneBook[element].email);
         if (phoneBook[element].email) {
 
-            return phoneBook[element].name + ', ' + comfortFormat(element) + ', ' + 
+            return phoneBook[element].name + ', ' + comfortFormat(element) + ', ' +
             phoneBook[element].email;
 
         }
