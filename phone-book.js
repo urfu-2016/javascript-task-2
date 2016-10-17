@@ -44,7 +44,7 @@ function createContact(phone, name, email) {
 function checkName(name) {
 
     return name !== undefined && typeof name === 'string' &&
-        name.length !== 0;
+        name.length !== 0 && name;
 }
 
 function checkPhone(phone) {
