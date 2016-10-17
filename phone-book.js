@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -19,7 +19,8 @@ var phoneBook = {};
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!phone || !name || phoneBook.hasOwnProperty(phone)) {
+    if (!name || phoneBook.hasOwnProperty(phone) || !phone) {
+
         return false;
     }
 
@@ -43,16 +44,16 @@ function getContact(phone, name, email) {
 
 function getCorrectData(phone, name, email) {
     var data = {};
-    var correctPhone = getMatch(phone, /^\d{10}$/);
 
-    if (correctPhone) {
-        data[correctPhone] = {};
+    if (getMatch(phone, /^\d{10}$/)) {
+        data[phone] = {};
         if (typeof name !== 'string' || name.length === 0) {
             return false;
         }
-        data[correctPhone].name = name;
-        data[correctPhone] = addEntryToData(
-            data[correctPhone], email, 'email', /^[\w\d_-]+@\w+-?\w+.\w{2,}$/);
+        data[phone].name = name;
+        if (typeof email === 'string') {
+            data[phone].email = email;
+        }
     } else {
         return false;
     }
@@ -69,20 +70,6 @@ function getMatch(string, regExp) {
     }
 }
 
-function addEntryToData(data, string, key, regExp) {
-    if (!data) {
-        return false;
-    }
-    var result = getMatch(string, regExp);
-    if (result) {
-        data[key] = string;
-    } else if (string) {
-        return false;
-    }
-
-    return data;
-}
-
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
@@ -92,7 +79,7 @@ function addEntryToData(data, string, key, regExp) {
  */
 exports.update = function (phone, name, email) {
     var data = getCorrectData(phone, name, email);
-    if (!data || !phoneBook.hasOwnProperty(phone) || !name) {
+    if (!data || !phoneBook.hasOwnProperty(phone)) {
         return false;
     }
 
