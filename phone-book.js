@@ -66,7 +66,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (!inPhoneBook(phone) || name === undefined || !isPhone(phone)) {
+    if (!inPhoneBook(phone) || name === undefined || name === '' || !isPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
