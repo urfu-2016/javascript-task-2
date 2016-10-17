@@ -1,6 +1,6 @@
 'use strict';
 
-exports.isStar = false;
+exports.isStar = true;
 
 var phoneBook = {};
 
@@ -19,7 +19,7 @@ function isCorrectPhone(phone) {
 }
 
 function isHavePhone(phone) {
-    return Object.keys(phoneBook).indexOf(phone) !== -1;
+    return phoneBook.hasOwnProperty(phone);
 }
 
 exports.update = update;
