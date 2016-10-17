@@ -55,17 +55,18 @@ exports.update = function (phone, name, email) {
 
 exports.findAndRemove = function (query) {
     var res = exports.find(query);
-    var new_ = split_(query);
+
+    /* var new_ = split_(query);
     var resa = slice_(query, new_);
     var newest = [];
     for (var j = 0; j < new_.length; j++) {
         newest = remove_(query, res[j], resa, j);
-    }
+    }*/
     for (var i = 0; i < res.length; i++) {
         delete_(res[i]);
     }
 
-    return newest.length;
+    return res.length;
 };
 
 function delete_(arr) {
@@ -90,7 +91,7 @@ function delete_(arr) {
     }
 }
 
-function remove_(query, element, array, idx) {
+/* function remove_(query, element, array, idx) {
     var res = exports.find(query);
     for (var m = 0; m < array.length; m++) {
         if (element.indexOf(array[m]) !== -1) {
@@ -122,7 +123,7 @@ function slice_(query, array) {
     }
 
     return resa;
-}
+}*/
 // 'Алексей;5551110011;alex@example.com',
 // 'Валерий;5553330033;valera@example.com',
 exports.find = function (query) {
