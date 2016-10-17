@@ -107,10 +107,12 @@ exports.findAndRemove = function (query) {
     resultIndex.push(findIndex(phoneBook.name, query));
     resultIndex.push(findIndex(phoneBook.email, query));
     if (resultIndex !== []) {
-		var arr = addIndexArray(resultIndex);
+        var arr = addIndexArray(resultIndex);
         phoneBook = addNewBook(arr);
+
         return arr.length;
     }
+
     return 0;
 };
 
@@ -136,14 +138,14 @@ function strPhone(phone) {
 }
 
 function addDataTwo(h, res){
-	arr[h].forEach(function (item) {
+    arr[h].forEach(function (item) {
         var strP = strPhone(phoneBook.phone[item]);
         if (phoneBook.email[item] === '') {
             res.push(phoneBook.name[item] + ', ' + strP);
         } else {
             res.push(phoneBook.name[item] + ', ' + strP + ', ' + phoneBook.email[item]);
         }
-    })
+    });
 }
 
 function dictionary(arr) {
@@ -156,7 +158,7 @@ function dictionary(arr) {
 }
 
 function addData(i, res) {
-    var strP = strPhone(phoneBook.phone[i])
+    var strP = strPhone(phoneBook.phone[i]);
     if (phoneBook.email[i] === '') {
         res.push(phoneBook.name[i] + ', ' + strP);
     } else {
