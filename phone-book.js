@@ -115,15 +115,10 @@ function checkEntry(phone) {
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
-    uPhone = phone;
-    uName = name;
+    uPhone = phone.trim();
+    uName = isEmptyQuery(name) ? false : name.trim();
 
     var checkEmail = isEmptyQuery(email) ? '' : email;
-
-    if (isEmptyQuery(uName)) {
-
-        return false;
-    }
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
 
@@ -151,7 +146,7 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var upPhone = '';
-    var checkEmail = isEmptyQuery(email) ? '' : email;
+    var checkEmail = isEmptyQuery(email) ? '' : email.trim().toLowerCase();
 
     if (isEmptyQuery(name) && isEmptyQuery(phone)) {
 
@@ -187,7 +182,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var counter = 0;
 
-    if (checkQuery(query)) {
+    if (checkQuery(query.trim())) {
 
         phoneBook.forEach(function (object, index) {
 
@@ -222,7 +217,7 @@ exports.find = function (query) {
     var findName;
     var findEmail;
 
-    if (checkQuery(query) && query !== '*' && query !== '') {
+    if (checkQuery(query.trim()) && query !== '*' && query !== '') {
 
         phoneBook.forEach(function (object, index) {
             findPhone = phoneBook[index].number;
@@ -278,5 +273,25 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    return csv.split('\n').length;
+    var csvArr = csv.split('\n');
+    var splitCsv;
+    var count = 0;
+
+    for (var i = 0; i < csvArr.length; i++) {
+
+        splitCsv = csvArr[i].split(';');
+        var csvName = splitCsv[0];
+        var csvPhone = splitCsv[1];
+        var csvEmail = splitCsv[2];
+        var competeAdd = exports.add(csvPhone, csvName, csvEmail);
+        var compeleUpdate = exports.update(csvPhone, csvName, csvEmail);
+
+        if (competeAdd || compeleUpdate) {
+
+            count++;
+        }
+
+    }
+
+    return count;
 };
