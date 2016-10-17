@@ -111,20 +111,19 @@ exports.find = function (query) {
             continue;
         }
         for (var j = 0; j < contactProperties.length; j++) {
-            records = checkProperties(properties, i, j, contactProperties, query, records);
+            if ((phoneBook[properties[i]][contactProperties[j]]).indexOf(query) > -1) {
+                records = checkProperties(properties, i, records);
+            }
         }
     }
-    records.sort();
 
-    return records;
+    return records.sort();
 };
 
-function checkProperties(properties, i, j, contactProperties, query, records) {
-    if ((phoneBook[properties[i]][contactProperties[j]]).indexOf(query) > -1) {
+function checkProperties(properties, i, records) {
         var record = phoneBook[properties[i]].name + ', ' + toChangePhone(properties[i]) +
          ', ' + phoneBook[properties[i]].email;
         records.push(record);
-    }
 
     return records;
 }
@@ -154,8 +153,9 @@ function ifEmail(contactProperties, properties, i, records) {
 }
 
 function toChangePhone(phone) {
-    var ph = '+7 ' + '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
-     '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+    var ph = '+7 ' + '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6);
+    ph += '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+
     return ph;
 }
 
