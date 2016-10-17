@@ -198,16 +198,17 @@ function helper(line) {
     }
     var isAdd = exports.add(info[1], info[0], info[2]);
     var isUpdate = exports.update(info[1], info[0], info[2]);
+
     return isUpdate || isAdd;
 }
 
 exports.importFromCsv = function (csv) {
-    var count = 0
-    if (typeof csv === 'string' ) {
-        var arrayLineCsv = csv.split('\n')
+    var count = 0;
+    if (typeof csv === 'string') {
+        var arrayLineCsv = csv.split('\n');
         arrayLineCsv.forEach(function (item) {
-           if (helper(item)) {
-                count += 1;
+            if (helper(item)) {
+               count += 1;
            }
         });
 
