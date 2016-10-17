@@ -137,7 +137,7 @@ function strPhone(phone) {
     return str;
 }
 
-function addDataTwo(h, res){
+function addDataTwo(h, res, arr) {
     arr[h].forEach(function (item) {
         var strP = strPhone(phoneBook.phone[item]);
         if (phoneBook.email[item] === '') {
@@ -151,7 +151,7 @@ function addDataTwo(h, res){
 function dictionary(arr) {
     var res = [];
     for (var i = 0; i < arr.length; i++) {
-        ddDataTwo (h, res);
+        addDataTwo (i, res, arr);
     }
 
     return res.sort();
