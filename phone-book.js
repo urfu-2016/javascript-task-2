@@ -53,6 +53,9 @@ exports.update = function (phone, name, email) {
     var flag = false;
     phoneBook = phoneBook.map(function (item) {
         if (item.phone === phone) {
+            if (exports.find(email).length !== 0) {
+                return item;
+            }
             if (name !== undefined) {
                 item.name = name;
             }
