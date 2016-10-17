@@ -62,7 +62,9 @@ exports.find = function (query) {
         if ((phone.indexOf(query) === -1) && (name.indexOf(query) === -1) && (query !== '*') &&
             (email && (email.indexOf(query) !== -1))) {
             array.push(name + ', ' + formatPhone(phone) + ', ' + email);
-        } else {
+        }
+
+        if ((phone.indexOf(query) !== -1) || (name.indexOf(query) !== -1) || (query === '*')) {
             array.push(name + ', ' + formatPhone(phone) + returnEmail(email));
         }
     }
