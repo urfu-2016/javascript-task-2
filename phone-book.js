@@ -11,15 +11,10 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-function isValidPhone(phone) {
+function isValidData(phone, name) {
     if (!phone || transformPhone(phone) === '') {
         return false;
     }
-
-    return true;
-}
-
-function isValidName(name) {
     if (!name) {
         return false;
     }
@@ -44,7 +39,7 @@ function transformPhone(phone) {
  * @returns {bool}
  */
 exports.add = function (phone, name, email) {
-    if (!isValidPhone(phone) || !isValidName(name)) {
+    if (!isValidData(phone, name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -57,7 +52,7 @@ exports.add = function (phone, name, email) {
         phone: phone,
         email: ''
     };
-    if (email !== undefined) {
+    if (email) {
         newRecord.email = email;
     }
     phoneBook.push(newRecord);
@@ -73,7 +68,7 @@ exports.add = function (phone, name, email) {
  * @returns {bool}
  */
 exports.update = function (phone, name, email) {
-    if (!isValidPhone(phone) || !isValidName(name)) {
+    if (!isValidData(phone, name)) {
         return false;
     }
     var indexOfNeedRecords = findIndexsOfRecords(phone);
