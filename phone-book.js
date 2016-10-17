@@ -33,12 +33,18 @@ exports.add = function (phone, name, email) {
 function createContact(phone, name, email) {
     var contact = Object();
     contact.name = name;
-    if (email !== undefined) {
+    if (email !== undefined && checkEmail(email)) {
         contact.email = email;
         phoneBook[phone] = contact;
     } else {
         phoneBook[phone] = contact;
     }
+}
+
+function checkEmail(email) {
+    var pattern = /[0-9a-z_]+@[0-9a-z_]+\.[a-z]{2,5}/i;
+
+    return pattern.test(email);
 }
 
 function checkName(name) {
