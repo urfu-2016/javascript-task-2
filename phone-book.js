@@ -11,7 +11,7 @@ function check(phone, name) {
     return true;
 }
 
-exports.isStar = true;
+exports.isStar = false;
 
 var phoneBook = {
     phone: [],
