@@ -112,6 +112,9 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var records = [];
     var contactProperties = [];
+    if (typeof query !== 'string' || query.length === 0) {
+        return records;
+    }
     var properties = Object.getOwnPropertyNames(phoneBook);
     if (query === '*') {
         records = findAll(records, contactProperties);
