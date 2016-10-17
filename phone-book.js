@@ -5,7 +5,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 exports.add = function (phone, name, email) {
-    if (argumentsIsValid(phone, name, email) && !phoneAlreadyExists(phone)) {
+    if (argumentsIsValid(phone, name, email) && findPositionByPhone(phone) === -1) {
         var entryToAdd = {
             name: name,
             phone: phone
@@ -44,16 +44,6 @@ function argumentsIsValid(phone, name, email) {
     (emailIsValid(email) || email === undefined);
 }
 
-function phoneAlreadyExists(phone) {
-    var searchResult = findPositionByPhone(phone);
-    if (typeof searchResult === 'number' && searchResult >= 0) {
-
-        return true;
-    }
-
-    return false;
-}
-
 function findPositionByPhone(phone) {
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
@@ -85,21 +75,19 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
+    if (query === '*') {
+        var removedCount = phoneBook.length;
+        phoneBook = [];
+
+        return removedCount;
+    }
     var searchResult = search(query);
     if (searchResult === false) {
         return null;
     }
     var positionsToRemove = searchResult.slice();
     for (var i = 0; i < searchResult.length; i++) {
-        var removingPosition = positionsToRemove.shift();
-        if (removingPosition === 0) {
-            phoneBook.shift();
-        }
-        if (removingPosition === phoneBook.length) {
-            phoneBook.pop();
-        } else {
-            phoneBook.splice(removingPosition, 1);
-        }
+        removePosition(positionsToRemove.shift());
         for (var j = 0; j < positionsToRemove.length; j++) {
             positionsToRemove[j]--;
         }
@@ -108,6 +96,17 @@ exports.findAndRemove = function (query) {
     return searchResult.length;
 
 };
+
+function removePosition(position) {
+    if (position === 0) {
+        phoneBook.shift();
+    }
+    if (position === phoneBook.length) {
+        phoneBook.pop();
+    } else {
+        phoneBook.splice(position, 1);
+    }
+}
 
 exports.find = function (query) {
     if (typeof query !== 'string' || query === '') {
@@ -160,9 +159,12 @@ function renderPhone(phone) {
 }
 
 function search(query) {
-    if (!query || typeof query !== 'string') {
+    if (query === '' || typeof query !== 'string') {
 
         return false;
+    }
+    if (query === '*') {
+        return phoneBook.split();
     }
     var postionsArray = [];
     for (var i = 0; i < phoneBook.length; i++) {
@@ -177,7 +179,7 @@ function search(query) {
 
 function findedInEntry(query, index) {
     for (var key in phoneBook[index]) {
-        if (phoneBook[index][key].indexOf(query) >= 0) {
+        if (phoneBook[index][key].toLowerCase().indexOf(query.toLowerCase()) >= 0) {
             return true;
         }
     }
