@@ -51,6 +51,14 @@ function isCorrectPhone(phone) {
     return true;
 }
 
+function isCorrectEmail(email, x) {
+    if (isString(email)) {
+        return x + ', ' + email;
+    }
+
+    return x;
+}
+
 function isCorrectQuery(i, query) {
     if (isFound(i, query) || query === '*') {
         return true;
@@ -137,9 +145,7 @@ exports.find = function (query) {
     for (var i = 0; i < phoneBook1.length; i++) {
         if (isCorrectQuery(phoneBook1[i], query)) {
             var x = parsePhone(phoneBook1[i]._phone);
-            if (typeof phoneBook[i]._email !== 'undefined') {
-                x = x + ', ' + phoneBook[i]._email;
-            }
+            x = isCorrectEmail(phoneBook[i]._email, x);
             arr.push(phoneBook1[i]._name + x);
         }
     }
