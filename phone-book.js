@@ -35,7 +35,7 @@ exports.add = function (phone, name, email) {
     if (!regPhone.test(phone) || !name) {
         return false;
     }
-    if(findNodeByPhone(phone) !== -1) {
+    if (findNodeByPhone(phone) !== -1) {
         return false;
     }
     var newNode = {
@@ -47,7 +47,6 @@ exports.add = function (phone, name, email) {
 
     return true;
 };
-
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
@@ -79,7 +78,7 @@ exports.findAndRemove = function (query) {
         phoneBook = [];
         return lengthPhoneBook;
     }
-    phoneBook = phoneBook.filter(function(node) {
+    phoneBook = phoneBook.filter(function (node) {
         var findField = ['phone', 'name', 'email'];
         for (var i = 0; i < findField.length; i++) {
             if (node[findField[i]].indexOf(query) !== -1) {
@@ -115,11 +114,10 @@ exports.find = function (query) {
     var findedPhones;
     if (query === '*') {
         findedPhones = phoneBook;
-    }
-    else {
+    } else {
         findedPhones = phoneBook.filter(function(node) {
             var findField = ['phone', 'name', 'email'];
-            for(var i = 0; i < findField.length; i++) {
+            for (var i = 0; i < findField.length; i++) {
                 if (node[findField[i]].indexOf(query) !== -1) {
                     return true;
                 }
@@ -129,13 +127,13 @@ exports.find = function (query) {
     }
     findedPhones = findedPhones.sort(compareNode);
     var resultNode = [];
-    findedPhones.forEach(function(node){
+    findedPhones.forEach(function(node) {
         var phone = node.phone.match(/^(\d{3})(\d{3})(\d{2})(\d{2})$/);
         var formattedPhone = '+7 (' + phone[1] + ') ' + phone[2] + '-' + phone[3] + '-' + phone[4];
         resultNode.push(node.name);
         resultNode.push(formattedPhone);
-        if (node.email){
-            resultNode.push(node.email); 
+        if (node.email) {
+            resultNode.push(node.email);
         }
     });
 
