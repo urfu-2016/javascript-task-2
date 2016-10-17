@@ -208,8 +208,8 @@ exports.importFromCsv = function (csv) {
         var arrayLineCsv = csv.split('\n');
         arrayLineCsv.forEach(function (item) {
             if (helper(item)) {
-               count += 1;
-           }
+                count += 1;
+            }
         });
 
         return count;
