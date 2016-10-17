@@ -106,10 +106,14 @@ exports.update = function (phone, name, email) {
             } else {
                 item.email = email;
             }
+
+            return true;
         }
+
+        return false;
     }
 
-    return true;
+    return phoneBook.filter(searchByPhone).length !== 0;
 };
 
 /*
