@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -17,7 +17,7 @@ exports.add = function (phone, name, email) {
             return false;
         }
     }
-    if (check(phone, name)) {
+    if ((check(phone, name)) && (isNaN(name))) {
         var em = {
             n: name,
             p: phone,
@@ -42,7 +42,7 @@ function check(phone, name) {
 exports.update = function (phone, name, email) {
     var flag = false;
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i].p.indexOf(phone) !== -1) && (check(phone, name))) {
+        if ((phoneBook[i].p.indexOf(phone) !== -1) && (check(phone, name)) && (isNaN(name))) {
             phoneBook[i].n = name;
             phoneBook[i].e = email;
 
@@ -176,3 +176,4 @@ exports.importFromCsv = function (csv) {
     // }
     return csv.split('\n').length;
 };
+
