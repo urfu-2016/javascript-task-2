@@ -12,13 +12,13 @@ function isNewPhone(phone) {
         return true;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i][0] !== phone) {
+        if (phoneBook[i][0] === phone) {
 
-            return true;
+            return false;
         }
     }
 
-    return false;
+    return true;
 }
 function correctNameAndEmail(name, email) {
     if (typeof(name) === 'string' && name.length > 0) {
