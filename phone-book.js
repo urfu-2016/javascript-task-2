@@ -50,9 +50,6 @@ function getCorrectData(phone, name, email) {
 
     if (correctPhone) {
         data[correctPhone] = {};
-        if (!name) {
-            return false;
-        }
         data[correctPhone].name = name;
         data[correctPhone] = addEntryToData(
             data[correctPhone], email, 'email', /^[\w\d_-]+@\w+-?.\w{2,}$/);
@@ -158,17 +155,12 @@ exports.find = function (query) {
 };
 
 function isContactRelevant(phone, query) {
-    var tempQuery = query;
-    if (phone.indexOf(query) !== -1) {
+    if (phone.indexOf(query) !== -1 || query === '*') {
         return true;
     }
 
     return Object.keys(phoneBook[phone]).some(function (key) {
-        if (query === '*') {
-            tempQuery = phoneBook[phone][key];
-        }
-
-        return phoneBook[phone][key].indexOf(tempQuery) !== -1;
+        return phoneBook[phone][key].indexOf(query) !== -1;
     });
 }
 
@@ -186,18 +178,12 @@ exports.importFromCsv = function (csv) {
     var contactsStrings = csv.split('\n');
     var changedEntrysCount = 0;
 
-    if (contactsStrings.length === 0) {
-        return changedEntrysCount;
-    }
-
     contactsStrings
         .map(function (contactString) {
             var contactParts = contactString.split(';');
-            var result = false;
             var phone = contactParts[1];
-            result = getCorrectData(phone, contactParts[0], contactParts[2]);
 
-            return result;
+            return getCorrectData(phone, contactParts[0], contactParts[2]);
         })
         .filter(function (contact) {
             return contact || contact[Object.keys(contact)[0]];
@@ -206,13 +192,7 @@ exports.importFromCsv = function (csv) {
             var phone = Object.keys(contact)[0];
             var name = contact[phone].name;
             var email = contact[phone].email;
-            var result = false;
-            if (phoneBook.hasOwnProperty(phone)) {
-                result = exports.update(phone, name, email);
-            } else {
-                result = exports.add(phone, name, email);
-            }
-            if (result) {
+            if (exports.update(phone, name, email) || exports.add(phone, name, email)) {
                 changedEntrysCount++;
             }
         });
