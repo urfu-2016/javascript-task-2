@@ -34,7 +34,7 @@ exports.isNotEmpty = function (str) {
  */
 exports.add = function (phone, name, email) {
     var exist = function (phoneName) {
-        if (phoneName.phone === phone) {
+        if (phoneName.phone === phone || phoneName.name === name || phoneName.email === email) {
 
             return true;
         }
