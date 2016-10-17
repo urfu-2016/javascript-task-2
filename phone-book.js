@@ -25,7 +25,7 @@ function isUnique(phone) {
 function isCorrect(phone, name, email) {
     var phoneRe = /^\d{10}$/;
     if (phoneRe.test(phone) && name !== undefined && name.length > 0 &&
-        email !== undefined) {
+        (email !== undefined || typeof email === 'string')) {
 
         return true;
     }
