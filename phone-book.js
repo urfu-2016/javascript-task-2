@@ -118,7 +118,7 @@ exports.find = function (query) {
     var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
     if (!checkArgument(query)) {
-        return 0;
+        return [];
     }
 
     return Object.keys(phoneBook)
