@@ -30,8 +30,8 @@ function isString(str) {
     return Object.prototype.toString.call(str) === '[object String]';
 }
 
-function isArgumentsValid(phone, name) {
-    return isPhoneValid(phone) && isString(name);
+function isArgumentsValid(phone, name, email) {
+    return isPhoneValid(phone) && isString(name) && (email ? /@/.test(email) : true);
 }
 
 function getEntries(query) {
@@ -86,7 +86,7 @@ function formatEntries(entries) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isArgumentsValid(phone, name) || phone in phoneBook) {
+    if (!isArgumentsValid(phone, name, email) || phone in phoneBook) {
         return false;
     }
 
