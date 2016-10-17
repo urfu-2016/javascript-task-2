@@ -187,7 +187,7 @@ function isCorrectPhone(phone) {
 
         return false;
     }
-    if (rPhone.test(phone) ) {
+    if (rPhone.test(phone)) {
 
         return true;
     }
