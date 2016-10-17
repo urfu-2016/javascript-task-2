@@ -55,12 +55,12 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-    
-    if (email !== undefined && email.length === 0){
-        
+
+    if (email !== undefined && email.length === 0) {
+
         return false;
     }
-    
+
     var note = {
         phone: phone,
         name: name,
