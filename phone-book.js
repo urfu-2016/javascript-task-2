@@ -99,7 +99,7 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var result = [];
-    var deletedNote = 0;
+    var deletedNote = phoneBook.length;
     if (query === '') {
         return 0;
     }
@@ -114,9 +114,9 @@ exports.findAndRemove = function (query) {
         if (!(exports.findInNote (note, query))) {
             result.push({ 'email': note.email, 'name': note.name,
             'phone': exports.phoneToPrint(note.phone) });
-        } else {
-            deletedNote ++;
+            deletedNote--;
         }
+
     }
     phoneBook = result;
 
