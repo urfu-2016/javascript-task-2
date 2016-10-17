@@ -105,6 +105,11 @@ function findContact(query) {
     var result = [];
     var removeIndex = 0;
 
+    if (query === '') {
+
+        return result;
+    }
+
     phoneBook.forEach(function (item, i) {
         if (query === '*') {
             result.push(new FoundRecords(item, -1));
