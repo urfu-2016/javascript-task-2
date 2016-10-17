@@ -158,10 +158,10 @@ function findIndexsOfRecords(query) {
     var indexsOfRecords = [];
     for (var i = 0; i < phoneBook.length; i++) {
         var reg = new RegExp(query, 'i');
-        var execName = reg.exec(phoneBook[i].name);
-        var execPhone = reg.exec(phoneBook[i].phone);
-        var execEmail = phoneBook[i].email !== '' && reg.exec(phoneBook[i].email);
-        if (execName || execPhone || execEmail) {
+        var testName = reg.test(phoneBook[i].name);
+        var testPhone = reg.test(phoneBook[i].phone);
+        var testEmail = phoneBook[i].email !== '' && reg.test(phoneBook[i].email);
+        if (testName || testPhone || testEmail) {
             indexsOfRecords.push(i);
         }
     }
