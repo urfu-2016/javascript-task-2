@@ -110,14 +110,14 @@ exports.findAndRemove = function (query) {
 
 function removeRecords(indexs) {
     for (var i = 0; i < indexs.length; i++) {
-        phoneBook.splice(i, 1);// delete phoneBook[indexs[i]];
+        delete phoneBook[indexs[i]];
     }
-    // for (var k = 0; k < phoneBook.length; k++) {
-        // if (phoneBook[k] === undefined) {
-            // phoneBook.splice(k, 1);
-            // k--;
-        // }
-    // }
+    for (var k = 0; k < phoneBook.length; k++) {
+        if (phoneBook[k] === undefined) {
+            phoneBook.splice(k, 1);
+            k--;
+        }
+    }
 }
 
 /**
