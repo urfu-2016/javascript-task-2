@@ -37,7 +37,7 @@ function isString(name) {
     }
 
     return true;
-};
+}
 
 exports.add = function (phone, name, email) {
     var object = {
