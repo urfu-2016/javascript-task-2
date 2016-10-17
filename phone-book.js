@@ -77,13 +77,13 @@ exports.update = function (phone, name, email) {
     if (email === undefined && phoneBook[indexOfNeedRecords[0]].hasOwnProperty('email')) {
         delete phoneBook[indexOfNeedRecords[0]].email;
     }
-    if (email !== undefined) {
-        phoneBook[indexOfNeedRecords[0]].email = email;
-    }
-    if (name !== undefined) {
+    if (name !== undefined && name.length !== 0) {
         phoneBook[indexOfNeedRecords[0]].name = name;
     } else {
         return false;
+    }
+    if (email !== undefined) {
+        phoneBook[indexOfNeedRecords[0]].email = email;
     }
 
     return true;
