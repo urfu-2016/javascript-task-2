@@ -10,8 +10,8 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-var regExpPhone = /^\d{10}$/;
-var regExpName = /^[a-zA-Zа-яА-Я]+$/;
+var rPhone = /\d/g;
+var regExpName = /^[ _a-zA-Zа-яА-Я0-9]+$/;
 
 function Abonent(phone, name, email) {
     this.phone = phone.trim();
@@ -167,7 +167,10 @@ exports.importFromCsv = function (csv) {
     var data = csv.split('\n');
     function adding(prev, index) {
         var sData = prev.split(';');
-        if (!isCorrectInput(sData[1], sData[0], sData[2]) && sData.length < 4) {
+        if (sData.length > 3) {
+            return undefined;
+        }
+        if (!isCorrectInput(sData[1], sData[0], sData[2])) {
             data.splice(index, 1);
         }
         if (exports.add(sData[1], sData[0], sData[2])) {
@@ -195,7 +198,7 @@ function isCorrectInput(phone, name, email) {
 }
 
 function isCorrectPhone(phone) {
-    if (regExpPhone.test(phone) && phone.length === 10 && typeof phone === 'string') {
+    if (phone.match(rPhone).length === 10 && typeof phone === 'string') {
 
         return true;
     }
