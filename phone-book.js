@@ -29,6 +29,18 @@ function validEmail(email) {
 
 }
 
+function correctMail(mail) {
+    if (mail === undefined) {
+
+        return true;
+    }
+    if (typeof mail === 'string' && mail !== '') {
+
+        return true;
+    }
+
+    return false;
+}
 
 function checkUnique(element) {
     for (var i = 0; i < phoneBook.length; i++) {
@@ -83,7 +95,7 @@ function traverseNoteAndFind(phone) {
  * @returns {Bool} – успех или не успех операции
  */
 exports.update = function (phone, name, email) {
-    if (correctNumber(phone) && correctData(name) && correctData(email)) {
+    if (correctNumber(phone) && correctData(name) && correctMail(email)) {
         var probableUpdate = traverseNoteAndFind(phone);
         if (probableUpdate !== false) {
             probableUpdate.name = name;
