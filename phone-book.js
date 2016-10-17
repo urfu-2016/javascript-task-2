@@ -81,7 +81,7 @@ exports.update = function (phone, name, email) {
         var note = phoneBook[exports.indexOf(phone)];
         note.name = name;
         if (typeof note.email === 'undefined') {
-            delete note.email
+            delete note.email;
         } else {
             note.email = email;
         }
