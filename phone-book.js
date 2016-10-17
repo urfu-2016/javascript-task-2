@@ -35,49 +35,49 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
-switch (query) {
-    case '*':
-        phoneBook = [];
+    switch (query) {
+        case '*':
+            phoneBook = [];
 
-        return (phoneBook.length - 1);
-    case '':
+            return (phoneBook.length - 1);
+        case '':
 
-        return 0;
-    default:
-        var s = 0;
+            return 0;
+        default:
+            var s = 0;
+            var foundRegExp = new RegExp(query);
+            for (var i = 0; i < phoneBook.length; i++) {
+                if ((foundRegExp.test((phoneBook[i])[0])) ||
+                (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
+                    phoneBook.splice(i, 1);
+                    s++;
+                }
+            }  
+
+            return s;
+        }
+};
+
+exports.find = function (query) {
+    var arrayOfFounded = [];
+    switch (query) {
+        case '':
+            return null;
+        case '*':
+            help1();
+        default:
         var foundRegExp = new RegExp(query);
         for (var i = 0; i < phoneBook.length; i++) {
             if ((foundRegExp.test((phoneBook[i])[0])) ||
             (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
-                phoneBook.splice(i, 1);
-                s++;
+                var sp = ((phoneBook[i])[0]).split('');
+                var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
+                sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
+                arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
             }
-        }  
-
-        return s;
-    }
-};
-
-exports.find = function (query) {
-var arrayOfFounded = [];
-switch (query) {
-    case '':
-        return null;
-    case '*':
-        help1();
-    default:
-    var foundRegExp = new RegExp(query);
-    for (var i = 0; i < phoneBook.length; i++) {
-        if ((foundRegExp.test((phoneBook[i])[0])) ||
-        (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
-            var sp = ((phoneBook[i])[0]).split('');
-            var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
-            sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
-            arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
         }
+        help2();
     }
-    help2();
-}
 };
 
 function help2() {
