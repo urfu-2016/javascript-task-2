@@ -90,7 +90,7 @@ function findPersonByQuery(query) {
             }
             
             return answerToQuery;
-        };
+        });
                                 }
 
 
