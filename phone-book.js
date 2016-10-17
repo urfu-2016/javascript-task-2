@@ -21,12 +21,12 @@ function isPhoneValid(phone) {
     return /^\d{10}$/.test(phone.toString());
 }
 
-function isString(str) {
-    return Object.prototype.toString.call(str) === '[object String]';
+function isNameValid(name) {
+    return name.length !== 0 && Object.prototype.toString.call(name) === '[object String]';
 }
 
 function isArgumentsValid(phone, name, email) {
-    return isPhoneValid(phone) && isString(name) && (email ? /@/.test(email) : true);
+    return isPhoneValid(phone) && isNameValid(name) && (email ? /@/.test(email) : true);
 }
 
 function getEntries(query) {
