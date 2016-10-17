@@ -86,7 +86,7 @@ function findPersonByQuery(query) {
             var answerToQuery = person.phone.indexOf(query) !== -1 ||
                 person.name.indexOf(query) !== -1;
             if (person.email) {
-                person.email.indexOf(query) !== -1 || answerToQuery = answerToQuery;
+                answerToQuery = answerToQuery || person.email.indexOf(query) !== -1;
             }
             
             return answerToQuery;
@@ -96,9 +96,9 @@ function findPersonByQuery(query) {
 
 exports.find = function (query) {
     var inputQuery;    
-if (typeof query !== 'string') {
-    return '';
-}
+if (!query || typeof query !== 'string')
+    return [];
+	}
 if (query !== '*') {
     inputQuery = findPersonByQuery(query);
 }
