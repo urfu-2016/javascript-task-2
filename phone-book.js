@@ -64,7 +64,7 @@ exports.find = function (query) {
         return null;
     }
     if (query === '*') {
-        help1(query);
+        help1();
     }
     var foundRegExp = new RegExp(query);
     for (var i = 0; i < phoneBook.length; i++) {
@@ -76,16 +76,21 @@ exports.find = function (query) {
             arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
         }
     }
+    help2();
+
+    return sortedArrayOfStrings;
+};
+
+function help2() {
+    var arrayOfFounded = [];
     var sortedArray = arrayOfFounded.sort();
     var sortedArrayOfStrings = [];
     for (var l = 0; l < sortedArray.length; l++) {
         sortedArrayOfStrings.push((sortedArray[l]).join(', '));
     }
+}
 
-    return sortedArrayOfStrings;
-};
-
-function help1(query) {
+function help1() {
     var arrayOfFounded = [];
     for (var j = 0; j < phoneBook.length; j++) {
         var sph = ((phoneBook[j])[0]).split('');
@@ -100,7 +105,7 @@ function help1(query) {
     }
 
     return sortedArrayOfStringsX;
-};
+}
 
 exports.importFromCsv = function (csv) {
     // Парсим csv
