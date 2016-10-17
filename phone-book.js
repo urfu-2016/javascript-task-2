@@ -70,7 +70,7 @@ function getCorrectData(phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var data = getCorrectData(phone, name, email);
-    if (!data || !phoneBook.hasOwnProperty(phone)) {
+    if (!data || !phoneBook.hasOwnProperty(phone) || !name) {
         return false;
     }
 
