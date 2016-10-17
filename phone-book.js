@@ -121,7 +121,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean} обновили или нет
  */
 exports.update = function (phone, name, email) {
-    if (correctData(phone) === false) {
+    if (!(/^555\d\d\d\d\d\d\d$/.test(phone))) {
 
         return false;
     }
