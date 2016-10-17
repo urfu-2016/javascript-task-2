@@ -71,6 +71,7 @@ exports.findAndRemove = function (query) {
             phoneBook = [];
             break;
         case '':
+        case undefined:
             break;
         default:
             var res = phoneBook.filter(function (item) {
@@ -125,6 +126,7 @@ exports.find = function (query) {
 
             break;
         case '':
+        case undefined:
             break;
         default:
             res = phoneBook.filter(function (item) {
