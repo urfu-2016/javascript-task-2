@@ -31,13 +31,21 @@ function isFound(i, q) {
     return true;
 }
 
+function isString(name) {
+    if (name === '' || typeof name === 'undefined' || name === null) {
+        return false;
+    }
+
+    return true;
+};
+
 exports.add = function (phone, name, email) {
     var object = {
         _phone: phone,
         _name: name,
         _email: email
     };
-    if (name === '' || typeof name === 'undefined' || name === null) {
+    if (isString(name)) {
         return false;
     }
     var reg = '[0123456789]{10}';
