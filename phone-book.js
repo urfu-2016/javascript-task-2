@@ -75,6 +75,11 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     var counter = 0;
     function search(elem, index) {
+        if (query === '*' && query !== '') {
+            counter++;
+
+            return elem;
+        }
         var properties = ['name', 'phone'];
         for (var i = 0; i < 2; i++) {
             if (elem[properties[i]].indexOf(query) !== -1 && query !== '') {
