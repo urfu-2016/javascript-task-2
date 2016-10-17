@@ -8,7 +8,7 @@ exports.add = function (phone, name, email) {
     if (!isHavePhone(phone)) {
         return update(phone, name, email);
     }
-    
+
     return false;
 };
 
@@ -35,7 +35,7 @@ function update(phone, name, email) {
 
         return true;
     }
-    
+
     return false;
 }
 
