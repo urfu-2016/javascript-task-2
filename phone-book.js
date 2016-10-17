@@ -8,13 +8,22 @@ exports.isStar = false;
 
 function checkQuery(query) {
 
-    return typeof query === 'string';
+    var typeQuery = typeof query !== 'string';
+    var emptyQuery = query === '';
+
+    if (typeQuery || emptyQuery) {
+
+        return false;
+    }
+
+    return true;
 }
 
 function isEmptyQuery(query) {
 
     return query === undefined;
 }
+
 
 function checkPhone(phone) {
 
@@ -231,9 +240,7 @@ exports.find = function (query) {
 
         });
 
-        searchResult.sort();
-
-        return searchResult;
+        return searchResult.sort();
     }
 
     if (fixQuery === '*') {
@@ -248,11 +255,9 @@ exports.find = function (query) {
 
         });
 
-        searchResult.sort();
+        return searchResult.sort();
 
-        return searchResult;
-
-    } else if (fixQuery === '') {
+    } else if (fixQuery === '' || typeof fixQuery === undefined) {
 
         return [];
     }
