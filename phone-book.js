@@ -183,7 +183,8 @@ function findAllSuitableElements(query) {
     var arrayOfRecords = [];
     for (var i = 0; i < phoneBook.length; i++) {
         if (findSubstringInAllField(phoneBook[i], query)) {
-            arrayOfRecords.push(phoneBook[i]);
+            var copyRecord = { phone: phoneBook[i].phone, name: phoneBook[i].name, email: phoneBook[i].email };
+            arrayOfRecords.push(copyRecord);
         }
     }
 
