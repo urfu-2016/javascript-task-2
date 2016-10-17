@@ -99,10 +99,7 @@ exports.update = function (phone, name, email) {
 
     }
 
-    if (email !== undefined && email === '') {
-
-        return false;
-    }
+    
 
     if (!(phone in phoneBook)) {
 
@@ -120,10 +117,11 @@ exports.update = function (phone, name, email) {
 
 function gettingRightNumbers(query) {
     var search = [];
+    var quer = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     var keys = Object.keys(phoneBook);
     for (var id = 0; id < keys.length; id++) {
-        // console.log(keys[id].indexOf(query));
-        if (successFind(query, keys[id])) {
+        
+        if (successFind(quer, keys[id])) {
             search.push(keys[id]);
         }
     }
