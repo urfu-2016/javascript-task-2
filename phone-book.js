@@ -19,7 +19,7 @@ var phoneBook = {};
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!checkArgument(phone, name, email) || phoneBook.hasOwnProperty(phone)) {
+    if (!checkArgument(phone) || phoneBook.hasOwnProperty(phone)) {
 
         return false;
     }
@@ -134,7 +134,7 @@ exports.find = function (query) {
     var phoneRegExp = /^(\d{3})(\d{3})(\d{2})(\d{2})$/;
 
     if (!checkArgument(query)) {
-        return false;
+        return 0;
     }
 
     return Object.keys(phoneBook)
