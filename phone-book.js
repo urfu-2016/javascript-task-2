@@ -103,7 +103,7 @@ exports.find = function (query) {
             var x2 = str.substring(3, 6);
             var x3 = str.substring(6, 8);
             var x4 = str.substring(8, 10);
-            var x = ', ' + '7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ';
+            var x = ', 7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4 + ', ';
             arr.push(phoneBook1[i]._name + x + phoneBook[i]._email);
         }
     }
