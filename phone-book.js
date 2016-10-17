@@ -156,11 +156,14 @@ exports.phoneToPrint = function (phone) {
  * @returns {String}
  */
 exports.noteToPrint = function (note) {
+    var line = '';
     if (typeof note.email === 'undefined') {
-        return note.name + ', ' + exports.phoneToPrint(note.phone);
+        line = note.name + ', ' + exports.phoneToPrint(note.phone);
+    } else {
+        line = note.name + ', ' + exports.phoneToPrint(note.phone) + ', ' + note.email;
     }
 
-    return note.name + ', ' + exports.phoneToPrint(note.phone) + ', ' + note.email;
+    return line;
 };
 
 /**
