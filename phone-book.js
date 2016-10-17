@@ -16,12 +16,20 @@ function phoneIsValid(phone) {
 
     return true;
 }
+function findContactName(name) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].name === name) {
+            return false;
+        }
+    }
 
+    return true;
+}
 exports.add = function (phone, name, email) {
     if (typeof name !== 'string' || name === '') {
         return false;
     }
-    if (exports.find(name).length === 0 && exports.find(phone).length === 0 &&
+    if (findContactName(name) && exports.find(phone).length === 0 &&
         phoneIsValid(phone)) {
         var obj = {};
         obj.name = name;
