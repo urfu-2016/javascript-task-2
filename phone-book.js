@@ -92,7 +92,7 @@ function addEntryToData(data, string, key, regExp) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (!phoneBook.hasOwnProperty(phone)) {
+    if (!phoneBook.hasOwnProperty(phone) || !name) {
         return false;
     }
 
