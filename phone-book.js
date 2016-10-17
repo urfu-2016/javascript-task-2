@@ -27,7 +27,7 @@ function isPhoneUnique(phone) {
 }
 
 exports.update = function (phone, name, email) {
-    if (!isPhoneCorrect(phone) || !name) {
+    if (!isPhoneCorrect(phone) || !name || isPhoneUnique(phone)) {
         return false;
     }
     phoneBook[phone][0] = name;
