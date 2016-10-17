@@ -197,14 +197,11 @@ exports.importFromCsv = function (csv) {
         var phone = address[1];
         var name = address[0];
         var email = address[2];
-        if (findPhone(phone)) {
-            if (exports.update(phone, name, email)) {
-                countOfNewSigns++;
-            }
-        } else {
-            if (exports.add(phone, name, email)) {
-                countOfRefreshSigns++;
-            }
+        if ((findPhone(phone)) && (exports.update(phone, name, email))) {
+            countOfNewSigns++;
+        }
+        if (exports.add(phone, name, email)) {
+            countOfRefreshSigns++;
         }
     }
 
