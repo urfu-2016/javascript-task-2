@@ -32,8 +32,8 @@ exports.add = function (phone, name, email) {
 };
 
 function check(phone, name) {
-    if ((phone.length === 10) && (typeof(name) !== 'undefined') &&
-      (typeof(phone) !== 'undefined')) {
+    if ((phone.length === 10) && (phone.match(/^\d+$/)) &&
+      (typeof(phone) !== 'undefined') && (typeof(name) !== 'undefined')) {
 
         return true;
     }
@@ -42,7 +42,7 @@ function check(phone, name) {
 exports.update = function (phone, name, email) {
     var flag = false;
     for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].p.indexOf(phone) !== -1) {
+        if ((phoneBook[i].p.indexOf(phone) !== -1) && (check(phone, name))) {
             phoneBook[i].n = name;
             phoneBook[i].e = email;
 
