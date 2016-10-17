@@ -176,7 +176,7 @@ function findAllSuitableElements(query) {
 
         return deepCopyPhoneBook();
     }
-    if (query === '') {
+    if (query === '' || query === undefined) {
 
         return [];
     }
