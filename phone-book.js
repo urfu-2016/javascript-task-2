@@ -86,7 +86,7 @@ function findPersonByQuery(query) {
             var answerToQuery = person.phone.indexOf(query) !== -1 ||
                 person.name.indexOf(query) !== -1;
             if (person.email) {
-                item.email.indexOf(query) !== -1 || answerToQuery = answerToQuery;
+                person.email.indexOf(query) !== -1 || answerToQuery = answerToQuery;
             }
             
             return answerToQuery;
