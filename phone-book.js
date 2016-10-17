@@ -163,7 +163,7 @@ function transformBook(book) {
 }
 
 function findIndexsOfRecords(query) {
-    if (query === undefined) {
+    if (!query) {
         return [];
     }
     var indexsOfRecords = [];
