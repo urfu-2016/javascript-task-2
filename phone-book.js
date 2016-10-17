@@ -138,7 +138,7 @@ exports.importFromCsv = function (csv) {
              exports.update(phone, name, email)) {
              counterOfPersons++;
          }
-     };
+     });
  
     return counterOfPersons;
 };
