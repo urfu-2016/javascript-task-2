@@ -25,6 +25,22 @@ function correctPhone(phone) {
 }
 
 /**
+ * @param {Number} i
+ * @param {String} query
+ * @returns {Boolean}
+ */
+function index(i, query) {
+    if ((phoneBook[i][NAME].indexOf(query) >= 0) ||
+       (phoneBook[i][PHONE].indexOf(query) >= 0) ||
+       (phoneBook[i][EMAIL].indexOf(query) >= 0)) {
+
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * swap i and last elem.
  * @param {Number} num
  * @returns {void}
@@ -139,10 +155,12 @@ exports.findAndRemove = function (query) {
         result = phoneBook.length;
         phoneBook = [];
     }
+    if (!correctData(query)) {
+
+        return 0;
+    }
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i][NAME].indexOf(query) >= 0) ||
-           (phoneBook[i][PHONE].indexOf(query) >= 0) ||
-           (phoneBook[i][EMAIL].indexOf(query) >= 0)) {
+        if (index(i, query)) {
             result++;
             swap(i);
             i = i - 1;
@@ -186,10 +204,12 @@ exports.find = function (query) {
 
         return getAllData(phoneBook);
     }
+    if (!correctData(query)) {
+
+        return [];
+    }
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i][NAME].indexOf(query) >= 0) ||
-           (phoneBook[i][PHONE].indexOf(query) >= 0) ||
-           (phoneBook[i][EMAIL].indexOf(query) >= 0)) {
+        if (index(i, query)) {
             result.push(correctStr(phoneBook[i]));
         }
     }
