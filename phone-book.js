@@ -74,7 +74,7 @@ function parsePhone(phone) {
     var x3 = str.substring(6, 8);
     var x4 = str.substring(8, 10);
 
-    return ', 7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4;
+    return ', +7 (' + x1 + ') ' + x2 + '-' + x3 + '-' + x4;
 }
 
 exports.add = function (phone, name, email) {
