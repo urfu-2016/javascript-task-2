@@ -30,9 +30,9 @@ function checkExist(phone) {
 
 function testPhone(phone) {
     var regvalidPhone = /\d{10}/;
-    var valid =  regvalidPhone.test(phone) || phone !== undefined;
+    var valid = regvalidPhone.test(phone) || phone !== undefined;
 
-    return phone !== '' && typeof(phone) === 'string';
+    return phone !== '' && typeof(phone) === 'string' && valid;
 }
 
 
