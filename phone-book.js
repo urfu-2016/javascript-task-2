@@ -36,6 +36,11 @@ function findInNote(query, note) {
     return (n > -3);
 }
 
+
+function validName(name){
+
+    return (/\w+/.test(name) && Boolean(name));
+}
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -44,7 +49,7 @@ function findInNote(query, note) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!isPhone(phone) || !name || inPhoneBook(phone)) {
+    if (!isPhone(phone) || !validName(name) || inPhoneBook(phone)) {
 
         return false;
     }
@@ -66,7 +71,7 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (!inPhoneBook(phone) || !name || !isPhone(phone)) {
+    if (!inPhoneBook(phone) || !validName(name) || !isPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
