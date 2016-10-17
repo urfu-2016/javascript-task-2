@@ -16,6 +16,8 @@ function isPhoneValid(phone) {
 }
 
 function getEntriesIds(query) {
+    query = query.toLowerCase();
+
     return phoneBook.reduce(function (pre, entry, idx) {
         for (var key in entry) {
             if (entry[key] && entry[key].indexOf(query) !== -1) {
