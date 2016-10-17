@@ -25,11 +25,11 @@ function isHavePhone(phone) {
 exports.update = update;
 
 function update(phone, name, email) {
-    if (isCorrectPhone(phone) && name !== undefined && name !== '') {
+    if (isCorrectPhone(phone) && name) {
         phoneBook[phone] = {
             name: name
         };
-        if (email !== undefined && email !== '') {
+        if (email) {
             phoneBook[phone].email = email;
         }
 
@@ -40,12 +40,6 @@ function update(phone, name, email) {
 }
 
 exports.findAndRemove = function (query) {
-    if (query === '*') {
-        var count = phoneBook.length;
-        phoneBook = {};
-
-        return count;
-    }
     var foundPhones = findPhones(query);
     for (var i = 0; i < foundPhones.length; i++) {
         delete phoneBook[foundPhones[i]];
@@ -74,7 +68,7 @@ exports.find = function (query) {
 };
 
 function findPhones(query) {
-    if (query === '' || query === undefined) {
+    if (!query) {
         return [];
     }
     if (query === '*') {
