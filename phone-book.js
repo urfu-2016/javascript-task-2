@@ -51,7 +51,7 @@ function checkExist(phone) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if ((phone in phoneBook) && (name !== '')) {
+    if (checkPhone(phone) && checkName(name) && checkExist(phone)) {
         phoneBook[phone] = [phone, name, email || ''];
 
         return true;
@@ -138,9 +138,6 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    if (csv === '' || typeof(csv) !== 'string') {
-        return 0;
-    }
     var cut = csv
     .split('\n')
     .map(function (x) {
