@@ -115,9 +115,8 @@ function checkEntry(phone) {
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
-    uPhone = phone.trim();
-    uName = isEmptyQuery(name) ? false : name.trim();
-
+    uPhone = phone;
+    uName = name;
     var checkEmail = isEmptyQuery(email) ? '' : email;
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
@@ -213,22 +212,19 @@ exports.find = function (query) {
     var searchResult = [];
     var convertedPhone = '';
     var concatResult = '';
-    var findPhone;
-    var findName;
-    var findEmail;
+    var fixQuery = query.trim();
 
-    if (checkQuery(query) && !isEmptyQuery(query) && query !== '*' && query !== '') {
+    if (checkQuery(fixQuery) && !isEmptyQuery(fixQuery) && fixQuery !== '*' && fixQuery !== '') {
 
         phoneBook.forEach(function (object, index) {
-            findPhone = phoneBook[index].number;
-            findName = phoneBook[index].username;
-            findEmail = phoneBook[index].mail;
+            var findPhone = phoneBook[index].number;
+            var findName = phoneBook[index].username;
+            var findEmail = phoneBook[index].mail;
 
-            if (findIndex(query, findPhone, findName, findEmail)) {
+            if (findIndex(fixQuery, findPhone, findName, findEmail)) {
 
                 convertedPhone = formatPhone(findPhone);
                 concatResult = concatString(findName, convertedPhone, findEmail);
-
                 searchResult.push(concatResult);
 
             }
@@ -240,11 +236,11 @@ exports.find = function (query) {
         return searchResult;
     }
 
-    if (query === '*') {
+    if (fixQuery === '*') {
 
         phoneBook.forEach(function (object, index) {
-            findName = phoneBook[index].username;
-            findEmail = phoneBook[index].mail;
+            var findName = phoneBook[index].username;
+            var findEmail = phoneBook[index].mail;
             convertedPhone = formatPhone(phoneBook[index].number);
             concatResult = concatString(findName, convertedPhone, findEmail);
 
@@ -256,9 +252,9 @@ exports.find = function (query) {
 
         return searchResult;
 
-    } else if (query === '') {
+    } else if (fixQuery === '') {
 
-        return false;
+        return [];
     }
 
 };
@@ -273,25 +269,6 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    var csvArr = csv.split('\n');
-    var splitCsv;
-    var count = 0;
 
-    for (var i = 0; i < csvArr.length; i++) {
-
-        splitCsv = csvArr[i].split(';');
-        var csvName = splitCsv[0];
-        var csvPhone = splitCsv[1];
-        var csvEmail = splitCsv[2];
-        var competeAdd = exports.add(csvPhone, csvName, csvEmail);
-        var compeleUpdate = exports.update(csvPhone, csvName, csvEmail);
-
-        if (competeAdd || compeleUpdate) {
-
-            count++;
-        }
-
-    }
-
-    return count;
+    return csv.split('\n');
 };
