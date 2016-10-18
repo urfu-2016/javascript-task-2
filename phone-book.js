@@ -25,7 +25,7 @@ var formAccount = {
  */
 exports.add = function (phone, name, email) {
     phone = checkNull(phone.trim());
-    name = checkNull());
+    name = checkNull(name);
     name = name.trim();
     if (checkData(phone)) {
         return false;
