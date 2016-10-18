@@ -197,7 +197,7 @@ exports.find = function (query) {
     resultIndex.push(findIndex(phoneBook.phone, query));
     resultIndex.push(findIndex(phoneBook.name, query));
     resultIndex.push(findIndex(phoneBook.email, query));
-    if (resultIndex !== []) {
+    if (resultIndex.length !== 0) {
 
         return dictionary(resultIndex);
     }
