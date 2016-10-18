@@ -35,7 +35,7 @@ function isFound(i, q) {
 }
 
 function isString(m) {
-    if (typeof m === String) {
+    if (typeof m === 'String' || m.trim().length !== 0) {
         return true;
     }
 
