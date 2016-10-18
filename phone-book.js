@@ -100,7 +100,7 @@ function addNewBook(arr) {
 }
 
 exports.findAndRemove = function (query) {
-    if (query === '') {
+    if (query === undefined || query === null || query === '') {
 
         return 0;
     }
