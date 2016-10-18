@@ -48,20 +48,20 @@ exports.findAndRemove = function (query) {
     }
     else if (query === '') {
 
-         return 0;
-         }
-        var s = 0;
-        var foundRegExp = new RegExp(query);
-        for (var i = phoneBook.length - 1; i >= 0; i--) {
-            if ((foundRegExp.test((phoneBook[i])[0])) ||
-            (foundRegExp.test((phoneBook[i])[1])) ||
-            (foundRegExp.test((phoneBook[i])[2]))) {
-                phoneBook.splice(i, 1);
-                s++;
-            }
+        return 0;
+    }
+    var s = 0;
+    var foundRegExp = new RegExp(query);
+    for (var i = phoneBook.length - 1; i >= 0; i--) {
+        if ((foundRegExp.test((phoneBook[i])[0])) ||
+        (foundRegExp.test((phoneBook[i])[1])) ||
+        (foundRegExp.test((phoneBook[i])[2]))) {
+            phoneBook.splice(i, 1);
+            s++;
         }
+    }
 
-        return s;
+    return s;
 };
 
 exports.find = function (query) {
@@ -71,19 +71,19 @@ exports.find = function (query) {
     }
     else if (query === '*') {
 
-            return phoneBookToCustomView(phoneBook);        	
+        return phoneBookToCustomView(phoneBook);
+    }
+    var foundRegExp = new RegExp(query);
+    var arrayOfFounded = [];
+    for (var i = 0; i < phoneBook.length; i++) {
+        if ((foundRegExp.test((phoneBook[i])[0])) ||
+        (foundRegExp.test((phoneBook[i])[1])) ||
+        (foundRegExp.test((phoneBook[i])[2]))) {
+            arrayOfFounded.push(phoneBook[i]);
         }
-        var foundRegExp = new RegExp(query);
-        var arrayOfFounded = [];
-        for (var i = 0; i < phoneBook.length; i++) {
-            if ((foundRegExp.test((phoneBook[i])[0])) ||
-            (foundRegExp.test((phoneBook[i])[1])) ||
-            (foundRegExp.test((phoneBook[i])[2]))) {
-                arrayOfFounded.push(phoneBook[i]);
-            }
-        }
+    }
 
-        return phoneBookToCustomView(arrayOfFounded);
+    return phoneBookToCustomView(arrayOfFounded);
 };
 
 function phoneBookToCustomView(book) {
