@@ -20,7 +20,7 @@ function check(phone, name) {
     return true;
 }
 
-exports.isStar = false;
+exports.isStar = true;
 
 var phoneBook = {
     phone: [],
@@ -61,9 +61,8 @@ exports.update = function (phone, name, email) {
         if (index !== -1) {
             phoneBook.name[index] = name;
             phoneBook.email[index] = addEmail(email);
+            return true;
         }
-
-        return true;
     }
 
     return false;
