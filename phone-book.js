@@ -35,7 +35,7 @@ function queryIsFound(obj, q) {
 }
 
 function nameIsString(name) {
-    if (typeof name === String) {
+    if (typeof name === 'string') {
         var s = String(name);
         var s1 = s.trim();
         if (s1.length === 0) {
