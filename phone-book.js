@@ -139,6 +139,7 @@ exports.add = function (phone, name, email) {
     var bookObj = {};
     uPhone = phone.trim();
     uName = isEmptyQuery(name) ? false : name.trim();
+
     var checkEmail = isEmptyQuery(email) ? '' : email.trim();
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
@@ -168,8 +169,15 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     var upPhone = '';
     var checkEmail = isEmptyQuery(email) ? '' : email.trim();
-    var fixName = name.trim();
-    var fixPhone = phone.trim();
+    var fixName = isEmptyQuery(name) ? false : name.trim();
+    var fixPhone;
+
+    if (phone === null || phone === undefined) {
+
+        return false;
+    }
+
+    fixPhone = phone.trim();
 
     if (checkPhone(fixPhone) && valEmail(checkEmail) && checkQuery(fixName)) {
 
@@ -186,7 +194,7 @@ exports.update = function (phone, name, email) {
 
         });
 
-        return phoneBook.filter(checkEntry).length !== 0;
+        return true;
     }
 
     return false;
@@ -233,9 +241,15 @@ exports.find = function (query) {
     var searchResult = [];
     var convertedPhone = '';
     var concatResult = '';
+
+    if (query === undefined || query === '' || typeof query === 'undefined') {
+
+        return [];
+    }
+
     var fixQuery = query.trim();
 
-    if (checkQuery(fixQuery) && fixQuery !== '*' && fixQuery !== '') {
+    if (checkQuery(fixQuery) && fixQuery !== '*') {
 
         phoneBook.forEach(function (object, index) {
             var findPhone = phoneBook[index].number;
@@ -269,9 +283,6 @@ exports.find = function (query) {
 
         return searchResult.sort();
 
-    } else if (fixQuery === '' || typeof fixQuery === 'undefined') {
-
-        return [];
     }
 
 };
