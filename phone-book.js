@@ -116,11 +116,11 @@ exports.update = function (phone, name, email) {
 };
 
 
-function getBadQuery(query) {    
+function getBadQuery(query) {
     if (query === '' || query === undefined) {
         return true;
     }
-    
+
     return false;
 }
 
