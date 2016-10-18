@@ -175,7 +175,7 @@ function addData(i, res) {
 }
 
 exports.find = function (query) {
-    if (typeof query === undefined || query === '') {
+    if (query === undefined || query === null || query === '') {
         return [];
     }
     if (query === '*') {
