@@ -22,7 +22,7 @@ function recordIsContains(obj1, obj2) {
     var name2 = String(obj2._name);
     var email1 = String(obj1._email);
     var email2 = String(obj2._email);
-    if (phone1 === phone2 && name1 === name2 && email1 === email2) {
+    if (phone1 === phone2 || name1 === name2 || email1 === email2) {
         return true;
     }
 
@@ -65,11 +65,12 @@ function isCorrectPhone(phone1) {
 }
 
 function isEmail(email, x) {
+    var x1 = String(x);
     if (nameIsString(email)) {
-        return x + ', ' + email;
+        return x1 + ', ' + email;
     }
 
-    return x;
+    return x1;
 }
 
 function isCorrectQuery(i, query) {
