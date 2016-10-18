@@ -35,11 +35,11 @@ function isFound(i, q) {
 }
 
 function isString(m) {
-    if (m === '' || typeof m === 'undefined' || m === null) {
-        return false;
+    if (typeof m === 'String' || m.trim().length !== 0) {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 function isCorrectPhone(phone1) {
