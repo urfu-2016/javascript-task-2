@@ -7,8 +7,11 @@ var phoneBook = [];
 exports.add = function (phone, name, email) {
     var phoneRegEx = /^\d{10}$/;
     var currentPhone = new RegExp(phone);
-    if ((!phoneRegEx.test(phone)) || (name === '') ||
-    (name === undefined) || (currentPhone.exec(phoneBook))) {
+    if ((!phoneRegEx.test(phone)) ||
+        (name === '') ||
+        (name === undefined) ||
+        (currentPhone.exec(phoneBook))) {
+
         return false;
     }
     phoneBook.push([phone, name, email]);
@@ -19,7 +22,10 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     var phoneRegEx = /^\d{10}$/;
     var currentPhone = new RegExp(phone);
-    if ((!phoneRegEx.test(phone)) || (name === '') || (name === undefined)) {
+    if ((!phoneRegEx.test(phone)) ||
+        (name === '') ||
+        (name === undefined)) {
+
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -65,6 +71,7 @@ exports.find = function (query) {
         return null;
     }
     else if (query === '*') {
+
             return phoneBookToCustomView(phoneBook);        	
         }
         else{
@@ -77,6 +84,7 @@ exports.find = function (query) {
                     arrayOfFounded.push(phoneBook[i]);
                 }
             }
+
             return phoneBookToCustomView(arrayOfFounded);
         }
 };
