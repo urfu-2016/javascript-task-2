@@ -127,7 +127,7 @@ exports.update = function (phone, name, email) {
         return note.phone === phone;
     }
 
-    if (!inputCheck(phone, name, email)) {
+    if (!phoneIsCorrect(phone) || !emailIsCorrect(email)) {
 
         return false;
     }
@@ -136,13 +136,14 @@ exports.update = function (phone, name, email) {
 
     if (targetIndex !== -1) {
 
-        phoneBook[targetIndex].name = name.trim();
         if (email === null || email === undefined) {
             phoneBook[targetIndex].email = undefined;
         } else {
             email = email.trim();
             phoneBook[targetIndex].email = email.trim();
-
+        }
+        if (typeof(name) === 'string' && name.trim() !== '') {
+            phoneBook[targetIndex].name = name.trim();
         }
 
         return true;
