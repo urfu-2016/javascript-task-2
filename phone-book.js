@@ -228,7 +228,8 @@ function searchInPhoneBook(phone) {
 function findQuery(query) {
 
     for (var key in recPhoneBook) {
-        if ( // recPhoneBook[key] !== undefined &&
+        // проверяю на undefined, потому что почта может быть не задана
+        if (recPhoneBook[key] !== undefined &&
             (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) > -1) {
             return true;
         }
