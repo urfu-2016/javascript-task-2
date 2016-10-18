@@ -2,10 +2,16 @@
 exports.isStar = false;
 var phoneBook = [];
 
+function isPhone(phone) {
+    if (phone === '' || phone === undefined) {
+        return false;
+    }
+}
+
 // Добавление записи в телефонную книгу
 exports.add = function (phone, name, email) {
-    if (phone === '' || phone === undefined ||
-    name === '' || name === undefined ||
+    isPhone();
+    if (name === '' || name === undefined ||
     email === '' || phone.match(/^[0-9]{10}$/) === null) {
         return false;
     }
@@ -24,8 +30,8 @@ exports.add = function (phone, name, email) {
 // Обновление записи в телефонной книге
 exports.update = function (phone, name, email) {
     var found = false;
-    if (phone === '' || name === undefined ||
-    name === '' || name === undefined ||
+    isPhone();
+    if (name === '' || name === undefined ||
     email === '' || phone.match(/^[0-9]{10}$/) === null) {
         return false;
     }
