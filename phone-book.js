@@ -2,49 +2,54 @@
 exports.isStar = false;
 var phoneBook = [];
 
-//Добавление записи в телефонную книгу
+// Добавление записи в телефонную книгу
 exports.add = function (phone, name, email) {
-	if (phone === '' || name === undefined ||
-    name === "" || name === undefined ||
-	email === "" || phone.match(/^[0-9]{10}$/) === null) {
-        return false;
-	}
-	
-	for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
-            return true;
-        }
-    }
-	
-    phoneBook.push({ phone: phone, name: name, email: email });
-    
-	return true;
+    if (phone === '' || phone === undefined ||
+    name === '' || name === undefined ||
+    email === '' || phone.match(/^[0-9]{10}$/) === null) {
+    return false;
 }
 
-//Обновление записи в телефонной книге
+    for (var i = 0; i < phoneBook.length; i++) {
+    if (phoneBook[i].phone === phone) {
+            return true;
+        }
+}
+
+    phoneBook.push({ phone: phone, name: name, email: email });
+
+    return true;
+}
+
+// Обновление записи в телефонной книге
 exports.update = function (phone, name, email) {
     var found = false;
     if (phone === '' || name === undefined ||
-    name === "" || name === undefined ||
-	email === "" || phone.match(/^[0-9]{10}$/) === null) {
+    name === '' || name === undefined ||
+    email === '' || phone.match(/^[0-9]{10}$/) === null) {
         return false;
-	}
+    }
 
-	phoneBook.forEach(function (elem) {
-        if (typeof elem !== null && elem.phone === phone) {
+    phoneBook.forEach(function (elem) {
+    if (typeof elem !== undefined && elem.phone === phone) {
             elem.email = email;
             elem.name = name;
             found = true;
         }
-    });
-    
+});
+
     return found;
 };
 
-//перечень функций
+// Перечень функций
 function formatedQ(q) {
-    if (q === '*') return '';
-    if (q === '') return 0;
+    if (q === '*') {
+        return '';
+    }
+    if (q === '') {
+        return 0;
+    }
+
     return q;
 }
 
@@ -58,13 +63,13 @@ function isRequest(q, request) {
     return false;
 }
 
-//отформатированный номер телефона
+// Отформатированный номер телефона
 function phoneFormat(phone) {
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' +
     phone.slice(6, 8) + '-' + phone.slice(8, 10);
 }
 
-function JoinNote(request) {
+function joinNote(request) {
     var result = [request.name, phoneFormat(request.phone)];
     if (request.email) {
         result.push(request.email);
@@ -73,23 +78,24 @@ function JoinNote(request) {
     return result.join(', ');
 }
 
-//Поиск записей по запросу в телефонной книге
+// Поиск записей по запросу в телефонной книге
 exports.find = function (q) {
     q = formatedQ(q);
     function existRequest(item) {
-            return isRequest(q, item);
-        }
+        return isRequest(q, item);
+    }
 
     function getNote(item) {
-            return JoinNote(item);
-        }
+        return joinNote(item);
+    }
 
-    return phoneBook.filter(existRequest).map(getNote).sort();
+    return phoneBook.filter(existRequest).map(getNote)
+    .sort();
 };
 
-//Удаление записей по запросу из телефонной книги
+// Удаление записей по запросу из телефонной книги
 exports.findAndRemove = function (q) {
-function nonExistRequest(item) {
+    function nonExistRequest(item) {
         return !isRequest(q, item);
     }
 
@@ -97,5 +103,6 @@ function nonExistRequest(item) {
     var beforeChange = phoneBook.length;
     phoneBook = phoneBook.filter(nonExistRequest);
     var afterChange = phoneBook.length;
+
     return beforeChange - afterChange;
 };
