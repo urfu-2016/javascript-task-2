@@ -38,7 +38,7 @@ function testPhone(phone) {
 function testEmail(email) {
     var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/;
 
-    return regvalidEmail.test(email);
+    return regvalidEmail.test(email) || email === undefined;
 }
 
 
@@ -54,7 +54,7 @@ function addEntry(name, phone, email) {
 
 
 exports.add = function (phone, name, email) {
-    if (name === undefined && typeof(name) !== 'string' && typeof(phone) !== 'string') {
+    if (name === undefined || typeof(name) !== 'string' || typeof(phone) !== 'string') {
         return false;
     }
     if (name.length < 1) {
@@ -89,7 +89,7 @@ function findEntryByPhone(phone) {
  * @returns {Bool} flag
  */
 exports.update = function (phone, name, email) {
-    if (name === undefined && typeof(name) !== 'string') {
+    if (name === undefined || typeof(name) !== 'string' || typeof(phone) !== 'string') {
         return false;
     }
     if (name.length < 1) {
