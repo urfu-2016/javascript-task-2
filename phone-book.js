@@ -58,7 +58,7 @@ function getRecordByPhone(phone) {
  * @returns {Bool}
  */
 exports.add = function (phone, name, email) {
-    if (! (isValidPhone(phone) && isValidName(name)) ) {
+    if ( !(isValidPhone(phone) && isValidName(name)) ) {
         return false;
     }
 
@@ -83,7 +83,7 @@ exports.add = function (phone, name, email) {
  * @returns {Bool}
  */
 exports.update = function (phone, name, email) {
-    if (! (isValidPhone(phone) && isValidName(name) ) {
+    if ( !(isValidPhone(phone) && isValidName(name)) ) {
         return false;
     }
 
