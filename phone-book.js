@@ -20,8 +20,11 @@ var phoneBook = [];
  */
 
 function phoneIsCorrect(phone) {
+
+
     if (typeof(phone) === 'string') {
         phone = phone.trim();
+
         if (phone.match(/^\d{10}$/gi) !== null) {
 
             return true;
@@ -38,7 +41,7 @@ function nameIsCorrect(name) {
 
 function emailIsCorrect(email) {
 
-    if (email === undefined) {
+    if (email === undefined || email === null) {
 
         return true;
     }
@@ -86,6 +89,9 @@ exports.add = function (phone, name, email) {
         return phoneBook.some(phoneMatch);
     }
 
+
+
+
     if (!inputCheck(phone, name, email)) {
 
         return false;
@@ -93,9 +99,6 @@ exports.add = function (phone, name, email) {
 
     phone = phone.trim();
     name = name.trim();
-    if (email !== undefined) {
-        email = email.trim();
-    }
 
     if (phoneIsAlreadyInPhoneBook()) {
 
@@ -105,8 +108,14 @@ exports.add = function (phone, name, email) {
     var note = {
         phone: phone,
         name: name,
-        email: email
     };
+
+    if (email === null || email === undefined) {
+        note.email = undefined;
+    } else {
+        email = email.trim();
+        note.email = email;
+    }
 
     phoneBook.push(note);
 
@@ -136,13 +145,17 @@ exports.update = function (phone, name, email) {
 
     var targetIndex = phoneBook.findIndex(findNote);
 
-    if (targetIndex !== -1) {
-        if (phoneBook[targetIndex].email === email && phoneBook[targetIndex].name === name) {
 
-            return false;
-        }
-        phoneBook[targetIndex].email = email;
+    if (targetIndex !== -1) {
+
         phoneBook[targetIndex].name = name;
+        if (email === null || email === undefined) {
+            phoneBook[targetIndex].email = undefined;
+        } else {
+            email = email.trim();
+            phoneBook[targetIndex].email = email;
+
+        }
 
         return true;
     }
@@ -157,7 +170,7 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var indexesOfFindedNotes = [];
-    var numberOfDeletedNotes;
+    var numberOfDeletedNotes = 0;
 
     function isNoteMatchQuery(note, index) {
 
@@ -178,16 +191,6 @@ exports.findAndRemove = function (query) {
     }
 
 
-    function numberToString() {
-        if (typeof(query) === 'number') {
-            query = query.toString();
-        }
-
-        return;
-    }
-
-
-    numberToString();
     if (typeof(query) === 'string') {
         query = query.trim();
         if (query === '*') {
@@ -223,7 +226,7 @@ exports.find = function (query) {
                 '-' + note.phone.slice(8, 10);
 
             var stringNote = note.name + ', ' + stringPhone;
-            if (note.email !== undefined) {
+            if (note.email) {
                 stringNote = stringNote + ', ' + note.email;
             }
 
@@ -253,17 +256,6 @@ exports.find = function (query) {
 
         return false;
     }
-
-
-    function numberToString() {
-        if (typeof(query) === 'number') {
-            query = query.toString();
-        }
-
-        return;
-    }
-
-    numberToString();
 
     if (typeof(query) === 'string') {
         query = query.trim();
