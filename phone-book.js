@@ -185,6 +185,9 @@ function findEntry(query, ent) {
 
 exports.find = function (query) {
     var result = [];
+    if (query === '') {
+        return result;
+    }
     if (query === '*') {
         for (var entry1 = 0; entry1 < phoneBook.length; entry1++) {
             result.push(phoneBook[entry1]);
