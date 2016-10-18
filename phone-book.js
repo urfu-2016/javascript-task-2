@@ -11,11 +11,16 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-function checkPhoneAndName(phone, name) {
+function checkPhone(phone) {
     if (phone.length !== 10 || /[^[0-9]/.test(phone) || phone === '') {
 
         return false;
     }
+
+    return true;
+}
+
+function checkName(name) {
     if (name === '' || typeof name !== 'string' || name === undefined) {
 
         return false;
@@ -32,7 +37,11 @@ function checkPhoneAndName(phone, name) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!checkPhoneAndName(phone, name)) {
+    if (!checkPhone(phone)) {
+
+        return false;
+    }
+    if (!checkName(name)) {
 
         return false;
     }
@@ -62,7 +71,11 @@ exports.add = function (phone, name, email) {
  * @returns {boolean} isUpdated
  */
 exports.update = function (phone, name, email) {
-    if (!checkPhoneAndName(phone, name)) {
+    if (!checkPhone(phone)) {
+
+        return false;
+    }
+    if (!checkName(name)) {
 
         return false;
     }
