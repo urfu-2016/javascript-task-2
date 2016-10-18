@@ -47,7 +47,9 @@ function checkValidName(name) {
     return typeof name === 'string' && name.replace(/ /g, '').length > 0;
 }
 function checkValidPhone(phone) {
-    // if (typeof phone === 'undefined') return true;
+    if (!phone) {
+        return true;
+    }
     if (typeof phone === 'string') {
         var regexp = /[^0-9]/g;
 
