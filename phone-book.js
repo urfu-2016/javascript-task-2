@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function checkPhoneAndName(phone, name) {
-    if (phone.length !== 10 || /[^[0-9]/.test(phone)) {
+    if (phone.length !== 10 || /[^[0-9]/.test(phone) || phone === '') {
 
         return false;
     }
