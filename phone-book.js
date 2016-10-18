@@ -208,7 +208,7 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-     var counter = 0;
+    var counter = 0;
     var users = csv.split('\n');
     users.forEach(function (user) {
         var newUser = user.split(';');
@@ -222,6 +222,5 @@ exports.importFromCsv = function (csv) {
 
     return counter;
 };
-Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc. Terms P
+
 
