@@ -18,7 +18,7 @@ var phoneBook = {};
  * @param {String} email
  */
 exports.add = function (phone, name, email) {
-    if (!isCorrectPhone(phone) || !duplicationPhone(phone) || !name) {
+    if (!isCorrectPhone(phone) || !name) {
         return false;
     }
     phoneBook[phone] = {'phone': phone, 'name': name, 'email': email};
@@ -28,17 +28,6 @@ exports.add = function (phone, name, email) {
 
 function isCorrectPhone(phone) {
     return /^\d{10}$/.test(phone);
-}
-
-function duplicationPhone(phone) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        var doubling = phoneBook[i];
-        if (Number(phone) === Number(doubling)) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 /**
