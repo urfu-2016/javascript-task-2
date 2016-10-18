@@ -212,7 +212,7 @@ exports.find = function (query) {
     }
     if (!correctData(query)) {
 
-        return false;
+        return [];
 
     }
     var searchFor = [];
