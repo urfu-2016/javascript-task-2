@@ -11,22 +11,8 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-function checkPhone(phone) {
-    if (phone.length !== 10 || /[^[0-9]/.test(phone) || phone === '') {
-
-        return false;
-    }
-
-    return true;
-}
-
-function checkName(name) {
-    if (name === '' || typeof name !== 'string' || name === undefined) {
-
-        return false;
-    }
-
-    return true;
+function checkPhoneAndName(phone, name) {
+    return (phone && /^\d{10}$/.test(phone) && name);
 }
 
 /**
@@ -37,11 +23,7 @@ function checkName(name) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (!checkPhone(phone)) {
-
-        return false;
-    }
-    if (!checkName(name)) {
+    if (!checkPhoneAndName(phone, name)) {
 
         return false;
     }
@@ -71,11 +53,7 @@ exports.add = function (phone, name, email) {
  * @returns {boolean} isUpdated
  */
 exports.update = function (phone, name, email) {
-    if (!checkPhone(phone)) {
-
-        return false;
-    }
-    if (!checkName(name)) {
+    if (!checkPhoneAndName(phone, name)) {
 
         return false;
     }
@@ -208,19 +186,20 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
+    var parsed = csv.split('\n');
+
     var counter = 0;
-    var users = csv.split('\n');
-    users.forEach(function (user) {
-        var newUser = user.split(';');
-        var name = newUser[0];
-        var phone = newUser[1];
-        var email = newUser[2];
+
+    for (var i = 0; i < parsed.length; i++) {
+        var pars = parsed[i].split(';');
+        var name = pars[0];
+        var phone = pars[1];
+        var email = pars[2];
         if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
             counter++;
         }
-    });
+    }
 
     return counter;
 };
-
 
