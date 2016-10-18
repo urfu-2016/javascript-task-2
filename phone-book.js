@@ -157,7 +157,7 @@ exports.find = function (query) {
     var resultBook = [];
     phoneBook.sort(asc('name'));
     if (query === '' || typeof query !== 'string') {
-        return []
+        return [];
     }
 
     phoneBook.forEach(function (contact) {
