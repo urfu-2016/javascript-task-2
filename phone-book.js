@@ -32,7 +32,7 @@ exports.add = function (phone, name, email) {
 };
 
 function check(phone, name) {
-    if ((phone.length === 10) && (phone.test(/\d{10}/g)) &&
+    if ((phone.length === 10) && (/\d{10}/g.test(phone)) &&
       (typeof(phone) === 'string') && (typeof(name) === 'string')) {
 
         return true;
