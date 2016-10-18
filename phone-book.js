@@ -100,7 +100,7 @@ function addNewBook(arr) {
 }
 
 exports.findAndRemove = function (query) {
-    if (query === undefined || query === null || query === '') {
+    if (checkQuery(query)) {
 
         return 0;
     }
@@ -174,8 +174,12 @@ function addData(i, res) {
     }
 }
 
+function checkQuery(query) {
+    return (query === undefined) || (query === null) || (query === '');
+}
+
 exports.find = function (query) {
-    if (query === undefined || query === null || query === '') {
+    if (checkQuery(query)) {
         return [];
     }
     if (query === '*') {
