@@ -41,15 +41,16 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
-    switch (query) {
-        case '*':
-            phoneBook = [];
+    if (query ==='*') {
+        phoneBook = [];
 
-            return (phoneBook.length - 1);
-        case '':
+        return (phoneBook.length - 1);
+    }
+    else if (query === '') {
 
-            return 0;
-        default:
+        return 0;
+    }
+        else{
             var s = 0;
             var foundRegExp = new RegExp(query);
             for (var i = phoneBook.length - 1; i >= 0; i--) {
@@ -59,7 +60,7 @@ exports.findAndRemove = function (query) {
                     phoneBook.splice(i, 1);
                     s++;
                 }
-            }  
+            }
 
             return s;
         }
