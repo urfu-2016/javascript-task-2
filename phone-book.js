@@ -55,17 +55,6 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
-exports.findIndex = function (phone) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
-
-            return i;
-        }
-    }
-
-    return -1;
-};
-
 /**
  * Обновление записи в телефонной книге
  * @param {String} phone
@@ -74,7 +63,6 @@ exports.findIndex = function (phone) {
  * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
-    var index = exports.findIndex(phone);
     if (exports.correctInput(phone, name, email)) {
         phoneBook.forEach(function (contact) {
             if (contact.phone === phone) {
