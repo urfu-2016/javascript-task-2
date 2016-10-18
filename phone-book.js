@@ -24,8 +24,8 @@ var formAccount = {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    phone = checkNull(phone);
-    name = checkNull(name);
+    phone = checkNull(phone.trim());
+    name = checkNull());
     name = name.trim();
     if (checkData(phone)) {
         return false;
@@ -33,7 +33,7 @@ exports.add = function (phone, name, email) {
     if (name === '') {
         return false;
     }
-    email = checkNull(email);
+    email = checkNull(email.trim());
     var newAccount = Object.create(formAccount);
     newAccount.phone = phone;
     newAccount.name = name;
@@ -86,7 +86,7 @@ function checkNull(str) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    phone = checkNull(phone);
+    phone = checkNull(phone.trim());
     name = checkNull(name);
     name = name.trim();
     if (formPhone(phone)) {
@@ -100,7 +100,7 @@ exports.update = function (phone, name, email) {
     if (name !== '') {
         phoneBook[number].name = name;
     }
-    email = checkNull(email);
+    email = checkNull(email.trim());
     phoneBook[number].email = email;
 
     return true;
