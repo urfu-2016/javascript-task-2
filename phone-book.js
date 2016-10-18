@@ -12,8 +12,9 @@ function check(phone, name) {
     var isStringP = typeof Number(phone) !== 'number';
     var isPositive = Number(phone) < 0;
     var reg = !/^[0-9]{10}$/.test(phone) || isPositive;
+    var flag = phone === '' || isStringP;
 
-    if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || reg) {
+    if (phone.length !== 10 || strAndEmp(phone, name) || flag || reg) {
 
         return false;
     }
@@ -194,7 +195,7 @@ exports.find = function (query) {
     resultIndex.push(findIndex(phoneBook.email, query));
     if (resultIndex !== []) {
 
-        return dictionary(resultIndex);
+        return dictionary(resultIndex).sort();
     }
 
     return [];
