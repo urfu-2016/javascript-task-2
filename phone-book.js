@@ -62,7 +62,6 @@ exports.findAndRemove = function (query) {
         }
 
         return s;
-    }
 };
 
 exports.find = function (query) {
