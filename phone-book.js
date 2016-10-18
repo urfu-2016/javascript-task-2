@@ -53,7 +53,7 @@ exports.findAndRemove = function (query) {
     var s = 0;
     var foundRegExp = new RegExp(query);
     for (var i = phoneBook.length - 1; i >= 0; i--) {
-        if ((phoneBook[i]).some(element => foundRegExp.test(element))) {
+        if ((phoneBook[i]).some(elem => foundRegExp.test(elem))) {
             phoneBook.splice(i, 1);
             s++;
         }
@@ -74,7 +74,7 @@ exports.find = function (query) {
     var foundRegExp = new RegExp(query);
     var arrayOfFounded = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((phoneBook[i]).some(element => foundRegExp.test(element))) {
+        if ((phoneBook[i]).some(elem => foundRegExp.test(elem))) {
             arrayOfFounded.push(phoneBook[i]);
         }
     }
