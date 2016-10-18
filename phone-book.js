@@ -135,21 +135,12 @@ function checker(element, query, array) {
         (under(element.e).indexOf(query) !== -1)) {
         var t = '+7 (' + element.p.slice(0, 3) + ') ' + element.p.slice(3, 6) +
         '-' + element.p.slice(6, 8) + '-' + element.p.slice(-2);
-        if (under(element.e) === '') {
+        if (element.e === undefined) {
             array.push(element.n + ', ' + t);
         } else {
-            array.push(element.n + ', ' + t + ', ' + under(element.e));
+            array.push(element.n + ', ' + t + ', ' + element.e);
         }
     }
-}
-
-function under(email) {
-    if (typeof(email) === 'undefined') {
-        email = '';
-    }
-
-
-    return email;
 }
 
 exports.importFromCsv = function (csv) {
