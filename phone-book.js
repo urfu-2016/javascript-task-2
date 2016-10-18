@@ -10,11 +10,7 @@ var phoneBook = [];
 
 
 function phoneIsValid(phone) {
-    if (typeof phone !== 'string' || phone.length !== 10 || phone.match(/\d{10}/) === null) {
-        return false;
-    }
-
-    return true;
+    return phone && phone.length === 10 && !phone.match(/[^0-9]/gi) && !isNaN(Number(phone));
 }
 function findContactName(name) {
     for (var i = 0; i < phoneBook.length; i++) {
