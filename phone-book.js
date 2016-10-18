@@ -9,8 +9,8 @@ function strAndEmp(phone, name) {
 }
 
 function check(phone, name) {
-    var isStringP = typeof Number(phone) !== 'number';
-    var isPositive = isNaN(Number(phone)) || phone === '';
+    var isStringP = isNaN(Number(phone));
+    var isPositive = phone === '';
     var reg = !/^[0-9]{10}$/.test(phone) || isPositive;
     if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || reg) {
 
