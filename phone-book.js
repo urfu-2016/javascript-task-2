@@ -103,7 +103,7 @@ exports.update = function (phone, name, email) {
  * @returns {Number} - количество удаленных записей
  */
 exports.findAndRemove = function (query) {
-    if (!query || typeof query !== 'string') {
+        if (!query || typeof query !== 'string') {
 
         return 0;
     }
@@ -137,20 +137,59 @@ function getNotRemovedItems(query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {Array} - массив
+ * @returns {Array}
  */
 exports.find = function (query) {
-    if (!query || typeof query !== 'string' || query === '') {
+    if (!query || typeof query !== 'string') {
 
         return [];
     }
-
-    if (query === '*') {
-
-        return resultPhoneBook(phoneBook);
+    var queryResult;
+    if (query !== '*') {
+        queryResult = getItemsByQuery(query);
+    } else {
+        queryResult = phoneBook;
     }
 
-    var resultBook = phoneBook.filter(function (item) {
+    var sortedResult = sortArray(queryResult);
+
+    return sortedResult.map(function (item) {
+        var queryLine = item.name + ', ' + convertPhone(item.phone);
+
+        if (item.email) {
+            queryLine += ', ' + item.email;
+        }
+
+        return queryLine;
+    });
+};
+
+function convertPhone(phone) {
+
+    return '+7 (' +
+        phone.substring(0, 3) + ') ' +
+        phone.substring(3, 6) + '-' +
+        phone.substring(6, 8) + '-' +
+        phone.substring(8, phone.length);
+}
+
+function sortArray(arr) {
+
+    return arr.sort(function (a, b) {
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            return 1;
+        }
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            return -1;
+        }
+
+        return 0;
+    });
+}
+
+function getItemsByQuery(query) {
+
+    return phoneBook.filter(function (item) {
         var result = item.phone.indexOf(query) !== -1 ||
             item.name.indexOf(query) !== -1;
         if (item.email) {
@@ -159,37 +198,8 @@ exports.find = function (query) {
 
         return result;
     });
-
-    return resultPhoneBook(resultBook);
-};
-
-function resultPhoneBook(array) {
-    array = array.sort(compare);
-
-    return array.map(function (item) {
-        var result = item.name + ', ' +
-            item.phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
-
-        if (item.email) {
-            result += ', ' + item.email;
-        }
-
-        return result;
-    });
 }
 
-function compare(a, b) {
-    if (a.name.toLowerCase() < b.name.toLowerCase()) {
-
-        return -1;
-    }
-    if (a.name.toLowerCase() > b.name.toLowerCase()) {
-
-        return 1;
-    }
-
-    return 0;
-}
 
 /**
  * Импорт записей из csv-формата
