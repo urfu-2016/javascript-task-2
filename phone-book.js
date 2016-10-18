@@ -7,19 +7,19 @@ exports.add = function (phone, name, email) {
     if (phone === '' || phone === undefined ||
     name === '' || name === undefined ||
     email === '' || phone.match(/^[0-9]{10}$/) === null) {
-    return false;
-}
+        return false;
+    }
 
     for (var i = 0; i < phoneBook.length; i++) {
-    if (phoneBook[i].phone === phone) {
+        if (phoneBook[i].phone === phone) {
             return true;
         }
-}
+    }
 
     phoneBook.push({ phone: phone, name: name, email: email });
 
     return true;
-}
+};
 
 // Обновление записи в телефонной книге
 exports.update = function (phone, name, email) {
@@ -31,12 +31,12 @@ exports.update = function (phone, name, email) {
     }
 
     phoneBook.forEach(function (elem) {
-    if (typeof elem !== undefined && elem.phone === phone) {
+        if (typeof elem !== undefined && elem.phone === phone) {
             elem.email = email;
             elem.name = name;
             found = true;
         }
-});
+    });
 
     return found;
 };
