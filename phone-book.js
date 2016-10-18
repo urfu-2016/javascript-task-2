@@ -10,30 +10,26 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-function checkPhone(phoneTest) {
-    if (/^\d{10}$/.test(phoneTest)) {
-        return true;
+function validation(name, phone, email) {
+    function checkPhone() {
+        return ((phone) && (typeof(phone) === 'string') && (/^\d{10}$/.test(phone)));
     }
 
-    return false;
-
-}
-
-function checkName(testName) {
-    if ((typeof(testName) !== 'undefined') &&
-    (testName.length > 0)) {
-        return true;
+    function checkName() {
+        return ((name) && (typeof(name) === 'string') &&
+    (name.length > 0));
     }
 
-    return false;
-}
-function correctMail(email) {
-    return ((typeof(email) === 'undefined') || (typeof(email) === 'string'));
+    function correctMail() {
+        return ((typeof(email) === 'undefined') || ((typeof(email) === 'string') && (name !== '')));
+    }
+
+    return (checkPhone() && checkName() && correctMail());
 }
 
 exports.add = function (phone, name, email) {
-    if ((checkName(name)) && (checkPhone(phone)) && (correctMail(email)) &&
-    uniquePhone(phone) === -1) {
+    if ((validation(name, phone, email)) &&
+    (uniquePhone(phone) === -1)) {
         if (typeof(email) === 'undefined') {
             phoneBook.push({ phone: phone, name: name });
 
@@ -59,7 +55,7 @@ function uniquePhone(phone) {
 
 exports.update = function (phone, name, email) {
     var indexToChange = uniquePhone(phone);
-    if ((checkName(name)) && (checkPhone(phone)) &&
+    if ((validation(name, phone, email)) &&
     (indexToChange > -1)) {
         phoneBook[indexToChange].name = name;
         if (typeof(email) !== 'undefined') {
@@ -76,8 +72,9 @@ exports.update = function (phone, name, email) {
 
 
 exports.findAndRemove = function (query) {
-    if ((query === '') || (typeof(query) === 'undefined')) {
-        return 0;
+    var result = 0;
+    if ((!query) || (typeof(query) !== 'string')) {
+        return result;
     }
     var finds = exports.find(query);
     phoneBook = phoneBook.filter(isMatch);
@@ -90,13 +87,14 @@ exports.findAndRemove = function (query) {
 
         return true;
     }
+    result = finds.length;
 
-    return finds.length;
+    return result;
 };
 exports.find = function (query) {
     var result = [];
-    if ((query === '') || (typeof(query) === 'undefined')) {
-        return [];
+    if ((!query) || (typeof(query) !== 'string')) {
+        return result;
     }
     if (query === '*') {
         return phoneBook.sort(bookSort).map(correctOutput);
