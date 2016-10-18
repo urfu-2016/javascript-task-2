@@ -121,7 +121,7 @@ exports.update = function (phone, name, email) {
  * @returns {Integer} counter
  */
 exports.findAndRemove = function (query) {
-    if (query === '') {
+    if (query === '' || query === undefined) {
         return 0;
     }
     var counter = 0;
@@ -189,7 +189,7 @@ function findEntry(query, ent) {
 
 exports.find = function (query) {
     var result = [];
-    if (query === '') {
+    if (query === '' || query === undefined) {
         return result;
     }
     if (query === '*') {
