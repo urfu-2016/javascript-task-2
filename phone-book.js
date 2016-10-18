@@ -127,7 +127,7 @@ exports.findAndRemove = function (query) {
 function findIndex(arr, str) {
     var result = [];
     for (var i = 0; i < arr.length; i++) {
-        if (arr[i].toLowerCase().indexOf(str) !== -1) {
+        if (arr[i].toLowerCase().indexOf(str.toLowerCase()) !== -1) {
             result.push(i);
         }
     }
