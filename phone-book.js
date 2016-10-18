@@ -50,7 +50,7 @@ function checkValidPhone(phone) {
     if (!phone) {
         return true;
     }
-    if (typeof phone === 'string') {
+    if (typeof phone === 'string' && phone.length === 10) {
         var regexp = /[^0-9]/g;
 
         return phone.replace(regexp, '').length === 10;
