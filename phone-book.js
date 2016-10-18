@@ -22,6 +22,7 @@ var recPhoneBook;
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
 
@@ -111,19 +112,20 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     // Вывод найденных записей (тип: объект, тип элементов: строка)
     var foundRec = [];
+    var i;
 
     if (typeof(query) !== 'string' || query === '') {
         return;
     }
 
     if (query === '*') {
-        for (var i = 0; i < phoneBook.length; i++) {
+        for (i = 0; i < phoneBook.length; i++) {
             recPhoneBook = phoneBook[i];
             foundRec.push(recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
                 ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : ('')));
         }
     } else {
-        for (var i = 0; i < phoneBook.length; i++) {
+        for (i = 0; i < phoneBook.length; i++) {
             recPhoneBook = phoneBook[i];
             if (findQuery(query)) {
                 foundRec.push(recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
@@ -154,11 +156,13 @@ exports.importFromCsv = function (csv) {
     }
 
     // разбиваем по строкам. в каждой строке новый контакт
-    var arrayStr = csv.split('\n');
+    var arrayStr;
     // Информация о контакте
     var InfoRec,
         // Количество добавленных/обновленных записей
         k = 0;
+
+    arrayStr =  csv.split('\n');
 
     for (var i = 0; i < arrayStr.length; i++) {
         // разбиваем информацию о контакте
