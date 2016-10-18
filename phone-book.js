@@ -107,7 +107,7 @@ exports.findAndRemove = function (query) {
         phoneBook = phoneBook.filter(function (item) {
             return !checkHasUser(query, item);
         });
-        console.log(count - phoneBook.length);
+
         return count - phoneBook.length;
     }
 
