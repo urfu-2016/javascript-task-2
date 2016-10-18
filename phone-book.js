@@ -120,7 +120,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {Boolean}
+ * @returns {Array}
  */
 exports.find = function (query) {
     if (checkValidquery(query)) {
@@ -136,7 +136,7 @@ exports.find = function (query) {
         return listContacts;
     }
 
-    return false;
+    return [];
 };
 
 function checkValidquery(query) {
