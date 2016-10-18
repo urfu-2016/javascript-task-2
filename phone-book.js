@@ -21,7 +21,7 @@ function check(phone, name) {
     return true;
 }
 
-exports.isStar = true;
+exports.isStar = false;
 
 var phoneBook = {
     phone: [],
@@ -34,12 +34,8 @@ function addEmail(email) {
 
         return '';
     }
-    if (typeof email === 'string') {
 
-        return email;
-    }
-
-    return false;
+    return email;
 }
 
 exports.add = function (phone, name, email) {
@@ -47,9 +43,8 @@ exports.add = function (phone, name, email) {
         var indexP = phoneBook.phone.indexOf(phone) === -1;
         var indexN = phoneBook.name.indexOf(name) === -1;
         var indexE = phoneBook.email.indexOf(email) === -1;
-        var correctEmail = addEmail(email);
-        if (indexE && indexN && indexP &&
-             (correctEmail === '' || correctEmail !== false)) {
+        if (indexE && indexN && indexP) {
+            var correctEmail = addEmail(email);
             phoneBook.phone.push(phone);
             phoneBook.name.push(name);
             phoneBook.email.push(correctEmail);
@@ -104,7 +99,7 @@ function addNewBook(arr) {
 }
 
 exports.findAndRemove = function (query) {
-    if (typeof query === undefined || query === '' || typeof  query !== 'string') {
+    if (typeof query === undefined || query === '') {
 
         return 0;
     }
@@ -178,13 +173,8 @@ function addData(i, res) {
     }
 }
 
-function check2(query){
-    var flag1 = typeof query === undefined || query === '';
-    return  flag1 || typeof query !== 'string';
-}
-
 exports.find = function (query) {
-    if (check2(query)) {
+    if (typeof query === undefined || query === '') {
         return [];
     }
     if (query === '*') {
