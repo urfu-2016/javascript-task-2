@@ -17,11 +17,12 @@ var phoneBook = {};
  * @param {String} name
  * @param {String} email
  */
+
 exports.add = function (phone, name, email) {
-    if (!isCorrectPhone(phone) || !name) {
+    if (phone in phoneBook || !name || !isCorrectPhone(phone)) {
         return false;
     }
-    phoneBook[phone] = {'phone': phone, 'name': name, 'email': email};
+    phoneBook[phone] = { 'name': name, 'email': email };
 
     return true;
 };
