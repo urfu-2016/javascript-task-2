@@ -20,7 +20,7 @@ function checkPhone(phoneTest) {
 }
 
 function checkName(testName) {
-    if ((typeof(testName) === 'string') &&
+    if ((typeof(testName) !== 'undefined') &&
     (testName.length > 0)) {
         return true;
     }
@@ -32,7 +32,8 @@ function correctMail(email) {
 }
 
 exports.add = function (phone, name, email) {
-    if (checkPhone(phone) && checkName(name) && (correctMail(email)) && uniquePhone(phone) === -1) {
+    if ((checkName(name)) && (checkPhone(phone)) && (correctMail(email)) &&
+    uniquePhone(phone) === -1) {
         if (typeof(email) === 'undefined') {
             phoneBook.push({ phone: phone, name: name });
 
@@ -58,7 +59,7 @@ function uniquePhone(phone) {
 
 exports.update = function (phone, name, email) {
     var indexToChange = uniquePhone(phone);
-    if ((checkName(name)) && (checkPhone(phone)) && (correctMail(email)) &&
+    if ((checkName(name)) && (checkPhone(phone)) &&
     (indexToChange > -1)) {
         phoneBook[indexToChange].name = name;
         if (typeof(email) !== 'undefined') {
@@ -75,7 +76,7 @@ exports.update = function (phone, name, email) {
 
 
 exports.findAndRemove = function (query) {
-    if (query === '') {
+    if ((query === '') || (typeof(query) === 'undefined')) {
         return 0;
     }
     var finds = exports.find(query);
@@ -94,7 +95,7 @@ exports.findAndRemove = function (query) {
 };
 exports.find = function (query) {
     var result = [];
-    if (query === '') {
+    if ((query === '') || (typeof(query) === 'undefined')) {
         return [];
     }
     if (query === '*') {
