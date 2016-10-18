@@ -97,24 +97,19 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
-    phone = phone.trim();
-    name = name.trim();
-
     if (phoneIsAlreadyInPhoneBook()) {
 
         return false;
     }
 
-    var note = {
-        phone: phone,
-        name: name,
-    };
+    var note = {};
+    note.phone = phone.trim();
+    note.name = name.trim();
 
     if (email === null || email === undefined) {
         note.email = undefined;
     } else {
-        email = email.trim();
-        note.email = email;
+        note.email = email.trim();
     }
 
     phoneBook.push(note);
@@ -140,25 +135,21 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    phone = phone.trim();
-    name = name.trim();
-
     var targetIndex = phoneBook.findIndex(findNote);
-
 
     if (targetIndex !== -1) {
 
-        phoneBook[targetIndex].name = name;
+        phoneBook[targetIndex].name = name.trim();
         if (email === null || email === undefined) {
             phoneBook[targetIndex].email = undefined;
         } else {
             email = email.trim();
-            phoneBook[targetIndex].email = email;
+            phoneBook[targetIndex].email = email.trim();
 
         }
 
         return true;
-    }
+    }s
 
     return false;
 };
