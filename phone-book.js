@@ -21,16 +21,16 @@ var formAccount = {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean} 
  */
 exports.add = function (phone, name, email) {
     phone = checkNull(phone);
     name = checkNull(name);
+    name = name.trim();
     if (checkData(phone)) {
-        console.info('addf'+phone+', '+name+', '+email);
         return false;
     }
     if (name === '') {
-        console.info('addf'+phone+', '+name+', '+email);
         return false;
     }
     email = checkNull(email);
@@ -39,7 +39,7 @@ exports.add = function (phone, name, email) {
     newAccount.name = name;
     newAccount.email = email;
     phoneBook.push(newAccount);
-    console.info('add'+phone+', '+name+', '+email);
+
     return true;
 };
 
@@ -60,24 +60,14 @@ function findAccount(phone) {
             return i;
         }
     }
+
     return 0;
 }
 
 function formPhone(phone) {
-    if (phone.indexOf('(') !== -1) {
-        return true;
-    }
-    if (phone.indexOf('+') !== -1) {
-        return true;
-    }
-    if(phone.indexOf('-') !== -1) {
-        return true;
-    }
-    if (phone.length !== 10) {
-        return true;
-    }
+    var reg = /^\d{10}$/;
 
-    return false;
+    return !reg.test(phone);
 }
 
 function checkNull(str) {
@@ -93,17 +83,17 @@ function checkNull(str) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
     phone = checkNull(phone);
     name = checkNull(name);
+    name = name.trim();
     if (formPhone(phone)) {
-        console.info('apdatef1 '+phone+', '+name+', '+email);
         return false;
     }
     var number = findAccount(phone);
     if (number === 0) {
-        console.info('apdatef2 '+phone+', '+name+', '+email);
         return false;
     }
     phoneBook[number].phone = phone;
@@ -112,7 +102,6 @@ exports.update = function (phone, name, email) {
     }
     email = checkNull(email);
     phoneBook[number].email = email;
-    console.info('apdate'+phone+', '+name+', '+email);
 
     return true;
 };
@@ -120,6 +109,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number}
  */
 exports.findAndRemove = function (query) {
     var kol = 0;
@@ -128,37 +118,34 @@ exports.findAndRemove = function (query) {
         for (var i = 0 ; i < phoneBook.length; i++) {
             phoneBook.pop;
         }
-        console.info(kol+' del* '+query);
         return kol;
     }
     if (query === '') {
-        console.info(0+' del0 '+query);
         return 0;
     }
     var t = findAllAccount(query, 'del');
-    console.info(t+' deln '+query);
     return t;
 };
 
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Object}
  */
 exports.find = function (query) {
     var masOutputAccount = [];
     if (query === '*') {
-        for (var i = 0; i < phoneBook.length; i++){
+        for (var i = 0; i < phoneBook.length; i++) {
             masOutputAccount.push(output(i));
         }
         masOutputAccount.sort();
-        console.info('find* '+query);
         return masOutputAccount;
     }
     if(checkNull(query) === '') {
-        return ''+'find0 '+query;
+        return masOutputAccount;
     }
 
-    return findAllAccount(query, '')+'findn '+query;
+    return findAllAccount(query, '');
 };
 
 function findAllAccount(query, flag) {
@@ -166,32 +153,36 @@ function findAllAccount(query, flag) {
     var kol = 0;
     if (flag === '') {
         masOutputAccount = findElem(query, flag);
-        masOutputAccount.sort;
+        masOutputAccount.sort();
         if (masOutputAccount.length === 0){
             return '';
         } else {
-/*            return out(masOutputAccount);*/
             return masOutputAccount;
         }
     } else {
-        masOutputAccount = findElem(query, flag);
+        kol = findElem(query, flag);
         return kol;
     }
 }
 
-/*function out(mas) {
-    
-    for (var i = 0; i < mas.length; i++) {
-        
+function findQueryInAccounts(query, element) {
+    query = query.toLowerCase();
+    var keys = Object.keys(element);
+    for (var i = 0; i < keys.length; i++) {
+        if (element[keys[i]].toLowerCase().indexOf(query) !== -1) {
+            return true;
+        }
     }
-}*/
+
+    return false;
+}
 
 function findElem(query, flag) {
     var masFindElem = [];
     var kol = 0;
-    for (var i = 0; i < phoneBook.length; i++){
-        if (phoneBook[i].phone.indexOf(query) !== -1) {
-            if (flag !== '') {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if(findQueryInAccounts(query, phoneBook[i])) {
+            if (flag === '') {
                 masFindElem.push(output(i));
             } else {
                 kol++;
@@ -199,31 +190,7 @@ function findElem(query, flag) {
             }
         }
     }
-    if (masFindElem.length !== 0) {
-        for (var i = 0; i < phoneBook.length; i++){
-            if (phoneBook[i].name.indexOf(query) !== -1) {
-                if (flag !== '') {
-                masFindElem.push(output(i));
-                } else {
-                    kol++;
-                    phoneBook[i].pop;
-                }
-            }
-        }
-    }
-    if (masFindElem.length !== 0) {
-        for (var i = 0; i < phoneBook.length; i++){
-            if (phoneBook[i].email.indexOf(query) !== -1) {
-                if (flag !== '') {
-                masFindElem.push(output(i));
-                } else {
-                    kol++;
-                    phoneBook[i].pop;
-                }
-            }
-        }
-    }
-    if (flag === '') {
+    if (flag === 'del') {
         return kol;
     }
     
@@ -232,11 +199,17 @@ function findElem(query, flag) {
 
 function output(i) {
     var strOutput = '';
-    var kod = phoneBook[i].phone.slice(0,2);
-    var p1 = phoneBook[i].phone.slice(3,5);
-    var p2 = phoneBook[i].phone.slice(6,7);
-    var p3 = phoneBook[i].phone.slice(8,9);
-    strOutput = phoneBook[i].name + '+7 (' + kod + ')' + p1 + '-' + p2 + '-' + p3;
+    var kod = phoneBook[i].phone.slice(0,3);
+    var p1 = phoneBook[i].phone.slice(3,6);
+    var p2 = phoneBook[i].phone.slice(6,8);
+    var p3 = phoneBook[i].phone.slice(8,10);
+    var phone = ', +7 (' + kod + ') ' + p1 + '-' + p2 + '-' + p3;
+    strOutput = phoneBook[i].name + phone;
+    if (phoneBook[i].email !== '') {
+        strOutput += ', ' + phoneBook[i].email;
+    }
+
+    return strOutput;
 }
 
 /**
