@@ -19,19 +19,14 @@ var phoneBook = [];
  */
 exports.add = function (phone, name, email) {
     var phoneBookData = {};
-    var inputPhone = validateInputPhone(phone, name, email);
+    var inputPhone = validateInputPhone(phone);
     var inputName = validateInputName(name);
-    var inputEmail = validateInputEmail(email);
 
-    if (!inputPhone || !inputName || !inputEmail) {
+    if (!inputPhone || !inputName) {
         return false;
     }
 
-    if (email !== undefined) {
-        phoneBookData = { phone: phone, name: name, email: email };
-    } else {
-        phoneBookData = { phone: phone, name: name };
-    }
+    phoneBookData = { phone: phone, name: name, email: email };
     phoneBook.push(phoneBookData);
 
     return true;
@@ -54,15 +49,6 @@ function validateInputPhone(phone) {
 function validateInputName(name) {
 
     if (!name || typeof name !== 'string' || name === undefined) {
-        return false;
-    }
-
-    return true;
-}
-
-function validateInputEmail(email) {
-
-    if ((email !== undefined && typeof email !== 'string')) {
         return false;
     }
 
@@ -95,7 +81,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    if (!validateInputName(name) || !validateInputEmail(email)) {
+    if (!validateInputName(name)) {
         return false;
     }
     var count = phoneBook.filter(searchByPhone).length !== 0;
@@ -105,11 +91,7 @@ exports.update = function (phone, name, email) {
     function searchByPhone(item) {
         if (item.phone === phone && (item.name !== name || item.email !== email)) {
             item.name = name;
-            if (email === undefined || !email) {
-                delete item.email;
-            } else {
-                item.email = email;
-            }
+            item.email = email;
 
             return true;
         }
@@ -125,36 +107,29 @@ exports.update = function (phone, name, email) {
  * @param {String} query
  */
 exports.findAndRemove = function (query) {
-    var count = 0;
 
     if (!query || typeof query !== 'string') {
         return 0;
     }
 
-    while (findForRemove(query)) {
-        count++;
-    }
-
-    return count;
+    return findForRemove(query);
 };
 
 // callback функция проверяет вхождения запроса для удаления контакта
 function findForRemove(query) {
-    var indexOfElement = phoneBook.findIndex(findElementIndex);
-
-    function findElementIndex(item, index) {
-        var objectItem = Object.keys(item);
-        for (var i = 0; i < objectItem.length; i++) {
-            var result = item[objectItem[i]].indexOf(query);
-            if (result !== -1) {
-                phoneBook.splice(index, 1);
-
-                return true;
-            }
+    var deleted = 0;
+    for (var i = phoneBook.length - 1; i >= 0; i--) {
+        var queryPhone = phoneBook[i].phone;
+        var queryName = phoneBook[i].name;
+        var queryEmail = phoneBook[i].email;
+        if (queryPhone.indexOf(query) !== -1 || queryName.indexOf(query) !== -1 ||
+            query === '*' || (queryEmail && queryEmail.indexOf(query) !== -1)) {
+            phoneBook.splice(i, 1);
+            deleted++;
         }
     }
 
-    return indexOfElement !== -1;
+    return deleted;
 }
 
 /*
@@ -186,9 +161,10 @@ function searchByContacts(query) {
         }
 
         for (var i = 0; i < objectItem.length; i++) {
-            var res = item[objectItem[i]].indexOf(query);
-
-            return res !== -1;
+            var res = item[objectItem[i]] || '';
+            if (res.indexOf(query) !== -1) {
+                return true;
+            }
         }
     }
 
