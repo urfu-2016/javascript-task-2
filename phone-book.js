@@ -199,7 +199,7 @@ exports.find = function (query) {
     resultIndex.push(findIndex(phoneBook.email, query));
     if (resultIndex.length !== 0) {
 
-        return dictionary(resultIndex);
+        return dictionary(resultIndex).sort();
     }
 
     return [];
