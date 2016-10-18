@@ -21,7 +21,7 @@ var formAccount = {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {Boolean} 
+ * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
     phone = checkNull(phone);
@@ -47,7 +47,7 @@ function checkData(phone) {
     if (formPhone(phone)) {
         return true;
     }
-    if (findAccount(phone) !== 0){
+    if (findAccount(phone) !== 0) {
         return true;
     }
 
@@ -55,7 +55,7 @@ function checkData(phone) {
 }
 
 function findAccount(phone) {
-    for (var  i = 0; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             return i;
         }
@@ -73,9 +73,9 @@ function formPhone(phone) {
 function checkNull(str) {
     if (str === null || str === undefined) {
         return '';
-    } else {
-        return str;
     }
+
+    return str;
 }
 
 /**
@@ -115,9 +115,7 @@ exports.findAndRemove = function (query) {
     var kol = 0;
     if (query === '*') {
         kol = phoneBook.length;
-        for (var i = 0 ; i < phoneBook.length; i++) {
-            phoneBook.pop;
-        }
+        phoneBook.splice(0, kol);
         return kol;
     }
     if (query === '') {
@@ -140,9 +138,10 @@ exports.find = function (query) {
             masOutputAccount.push(output(i));
         }
         masOutputAccount.sort();
+
         return masOutputAccount;
     }
-    if(checkNull(query) === '') {
+    if (checkNull(query) === '') {
         return masOutputAccount;
     }
 
@@ -155,15 +154,14 @@ function findAllAccount(query, flag) {
     if (flag === '') {
         masOutputAccount = findElem(query, flag);
         masOutputAccount.sort();
-        if (masOutputAccount.length === 0) {
+        if (masOutputAccount.length === 0){
             return '';
-        } else {
-            return masOutputAccount;
         }
-    } else {
-        kol = findElem(query, flag);
-        return kol;
+        return masOutputAccount;
     }
+    kol = findElem(query, flag);
+    
+    return kol;
 }
 
 function findQueryInAccounts(query, element) {
@@ -182,28 +180,35 @@ function findElem(query, flag) {
     var masFindElem = [];
     var kol = 0;
     for (var i = 0; i < phoneBook.length; i++) {
-        if(findQueryInAccounts(query, phoneBook[i])) {
-            if (flag === '') {
-                masFindElem.push(output(i));
-            } else {
-                kol++;
-                phoneBook[i].pop;
-            }
+        if (findQueryInAccounts(query, phoneBook[i])) {
+            kol++;
+            i = findOrDeletAccount(i, masFindElem, flag);
         }
     }
     if (flag === 'del') {
         return kol;
     }
-
+    
     return masFindElem;
+}
+
+function findOrDeletAccount(i, masFindElem, flag) {
+    if (flag === '') {
+        masFindElem.push(output(i));
+    } else {
+        phoneBook.splice(i, 1);
+        i--;
+    }
+
+    return i;
 }
 
 function output(i) {
     var strOutput = '';
-    var kod = phoneBook[i].phone.slice(0,3);
-    var p1 = phoneBook[i].phone.slice(3,6);
-    var p2 = phoneBook[i].phone.slice(6,8);
-    var p3 = phoneBook[i].phone.slice(8,10);
+    var kod = phoneBook[i].phone.slice(0, 3);
+    var p1 = phoneBook[i].phone.slice(3, 6);
+    var p2 = phoneBook[i].phone.slice(6, 8);
+    var p3 = phoneBook[i].phone.slice(8, 10);
     var phone = ', +7 (' + kod + ') ' + p1 + '-' + p2 + '-' + p3;
     strOutput = phoneBook[i].name + phone;
     if (phoneBook[i].email !== '') {
