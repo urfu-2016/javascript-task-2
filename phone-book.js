@@ -11,7 +11,7 @@ function strAndEmp(phone, name) {
 function check(phone, name) {
     var isStringP = isNaN(Number(phone));
     var isPositive = phone === '';
-    var reg = !(/^[0-9]{10}$/.test(phone)) || isPositive;
+    var reg = !(/^\d{10}$/.test(phone)) || isPositive;
     if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || reg) {
 
         return false;
@@ -20,7 +20,7 @@ function check(phone, name) {
     return true;
 }
 
-exports.isStar = true;
+exports.isStar = false;
 
 var phoneBook = {
     phone: [],
