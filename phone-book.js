@@ -2,8 +2,6 @@
 
 exports.isStar = true;
 
-var phoneBook = [];
-
 function compareFunction(a, b) {
     if (a._name < b._name) {
         return -1;
@@ -15,18 +13,18 @@ function compareFunction(a, b) {
     return 0;
 }
 
-function isConstains(i, object) {
-    if (i._phone === object._phone || i._name === object._name || i._email === object._email) {
+function recordIsContains(obj1, obj2) {
+    if (obj1._phone === obj2._phone || obj1._name === obj2._name || obj1._email === obj2._email) {
         return true;
     }
 
     return false;
 }
 
-function isFound(i, q) {
-    var email = String(i._email);
-    var phone = String(i._phone);
-    var name = String(i._name);
+function queryIsFound(obj, q) {
+    var email = String(obj._email);
+    var phone = String(obj._phone);
+    var name = String(obj._name);
     if (email.indexOf(q) !== -1 || phone.indexOf(q) !== -1 || name.indexOf(q) !== -1) {
         return true;
     }
@@ -34,8 +32,8 @@ function isFound(i, q) {
     return false;
 }
 
-function isString(m) {
-    if (m === '' || typeof m === 'undefined' || m === null) {
+function isStringType(q) {
+    if (q === '' || typeof q === 'undefined' || q === null) {
         return false;
     }
 
@@ -53,7 +51,7 @@ function isCorrectPhone(phone1) {
 }
 
 function isEmail(email, x) {
-    if (isString(email)) {
+    if (email !== '' && email !== 'undefined') {
         return x + ', ' + email;
     }
 
@@ -61,7 +59,7 @@ function isEmail(email, x) {
 }
 
 function isCorrectQuery(i, query) {
-    if (isFound(i, query) || query === '*') {
+    if (queryIsFound(i, query) || query === '*') {
         return true;
     }
 
@@ -84,14 +82,14 @@ exports.add = function (phone, name, email) {
         _name: name,
         _email: email
     };
-    if (!isString(name)) {
+    if (!isStringType(name)) {
         return false;
     }
     if (!isCorrectPhone(phone)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (isConstains(phoneBook[i], object)) {
+        if (recordIsContains(phoneBook[i], object)) {
             return false;
         }
     }
@@ -101,7 +99,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if (!isString(name)) {
+    if (!isStringType(name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
@@ -154,9 +152,9 @@ exports.importFromCsv = function (csv) {
     var t = 0;
     for (var i = 0; i < csv1.length; i++) {
         var str = csv1[i].split(';');
-        if (exports.add(str[1], str[0], str[2]) === true) {
+        if (add(str[1], str[0], str[2]) === true) {
             t = t + 1;
-        } else if (exports.update(str[1], str[0], str[2]) === true) {
+        } else if (update(str[1], str[0], str[2]) === true) {
             t = t + 1;
         }
     }
