@@ -31,7 +31,7 @@ function checkExist(phone) {
 function testPhone(phone) {
     var regvalidPhone = /\d{10}/;
 
-    return regvalidPhone.test(phone);
+    return regvalidPhone.test(phone) && phone.length === 10;
 }
 
 
