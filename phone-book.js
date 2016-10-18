@@ -94,7 +94,7 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
-exports.willdel = function (contact, query) {
+exports.willrec = function (contact, query) {
     var key = Object.keys(contact);
     for (var i = 0; i < key.length; i++) {
         if ((contact[key[i]] !== undefined) && (contact[key[i]].indexOf(query) !== -1)) {
@@ -124,7 +124,7 @@ exports.findAndRemove = function (query) {
         return n;
     }
     for (var i = 0; i < phoneBook.length; i++) {
-        if (!exports.willdel(phoneBook[i], query)) {
+        if (!exports.willrec(phoneBook[i], query)) {
             newphoneBook.push(phoneBook[i]);
             deletedCount++;
         }
@@ -168,8 +168,7 @@ exports.find = function (query) {
     phoneBook.sort(asc('name'));
 
     phoneBook.forEach(function (contact) {
-        if (query === '*' || contact.name.indexOf(query) > -1 ||
-            contact.phone.indexOf(query) > -1 || contact.email.indexOf(query) > -1) {
+        if (query === '*' || exports.willrec(contact, query)) {
             var newphone = contact.phone;
             var newContact = contact.name + ', ' + exports.changePhone(newphone) +
             ', ' + (contact.email || '');
