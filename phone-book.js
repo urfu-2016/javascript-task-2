@@ -121,17 +121,12 @@ exports.find = function (query) {
         return;
     }
 
-    if (query === '*') {
-        for (i = 0; i < phoneBook.length; i++) {
-            recPhoneBook = phoneBook[i];
+    for (i = 0; i < phoneBook.length; i++) {
+        recPhoneBook = phoneBook[i];
+        if (query === '*') {
             foundRec.push(returnRec());
-        }
-    } else {
-        for (i = 0; i < phoneBook.length; i++) {
-            recPhoneBook = phoneBook[i];
-            if (findQuery(query)) {
-                foundRec.push(returnRec());
-            }
+        } else if (findQuery(query)) {
+            foundRec.push(returnRec());
         }
     }
 
