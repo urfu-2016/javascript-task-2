@@ -130,7 +130,7 @@ exports.update = function (phone, name, email) {
 };
 
 exports.findAndRemove = function (query) {
-    if (query === '' typeof query === 'undefined') {
+    if (query === '' || typeof query === 'undefined') {
         return 0;
     }
     var t = 0;
@@ -148,7 +148,7 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var arr = [];
     var phoneBook1 = phoneBook.sort(compareFunction);
-    if (query === '' typeof query === 'undefined') {
+    if (query === '' || typeof query === 'undefined') {
         return [];
     }
     for (var i = 0; i < phoneBook1.length; i++) {
