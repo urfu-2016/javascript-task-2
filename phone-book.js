@@ -59,32 +59,38 @@ exports.update = function (phone, name, email) {
 
 
 exports.findAndRemove = function (query) {
-    var del = 0;
     if (query === '') {
-        return del;
+        return 0;
     }
     if (query === '*') {
-        del = phoneBook.length;
+        var del = phoneBook.length;
         phoneBook = [];
 
         return del;
     }
-
-    var res = phoneBook.filter(function (record) {
+    var foundingRecord = phoneBook.filter(function (record) {
         if (record.name.indexOf(query) !== -1 || record.phone.indexOf(query) !== -1) {
-            return false;
+            return true;
         }
-
         if (record.email) {
-            return record.email.indexOf(query) === -1;
+            return record.email.indexOf(query) !== -1;
         }
 
-        return true;
+        return false;
+    });
+    phoneBook = phoneBook.filter(function (record) {
+        var flag = true;
+
+        foundingRecord.forEach(function (item) {
+            if (item.phone === record.phone) {
+                flag = false;
+            }
+        });
+
+        return flag;
     });
 
-    del = phoneBook.length - res.length;
-
-    return del;
+    return foundingRecord.length;
 };
 
 
