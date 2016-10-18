@@ -34,18 +34,18 @@ function queryIsFound(obj, q) {
     return false;
 }
 
-function isStringType(q) {
-    if (q === '' || typeof q === 'undefined' || q === null) {
-        return false;
-    } else {
-        var s = String(q);
+function nameIsString(name) {
+    if (typeof name === 'String') {
+        var s = String(name);
         var s1 = s.trim();
         if (s1.length === 0) {
             return false
         }
+
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 function isCorrectPhone(phone1) {
@@ -90,7 +90,7 @@ exports.add = function (phone, name, email) {
         _name: name,
         _email: email
     };
-    if (!isStringType(name)) {
+    if (!nameIsString(name)) {
         return false;
     }
     if (!isCorrectPhone(phone)) {
@@ -107,7 +107,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if (!isStringType(name)) {
+    if (!nameIsString(name)) {
         return false;
     }
     for (var i = 0; i < phoneBook.length; i++) {
