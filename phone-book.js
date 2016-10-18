@@ -103,7 +103,7 @@ exports.update = function (phone, name, email) {
  * @returns {Number} - количество удаленных записей
  */
 exports.findAndRemove = function (query) {
-      if (!query || typeof query !== 'string') {
+    if (!query || typeof query !== 'string') {
 
         return 0;
     }
