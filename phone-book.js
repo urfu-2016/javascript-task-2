@@ -10,8 +10,9 @@ function checkQuery(query) {
 
     var typeQuery = typeof query !== 'string';
     var emptyQuery = query === '';
+    var undefQuery = typeof query === 'undefined';
 
-    if (typeQuery || emptyQuery) {
+    if (typeQuery || emptyQuery || undefQuery) {
 
         return false;
     }
@@ -129,9 +130,9 @@ function checkEntry(phone) {
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
-    uPhone = phone;
-    uName = name;
-    var checkEmail = isEmptyQuery(email) ? '' : email;
+    uPhone = phone.trim();
+    uName = isEmptyQuery(name) ? false : name.trim();
+    var checkEmail = isEmptyQuery(email) ? '' : email.trim();
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
 
@@ -160,20 +161,18 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     var upPhone = '';
     var checkEmail = isEmptyQuery(email) ? '' : email;
+    var fixName = name.trim();
+    var fixPhone = phone.trim();
 
-    if (isEmptyQuery(name) && isEmptyQuery(phone)) {
-
-        return false;
-
-    } else if (checkPhone(phone) && valEmail(checkEmail)) {
+    if (checkPhone(fixPhone) && valEmail(checkEmail) && checkQuery(fixName)) {
 
         phoneBook.forEach(function (object, index) {
 
             upPhone = phoneBook[index].number;
 
-            if (upPhone.indexOf(phone) !== -1) {
+            if (upPhone.indexOf(fixPhone) !== -1) {
 
-                phoneBook[index].username = name;
+                phoneBook[index].username = fixName;
                 phoneBook[index].mail = checkEmail;
 
             }
@@ -228,7 +227,7 @@ exports.find = function (query) {
     var concatResult = '';
     var fixQuery = query.trim();
 
-    if (checkQuery(fixQuery) && !isEmptyQuery(fixQuery) && fixQuery !== '*' && fixQuery !== '') {
+    if (checkQuery(fixQuery) && fixQuery !== '*' && fixQuery !== '') {
 
         phoneBook.forEach(function (object, index) {
             var findPhone = phoneBook[index].number;
