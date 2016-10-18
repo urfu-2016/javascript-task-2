@@ -111,7 +111,7 @@ exports.findAndRemove = function (query) {
         return count - phoneBook.length;
     }
 
-    return false;
+    return 0;
 
 };
 
