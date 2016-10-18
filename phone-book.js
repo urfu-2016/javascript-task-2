@@ -81,22 +81,12 @@ function addIndexArray(resultIndex) {
 }
 
 function addNewBook(arr) {
-    var newBook = {
-        phone: [],
-        name: [],
-        email: []
-    };
-    phoneBook.name.forEach(function (item, j) {
-        if (arr.indexOf(j) === -1) {
-            if (!(phoneBook.phone[j] in newBook.phone)) {
-                newBook.phone.push(phoneBook.phone[j]);
-                newBook.name.push(phoneBook.name[j]);
-                newBook.email.push(phoneBook.email[j]);
-            }
-        }
+    arr.forEach(function (item) {
+        phoneBook.name.splice(phoneBook.name.indexOf(item), 1);
+        phoneBook.email.splice(phoneBook.email.indexOf(item), 1);
+        phoneBook.phone.splice(phoneBook.phone.indexOf(item), 1);
     });
-
-    return newBook;
+    //return newBook;
 }
 
 exports.findAndRemove = function (query) {
@@ -116,7 +106,7 @@ exports.findAndRemove = function (query) {
     resultIndex.push(findIndex(phoneBook.email, query));
     if (resultIndex !== []) {
         var arr = addIndexArray(resultIndex);
-        phoneBook = addNewBook(arr);
+        addNewBook(arr);
 
         return arr.length;
     }
