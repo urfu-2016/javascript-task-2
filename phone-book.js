@@ -103,29 +103,27 @@ exports.update = function (phone, name, email) {
  * @returns {Number} - количество удаленных записей
  */
 exports.findAndRemove = function (query) {
-    if (!query || typeof query !== 'string') {
+      if (!query || typeof query !== 'string') {
 
         return 0;
     }
 
-    if (query === '*') {
-
-        return resultDeletedPhoneBook(-1);
+    var count;
+    if (query !== '*') {
+        var newPhoneBook = getNotRemovedItems(query);
+        count = phoneBook.length - newPhoneBook.length;
+        phoneBook = newPhoneBook;
+    } else {
+        count = phoneBook.length;
+        phoneBook = [];
     }
 
-    return resultDeletedPhoneBook(query);
+    return count;
 };
 
-function resultDeletedPhoneBook(query) {
-    var len;
-    if (query === -1) {
-        len = phoneBook.length;
-        phoneBook = [];
+function getNotRemovedItems(query) {
 
-        return len;
-    }
-
-    var newPhoneBook = phoneBook.filter(function (item) {
+    return phoneBook.filter(function (item) {
         var result = item.phone.indexOf(query) === -1 &&
             item.name.indexOf(query) === -1;
         if (item.email) {
@@ -134,11 +132,6 @@ function resultDeletedPhoneBook(query) {
 
         return result;
     });
-
-    len = phoneBook.length - newPhoneBook.length;
-    phoneBook = newPhoneBook;
-
-    return len;
 }
 
 /**
