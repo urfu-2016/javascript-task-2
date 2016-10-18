@@ -20,13 +20,13 @@ var phoneBook = [];
  */
 exports.isCorrect = function (phone, name, email) {
     var cPhone = (/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
-    (phone[1] === phone[2]) && (phone[3] === phone[4]) && (typeof phone === 'string') &&
-    (phone[4] === phone[5]) && (phone[6] === phone[7]) && (phone[8] === phone[9]);
+    (phone[1] === phone[2]) && (phone[3] === phone[4]) && (phone[4] === phone[5]) &&
+    (phone[6] === phone[7]) && (phone[8] === phone[9]);
     var cName = (typeof name === 'string' && name.length > 0);
-    var cEmail = (typeof email === 'string') || (typeof email === 'undefined');
+    var cEmail = (typeof email === 'undefined') || (typeof email === 'string');
 
-    return (cName && cPhone && cEmail);
-};
+    return (cEmail && cName && cPhone);
+};;
 
  /** Проверка на наличие в массиве
  * @param {String} phone
@@ -36,8 +36,8 @@ exports.isCorrect = function (phone, name, email) {
  */
 exports.indexOf = function (phone) {
     for (var i = 0; i < phoneBook.length; i++) {
-        var note = phoneBook[i];
-        if (note.phone === phone) {
+        if (phoneBook[i].phone === phone) {
+
             return i;
         }
     }
@@ -53,11 +53,11 @@ exports.indexOf = function (phone) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (exports.isCorrect(phone, name, email) && exports.indexOf(phone) === -1) {
+    if (exports.isCorrect(phone, name, email) && exports.IndexOf(phone) === -1) {
         if (typeof email === 'undefined') {
-            phoneBook.push({ 'phone': phone, 'name': name });
+            phoneBook.push({ phone: phone, name: name });
         } else {
-            phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
+            phoneBook.push({ phone: phone, name: name, email: email });
         }
 
         return true;
@@ -74,9 +74,6 @@ exports.add = function (phone, name, email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (name === '') {
-        return false;
-    }
     if (exports.isCorrect(phone, name, email) && exports.indexOf(phone) > -1) {
         var note = phoneBook[exports.indexOf(phone)];
         note.name = name;
@@ -99,7 +96,7 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
     var result = [];
-    var deletedNote = phoneBook.length;
+    var deletedNote = 0;
     if (query === '') {
         return 0;
     }
@@ -113,8 +110,9 @@ exports.findAndRemove = function (query) {
         var note = phoneBook[i];
         if (!(exports.findInNote (note, query))) {
             result.push({ 'email': note.email, 'name': note.name,
-            'phone': exports.phoneToPrint(note.phone) });
-            deletedNote--;
+            'phone': note.phone });
+        } else {
+            deletedNote++;
         }
 
     }
