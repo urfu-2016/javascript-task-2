@@ -21,7 +21,7 @@ function check(phone, name) {
     return true;
 }
 
-exports.isStar = false;
+exports.isStar = true;
 
 var phoneBook = {
     phone: [],
@@ -105,7 +105,11 @@ exports.findAndRemove = function (query) {
     }
     if (query === '*') {
         var len = phoneBook.name.length;
-        phoneBook = [];
+        phoneBook = {      
+            phone: [],
+            name: [],
+            email: []
+    };;
 
         return len;
     }
