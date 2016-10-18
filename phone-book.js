@@ -94,6 +94,17 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
+exports.willdel = function (contact, query) {
+    var key = Object.keys(contact);
+    for (var i = 0; i < key.length; i++) {
+        if ((contact[key[i]] !== undefined) && (contact[key[i]].indexOf(query) !== -1)) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
@@ -103,13 +114,19 @@ exports.findAndRemove = function (query) {
     var newphoneBook = [];
     var deletedCount = 0;
     var phoneL = phoneBook.length;
-    for (var i = 0; i < phoneL; i++) {
-        phoneBook[i].email = phoneBook[i].email || '';
-        if (query !== '*' && phoneBook[i].name.indexOf(query) === -1 &&
-            phoneBook[i].phone.indexOf(query) === -1 &&
-            phoneBook[i].email.indexOf(query) === -1) {
+    if (query === '') {
+        return 0;
+    }
+    if (query === '*') {
+        var n = phoneBook.length;
+        phoneBook = [];
+
+        return n;
+    }
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (!exports.willdel(phoneBook[i], query)) {
             newphoneBook.push(phoneBook[i]);
-            deletedCount += 1;
+            deletedCount++;
         }
     }
     phoneBook = newphoneBook;
