@@ -108,22 +108,24 @@ exports.findAndRemove = function (query) {
         return 0;
     }
 
-    var count;
-    if (query !== '*') {
-        var newPhoneBook = getNotRemovedItems(query);
-        count = phoneBook.length - newPhoneBook.length;
-        phoneBook = newPhoneBook;
-    } else {
-        count = phoneBook.length;
-        phoneBook = [];
+    if (query === '*') {
+
+        return resultDeletedPhoneBook(-1);
     }
 
-    return count;
+    return resultDeletedPhoneBook(query);
 };
 
-function getNotRemovedItems(query) {
+function resultDeletedPhoneBook(query) {
+    var len;
+    if (query === -1) {
+        len = phoneBook.length;
+        phoneBook = [];
 
-    return phoneBook.filter(function (item) {
+        return len;
+    }
+
+    var newPhoneBook = phoneBook.filter(function (item) {
         var result = item.phone.indexOf(query) === -1 &&
             item.name.indexOf(query) === -1;
         if (item.email) {
@@ -132,64 +134,30 @@ function getNotRemovedItems(query) {
 
         return result;
     });
+
+    len = phoneBook.length - newPhoneBook.length;
+    phoneBook = newPhoneBook;
+
+    return len;
 }
 
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {Array}
+ * @returns {Array} - массив
  */
 exports.find = function (query) {
-    if (!query || typeof query !== 'string') {
+    if (!query || typeof query !== 'string' || query === '') {
 
         return [];
     }
-    var queryResult;
-    if (query !== '*') {
-        queryResult = getItemsByQuery(query);
-    } else {
-        queryResult = phoneBook;
+
+    if (query === '*') {
+
+        return resultPhoneBook(phoneBook);
     }
 
-    var sortedResult = sortArray(queryResult);
-
-    return sortedResult.map(function (item) {
-        var queryLine = item.name + ', ' + convertPhone(item.phone);
-
-        if (item.email) {
-            queryLine += ', ' + item.email;
-        }
-
-        return queryLine;
-    });
-};
-
-function convertPhone(phone) {
-
-    return '+7 (' +
-        phone.substring(0, 3) + ') ' +
-        phone.substring(3, 6) + '-' +
-        phone.substring(6, 8) + '-' +
-        phone.substring(8, phone.length);
-}
-
-function sortArray(arr) {
-
-    return arr.sort(function (a, b) {
-        if (a.name.toLowerCase() > b.name.toLowerCase()) {
-            return 1;
-        }
-        if (a.name.toLowerCase() < b.name.toLowerCase()) {
-            return -1;
-        }
-
-        return 0;
-    });
-}
-
-function getItemsByQuery(query) {
-
-    return phoneBook.filter(function (item) {
+    var resultBook = phoneBook.filter(function (item) {
         var result = item.phone.indexOf(query) !== -1 ||
             item.name.indexOf(query) !== -1;
         if (item.email) {
@@ -198,8 +166,37 @@ function getItemsByQuery(query) {
 
         return result;
     });
+
+    return resultPhoneBook(resultBook);
+};
+
+function resultPhoneBook(array) {
+    array = array.sort(compare);
+
+    return array.map(function (item) {
+        var result = item.name + ', ' +
+            item.phone.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '+7 ($1) $2-$3-$4');
+
+        if (item.email) {
+            result += ', ' + item.email;
+        }
+
+        return result;
+    });
 }
 
+function compare(a, b) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+
+        return -1;
+    }
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+
+        return 1;
+    }
+
+    return 0;
+}
 
 /**
  * Импорт записей из csv-формата
@@ -211,20 +208,20 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-    var parsed = csv.split('\n');
-
-    var counter = 0;
-
-    for (var i = 0; i < parsed.length; i++) {
-        var pars = parsed[i].split(';');
-        var name = pars[0];
-        var phone = pars[1];
-        var email = pars[2];
+     var counter = 0;
+    var users = csv.split('\n');
+    users.forEach(function (user) {
+        var newUser = user.split(';');
+        var name = newUser[0];
+        var phone = newUser[1];
+        var email = newUser[2];
         if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
             counter++;
         }
-    }
+    });
 
     return counter;
 };
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms P
 
