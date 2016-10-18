@@ -142,7 +142,7 @@ exports.find = function (query) {
     var arr = [];
     var phoneBook1 = phoneBook.sort(compareFunction);
     if (query === '') {
-        return '';
+        return [];
     }
     for (var i = 0; i < phoneBook1.length; i++) {
         if (isCorrectQuery(phoneBook1[i], query)) {
