@@ -53,11 +53,18 @@ function addEntry(name, phone, email) {
 }
 
 
-exports.add = function (phone, name, email) {
-    if (name === undefined || typeof(name) !== 'string' && typeof(phone) !== 'string') {
-        return false;
+function getBadArguments(phone, name) {
+    if (name === undefined || typeof(name) !== 'string' || typeof(phone) !== 'string') {
+        return true;
     }
     if (name.length < 1) {
+        return true;
+    }
+}
+
+
+exports.add = function (phone, name, email) {
+    if (getBadArguments(phone, name)) {
         return false;
     }
     if (testEmail(email) && testPhone(phone) && phoneBook.length === 0) {
@@ -89,10 +96,7 @@ function findEntryByPhone(phone) {
  * @returns {Bool} flag
  */
 exports.update = function (phone, name, email) {
-    if (name === undefined || typeof(name) !== 'string' || typeof(phone) !== 'string') {
-        return false;
-    }
-    if (name.length < 1) {
+    if (getBadArguments(phone, name)) {
         return false;
     }
     var entry = findEntryByPhone(phone);
