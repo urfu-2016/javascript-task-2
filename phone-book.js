@@ -89,9 +89,6 @@ exports.add = function (phone, name, email) {
         return phoneBook.some(phoneMatch);
     }
 
-
-
-
     if (!inputCheck(phone, name, email)) {
 
         return false;
@@ -149,7 +146,7 @@ exports.update = function (phone, name, email) {
         }
 
         return true;
-    }s
+    }
 
     return false;
 };
