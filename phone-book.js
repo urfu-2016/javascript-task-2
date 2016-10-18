@@ -132,7 +132,7 @@ exports.findAndRemove = function (query) {
 exports.findInNote = function (note, query) {
     var key = Object.keys(note);
     for (var i = 0; i < key.length; i++) {
-        if (note[key[i]] !== underfind) && (note[key[i]].indexOf(query) !== -1) {
+        if ((note[key[i]] !== underfind) && (note[key[i]].indexOf(query) !== -1)) {
             return true;
         }
     }
