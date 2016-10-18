@@ -86,7 +86,6 @@ function addNewBook(arr) {
         phoneBook.email.splice(phoneBook.email.indexOf(item), 1);
         phoneBook.phone.splice(phoneBook.phone.indexOf(item), 1);
     });
-    //return newBook;
 }
 
 exports.findAndRemove = function (query) {
