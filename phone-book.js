@@ -49,13 +49,11 @@ exports.findAndRemove = function (query) {
     else if (query === '') {
 
         return 0;
-        }
+    }
     var s = 0;
     var foundRegExp = new RegExp(query);
     for (var i = phoneBook.length - 1; i >= 0; i--) {
-        if ((foundRegExp.test((phoneBook[i])[0])) ||
-        (foundRegExp.test((phoneBook[i])[1])) ||
-        (foundRegExp.test((phoneBook[i])[2]))) {
+        if ((phoneBook[i]).some(element => foundRegExp.test(element))) {
             phoneBook.splice(i, 1);
             s++;
         }
@@ -72,13 +70,11 @@ exports.find = function (query) {
     else if (query === '*') {
 
         return phoneBookToCustomView(phoneBook);
-        }
+    }
     var foundRegExp = new RegExp(query);
     var arrayOfFounded = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        if ((foundRegExp.test((phoneBook[i])[0])) ||
-        (foundRegExp.test((phoneBook[i])[1])) ||
-        (foundRegExp.test((phoneBook[i])[2]))) {
+        if ((phoneBook[i]).some(element => foundRegExp.test(element))) {
             arrayOfFounded.push(phoneBook[i]);
         }
     }
