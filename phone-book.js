@@ -49,7 +49,7 @@ exports.findAndRemove = function (query) {
     else if (query === '') {
 
         return 0;
-    }
+        }
     var s = 0;
     var foundRegExp = new RegExp(query);
     for (var i = phoneBook.length - 1; i >= 0; i--) {
@@ -72,7 +72,7 @@ exports.find = function (query) {
     else if (query === '*') {
 
         return phoneBookToCustomView(phoneBook);
-    }
+        }
     var foundRegExp = new RegExp(query);
     var arrayOfFounded = [];
     for (var i = 0; i < phoneBook.length; i++) {
