@@ -33,7 +33,7 @@ function checkContactBusy(phone, name, email) {
     phoneBook.forEach(function (item) {
         if (item.phone.indexOf(phone) > -1 ||
             item.name.indexOf(name) > -1 ||
-            item.name.indexOf(email) > -1) {
+            item.email.indexOf(email) > -1) {
             contactRequire = true;
         }
     });
@@ -107,7 +107,7 @@ exports.findAndRemove = function (query) {
         phoneBook = phoneBook.filter(function (item) {
             return !checkHasUser(query, item);
         });
-
+        console.log(count - phoneBook.length);
         return count - phoneBook.length;
     }
 
