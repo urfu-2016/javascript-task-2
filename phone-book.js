@@ -9,7 +9,7 @@ exports.isStar = true;
 /**
  * Телефонная книга
  */
-var phoneBook = [];
+var phoneBook = {};
 
 /**
  * Добавление записи в телефонную книгу
@@ -21,7 +21,7 @@ exports.add = function (phone, name, email) {
     if (!isCorrectPhone(phone) || !duplicationPhone(phone) || !name) {
         return false;
     }
-    phoneBook = phoneBook.concat([phone, name, email]);
+    phoneBook[phone] = {'phone': phone, 'name': name, 'email': email};
 
     return true;
 };
