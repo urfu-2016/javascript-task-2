@@ -81,6 +81,7 @@ function delete_(arr) {
         }
         if (s === arr) {
             phoneBook.splice(y, 1);
+            break;
         }
     }
 }
