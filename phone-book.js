@@ -11,7 +11,7 @@ function strAndEmp(phone, name) {
 function check(phone, name) {
     var isStringP = isNaN(Number(phone));
     var isPositive = phone === '';
-    var reg = !/^[0-9]{10}$/.test(phone) || isPositive;
+    var reg = !(/^[0-9]{10}$/.test(phone)) || isPositive;
     if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || reg) {
 
         return false;
@@ -110,7 +110,7 @@ exports.findAndRemove = function (query) {
         return arr.length;
     }
 
-    return 0;
+    return false;
 };
 
 function findIndex(arr, str) {
