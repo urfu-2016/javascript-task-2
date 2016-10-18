@@ -105,11 +105,7 @@ exports.findAndRemove = function (query) {
     }
     if (query === '*') {
         var len = phoneBook.name.length;
-        phoneBook = {      
-            phone: [],
-            name: [],
-            email: []
-    };;
+        phoneBook = {phone: [], name: [], email: []};
 
         return len;
     }
