@@ -152,6 +152,9 @@ exports.importFromCsv = function (csv) {
     var email;
     for (var i = 0; i < csv.length; i++) {
         data = csv[i].split(';');
+        if (data.length > 3) {
+            continue;
+        }
         phone = data[1];
         name = data[0];
         email = data[2];
