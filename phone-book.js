@@ -2,6 +2,8 @@
 
 exports.isStar = true;
 
+var phoneBook = [];
+
 function compareFunction(a, b) {
     if (a._name < b._name) {
         return -1;
