@@ -6,43 +6,29 @@
  */
 exports.isStar = true;
 
+/*
+ * Телефонная книга
+ */
 var phoneBook = [];
-
 
 function phoneIsValid(phone) {
     return phone && phone.length === 10 && !phone.match(/[^0-9]/gi) && !isNaN(Number(phone));
 }
-function findContactName(name) {
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].name === name) {
-            return false;
-        }
-    }
 
-    return true;
-}
 exports.add = function (phone, name, email) {
-    if (typeof name !== 'string' || name === '') {
+    if (!phoneIsValid(phone) || !name || typeof name !== 'string') {
         return false;
     }
-    if (findContactName(name) && exports.find(phone).length === 0 &&
-        phoneIsValid(phone)) {
-        var obj = {};
-        obj.name = name;
-        obj.phone = phone;
-        if (email === undefined) {
-            phoneBook.push(obj);
 
-            return true;
-        }
-        if (typeof email === 'string' && exports.find(email).length === 0) {
-            obj.email = email;
-            phoneBook.push(obj);
+    var checkPhoned = phoneBook.some(function (record) {
 
-            return true;
-        }
+        return record.phone === phone;
+    });
 
-        return false;
+    if (!checkPhoned) {
+        phoneBook.push({ 'name': name, 'phone': phone, 'email': email });
+
+        return true;
     }
 
     return false;
@@ -54,76 +40,67 @@ exports.update = function (phone, name, email) {
 
         return false;
     }
-    var flag = false;
-    phoneBook = phoneBook.map(function (item) {
-        if (item.phone === phone) {
-            if (exports.find(email).length !== 0) {
+    var indexPhoned = -1;
+    var findPhoned = phoneBook.some(function (record, index) {
+        indexPhoned = index;
 
-                return item;
-            }
-            if (name !== undefined) {
-                item.name = name;
-            }
-            delete item.email;
-            if (typeof email === 'string') {
-                item.email = email;
-            }
-            flag = true;
-        }
-
-        return item;
+        return record.phone === phone;
     });
 
-    return flag;
+    if (findPhoned && name) {
+        phoneBook[indexPhoned].name = name;
+        phoneBook[indexPhoned].email = email;
+
+        return true;
+    }
+
+    return false;
 };
 
 
 exports.findAndRemove = function (query) {
     var del = 0;
-    switch (query) {
-        case '*':
-            del = phoneBook.length;
-            phoneBook = [];
-            break;
-        case '':
-        case undefined:
-            break;
-        default:
-            var res = phoneBook.filter(function (item) {
-                var keys = Object.keys(item);
-                for (var i = 0; i < keys.length; i++) {
-                    var key = keys[i];
-                    var value = item[key];
-                    if (value.match(query) !== null && value !== undefined) {
+    if (query === '') {
+        return del;
+    }
+    if (query === '*') {
+        del = phoneBook.length;
+        phoneBook = [];
 
-                        return false;
-                    }
-                }
-
-                return true;
-            });
-            del = phoneBook.length - res.length;
-            phoneBook = res;
+        return del;
     }
 
-    return del;
+    var res = phoneBook.filter(function (record) {
+        if (record.name.indexOf(query) !== -1 || record.phone.indexOf(query) !== -1) {
+            return false;
+        }
 
+        if (record.email) {
+            return record.email.indexOf(query) === -1;
+        }
+
+        return true;
+    });
+
+    del = phoneBook.length - res.length;
+
+    return del;
 };
 
 
-function parsePhone(phone) {
+function phoneToString(phone) {
     return '+7 (' + phone.substring(0, 3) + ') ' +
         phone.substring(3, 6) + '-' +
         phone.substring(6, 8) + '-' +
         phone.substring(8, 10);
 }
 
-function parseAddres(item) {
-    var name = item.name;
-    var phone = parsePhone(item.phone);
-    if (item.hasOwnProperty('email')) {
+function objectToString(record) {
+    var name = record.name;
+    var phone = phoneToString(record.phone);
+    if (record.email) {
 
-        return name + ', ' + phone + ', ' + item.email;
+        return name + ', ' + phone + ', ' + record.email;
     }
 
     return name + ', ' + phone;
@@ -131,46 +108,30 @@ function parseAddres(item) {
 
 
 exports.find = function (query) {
-    var res = [];
-    switch (query) {
-        case '*':
-            res = phoneBook.sort(function (item1, item2) {
-                return item1.name.localeCompare(item2.name);
-            })
-                .map(parseAddres);
-
-            break;
-        case '':
-        case undefined:
-            break;
-        default:
-            res = phoneBook.filter(function (item) {
-                var keys = Object.keys(item);
-                for (var j = 0; j < keys.length; j++) {
-                    var key = keys[j];
-                    var value = item[key];
-                    if (value.match(query) !== null && value !== undefined) {
-
-                        return true;
-                    }
-                }
-
-                return false;
-            })
-                .sort(function (item1, item2) {
-
-                    return item1.name.localeCompare(item2.name);
-                })
-                .map(parseAddres);
-            break;
+    if (query === '') {
+        return [];
     }
+    if (query === '*') {
+        return phoneBook.map(objectToString)
+            .sort();
+    }
+    var res = phoneBook.filter(function (record) {
+        if (record.name.indexOf(query) !== -1 || record.phone.indexOf(query) !== -1) {
+            return true;
+        }
+        if (record.email) {
+            return record.email.indexOf(query) !== -1;
+        }
+
+        return false;
+    }).map(objectToString)
+        .sort();
 
     return res;
 };
 
 
 exports.importFromCsv = function (csv) {
-    phoneBook = [];
     function addRecordInBook(record) {
         var item = record.split(';');
         var name = item[0];
@@ -198,3 +159,4 @@ exports.importFromCsv = function (csv) {
 
     return addRecord;
 };
+
