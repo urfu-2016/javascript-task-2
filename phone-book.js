@@ -124,6 +124,7 @@ exports.findAndRemove = function (query) {
         return 0;
     }
     var t = findAllAccount(query, 'del');
+
     return t;
 };
 
@@ -154,7 +155,7 @@ function findAllAccount(query, flag) {
     if (flag === '') {
         masOutputAccount = findElem(query, flag);
         masOutputAccount.sort();
-        if (masOutputAccount.length === 0){
+        if (masOutputAccount.length === 0) {
             return '';
         } else {
             return masOutputAccount;
@@ -193,7 +194,7 @@ function findElem(query, flag) {
     if (flag === 'del') {
         return kol;
     }
-    
+
     return masFindElem;
 }
 
