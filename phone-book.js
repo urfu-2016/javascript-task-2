@@ -11,20 +11,8 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-/**
- * Добавление записи в телефонную книгу
- * @param {String} str
- * @returns {boolean}
- */
-exports.isNotEmpty = function (str) {
-    if ((typeof str === 'string') && str !== '') {
-
-        return true;
-    }
-};
-
 exports.correctInput = function (phone, name, email) {
-    var correctPhone = (/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
+    var correctPhone = (phone.length === 10 && /\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
     (phone[1] === phone[2]) && (phone[3] === phone[4]) && (phone[4] === phone[5]) &&
     (phone[6] === phone[7]) && (phone[8] === phone[9]);
     var correctName = (typeof name === 'string' && name.length > 0);
@@ -177,7 +165,7 @@ exports.find = function (query) {
         }
     });
 
-    return resultBook;
+    return resultBook.sort();
 };
 
 /**
