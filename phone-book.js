@@ -25,7 +25,6 @@ function isEmptyQuery(query) {
     return query === undefined;
 }
 
-
 function checkPhone(phone) {
 
     var phoneLength = phone.length;
@@ -137,9 +136,14 @@ function checkEntry(phone) {
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
-    uPhone = phone.trim();
     uName = isEmptyQuery(name) ? false : name.trim();
 
+    if (phone === null || phone === undefined) {
+
+        return false;
+    }
+
+    uPhone = phone.trim();
     var checkEmail = isEmptyQuery(email) ? '' : email.trim();
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
@@ -242,7 +246,7 @@ exports.find = function (query) {
     var convertedPhone = '';
     var concatResult = '';
 
-    if (query === undefined || query === '' || typeof query === 'undefined') {
+    if (query === undefined || query === null || !checkQuery(query)) {
 
         return [];
     }
