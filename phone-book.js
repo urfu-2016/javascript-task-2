@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false;
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -23,6 +23,16 @@ exports.isNotEmpty = function (str) {
     }
 };
 
+exports.correctInput = function (phone, name, email) {
+    var correctPhone = (/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
+    (phone[1] === phone[2]) && (phone[3] === phone[4]) && (phone[4] === phone[5]) &&
+    (phone[6] === phone[7]) && (phone[8] === phone[9]);
+    var correctName = (typeof name === 'string' && name.length > 0);
+    var correctEmail = (typeof email === 'undefined') || (typeof email === 'string');
+
+    return (correctPhone && correctName && correctEmail);
+};
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -34,22 +44,21 @@ exports.isNotEmpty = function (str) {
  */
 exports.add = function (phone, name, email) {
     var exist = function (phoneName) {
-        if (phoneName.phone === phone || phoneName.name === name || phoneName.email === email) {
+        if (phoneName.phone === phone) {
 
             return true;
         }
     };
-    var regExPhone = /^\d{10}$/;
     if (phoneBook.some(exist)) {
 
         return false;
     }
-    if (regExPhone.test(phone) && exports.isNotEmpty(name) && (email === undefined)) {
+    if (exports.correctInput(phone, name, email) && (email === undefined)) {
         phoneBook.push({ phone: phone, name: name });
 
         return true;
     }
-    if (regExPhone.test(phone) && exports.isNotEmpty(name)) {
+    if (exports.correctInput(phone, name, email)) {
         phoneBook.push({ phone: phone, name: name, email: email });
 
         return true;
@@ -66,7 +75,7 @@ exports.add = function (phone, name, email) {
  * @returns {boolean}
  */
 exports.update = function (phone, name, email) {
-    if (exports.isNotEmpty(phone) && exports.isNotEmpty(name)) {
+    if (exports.correctInput(phone, name, email)) {
         phoneBook.forEach(function (contact) {
             if (contact.phone === phone) {
                 contact.name = name;
