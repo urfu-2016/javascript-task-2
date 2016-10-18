@@ -9,7 +9,7 @@ exports.isStar = false;
 function checkQuery(query) {
 
     var typeQuery = typeof query !== 'string';
-    var emptyQuery = query === '';
+    var emptyQuery = query === '' || query === ' ';
     var undefQuery = typeof query === 'undefined';
 
     if (typeQuery || emptyQuery || undefQuery) {
@@ -84,6 +84,12 @@ function concatString(name, phone, email) {
 
 function findIndex(query, phone, name, email) {
 
+    if (isEmptyQuery(email)) {
+
+        return false;
+
+    }
+
     if (phone.indexOf(query) !== -1 || name.indexOf(query) !== -1 || email.indexOf(query) !== -1) {
 
         return true;
@@ -101,6 +107,7 @@ var uPhone;
 var uName;
 
 function checkEntry(phone) {
+
     var resultsEntry = true;
 
     phoneBook.forEach(function (object, index) {
@@ -160,7 +167,7 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var upPhone = '';
-    var checkEmail = isEmptyQuery(email) ? '' : email;
+    var checkEmail = isEmptyQuery(email) ? '' : email.trim();
     var fixName = name.trim();
     var fixPhone = phone.trim();
 
@@ -179,7 +186,7 @@ exports.update = function (phone, name, email) {
 
         });
 
-        return true;
+        return phoneBook.filter(checkEntry).length !== 0;
     }
 
     return false;
@@ -192,9 +199,10 @@ exports.update = function (phone, name, email) {
  * @returns {Number} - Число удаленных записей
  */
 exports.findAndRemove = function (query) {
+
     var counter = 0;
 
-    if (checkQuery(query)) {
+    if (checkQuery(query) && phoneBook.length !== 0) {
 
         phoneBook.forEach(function (object, index) {
 
@@ -261,7 +269,7 @@ exports.find = function (query) {
 
         return searchResult.sort();
 
-    } else if (fixQuery === '' || typeof fixQuery === undefined) {
+    } else if (fixQuery === '' || typeof fixQuery === 'undefined') {
 
         return [];
     }
@@ -279,5 +287,5 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-    return csv.split('\n');
+    return csv.split('\n').length;
 };
