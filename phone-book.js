@@ -32,8 +32,8 @@ exports.add = function (phone, name, email) {
 };
 
 function check(phone, name) {
-    if ((phone.length === 10) && (/\d{10}/g.test(phone)) &&
-      (typeof(phone) === 'string') && (typeof(name) === 'string')) {
+    if ((typeof(phone) === 'string') && (phone.length === 10) &&
+        (/\d{10}/g.test(phone)) && (typeof(name) === 'string')) {
 
         return true;
     }
@@ -94,7 +94,7 @@ exports.find = function (query) {
 
         return res;
     }
-    if (typeof query === 'string') {
+    if ((typeof query === 'string') && (query.length > 0)) {
         if (query === '*') {
             res = zv();
         } else {
