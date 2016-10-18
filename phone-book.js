@@ -89,10 +89,7 @@ function addNewBook(arr) {
     };
     phoneBook.name.forEach(function (item, j) {
         if (arr.indexOf(j) === -1) {
-            var indexP = newBook.phone.indexOf(phoneBook.phone[j]) === -1;
-            var indexN = newBook.name.indexOf(phoneBook.name[j]) === -1;
-            var indexE = newBook.email.indexOf(phoneBook.email[j]) === -1;
-            if (indexE && indexN && indexP) {
+            if (!(phoneBook.phone[j] in  newBook.phone)) {
                 newBook.phone.push(phoneBook.phone[j]);
                 newBook.name.push(phoneBook.name[j]);
                 newBook.email.push(phoneBook.email[j]);
