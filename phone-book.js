@@ -60,7 +60,8 @@ exports.update = function (phone, name, email) {
     }
     var findingRecord = false;
     var isCheckFind = phoneBook.some(function (record, index) {
-        findingRecord = index; 
+        findingRecord = index;
+        
         return record.phone === phone;
     });
     if (isCheckFind && name) {
