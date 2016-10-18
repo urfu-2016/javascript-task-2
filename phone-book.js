@@ -59,12 +59,11 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var findingRecord = false;
-    var isCheckFind = phoneBook.some(function(record, index) {
-        findingRecord = index;
-        
+    var isCheckFind = phoneBook.some(function (record, index) {
+        findingRecord = index; 
         return record.phone === phone;
     });
-    if (isCheckFind && name){
+    if (isCheckFind && name) {
         phoneBook[findingRecord].name = name;
         phoneBook[findingRecord].phone = phone;
         phoneBook[findingRecord].email = email;
