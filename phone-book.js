@@ -131,18 +131,7 @@ exports.find = function (query) {
 
     return findPhone.sort();
 };
-function formatImport(importArr) {
-    var importedBook = importArr.split(';');
-    if (exports.update(importedBook[1], importedBook[0], importedBook[2])) {
 
-        return true;
-    } else if (exports.add(importedBook[1], importedBook[0], importedBook[2])) {
-
-        return true;
-    }
-
-    return false;
-}
 exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
