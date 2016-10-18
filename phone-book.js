@@ -20,7 +20,7 @@ var phoneBook = [];
  */
 exports.isCorrect = function (phone, name, email) {
     var cPhone = (/\d{9}/.test(phone)) && (phone[0] === phone[1]) &&
-    (phone[1] === phone[2]) && (phone[3] === phone[4]) &&
+    (phone[1] === phone[2]) && (phone[3] === phone[4]) && (typeof phone === 'string') &&
     (phone[4] === phone[5]) && (phone[6] === phone[7]) && (phone[8] === phone[9]);
     var cName = (typeof name === 'string' && name.length > 0);
     var cEmail = (typeof email === 'string') || (typeof email === 'undefined');
@@ -53,7 +53,7 @@ exports.indexOf = function (phone) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (exports.isCorrect(phone, name, email) && (exports.indexOf(phone) === -1)) {
+    if (exports.isCorrect(phone, name, email) && exports.indexOf(phone) === -1) {
         if (typeof email === 'undefined') {
             phoneBook.push({ 'phone': phone, 'name': name });
         } else {
@@ -77,7 +77,7 @@ exports.update = function (phone, name, email) {
     if (name === '') {
         return false;
     }
-    if (exports.isCorrect(phone, name, email) && (exports.indexOf(phone) !== -1)) {
+    if (exports.isCorrect(phone, name, email) && exports.indexOf(phone) > -1) {
         var note = phoneBook[exports.indexOf(phone)];
         note.name = name;
         if (typeof email === 'undefined') {
@@ -132,7 +132,7 @@ exports.findAndRemove = function (query) {
 exports.findInNote = function (note, query) {
     var key = Object.keys(note);
     for (var i = 0; i < key.length; i++) {
-        if ((note[key[i]] !== 'underfind') && (note[key[i]].indexOf(query) !== -1)) {
+        if (note[key[i]] !== underfind) && (note[key[i]].indexOf(query) !== -1) {
             return true;
         }
     }
@@ -181,8 +181,6 @@ exports.find = function (query) {
         for (var j = 0; j < phoneBook.length; j++) {
             result.push(exports.noteToPrint(phoneBook[j]));
         }
-
-        return result.sort();
     }
     for (var i = 0; i < phoneBook.length; i++) {
         var note = phoneBook[i];
