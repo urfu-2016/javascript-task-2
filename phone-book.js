@@ -53,7 +53,7 @@ function isCorrectPhone(phone1) {
 }
 
 function isEmail(email, x) {
-    if (email !== '' && email !== 'undefined') {
+    if (email !== '' && typeof email !== 'undefined') {
         return x + ', ' + email;
     }
 
