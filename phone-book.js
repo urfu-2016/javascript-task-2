@@ -34,7 +34,7 @@ function getRecordsByQuery(query) {
         return phoneBook;
     }
 
-    return phoneBook.queryFilter(function (item, query) {
+    return phoneBook.queryFilter(function (item) {
         return item.phone.indexOf(query) !== -1 ||
                item.name.indexOf(query) !== -1 ||
                item.email.indexOf(query) !== -1;
