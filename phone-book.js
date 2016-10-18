@@ -12,7 +12,7 @@ exports.isStar = true;
 var phoneBook = [];
 
 function checkPhone(phone) {
-    if (phone.length !== 10 || /[^[0-9]/.test(phone) || phone === '' || phone === undefined) {
+    if (phone.length !== 10 || /[^[0-9]/.test(phone) || phone === '') {
 
         return false;
     }
