@@ -26,7 +26,7 @@ exports.isCorrect = function (phone, name, email) {
     var cEmail = (typeof email === 'undefined') || (typeof email === 'string');
 
     return (cEmail && cName && cPhone);
-};;
+};
 
  /** Проверка на наличие в массиве
  * @param {String} phone
@@ -53,7 +53,7 @@ exports.indexOf = function (phone) {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    if (exports.isCorrect(phone, name, email) && exports.IndexOf(phone) === -1) {
+    if (exports.isCorrect(phone, name, email) && exports.indexOf(phone) === -1) {
         if (typeof email === 'undefined') {
             phoneBook.push({ phone: phone, name: name });
         } else {
