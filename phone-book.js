@@ -11,6 +11,7 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
+
 function isValidName(name) {
     return name !== undefined && name.length > 0;
 }
