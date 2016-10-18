@@ -124,15 +124,13 @@ exports.find = function (query) {
     if (query === '*') {
         for (i = 0; i < phoneBook.length; i++) {
             recPhoneBook = phoneBook[i];
-            foundRec.push(recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
-                ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : ('')));
+            foundRec.push(returnRec());
         }
     } else {
         for (i = 0; i < phoneBook.length; i++) {
             recPhoneBook = phoneBook[i];
             if (findQuery(query)) {
-                foundRec.push(recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
-                    ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : ('')));
+                foundRec.push(returnRec());
             }
         }
     }
@@ -159,11 +157,11 @@ exports.importFromCsv = function (csv) {
     }
 
     // разбиваем по строкам. в каждой строке новый контакт
-    var arrayStr,
+    var arrayStr;
     // Информация о контакте
-        InfoRec,
+    var InfoRec;
     // Количество добавленных/обновленных записей
-        k = 0;
+    var k = 0;
 
     arrayStr = csv.split('\n');
 
@@ -174,8 +172,8 @@ exports.importFromCsv = function (csv) {
         if (exports.add(InfoRec[1], InfoRec[0], InfoRec[2])) {
             k++;
         } else if (exports.update(InfoRec[1], InfoRec[0], InfoRec[2])) {
-                k++;
-            }
+            k++;
+        }
     }
 
     return k;
@@ -259,4 +257,14 @@ function formatPhone(phone) {
 function compareName(peopleA, peopleB) {
 
     return peopleA > peopleB;
+}
+
+/**
+ * Возврат записи телефонной книги по образцу
+ * @returns {String}
+ */
+function returnRec() {
+
+    return recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
+        ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : (''));
 }
