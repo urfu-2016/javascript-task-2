@@ -156,6 +156,9 @@ exports.find = function (query) {
     };
     var resultBook = [];
     phoneBook.sort(asc('name'));
+    if (query === '' || typeof query !== 'string') {
+        return []
+    }
 
     phoneBook.forEach(function (contact) {
         if (query === '*' || exports.willrec(contact, query)) {
