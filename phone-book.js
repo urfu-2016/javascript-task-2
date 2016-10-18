@@ -115,13 +115,22 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
+
+function getBadQuery(query) {    
+    if (query === '' || query === undefined) {
+        return true;
+    }
+    
+    return false;
+}
+
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
  * @returns {Integer} counter
  */
 exports.findAndRemove = function (query) {
-    if (query === '' || query === undefined) {
+    if (getBadQuery(query)) {
         return 0;
     }
     var counter = 0;
@@ -189,7 +198,7 @@ function findEntry(query, ent) {
 
 exports.find = function (query) {
     var result = [];
-    if (query === '' || query === undefined) {
+    if (getBadQuery(query)) {
         return result;
     }
     if (query === '*') {
