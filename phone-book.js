@@ -31,9 +31,9 @@ exports.add = function (phone, name, email) {
 function checkContactBusy(phone, name, email) {
     var contactRequire = false;
     phoneBook.forEach(function (item) {
-        if (item.phone.indexOf(phone) > -1 ||
-            item.name.indexOf(name) > -1 ||
-            item.email.indexOf(email) > -1) {
+        if (item.phone === phone ||
+            item.name === name ||
+            item.email === email) {
             contactRequire = true;
         }
     });
