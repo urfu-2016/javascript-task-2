@@ -24,7 +24,7 @@ exports.add = function (phone, name, email) {
     phoneBook = phoneBook.concat([phone, name, email]);
 
     return true;
-}
+};
 
 function isCorrectPhone(phone) {
     return /^\d{10}$/.test(phone);
@@ -33,10 +33,11 @@ function isCorrectPhone(phone) {
 function duplicationPhone(phone) {
     for (var i = 0; i < phoneBook.length; i++) {
         var doubling = phoneBook[i];
-        if (Number(phone) == Number(doubling)) {
+        if (Number(phone) === Number(doubling)) {
             return false;
         }
     }
+
     return true;
 }
 
