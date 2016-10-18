@@ -46,9 +46,10 @@ exports.findAndRemove = function (query) {
         default:
             var s = 0;
             var foundRegExp = new RegExp(query);
-            for (var i = 0; i < phoneBook.length; i++) {
+            for (var i = phoneBook.length - 1; i >= 0; i--) {
                 if ((foundRegExp.test((phoneBook[i])[0])) ||
-                (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
+                (foundRegExp.test((phoneBook[i])[1])) ||
+                (foundRegExp.test((phoneBook[i])[2]))) {
                     phoneBook.splice(i, 1);
                     s++;
                 }
@@ -59,53 +60,55 @@ exports.findAndRemove = function (query) {
 };
 
 exports.find = function (query) {
-    var arrayOfFounded = [];
-    switch (query) {
-        case '':
-            return null;
-        case '*':
-            help1();
-        default:
-        var foundRegExp = new RegExp(query);
-        for (var i = 0; i < phoneBook.length; i++) {
-            if ((foundRegExp.test((phoneBook[i])[0])) ||
-            (foundRegExp.test((phoneBook[i])[1])) || (foundRegExp.test((phoneBook[i])[2]))) {
-                var sp = ((phoneBook[i])[0]).split('');
-                var phone = '+7 (' + sp[0] + sp[1] + sp[2] + ') ' + sp[3] +
-                sp[4] + sp[5] + '-' + sp[6] + sp[7] + '-' + sp[8] + sp[9];
-                arrayOfFounded.push([(phoneBook[i])[1], phone, (phoneBook[i])[2]]);
-            }
-        }
-        help2();
+    if (query === '') {
+
+        return null;
     }
+    else if (query === '*') {
+            return phoneBookToCustomView(phoneBook);        	
+        }
+        else{
+                var foundRegExp = new RegExp(query);
+            var arrayOfFounded = [];
+            for (var i = 0; i < phoneBook.length; i++) {
+                if ((foundRegExp.test((phoneBook[i])[0])) ||
+                (foundRegExp.test((phoneBook[i])[1])) ||
+                (foundRegExp.test((phoneBook[i])[2]))) {
+                    arrayOfFounded.push(phoneBook[i]);
+                }
+            }
+            return phoneBookToCustomView(arrayOfFounded);
+        }
 };
 
-function help2() {
-    var arrayOfFounded = [];
-    var sortedArray = arrayOfFounded.sort();
-    var sortedArrayOfStrings = [];
-    for (var l = 0; l < sortedArray.length; l++) {
-        sortedArrayOfStrings.push((sortedArray[l]).join(', '));
+function phoneBookToCustomView(book) {
+    var bookWithCustomPhones = [];
+    for (var i = 0; i < book.length; i++) {
+        var splittedPhone = ((book[i])[0]).split('');
+        var customPhone =
+        '+7 (' +
+        splittedPhone[0] +
+        splittedPhone[1] +
+        splittedPhone[2] +
+        ') ' +
+        splittedPhone[3] +
+        splittedPhone[4] +
+        splittedPhone[5] +
+        '-' +
+        splittedPhone[6] +
+        splittedPhone[7] +
+        '-' +
+        splittedPhone[8] +
+        splittedPhone[9];
+        bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);
+    }
+    var sortedBookWithCustomPhones = bookWithCustomPhones.sort();
+    var customBook = [];
+    for (var j = 0; j < sortedBookWithCustomPhones.length; j++) {
+        customBook.push((sortedBookWithCustomPhones[j]).join(', '));
     }
 
-    return sortedArrayOfStrings;
-}
-
-function help1() {
-    var arrayOfFounded = [];
-    for (var j = 0; j < phoneBook.length; j++) {
-        var sph = ((phoneBook[j])[0]).split('');
-        var phoneX = '+7 (' + sph[0] + sph[1] + sph[2] + ') ' + sph[3] +
-        sph[4] + sph[5] + '-' + sph[6] + sph[7] + '-' + sph[8] + sph[9];
-        arrayOfFounded.push([(phoneBook[j])[1], phoneX, (phoneBook[j])[2]]);
-    }
-    var sortedArrayX = arrayOfFounded.sort();
-    var sortedArrayOfStringsX = [];
-    for (var k = 0; k < sortedArrayX.length; k++) {
-        sortedArrayOfStringsX.push((sortedArrayX[k]).join(', '));
-    }
-
-    return sortedArrayOfStringsX;
+    return customBook;
 }
 
 exports.importFromCsv = function (csv) {
