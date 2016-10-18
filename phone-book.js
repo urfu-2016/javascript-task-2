@@ -76,7 +76,7 @@ function checkValidMail(email) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    if (checkForm(phone, name, email)) {
+    if (checkForm(phone, name, email) && phone) {
         var indexUser = -1;
         phoneBook.forEach(function (item, index) {
             if (item.phone === phone) {
