@@ -62,6 +62,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
 
@@ -83,6 +84,7 @@ exports.update = function (phone, name, email) {
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @returns {Number} - количество удаленных записей
  */
 exports.findAndRemove = function (query) {
 
@@ -186,6 +188,7 @@ exports.importFromCsv = function (csv) {
  * Удаление пробелов из имени (в начале, в конце)
  * между словами по одному пробелу остается
  * @param {String} str
+ * @returns {String}
  */
 function RemoveSpace(str) {
 
@@ -195,6 +198,7 @@ function RemoveSpace(str) {
 /**
  * Проверка корректно заданного имени
  * @param {String} str
+ * @returns {Boolean}
  */
 function correctName(str) {
 
@@ -226,6 +230,7 @@ function searchInPhoneBook(phone) {
  * Поиск по значениям ключа объекта
  * Ищет вхождение этой строки хотя бы в одно из полей «Телефон», «Имя» и «Электронную почту»
  * @param {String} query
+ * @returns {Boolean}
  */
 function findQuery(query) {
 
@@ -242,6 +247,7 @@ function findQuery(query) {
 /**
  * Возврат формата телефона
  * @param {String} phone
+ * @returns {String}
  */
 function formatPhone(phone) {
 
@@ -249,9 +255,7 @@ function formatPhone(phone) {
         '-' + phone.slice(6, 8) + '-' + phone.slice(8);
 }
 
-/**
- * Сортировка
- */
+// Сортировка
 function compareName(peopleA, peopleB) {
 
     return peopleA > peopleB;
