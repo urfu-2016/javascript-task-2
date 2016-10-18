@@ -11,7 +11,6 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-
 function isValidName(name) {
     return name !== undefined && name.length > 0;
 }
@@ -59,7 +58,7 @@ function getRecordByPhone(phone) {
  * @returns {Bool}
  */
 exports.add = function (phone, name, email) {
-    if (! (isValidPhone(phone) && isValidName(name) ) {
+    if (! (isValidPhone(phone) && isValidName(name)) ) {
         return false;
     }
 
