@@ -42,7 +42,7 @@ exports.add = function (phone, name, email) {
     */
     var newRecPhoneBook = {
         phone: phone,
-        name: new RemoveSpace(name),
+        name: removeSpace(name),
         email: email
     };
 
@@ -71,7 +71,7 @@ exports.update = function (phone, name, email) {
     }
 
     if (correctName(name)) {
-        recPhoneBook.name = new RemoveSpace(name);
+        recPhoneBook.name = removeSpace(name);
     }
 
     // а надо ли возвращать false если имя не дала поменять, а email записала???
@@ -182,7 +182,7 @@ exports.importFromCsv = function (csv) {
  * @param {String} str
  * @returns {String}
  */
-function RemoveSpace(str) {
+function removeSpace(str) {
 
     return str.replace(/(^\s+)|(\s+$)/g, '').replace(/\s+/g, ' ');
 }
@@ -197,7 +197,7 @@ function correctName(str) {
     if (str === undefined) {
         return false;
     }
-    str = new RemoveSpace(str);
+    str = removeSpace(str);
 
     return (str.lenght !== 0);
 }
@@ -228,7 +228,7 @@ function searchInPhoneBook(phone) {
 function findQuery(query) {
 
     for (var key in recPhoneBook) {
-        if (recPhoneBook[key] !== undefined &&
+        if ( // recPhoneBook[key] !== undefined &&
             (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) > -1) {
             return true;
         }
