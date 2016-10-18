@@ -111,10 +111,10 @@ function zv() {
         var l = phoneBook[j].p;
         var k = '+7 (' + l.slice(0, 3) + ') ' + l.slice(3, 6) + '-' +
         l.slice(6, 8) + '-' + l.slice(-2);
-        if (under(phoneBook[j].e) === '') {
+        if (phoneBook[j].e === undefined) {
             res.push(phoneBook[j].n + ', ' + k);
         } else {
-            res.push((phoneBook[j].n + ', ' + k + ', ' + under(phoneBook[j].e)));
+            res.push(phoneBook[j].n + ', ' + k + ', ' + phoneBook[j].e);
         }
     }
 
@@ -132,7 +132,7 @@ function is(query) {
 
 function checker(element, query, array) {
     if ((element.p.indexOf(query) !== -1) || (element.n.indexOf(query) !== -1) ||
-        (under(element.e).indexOf(query) !== -1)) {
+        (element.e !== undefined && element.e.indexOf(query) !== -1)) {
         var t = '+7 (' + element.p.slice(0, 3) + ') ' + element.p.slice(3, 6) +
         '-' + element.p.slice(6, 8) + '-' + element.p.slice(-2);
         if (element.e === undefined) {
