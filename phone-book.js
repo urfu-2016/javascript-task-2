@@ -37,6 +37,12 @@ function queryIsFound(obj, q) {
 function isStringType(q) {
     if (q === '' || typeof q === 'undefined' || q === null) {
         return false;
+    } else {
+        var s = String(q);
+        var s1 = s.trim();
+        if (s1.length === 0) {
+            return false
+        }
     }
 
     return true;
