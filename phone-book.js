@@ -178,8 +178,13 @@ function addData(i, res) {
     }
 }
 
+function check2(query){
+    var flag1 = typeof query === undefined || query === '';
+    return  flag1 || typeof query !== 'string';
+}
+
 exports.find = function (query) {
-    if (typeof query === undefined || query === '' || typeof query !== 'string') {
+    if (check2(query)) {
         return [];
     }
     if (query === '*') {
