@@ -16,7 +16,13 @@ function compareFunction(a, b) {
 }
 
 function recordIsContains(obj1, obj2) {
-    if (obj1._phone === obj2._phone || obj1._name === obj2._name || obj1._email === obj2._email) {
+    var phone1 = String(obj1._phone);
+    var phone2 = String(obj2._phone);
+    var name1 = String(obj1._name);
+    var name2 = String(obj2._name);
+    var email1 = String(obj1._email);
+    var email2 = String(obj2._email);
+    if (phone1 === phone2 || name1 === name2 || email1 === email2) {
         return true;
     }
 
