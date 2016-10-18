@@ -147,18 +147,12 @@ exports.importFromCsv = function (csv) {
     csv = csv.split('\n');
     var res = 0;
     var data = [];
-    var phone;
-    var name;
-    var email;
     for (var i = 0; i < csv.length; i++) {
         data = csv[i].split(';');
         if (data.length > 3) {
             continue;
         }
-        phone = data[1];
-        name = data[0];
-        email = data[2];
-        if (exports.add(phone, name, email) || exports.update(phone, name, email)) {
+        if (exports.add(data[1], data[0], data[2]) || exports.update(data[1], data[0], data[2])) {
             res++;
         }
     }
