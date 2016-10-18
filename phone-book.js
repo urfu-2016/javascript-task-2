@@ -54,25 +54,31 @@ exports.add = function (phone, name, email) {
 
 
 exports.update = function (phone, name, email) {
-    if (typeof name !== 'string' || !name) {
+    if (typeof name !== 'string' || name === '') {
 
         return false;
     }
-    var findingRecord = false;
-    var isCheckFind = phoneBook.some(function (record, index) {
-        findingRecord = index;
-        
-        return record.phone === phone;
+    var flag = false;
+    phoneBook = phoneBook.map(function (item) {
+        if (item.phone === phone) {
+            if (exports.find(email).length !== 0) {
+
+                return item;
+            }
+            if (name !== undefined) {
+                item.name = name;
+            }
+            delete item.email;
+            if (typeof email === 'string') {
+                item.email = email;
+            }
+            flag = true;
+        }
+
+        return item;
     });
-    if (isCheckFind && name) {
-        phoneBook[findingRecord].name = name;
-        phoneBook[findingRecord].phone = phone;
-        phoneBook[findingRecord].email = email;
-        
-        return true;
-    }
-    
-    return false;
+
+    return flag;
 };
 
 
