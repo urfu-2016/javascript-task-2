@@ -54,7 +54,7 @@ function addEntry(name, phone, email) {
 
 
 exports.add = function (phone, name, email) {
-    if (name === undefined || typeof(name) !== 'string' || typeof(phone) !== 'string') {
+    if (name === undefined || typeof(name) !== 'string' && typeof(phone) !== 'string') {
         return false;
     }
     if (name.length < 1) {
