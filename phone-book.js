@@ -175,11 +175,13 @@ function addData(i, res) {
 }
 
 function checkQuery(query) {
+
     return (query === undefined) || (query === null) || (query === '');
 }
 
 exports.find = function (query) {
-    if (checkQuery(query)) {
+    if (query.length === 0 || typeof query !== 'string') {
+
         return [];
     }
     if (query === '*') {
