@@ -42,7 +42,7 @@ exports.add = function (phone, name, email) {
     */
     var newRecPhoneBook = {
         phone: phone,
-        name: RemoveSpace(name),
+        name: new RemoveSpace(name),
         email: email
     };
 
@@ -71,13 +71,13 @@ exports.update = function (phone, name, email) {
     }
 
     if (correctName(name)) {
-        recPhoneBook.name = RemoveSpace(name);
+        recPhoneBook.name = new RemoveSpace(name);
     }
 
     // а надо ли возвращать false если имя не дала поменять, а email записала???
     // email надо тоже проверить на правильность
     recPhoneBook.email = email;
-    
+
     return true;
 };
 
@@ -110,6 +110,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @returns {Array} foundRec
  */
 exports.find = function (query) {
     // Вывод найденных записей (тип: объект, тип элементов: строка)
@@ -158,13 +159,13 @@ exports.importFromCsv = function (csv) {
     }
 
     // разбиваем по строкам. в каждой строке новый контакт
-    var arrayStr;
+    var arrayStr,
     // Информация о контакте
-    var InfoRec,
-        // Количество добавленных/обновленных записей
+        InfoRec,
+    // Количество добавленных/обновленных записей
         k = 0;
 
-    arrayStr =  csv.split('\n');
+    arrayStr = csv.split('\n');
 
     for (var i = 0; i < arrayStr.length; i++) {
         // разбиваем информацию о контакте
@@ -172,11 +173,9 @@ exports.importFromCsv = function (csv) {
 
         if (exports.add(InfoRec[1], InfoRec[0], InfoRec[2])) {
             k++;
-        } else {
-            if (exports.update(InfoRec[1], InfoRec[0], InfoRec[2])) {
+        } else if (exports.update(InfoRec[1], InfoRec[0], InfoRec[2])) {
                 k++;
             }
-        }
     }
 
     return k;
@@ -205,7 +204,7 @@ function correctName(str) {
     if (str === undefined) {
         return false;
     }
-    str = RemoveSpace(str);
+    str = new RemoveSpace(str);
 
     return (str.lenght !== 0);
 }
@@ -213,6 +212,7 @@ function correctName(str) {
 /**
  * Проверка на наличие записи с таким номером в телефонной книге
  * @param {String} phone
+ * @returns {Boolean}
  */
 function searchInPhoneBook(phone) {
 
