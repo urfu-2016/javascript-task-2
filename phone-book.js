@@ -51,11 +51,11 @@ function nameIsString(name) {
 function isCorrectPhone(phone1) {
     var phone = String(phone1);
     var reg = '[0123456789]{10}';
-    if (!phone.match(reg) || phone.length !== 10) {
-        return false;
+    if (phone.match(reg) && phone.length === 10) {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 function isEmail(email, x) {
