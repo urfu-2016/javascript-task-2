@@ -136,14 +136,9 @@ exports.importFromCsv = function (csv) {
         var item = record.split(';');
         var name = item[0];
         var phone = item[1];
-        var email;
-        if (item.length === 3) {
-            email = item[2];
-        }
-        if (exports.add(phone, name, email)) {
-            return 1;
-        }
-        if (exports.update(phone, name, email)) {
+        var email = item[2];
+        if (exports.add(phone, name, email) ||
+           exports.update(phone, name, email) {
             return 1;
         }
 
