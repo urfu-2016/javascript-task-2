@@ -97,7 +97,7 @@ exports.findAndRemove = function (query) {
 
     // if (typeof(query) !== 'string' || query === '') {
     if (!(typeof(query) === 'string' && query.length > 0)) {
-        return;
+        return 0;
     }
 
     // Число удаленных записей (тип: целочисленный)
@@ -157,7 +157,7 @@ exports.importFromCsv = function (csv) {
     // Либо обновляем, если запись с таким телефоном уже существует
 
     if (typeof(csv) !== 'string' || csv === '') {
-        return;
+        return 0;
     }
 
     // разбиваем по строкам. в каждой строке новый контакт
