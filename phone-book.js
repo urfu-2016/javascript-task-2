@@ -127,7 +127,7 @@ exports.find = function (query) {
 
     // if (typeof(query) !== 'string' || query === '') {
     if (!(typeof(query) === 'string' && query.length > 0)) {
-        return;
+        return [];
     }
 
     for (i = 0; i < phoneBook.length; i++) {
