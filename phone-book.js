@@ -20,7 +20,7 @@ exports.add = function (phone, name, email) {
     email === '' || phone.match(/^[0-9]{10}$/) === null) {
         return false;
     }
-    
+
     phoneBook.push({ phone: phone, name: name, email: email });
 
     return true;
