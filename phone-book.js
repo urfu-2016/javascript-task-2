@@ -46,7 +46,7 @@ exports.add = function (phone, name, email) {
     };
 
     if (email !== undefined) {
-        newRecPhoneBook["email"] = email;
+        newRecPhoneBook.email = email;
     }
 
     // Не добавляет **уже существующую** запись
@@ -80,7 +80,7 @@ exports.update = function (phone, name, email) {
     // а надо ли возвращать false если имя не дала поменять, а email записала???
     // email надо тоже проверить на правильность
     if (email !== undefined) {
-        newRecPhoneBook["email"] = email;
+        recPhoneBook.email = email;
 
         return true;
     }
