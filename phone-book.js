@@ -221,7 +221,7 @@ function correctEmail(str) {
     if (str === undefined) {
         return false;
     }
-    str = removeSpace(str);
+    str = str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
 
     return (str.lenght !== 0 && str.indexOf('@') !== -1);
 }
