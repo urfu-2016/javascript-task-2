@@ -279,8 +279,7 @@ function formatPhone(phone) {
 // Сортировка
 function compareName(peopleA, peopleB) {
 
-    // return peopleA > peopleB;
-    return peopleA.name > peopleB.name;
+    return peopleA > peopleB;
 }
 
 /**
