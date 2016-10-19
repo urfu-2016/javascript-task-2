@@ -288,5 +288,5 @@ function compareName(peopleA, peopleB) {
 function returnRec() {
 
     return recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
-        ((recPhoneBook.email !== undefined) ? (', ' + recPhoneBook.email) : (''));
+        ((recPhoneBook.email !== '') ? (', ' + recPhoneBook.email) : (''));
 }
