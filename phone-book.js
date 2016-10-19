@@ -125,7 +125,7 @@ exports.find = function (query) {
     var foundRec = [];
     var i;
 
-    //if (typeof(query) !== 'string' || query === '') {
+    // if (typeof(query) !== 'string' || query === '') {
     if (!(typeof(query) === 'string' && query.length > 0)) {
         return;
     }
