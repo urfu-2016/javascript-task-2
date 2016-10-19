@@ -35,6 +35,10 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
+    if (!correctEmail(email)) {
+        email = '';
+    }
+
     /**
     * Объявление переменной newRecPhoneBook
     * Новая запись в телефонной книге (тип: объект)
@@ -42,12 +46,9 @@ exports.add = function (phone, name, email) {
     */
     var newRecPhoneBook = {
         phone: phone,
-        name: removeSpace(name)
+        name: removeSpace(name),
+        email: email
     };
-
-    if (correctEmail(email)) {
-        newRecPhoneBook.email = email;
-    }
 
     // Не добавляет **уже существующую** запись
     if (searchInPhoneBook(phone)) {
@@ -77,12 +78,10 @@ exports.update = function (phone, name, email) {
         recPhoneBook.name = removeSpace(name);
     }
 
-    // а надо ли возвращать false если имя не дала поменять, а email записала???
-    // email надо тоже проверить на правильность
     if (correctEmail(email)) {
         recPhoneBook.email = email;
     } else {
-        delete recPhoneBook.email;
+        recPhoneBook.email = '';
     }
 
     return true;
