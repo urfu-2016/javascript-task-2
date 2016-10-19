@@ -56,6 +56,7 @@ function formatPhone(phone) {
 
 function concatString(name, phone, email) {
     var result;
+
     if (email !== '') {
 
         result = '{1}, {2}, {3}'
@@ -75,7 +76,7 @@ function concatString(name, phone, email) {
 
 function findIndex(query, phone, name, email) {
 
-    if (isEmptyQuery(email)) {
+    if (email === undefined) {
 
         return false;
 
@@ -206,9 +207,17 @@ exports.findAndRemove = function (query) {
 
     var counter = 0;
 
-    if (checkQuery(query) && phoneBook.length !== 0) {
+    if (checkQuery(query)) {
 
-        phoneBook.forEach(function (object, index) {
+        if (query === '*') {
+
+            var bookLength = phoneBook.length;
+            phoneBook = [];
+
+            return bookLength;
+        }
+
+        phoneBook.forEach(function (element, index) {
 
             var findPhone = phoneBook[index].number;
             var findName = phoneBook[index].username;
@@ -217,9 +226,7 @@ exports.findAndRemove = function (query) {
             if (findIndex(query, findPhone, findName, findEmail)) {
 
                 phoneBook.splice(index, 1, '');
-
                 counter++;
-
             }
 
         });
