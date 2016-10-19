@@ -218,10 +218,11 @@ function correctName(str) {
  */
 function correctEmail(str) {
 
-    if (str === undefined) {
+    if (str === undefined || typeof(str) !== 'string') {
         return false;
     }
-    str = str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
+    str = removeSpace(str);
+    // str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/)
 
     return (str.lenght !== 0 && str.indexOf('@') !== -1);
 }
