@@ -26,9 +26,9 @@ var recPhoneBook;
  */
 exports.add = function (phone, name, email) {
 
-    // Телефоны принимаются **только** в формате 5556667788 (без кода)
+    // Телефоны принимаются **только** в формате 5556667788 (без кода) // было /^\d{10}$/
     if (!(phone !== undefined && !isNaN(Number(phone)) &&
-        typeof(phone) === 'string' && (/^\d{10}$/).test(phone))) {
+        typeof(phone) === 'string' && (/\d{10}/g).test(phone))) {
         return false;
     }
 
