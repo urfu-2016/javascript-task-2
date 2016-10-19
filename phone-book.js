@@ -221,10 +221,12 @@ function correctEmail(str) {
     if (str === undefined || typeof(str) !== 'string') {
         return false;
     }
-    str = removeSpace(str);
-    // str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/)
+    // str = removeSpace(str);
 
-    return (str.lenght !== 0 && str.indexOf('@') !== -1);
+    // return (str.lenght !== 0 && str.indexOf('@') !== -1);
+    str = str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
+
+    return str !== null || str !== '';
 }
 
 /**
