@@ -220,7 +220,7 @@ function correctEmail(str) {
     if (str === undefined || typeof(str) !== 'string') {
         return false;
     }
-    str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(email);
+    str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
 
     return (str.lenght !== 0 && str.indexOf('@') !== -1);
     // str = str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
