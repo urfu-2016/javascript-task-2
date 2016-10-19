@@ -45,7 +45,7 @@ exports.add = function (phone, name, email) {
         name: removeSpace(name)
     };
 
-    if (email !== undefined) {
+    if (correctEmail(email)) {
         newRecPhoneBook.email = email;
     }
 
@@ -79,7 +79,7 @@ exports.update = function (phone, name, email) {
 
     // а надо ли возвращать false если имя не дала поменять, а email записала???
     // email надо тоже проверить на правильность
-    if (email !== undefined) {
+    if (correctEmail(email)) {
         recPhoneBook.email = email;
     } else {
         delete recPhoneBook.email;
@@ -207,6 +207,21 @@ function correctName(str) {
     str = removeSpace(str);
 
     return (str.lenght !== 0);
+}
+
+/**
+ * Проверка корректно заданной электронной почты
+ * @param {String} str
+ * @returns {Boolean}
+ */
+function correctEmail(str) {
+
+    if (str === undefined) {
+        return false;
+    }
+    str = removeSpace(str);
+
+    return (str.lenght !== 0 && str.indexOf('@') !== -1);
 }
 
 /**
