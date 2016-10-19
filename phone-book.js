@@ -6,6 +6,11 @@ function isPhone(phone) {
     if (phone === '' || phone === undefined) {
         return false;
     }
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            return true;
+        }
+    }
 }
 
 // Добавление записи в телефонную книгу
@@ -15,13 +20,7 @@ exports.add = function (phone, name, email) {
     email === '' || phone.match(/^[0-9]{10}$/) === null) {
         return false;
     }
-
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
-            return true;
-        }
-    }
-
+    
     phoneBook.push({ phone: phone, name: name, email: email });
 
     return true;
