@@ -42,9 +42,12 @@ exports.add = function (phone, name, email) {
     */
     var newRecPhoneBook = {
         phone: phone,
-        name: removeSpace(name),
-        email: email
+        name: removeSpace(name)
     };
+
+    if (email !== undefined) {
+        newRecPhoneBook['email'] = email;
+    }
 
     // Не добавляет **уже существующую** запись
     if (searchInPhoneBook(phone)) {
