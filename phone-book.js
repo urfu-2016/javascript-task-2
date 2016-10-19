@@ -81,11 +81,11 @@ exports.update = function (phone, name, email) {
     // email надо тоже проверить на правильность
     if (email !== undefined) {
         recPhoneBook.email = email;
-
-        return true;
+    } else {
+        delete recPhoneBook.email;
     }
 
-    return false;
+    return true;
 };
 
 /**
