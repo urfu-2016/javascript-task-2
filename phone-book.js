@@ -206,7 +206,6 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
 
     var counter = 0;
-    var result = [];
     var copyBook = phoneBook.slice();
 
     if (checkQuery(query)) {
