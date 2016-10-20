@@ -193,7 +193,7 @@ exports.importFromCsv = function (csv) {
  */
 function removeSpace(str) {
 
-    return str.replace(/(^\s+)|(\s+$)/g, '').replace(/\s+/g, ' ');
+    return str.replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
 }
 
 /**
