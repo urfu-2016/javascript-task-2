@@ -77,6 +77,11 @@ function concatString(name, phone, email) {
 
 function findIndex(query, phone, name, email) {
 
+    if (email === undefined) {
+
+        return false;
+
+    }
     if (email.indexOf(query) !== -1 || phone.indexOf(query) !== -1 || name.indexOf(query) !== -1) {
 
         return true;
@@ -222,7 +227,7 @@ exports.findAndRemove = function (query) {
 
             if (findIndex(query, findPhone, findName, findEmail)) {
 
-                result.push(phoneBook[index]);
+                phoneBook.splice(index, 1, '');
 
                 counter++;
             }
