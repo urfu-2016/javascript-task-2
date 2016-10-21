@@ -28,7 +28,7 @@ exports.add = function (phone, name, email) {
 
     // Телефоны принимаются **только** в формате 5556667788 (без кода) // было /^\d{10}$/
     if (!(phone !== undefined && !isNaN(Number(phone)) &&
-        typeof(phone) === 'string' && (/\d{10}/g).test(phone))) {
+        typeof(phone) === 'string' && (/^\d{10}$/).test(phone))) {
         return false;
     }
 
@@ -102,6 +102,12 @@ exports.findAndRemove = function (query) {
 
     // Число удаленных записей (тип: целочисленный)
     var k = 0;
+    if (query === '*') {
+        k = phoneBook.length.length;
+        phoneBook = [];
+        return k;
+    }
+
     for (var i = 0; i < phoneBook.length; i++) {
         recPhoneBook = phoneBook[i];
         if (findQuery(query)) {
