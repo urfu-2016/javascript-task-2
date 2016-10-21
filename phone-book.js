@@ -103,7 +103,7 @@ exports.findAndRemove = function (query) {
     // Число удаленных записей (тип: целочисленный)
     var k = 0;
     if (query === '*') {
-        k = phoneBook.length.length;
+        k = phoneBook.length;
         phoneBook = [];
 
         return k;
