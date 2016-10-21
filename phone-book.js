@@ -231,7 +231,7 @@ function correctEmail(str) {
     // str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
     str = str.trim();
 
-    return (str.length !== 0  && str.indexOf('@') !== -1);
+    return (str.length !== 0 && str.indexOf('@') !== -1);
     // str = str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
 
     // return str !== null || str !== '';
