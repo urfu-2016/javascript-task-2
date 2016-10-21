@@ -76,13 +76,13 @@ exports.update = function (phone, name, email) {
     }
 
     if (correctName(name)) {
-        recPhoneBook[1] = removeSpace(name);
+        recPhoneBook.name = removeSpace(name);
     }
 
     if (correctEmail(email)) {
-        recPhoneBook[2] = email;
+        recPhoneBook.email = email;
     } else {
-        recPhoneBook[2] = '';
+        recPhoneBook.email = '';
     }
 
     return true;
