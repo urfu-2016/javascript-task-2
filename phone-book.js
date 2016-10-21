@@ -170,7 +170,7 @@ exports.importFromCsv = function (csv) {
     // разбиваем по строкам. в каждой строке новый контакт
     var arrayStr;
     // Информация о контакте
-    var InfoRec;
+    var infoRec;
     // Количество добавленных/обновленных записей
     var k = 0;
 
@@ -178,11 +178,11 @@ exports.importFromCsv = function (csv) {
 
     for (var i = 0; i < arrayStr.length; i++) {
         // разбиваем информацию о контакте
-        InfoRec = arrayStr[i].split(';');
+        infoRec = arrayStr[i].split(';');
 
-        if (exports.add(InfoRec[1], InfoRec[0], InfoRec[2])) {
+        if (exports.add(infoRec[1], infoRec[0], infoRec[2])) {
             k++;
-        } else if (exports.update(InfoRec[1], InfoRec[0], InfoRec[2])) {
+        } else if (exports.update(infoRec[1], infoRec[0], infoRec[2])) {
             k++;
         }
     }
