@@ -163,9 +163,9 @@ exports.importFromCsv = function (csv) {
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
 
-    if (typeof(csv) !== 'string' || csv === '') {
-        return 0;
-    }
+    // if (typeof(csv) !== 'string' || csv === '') {
+    //    return 0;
+    // }
 
     // разбиваем по строкам. в каждой строке новый контакт
     var arrayStr;
