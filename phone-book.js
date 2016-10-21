@@ -146,7 +146,7 @@ exports.find = function (query) {
         }
     }
 
-    foundRec.sort(compareName);
+    foundRec.sort(); // foundRec.sort(compareName);
 
     // а что, если не найдено ничего??
     return foundRec;
