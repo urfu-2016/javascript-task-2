@@ -285,10 +285,10 @@ function formatPhone(phone) {
 }
 
 // Сортировка
-function compareName(peopleA, peopleB) {
+// function compareName(peopleA, peopleB) {
 
-    return peopleA > peopleB;
-}
+//    return peopleA > peopleB;
+// }
 
 /**
  * Возврат записи телефонной книги по образцу
