@@ -99,9 +99,10 @@ exports.update = function (phone, name, email) {
  */
 exports.findAndRemove = function (query) {
 
+    query = query.trim();
     // if (typeof(query) !== 'string' || query === '') {
-    // if (!(typeof(query) === 'string' && query.length > 0)) {
-    if (!query) {
+    if (!(typeof(query) === 'string' && query.length > 0)) {
+    // if (!query) {
 
         return 0;
     }
@@ -138,9 +139,11 @@ exports.find = function (query) {
     var foundRec = [];
     var i;
 
+    query = query.trim();
+
     // if (typeof(query) !== 'string' || query === '') {
-    // if (!(typeof query === 'string' && query.length > 0)) {
-    if (!query) {
+    if (!(typeof query === 'string' && query.length > 0)) {
+    // if (!query) {
 
         return [];
     }
@@ -217,7 +220,7 @@ function correctName(str) {
     }
     str = removeSpace(str);
 
-    return (str.length !== 0);
+    return str.length !== 0;
 }
 
 /**
@@ -234,7 +237,7 @@ function correctEmail(str) {
     // str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
     str = str.trim();
 
-    return (str.length !== 0 && str.indexOf('@') !== -1);
+    return str.length !== 0 && str.indexOf('@') !== -1;
     // str = str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
 
     // return str !== null || str !== '';
