@@ -29,11 +29,12 @@ exports.add = function (phone, name, email) {
     // Телефоны принимаются **только** в формате 5556667788 (без кода) // было /^\d{10}$/
     if (!(phone !== undefined && !isNaN(Number(phone)) &&
         typeof(phone) === 'string' && (/^\d{10}$/).test(phone))) {
+
         return false;
     }
 
-    // if (!correctName(name)) {
-    if (!name) {
+    if (!correctName(name)) {
+
         return false;
     }
 
@@ -54,6 +55,7 @@ exports.add = function (phone, name, email) {
 
     // Не добавляет **уже существующую** запись
     if (searchInPhoneBook(phone)) {
+
         return false;
     }
 
@@ -73,11 +75,11 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
 
     if (!searchInPhoneBook(phone)) {
+
         return false;
     }
 
-    // if (correctName(name)) {
-    if (!name) {
+    if (correctName(name)) {
         recPhoneBook.name = removeSpace(name);
     }
 
@@ -99,6 +101,7 @@ exports.findAndRemove = function (query) {
 
     // if (typeof(query) !== 'string' || query === '') {
     if (!(typeof(query) === 'string' && query.length > 0)) {
+
         return 0;
     }
 
@@ -136,6 +139,7 @@ exports.find = function (query) {
 
     // if (typeof(query) !== 'string' || query === '') {
     if (!(typeof(query) === 'string' && query.length > 0)) {
+
         return [];
     }
 
@@ -150,7 +154,6 @@ exports.find = function (query) {
 
     foundRec.sort(); // foundRec.sort(compareName);
 
-    // а что, если не найдено ничего??
     return foundRec;
 };
 
@@ -164,10 +167,6 @@ exports.importFromCsv = function (csv) {
     // Парсим csv
     // Добавляем в телефонную книгу
     // Либо обновляем, если запись с таким телефоном уже существует
-
-    // if (typeof(csv) !== 'string' || csv === '') {
-    //    return 0;
-    // }
 
     // разбиваем по строкам. в каждой строке новый контакт
     var arrayStr;
@@ -209,15 +208,15 @@ function removeSpace(str) {
  * @param {String} str
  * @returns {Boolean}
  */
-// function correctName(str) {
+function correctName(str) {
 
-//    if (str === undefined) {
-//        return false;
-//    }
-//    str = removeSpace(str);
+    if (str === undefined) {
+        return false;
+    }
+    str = removeSpace(str);
 
-//    return (str.length !== 0);
-// }
+    return (str.length !== 0);
+}
 
 /**
  * Проверка корректно заданной электронной почты
@@ -248,6 +247,7 @@ function searchInPhoneBook(phone) {
     for (var i = 0; i < phoneBook.length; i++) {
         recPhoneBook = phoneBook[i];
         if (recPhoneBook.phone === phone) {
+
             return true;
         }
     }
@@ -267,6 +267,7 @@ function findQuery(query) {
         // проверяю на undefined, потому что почта может быть не задана
         if (recPhoneBook[key] !== undefined &&
             (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) > -1) {
+
             return true;
         }
     }
