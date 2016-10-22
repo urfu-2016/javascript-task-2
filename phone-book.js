@@ -182,7 +182,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @returns {Array} foundRec
+ * @returns {Array}
  */
 exports.find = function (query) {
 
