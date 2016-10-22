@@ -101,7 +101,7 @@ exports.findAndRemove = function (query) {
 
     query = query.trim();
 
-    if (!(query || typeof query === 'string' && query.length > 0)) {
+    if (!(typeof query === 'string' && query.length > 0)) {
 
         return 0;
     }
@@ -139,7 +139,7 @@ exports.find = function (query) {
 
     query = query.trim();
 
-    if (!(query || typeof query === 'string' && query.length > 0)) {
+    if (!(typeof query === 'string' && query.length > 0)) {
 
         return foundRec;
     }
@@ -210,7 +210,8 @@ function removeSpace(str) {
  */
 function correctName(str) {
 
-    if (typeof str === 'undefined') {
+    if (typeof str !== 'string') {
+
         return false;
     }
     str = removeSpace(str);
@@ -225,7 +226,7 @@ function correctName(str) {
  */
 function correctEmail(str) {
 
-    if (typeof str === 'undefined' || typeof str !== 'string') {
+    if (typeof str !== 'string') {
 
         return false;
     }
