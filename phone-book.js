@@ -101,7 +101,7 @@ exports.findAndRemove = function (query) {
 
     query = query.trim();
 
-    if (!(typeof query === 'string' && query.length > 0)) {
+    if (!(query || typeof query === 'string' && query.length > 0)) {
 
         return 0;
     }
@@ -139,7 +139,7 @@ exports.find = function (query) {
 
     query = query.trim();
 
-    if (!(typeof query === 'string' && query.length > 0)) {
+    if (!(query || typeof query === 'string' && query.length > 0)) {
 
         return foundRec;
     }
