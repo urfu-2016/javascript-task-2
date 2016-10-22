@@ -110,9 +110,11 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
+    name = removeSpace(name);
+
     var newRecPhoneBook = {
         'phone': phone,
-        'name': removeSpace(name),
+        'name': name,
         'email': email
     };
 
