@@ -61,7 +61,7 @@ function findQuery(query) {
 
     for (var key in recPhoneBook) {
         if (recPhoneBook[key] !== undefined &&
-            (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) > -1) {
+            (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) !== -1) {
 
             return true;
         }
