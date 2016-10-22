@@ -76,7 +76,7 @@ function checkNull(str, key) {
     if (str === undefined) {
         return '';
     }
-    if (key == 0) {
+    if (key === 0) {
         str = checkUnknow(str);
     }
 
