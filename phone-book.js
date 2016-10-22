@@ -71,10 +71,7 @@ function formPhone(phone) {
 }
 
 function checkNull(str) {
-    if (str === null) {
-        return '';
-    }
-    if (str === undefined) {
+    if (typeof str !== 'string') {
         return '';
     }
     if (str.trim().length === 0) {
