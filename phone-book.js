@@ -159,9 +159,6 @@ function findAllAccount(query, flag) {
     if (flag === '') {
         masOutputAccount = findElem(query, flag);
         masOutputAccount.sort();
-        if (masOutputAccount.length === 0) {
-            return '';
-        }
 
         return masOutputAccount;
     }
