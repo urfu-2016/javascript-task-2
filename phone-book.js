@@ -111,6 +111,8 @@ exports.update = function (phone, name, email) {
     phoneBook[number].phone = phone;
     if (name !== '') {
         phoneBook[number].name = name;
+    } else {
+        return false;
     }
     email = checkNull(email, 1);
     phoneBook[number].email = email;
