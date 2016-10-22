@@ -100,7 +100,7 @@ exports.findAndRemove = function (query) {
 
     query = query.trim();
 
-    if (typeof query !== 'string' || query.length === 0)) {
+    if (typeof query !== 'string' || query.length === 0) {
 
         return 0;
     }
