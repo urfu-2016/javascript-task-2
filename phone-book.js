@@ -59,13 +59,9 @@ function searchInPhoneBook(phone) {
 
 function findQuery(query) {
 
-    var queryLC = query.toLowerCase();
-    var strToLC;
-
     for (var key in recPhoneBook) {
-        strToLC = recPhoneBook[key].toLowerCase();
         if (recPhoneBook[key] !== undefined &&
-            strToLC.indexOf(queryLC) !== -1) {
+            (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) !== -1) {
 
             return true;
         }
@@ -116,7 +112,7 @@ exports.add = function (phone, name, email) {
 
     name = removeSpace(name);
 
-    phoneBook.push({'phone': phone, 'name': name, 'email': email});
+    phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
 
     return true;
 };
