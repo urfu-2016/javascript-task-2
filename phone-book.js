@@ -100,7 +100,8 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
 
     // if (typeof(query) !== 'string' || query === '') {
-    if (!(typeof(query) === 'string' && query.length > 0)) {
+    // if (!(typeof(query) === 'string' && query.length > 0)) {
+    if (!query) {
 
         return 0;
     }
@@ -138,7 +139,8 @@ exports.find = function (query) {
     var i;
 
     // if (typeof(query) !== 'string' || query === '') {
-    if (!(typeof query === 'string' && query.length > 0)) {
+    // if (!(typeof query === 'string' && query.length > 0)) {
+    if (!query) {
 
         return [];
     }
