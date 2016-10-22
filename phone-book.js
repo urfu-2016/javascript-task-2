@@ -6,30 +6,13 @@ function isPhone(phone) {
     if (phone === '' || phone === undefined) {
         return false;
     }
-}
-
-function isEmail(email) {
-    if (email === '' || email === undefined) {
-        return false;
-    }
+    return phone.match(/^[0-9]{10}$/) === null;
 }
 
 // Добавление записи в телефонную книгу
 exports.add = function (phone, name, email) {
-    if (phone === '') {
-        return false;
-    }
-    
-	if (phone === undefined) {
-        return false;
-    }
-    
-    if (email === '') {
-        return false;
-    }
-    
-    if (name === '' || name === undefined ||
-    phone.match(/^[0-9]{10}$/) === null) {
+    if (name === '' || name === undefined || email === '' ||
+    phone.match(/^[0-9]{10}$/) === null || isPhone(phone)) {
         return false;
     }
 
@@ -47,10 +30,8 @@ exports.add = function (phone, name, email) {
 // Обновление записи в телефонной книге
 exports.update = function (phone, name, email) {
     var found = false;
-    isPhone();
-    isEmail();
-    if (name === '' || name === undefined ||
-    phone.match(/^[0-9]{10}$/) === null) {
+    if (name === '' || name === undefined || isPhone(phone) ||
+    phone.match(/^[0-9]{10}$/) === null || email === '') {
         return false;
     }
 
