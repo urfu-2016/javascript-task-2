@@ -26,7 +26,7 @@ var recPhoneBook;
  */
 exports.add = function (phone, name, email) {
 
-    // Телефоны принимаются **только** в формате 5556667788 (без кода) // было /^\d{10}$/
+    // Телефоны принимаются **только** в формате 5556667788 (без кода)
     if (!(phone !== undefined && !isNaN(Number(phone)) &&
         typeof phone === 'string' && (/^\d{10}$/).test(phone))) {
 
@@ -100,9 +100,8 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
 
     query = query.trim();
-    // if (typeof(query) !== 'string' || query === '') {
+
     if (!(typeof(query) === 'string' && query.length > 0)) {
-    // if (!query) {
 
         return 0;
     }
@@ -140,11 +139,9 @@ exports.find = function (query) {
 
     query = query.trim();
 
-    // if (typeof(query) !== 'string' || query === '') {
     if (!(typeof query === 'string' && query.length > 0)) {
-    // if (!query) {
 
-        return [];
+        return foundRec;
     }
 
     for (var i = 0; i < phoneBook.length; i++) {
@@ -156,7 +153,7 @@ exports.find = function (query) {
         }
     }
 
-    foundRec.sort(); // foundRec.sort(compareName);
+    foundRec.sort();
 
     return foundRec;
 };
@@ -182,7 +179,6 @@ exports.importFromCsv = function (csv) {
     arrayStr = csv.split('\n');
 
     for (var i = 0; i < arrayStr.length; i++) {
-        // разбиваем информацию о контакте
         infoRec = arrayStr[i].split(';');
 
         if (exports.add(infoRec[1], infoRec[0], infoRec[2]) ||
@@ -193,7 +189,6 @@ exports.importFromCsv = function (csv) {
 
     return k;
 
-    // return csv.split('\n').length;
 };
 
 /**
@@ -204,7 +199,8 @@ exports.importFromCsv = function (csv) {
  */
 function removeSpace(str) {
 
-    return str.trim(); // replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
+    // replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
+    return str.trim();
 }
 
 /**
@@ -237,9 +233,7 @@ function correctEmail(str) {
     str = str.trim();
 
     return str.length !== 0 && str.indexOf('@') !== -1;
-    // str = str.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.\.[a-zA-Z]{2,}$/);
 
-    // return str !== null || str !== '';
 }
 
 /**
@@ -269,7 +263,6 @@ function searchInPhoneBook(phone) {
 function findQuery(query) {
 
     for (var key in recPhoneBook) {
-        // проверяю на undefined, потому что почта может быть не задана
         if (recPhoneBook[key] !== undefined &&
             (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) > -1) {
 
@@ -290,12 +283,6 @@ function formatPhone(phone) {
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
         '-' + phone.slice(6, 8) + '-' + phone.slice(8);
 }
-
-// Сортировка
-// function compareName(peopleA, peopleB) {
-
-//    return peopleA > peopleB;
-// }
 
 /**
  * Возврат записи телефонной книги по образцу
