@@ -28,7 +28,7 @@ exports.add = function (phone, name, email) {
 
     // Телефоны принимаются **только** в формате 5556667788 (без кода) // было /^\d{10}$/
     if (!(phone !== undefined && !isNaN(Number(phone)) &&
-        typeof(phone) === 'string' && (/^\d{10}$/).test(phone))) {
+        typeof phone === 'string' && (/^\d{10}$/).test(phone))) {
 
         return false;
     }
@@ -138,7 +138,7 @@ exports.find = function (query) {
     var i;
 
     // if (typeof(query) !== 'string' || query === '') {
-    if (!(typeof(query) === 'string' && query.length > 0)) {
+    if (!(typeof query === 'string' && query.length > 0)) {
 
         return [];
     }
@@ -210,7 +210,7 @@ function removeSpace(str) {
  */
 function correctName(str) {
 
-    if (str === undefined) {
+    if (typeof str === 'undefined') {
         return false;
     }
     str = removeSpace(str);
@@ -225,7 +225,7 @@ function correctName(str) {
  */
 function correctEmail(str) {
 
-    if (str === undefined || typeof(str) !== 'string') {
+    if (typeof str === 'undefined' || typeof str !== 'string') {
         return false;
     }
     // str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
