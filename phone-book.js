@@ -6,10 +6,11 @@ function isPhone(phone) {
     if (phone === '' || phone === undefined) {
         return false;
     }
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (phoneBook[i].phone === phone) {
-            return true;
-        }
+}
+
+function isEmail(email) {
+    if (email === '' || email === undefined) {
+        return false;
     }
 }
 
@@ -17,8 +18,14 @@ function isPhone(phone) {
 exports.add = function (phone, name, email) {
     isPhone();
     if (name === '' || name === undefined ||
-    email === '' || phone.match(/^[0-9]{10}$/) === null) {
+    phone.match(/^[0-9]{10}$/) === null) {
         return false;
+    }
+    
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === phone) {
+            return true;
+        }
     }
 
     phoneBook.push({ phone: phone, name: name, email: email });
@@ -31,7 +38,7 @@ exports.update = function (phone, name, email) {
     var found = false;
     isPhone();
     if (name === '' || name === undefined ||
-    email === '' || phone.match(/^[0-9]{10}$/) === null) {
+    phone.match(/^[0-9]{10}$/) === null) {
         return false;
     }
 
