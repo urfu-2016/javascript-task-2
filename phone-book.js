@@ -137,7 +137,6 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     // Вывод найденных записей (тип: объект, тип элементов: строка)
     var foundRec = [];
-    var i;
 
     query = query.trim();
 
@@ -148,7 +147,7 @@ exports.find = function (query) {
         return [];
     }
 
-    for (i = 0; i < phoneBook.length; i++) {
+    for (var i = 0; i < phoneBook.length; i++) {
         recPhoneBook = phoneBook[i];
         if (query === '*') {
             foundRec.push(returnRec());
@@ -188,7 +187,7 @@ exports.importFromCsv = function (csv) {
 
         if (exports.add(infoRec[1], infoRec[0], infoRec[2]) ||
             exports.update(infoRec[1], infoRec[0], infoRec[2])) {
-            k++;
+            k = k + 1;
         }
     }
 
