@@ -32,7 +32,8 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
-    if (!correctName(name)) {
+    // if (!correctName(name)) {
+    if (!name) {
         return false;
     }
 
@@ -75,7 +76,8 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    if (correctName(name)) {
+    // if (correctName(name)) {
+    if (!name) {
         recPhoneBook.name = removeSpace(name);
     }
 
@@ -180,9 +182,8 @@ exports.importFromCsv = function (csv) {
         // разбиваем информацию о контакте
         infoRec = arrayStr[i].split(';');
 
-        if (exports.add(infoRec[1], infoRec[0], infoRec[2])) {
-            k++;
-        } else if (exports.update(infoRec[1], infoRec[0], infoRec[2])) {
+        if (exports.add(infoRec[1], infoRec[0], infoRec[2]) ||
+            exports.update(infoRec[1], infoRec[0], infoRec[2])) {
             k++;
         }
     }
@@ -208,15 +209,15 @@ function removeSpace(str) {
  * @param {String} str
  * @returns {Boolean}
  */
-function correctName(str) {
+// function correctName(str) {
 
-    if (str === undefined) {
-        return false;
-    }
-    str = removeSpace(str);
+//    if (str === undefined) {
+//        return false;
+//    }
+//    str = removeSpace(str);
 
-    return (str.length !== 0);
-}
+//    return (str.length !== 0);
+//}
 
 /**
  * Проверка корректно заданной электронной почты
