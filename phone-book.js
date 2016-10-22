@@ -42,6 +42,12 @@ exports.add = function (phone, name, email) {
         email = '';
     }
 
+    // Не добавляет **уже существующую** запись
+    if (searchInPhoneBook(phone)) {
+
+        return false;
+    }
+
     /**
     * Объявление переменной newRecPhoneBook
     * Новая запись в телефонной книге (тип: объект)
@@ -52,12 +58,6 @@ exports.add = function (phone, name, email) {
         name: removeSpace(name),
         email: email
     };
-
-    // Не добавляет **уже существующую** запись
-    if (searchInPhoneBook(phone)) {
-
-        return false;
-    }
 
     // Добавление в телефонную книгу
     phoneBook.push(newRecPhoneBook);
@@ -119,8 +119,8 @@ exports.findAndRemove = function (query) {
         recPhoneBook = phoneBook[i];
         if (findQuery(query)) {
             phoneBook.splice(i, 1);
-            k++;
-            i--;
+            k = k + 1;
+            i = i - 1;
         }
     }
 
