@@ -16,12 +16,18 @@ function isEmail(email) {
 
 // Добавление записи в телефонную книгу
 exports.add = function (phone, name, email) {
-    if (phone === '' || phone === undefined) {
+    if (phone === '') {
         return false;
     }
+    
+	if (phone === undefined) {
+        return false;
+    }
+    
     if (email === '') {
         return false;
     }
+    
     if (name === '' || name === undefined ||
     phone.match(/^[0-9]{10}$/) === null) {
         return false;
