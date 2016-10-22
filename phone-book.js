@@ -12,7 +12,11 @@ function isPhone(phone) {
 
 // Добавление записи в телефонную книгу
 exports.add = function (phone, name, email) {
-    if (name === '' || name === undefined || email === '' ||
+    function isName() {
+        return name === '' || name === undefined;
+    }
+
+    if (isName() || email === '' ||
     isPhone(phone)) {
         return false;
     }
