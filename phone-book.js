@@ -24,15 +24,15 @@ var formAccount = {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    phone = checkNull(phone, 1);
-    name = checkNull(name, 0);
+    phone = checkNull(phone);
+    name = checkNull(name);
     if (checkData(phone)) {
         return false;
     }
     if (name === '') {
         return false;
     }
-    email = checkNull(email, 1);
+    email = checkNull(email);
     var newAccount = Object.create(formAccount);
     newAccount.phone = phone;
     newAccount.name = name;
@@ -69,22 +69,15 @@ function formPhone(phone) {
     return reg.test(phone);
 }
 
-function checkNull(str, key) {
+function checkNull(str) {
     if (str === null) {
         return '';
     }
     if (str === undefined) {
         return '';
     }
-    if (key === 0) {
-        str = checkUnknow(str);
-    }
-
-    return str.trim();
-}
-
-function checkUnknow(str) {
-    if (str.toLowerCase().indexOf('@') !== (-1)) {
+    var str1 = str;
+    if (str.trim().length === 0) {
         return '';
     }
 
@@ -99,8 +92,8 @@ function checkUnknow(str) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    phone = checkNull(phone, 1);
-    name = checkNull(name, 0);
+    phone = checkNull(phone);
+    name = checkNull(name);
     if (!formPhone(phone)) {
         return false;
     }
@@ -114,7 +107,7 @@ exports.update = function (phone, name, email) {
     } else {
         return false;
     }
-    email = checkNull(email, 1);
+    email = checkNull(email);
     phoneBook[number].email = email;
 
     return true;
@@ -133,7 +126,7 @@ exports.findAndRemove = function (query) {
 
         return kol;
     }
-    if (checkNull(query, 1) === '') {
+    if (checkNull(query) === '') {
         return 0;
     }
     var t = findAllAccount(query, 'del');
@@ -156,7 +149,7 @@ exports.find = function (query) {
 
         return masOutputAccount;
     }
-    if (checkNull(query, 1) === '') {
+    if (checkNull(query) === '') {
         return masOutputAccount;
     }
 
