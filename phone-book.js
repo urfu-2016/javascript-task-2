@@ -73,7 +73,7 @@ function findQuery(query) {
 function formatPhone(phone) {
 
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
-        '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+        '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
 }
 
 function returnRec() {
@@ -111,9 +111,9 @@ exports.add = function (phone, name, email) {
     }
 
     var newRecPhoneBook = {
-        phone: phone,
-        name: removeSpace(name),
-        email: email
+        'phone': phone,
+        'name': removeSpace(name),
+        'email': email
     };
 
     phoneBook.push(newRecPhoneBook);
