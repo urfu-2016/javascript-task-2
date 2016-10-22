@@ -76,7 +76,7 @@ function checkNull(str, key) {
     if (str === undefined) {
         return '';
     }
-    if (key === 0) {
+    if (key == 0) {
         str = checkUnknow(str);
     }
 
@@ -131,7 +131,7 @@ exports.findAndRemove = function (query) {
 
         return kol;
     }
-    if (query === '') {
+    if (checkNull(query, 1) === '') {
         return 0;
     }
     var t = findAllAccount(query, 'del');
