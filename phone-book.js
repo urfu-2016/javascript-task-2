@@ -7,7 +7,7 @@ function isPhone(phone) {
         return false;
     }
 
-    return phone.match(/^[0-9]{10}$/) === null;
+    return phone.match(/^[0-9]{10}$/) == null;
 }
 
 // Добавление записи в телефонную книгу
