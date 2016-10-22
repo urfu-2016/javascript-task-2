@@ -10,7 +10,7 @@ exports.isStar = false;
  * Телефонная книга
  */
 var phoneBook = [];
-var formAccount = {
+var isFormAccount = {
     phone: undefined,
     name: undefined,
     email: undefined
@@ -24,16 +24,19 @@ var formAccount = {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    phone = checkNull(phone);
     name = checkNull(name);
-    if (checkData(phone)) {
+    phone = checkData(phone);
+    if (phone === '') {
+        return false;
+    }
+    if (findAccount(phone) !== -1) {
         return false;
     }
     if (name === '') {
         return false;
     }
     email = checkNull(email);
-    var newAccount = Object.create(formAccount);
+    var newAccount = Object.create(isFormAccount);
     newAccount.phone = phone;
     newAccount.name = name;
     newAccount.email = email;
@@ -43,14 +46,12 @@ exports.add = function (phone, name, email) {
 };
 
 function checkData(phone) {
+    phone = checkNull(phone);
     if (!formPhone(phone)) {
-        return true;
-    }
-    if (findAccount(phone) !== 0) {
-        return true;
+        return '';
     }
 
-    return false;
+    return phone;
 }
 
 function findAccount(phone) {
@@ -60,7 +61,7 @@ function findAccount(phone) {
         }
     }
 
-    return 0;
+    return -1;
 }
 
 function formPhone(phone) {
@@ -91,23 +92,23 @@ function checkNull(str) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    phone = checkNull(phone);
+    phone = checkData(phone);
     name = checkNull(name);
-    if (!formPhone(phone)) {
+    email = checkNull(email);
+    if (phone === '') {
+        return false;
+    }
+    if (name === '') {
         return false;
     }
     var number = findAccount(phone);
-    if (number === 0) {
+    if (number === -1) {
         return false;
     }
-    phoneBook[number].phone = phone;
-    if (name !== '') {
-        phoneBook[number].name = name;
-    } else {
-        return false;
-    }
-    email = checkNull(email);
-    phoneBook[number].email = email;
+    var exemp = phoneBook[number];
+    exemp.phone = phone;
+    exemp.name = name;
+    exemp.email = email;
 
     return true;
 };
