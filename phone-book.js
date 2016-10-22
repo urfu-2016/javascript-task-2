@@ -24,7 +24,8 @@ var formAccount = {
  * @returns {Boolean}
  */
 exports.add = function (phone, name, email) {
-    phone = checkNull(phone.trim());
+    phone = checkNull(phone);
+    phone = phone.trim();
     name = checkNull(name);
     name = name.trim();
     if (checkData(phone)) {
@@ -33,7 +34,8 @@ exports.add = function (phone, name, email) {
     if (name === '') {
         return false;
     }
-    email = checkNull(email.trim());
+    email = checkNull(email);
+    email = email.trim();
     var newAccount = Object.create(formAccount);
     newAccount.phone = phone;
     newAccount.name = name;
@@ -44,7 +46,7 @@ exports.add = function (phone, name, email) {
 };
 
 function checkData(phone) {
-    if (formPhone(phone)) {
+    if (!formPhone(phone)) {
         return true;
     }
     if (findAccount(phone) !== 0) {
@@ -67,7 +69,7 @@ function findAccount(phone) {
 function formPhone(phone) {
     var reg = /^\d{10}$/;
 
-    return !reg.test(phone);
+    return reg.test(phone);
 }
 
 function checkNull(str) {
@@ -86,10 +88,11 @@ function checkNull(str) {
  * @returns {Boolean}
  */
 exports.update = function (phone, name, email) {
-    phone = checkNull(phone.trim());
+    phone = checkNull(phone);
+    phone = phone.trim();
     name = checkNull(name);
     name = name.trim();
-    if (formPhone(phone)) {
+    if (!formPhone(phone)) {
         return false;
     }
     var number = findAccount(phone);
@@ -100,7 +103,8 @@ exports.update = function (phone, name, email) {
     if (name !== '') {
         phoneBook[number].name = name;
     }
-    email = checkNull(email.trim());
+    email = checkNull(email);
+    email = email.trim();
     phoneBook[number].email = email;
 
     return true;
@@ -122,7 +126,7 @@ exports.findAndRemove = function (query) {
     if (query === '') {
         return 0;
     }
-    var t = findAllAccount(query, 'del');
+    var t = findAllAccount(query, 'del') + 1;
 
     return t;
 };
