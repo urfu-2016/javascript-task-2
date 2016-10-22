@@ -25,9 +25,7 @@ var formAccount = {
  */
 exports.add = function (phone, name, email) {
     phone = checkNull(phone);
-    phone = phone.trim();
     name = checkNull(name);
-    name = name.trim();
     if (checkData(phone)) {
         return false;
     }
@@ -35,7 +33,6 @@ exports.add = function (phone, name, email) {
         return false;
     }
     email = checkNull(email);
-    email = email.trim();
     var newAccount = Object.create(formAccount);
     newAccount.phone = phone;
     newAccount.name = name;
@@ -77,7 +74,7 @@ function checkNull(str) {
         return '';
     }
 
-    return str;
+    return str.trim();
 }
 
 /**
@@ -89,9 +86,7 @@ function checkNull(str) {
  */
 exports.update = function (phone, name, email) {
     phone = checkNull(phone);
-    phone = phone.trim();
     name = checkNull(name);
-    name = name.trim();
     if (!formPhone(phone)) {
         return false;
     }
@@ -104,7 +99,6 @@ exports.update = function (phone, name, email) {
         phoneBook[number].name = name;
     }
     email = checkNull(email);
-    email = email.trim();
     phoneBook[number].email = email;
 
     return true;
@@ -126,7 +120,7 @@ exports.findAndRemove = function (query) {
     if (query === '') {
         return 0;
     }
-    var t = findAllAccount(query, 'del') + 1;
+    var t = findAllAccount(query, 'del');
 
     return t;
 };
