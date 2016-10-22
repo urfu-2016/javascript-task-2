@@ -23,7 +23,7 @@ exports.add = function (phone, name, email) {
 
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
-            return true;
+            return false;
         }
     }
 
