@@ -17,11 +17,12 @@ function isEmail(email) {
 // Добавление записи в телефонную книгу
 exports.add = function (phone, name, email) {
     isPhone();
+    isEmail();
     if (name === '' || name === undefined ||
     phone.match(/^[0-9]{10}$/) === null) {
         return false;
     }
-    
+
     for (var i = 0; i < phoneBook.length; i++) {
         if (phoneBook[i].phone === phone) {
             return true;
@@ -37,6 +38,7 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     var found = false;
     isPhone();
+    isEmail();
     if (name === '' || name === undefined ||
     phone.match(/^[0-9]{10}$/) === null) {
         return false;
