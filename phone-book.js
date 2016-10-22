@@ -27,7 +27,7 @@ var recPhoneBook;
 exports.add = function (phone, name, email) {
 
     // Телефоны принимаются **только** в формате 5556667788 (без кода)
-    if (!(typeof phone === 'string' && /^\d{10}$/.test(phone))) {
+    if (typeof phone !== 'string' || !(/^\d{10}$/.test(phone))) {
 
         return false;
     }
@@ -100,7 +100,7 @@ exports.findAndRemove = function (query) {
 
     query = query.trim();
 
-    if (!(typeof query === 'string' && query.length > 0)) {
+    if (typeof query !== 'string' || query.length === 0)) {
 
         return 0;
     }
@@ -138,7 +138,7 @@ exports.find = function (query) {
 
     query = query.trim();
 
-    if (!(typeof query === 'string' && query.length > 0)) {
+    if (typeof query !== 'string' || query.length === 0)) {
 
         return foundRec;
     }
