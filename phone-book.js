@@ -217,7 +217,7 @@ function removeSpace(str) {
 //    str = removeSpace(str);
 
 //    return (str.length !== 0);
-//}
+// }
 
 /**
  * Проверка корректно заданной электронной почты
