@@ -76,7 +76,6 @@ function checkNull(str) {
     if (str === undefined) {
         return '';
     }
-    var str1 = str;
     if (str.trim().length === 0) {
         return '';
     }
