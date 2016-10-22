@@ -202,7 +202,7 @@ exports.importFromCsv = function (csv) {
  */
 function removeSpace(str) {
 
-    return str.replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
+    return str.trim(); // replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
 }
 
 /**
@@ -228,6 +228,7 @@ function correctName(str) {
 function correctEmail(str) {
 
     if (typeof str === 'undefined' || typeof str !== 'string') {
+
         return false;
     }
     // str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
