@@ -11,11 +11,76 @@ exports.isStar = true;
  */
 var phoneBook = [];
 
-/**
- * Добавлены дополнительные глобальные переменные
- * Запись в телефонной книге
- */
 var recPhoneBook;
+
+
+function removeSpace(str) {
+
+    // replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
+    return str.trim();
+}
+
+function correctName(str) {
+
+    if (typeof str !== 'string') {
+
+        return false;
+    }
+    str = removeSpace(str);
+
+    return str.length !== 0;
+}
+
+function correctEmail(str) {
+
+    if (typeof str !== 'string') {
+
+        return false;
+    }
+    // str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
+    str = str.trim();
+
+    return str.length !== 0 && str.indexOf('@') !== -1;
+
+}
+
+function searchInPhoneBook(phone) {
+
+    for (var i = 0; i < phoneBook.length; i++) {
+        recPhoneBook = phoneBook[i];
+        if (recPhoneBook.phone === phone) {
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function findQuery(query) {
+
+    for (var key in recPhoneBook) {
+        if (recPhoneBook[key] !== undefined &&
+            (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) > -1) {
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function formatPhone(phone) {
+
+    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
+        '-' + phone.slice(6, 8) + '-' + phone.slice(8);
+}
+
+function returnRec() {
+
+    return recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
+        ((recPhoneBook.email !== '') ? (', ' + recPhoneBook.email) : (''));
+}
 
 /**
  * Добавление записи в телефонную книгу
@@ -26,7 +91,6 @@ var recPhoneBook;
  */
 exports.add = function (phone, name, email) {
 
-    // Телефоны принимаются **только** в формате 5556667788 (без кода)
     if (typeof phone !== 'string' || !(/^[0-9]{10}$/.test(phone))) {
 
         return false;
@@ -41,24 +105,17 @@ exports.add = function (phone, name, email) {
         email = '';
     }
 
-    // Не добавляет **уже существующую** запись
     if (searchInPhoneBook(phone)) {
 
         return false;
     }
 
-    /**
-    * Объявление переменной newRecPhoneBook
-    * Новая запись в телефонной книге (тип: объект)
-    * При объявлении заполняем данными, переданными в функцию
-    */
     var newRecPhoneBook = {
         phone: phone,
         name: removeSpace(name),
         email: email
     };
 
-    // Добавление в телефонную книгу
     phoneBook.push(newRecPhoneBook);
 
     return true;
@@ -105,7 +162,6 @@ exports.findAndRemove = function (query) {
         return 0;
     }
 
-    // Число удаленных записей (тип: целочисленный)
     var k = 0;
     if (query === '*') {
         k = phoneBook.length;
@@ -123,7 +179,6 @@ exports.findAndRemove = function (query) {
         }
     }
 
-    // Возвращает число удаленных записей
     return k;
 };
 
@@ -133,7 +188,7 @@ exports.findAndRemove = function (query) {
  * @returns {Array} foundRec
  */
 exports.find = function (query) {
-    // Вывод найденных записей (тип: объект, тип элементов: строка)
+
     var foundRec = [];
 
     query = query.trim();
@@ -164,15 +219,9 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
 
-    // разбиваем по строкам. в каждой строке новый контакт
     var arrayStr;
-    // Информация о контакте
     var infoRec;
-    // Количество добавленных/обновленных записей
     var k = 0;
 
     arrayStr = csv.split('\n');
@@ -189,107 +238,3 @@ exports.importFromCsv = function (csv) {
     return k;
 
 };
-
-/**
- * Удаление пробелов из имени (в начале, в конце)
- * между словами по одному пробелу остается
- * @param {String} str
- * @returns {String}
- */
-function removeSpace(str) {
-
-    // replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
-    return str.trim();
-}
-
-/**
- * Проверка корректно заданного имени
- * @param {String} str
- * @returns {Boolean}
- */
-function correctName(str) {
-
-    if (typeof str !== 'string') {
-
-        return false;
-    }
-    str = removeSpace(str);
-
-    return str.length !== 0;
-}
-
-/**
- * Проверка корректно заданной электронной почты
- * @param {String} str
- * @returns {Boolean}
- */
-function correctEmail(str) {
-
-    if (typeof str !== 'string') {
-
-        return false;
-    }
-    // str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
-    str = str.trim();
-
-    return str.length !== 0 && str.indexOf('@') !== -1;
-
-}
-
-/**
- * Проверка на наличие записи с таким номером в телефонной книге
- * @param {String} phone
- * @returns {Boolean}
- */
-function searchInPhoneBook(phone) {
-
-    for (var i = 0; i < phoneBook.length; i++) {
-        recPhoneBook = phoneBook[i];
-        if (recPhoneBook.phone === phone) {
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
- * Поиск по значениям ключа объекта
- * Ищет вхождение этой строки хотя бы в одно из полей «Телефон», «Имя» и «Электронную почту»
- * @param {String} query
- * @returns {Boolean}
- */
-function findQuery(query) {
-
-    for (var key in recPhoneBook) {
-        if (recPhoneBook[key] !== undefined &&
-            (recPhoneBook[key].toLowerCase()).indexOf(query.toLowerCase()) > -1) {
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
- * Возврат формата телефона
- * @param {String} phone
- * @returns {String}
- */
-function formatPhone(phone) {
-
-    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
-        '-' + phone.slice(6, 8) + '-' + phone.slice(8);
-}
-
-/**
- * Возврат записи телефонной книги по образцу
- * @returns {String}
- */
-function returnRec() {
-
-    return recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
-        ((recPhoneBook.email !== '') ? (', ' + recPhoneBook.email) : (''));
-}
