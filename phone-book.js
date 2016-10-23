@@ -100,7 +100,6 @@ function addNewBook(arr) {
 
 exports.findAndRemove = function (query) {
     if (checkQuery(query)) {
-
         return 0;
     }
     if (query === '*') {
@@ -113,7 +112,6 @@ exports.findAndRemove = function (query) {
     resultIndex.push(findIndex(phoneBook.phone, query));
     resultIndex.push(findIndex(phoneBook.name, query));
     resultIndex.push(findIndex(phoneBook.email, query));
-    console.log(resultIndex);
     if (resultIndex !== []) {
         var arr = addIndexArray(resultIndex);
         phoneBook = addNewBook(arr);
@@ -127,10 +125,8 @@ exports.findAndRemove = function (query) {
 function findIndex(arr, str) {
     var result = [];
     for (var i = 0; i < arr.length; i++) {
-        if (typeof arr[i] !== 'undefined') {
-            if (arr[i].toLowerCase().indexOf(str.toLowerCase()) !== -1) {
-                result.push(i);
-            }
+        if (typeof arr[i] !== 'undefined' && arr[i].indexOf(str) !== -1) {
+            result.push(i);
         }
     }
 
