@@ -41,8 +41,7 @@ exports.add = function (phone, name, email) {
     if (check(phone, name)) {
         var indexP = phoneBook.phone.indexOf(phone) === -1;
         var indexN = phoneBook.name.indexOf(name) === -1;
-        var indexE = phoneBook.email.indexOf(email) === -1;
-        if (indexE && indexN && indexP) {
+        if (indexN && indexP) {
             var correctEmail = addEmail(email);
             phoneBook.phone.push(phone);
             phoneBook.name.push(name);
@@ -208,6 +207,7 @@ exports.find = function (query) {
 function helper(line) {
     var info = line.split(';');
     if (info.length > 3) {
+
         return false;
     }
     var isAdd = exports.add(info[1], info[0], info[2]);
