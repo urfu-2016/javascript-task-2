@@ -1,12 +1,14 @@
 'use strict';
 
 function check(phone, name) {
-    if (typeof name !== 'string' || name === '') {
+    if (typeof name !== 'string' || name === '' || typeof name === undefined) {
         return false;
     }
     if (checkPhone(phone)) {
         return false;
     }
+
+    return true;
 }
 
 function checkPhone(phone) {
@@ -31,30 +33,30 @@ function addEmail(email) {
 }
 
 exports.add = function (phone, name, email) {
-    check(phone, name);
-    var indexP = phoneBook.phone.indexOf(phone) === -1;
-    if (indexP) {
-        var correctEmail = addEmail(email);
-        phoneBook.phone.push(phone);
-        phoneBook.name.push(name);
-        phoneBook.email.push(correctEmail);
-
-        return true;
+    if (check(phone, name)){
+        var indexP = phoneBook.phone.indexOf(phone) === -1;
+        if (indexP) {
+            var correctEmail = addEmail(email);
+            phoneBook.phone.push(phone);
+            phoneBook.name.push(name);
+            phoneBook.email.push(correctEmail);
+            return true;
+        }
     }
 
     return false;
 };
 
 exports.update = function (phone, name, email) {
-    check(phone, name);
-    var index = phoneBook.phone.indexOf(phone);
-    if (index !== -1) {
-        phoneBook.name[index] = name;
-        phoneBook.email[index] = addEmail(email);
+    if (check(phone, name)){
+        var index = phoneBook.phone.indexOf(phone);
+        if (index !== -1) {
+            phoneBook.name[index] = name;
+            phoneBook.email[index] = addEmail(email);
 
-        return true;
+            return true;
+        }
     }
-
     return false;
 };
 
