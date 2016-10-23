@@ -42,16 +42,20 @@ function addEmail(email) {
 }
 
 exports.add = function (phone, name, email) {
-    if (check(phone, name)) {
-        var indexP = phoneBook.phone.indexOf(phone) === -1;
-        if (indexP) {
-            var correctEmail = addEmail(email);
-            phoneBook.phone.push(phone);
-            phoneBook.name.push(name);
-            phoneBook.email.push(correctEmail);
+     if (typeof name !== 'string' || name === '') {
+        return false;
+    }
+    if (notCorrectPhone(phone)) {
+        return false;
+    }
+    var indexP = phoneBook.phone.indexOf(phone) === -1;
+    if (indexP) {
+        var correctEmail = addEmail(email);
+        phoneBook.phone.push(phone);
+        phoneBook.name.push(name);
+        phoneBook.email.push(correctEmail);
 
-            return true;
-        }
+        return true;
     }
 
     return false;
