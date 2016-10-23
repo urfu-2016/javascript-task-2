@@ -112,8 +112,8 @@ exports.findAndRemove = function (query) {
     resultIndex.push(findIndex(phoneBook.phone, query));
     resultIndex.push(findIndex(phoneBook.name, query));
     resultIndex.push(findIndex(phoneBook.email, query));
-    if (resultIndex !== []) {
-        var arr = addIndexArray(resultIndex);
+    var arr = addIndexArray(resultIndex);
+    if (arr !== []) {
         phoneBook = addNewBook(arr);
 
         return arr.length;
