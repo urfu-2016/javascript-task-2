@@ -101,8 +101,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var entry = findEntryByPhone(phone);
-    if (entry !== -1 && testPhone(phone) && !(phoneBook[entry][0] === name &&
-        phoneBook[entry][2] === email)) {
+    if (entry !== -1 && testPhone(phone)) {
         if (testEmail(email)) {
             phoneBook[entry][0] = name;
             phoneBook[entry][2] = email;
@@ -119,7 +118,7 @@ exports.update = function (phone, name, email) {
 
 
 function getBadQuery(query) {
-    if (typeof(query) !== 'string' || query === '' || query === undefined) {
+    if (query === '') {
         return true;
     }
 
