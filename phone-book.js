@@ -147,7 +147,7 @@ exports.findAndRemove = function (query) {
             newPhoneBook.push(phoneBook[entry2]);
         }
     }
-    phoneBook = sortArray(newPhoneBook);
+    phoneBook = newPhoneBook;
 
     return counter;
 };
