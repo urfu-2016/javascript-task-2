@@ -29,9 +29,10 @@ function checkExist(phone) {
  */
 
 function testPhone(phone) {
-    var regvalidPhone = /\d{10}/;
+    var regvalidPhone = /\d{10}/g;
 
-    return regvalidPhone.test(phone) && !isNaN(Number(phone)) && phone.length === 10;
+    return regvalidPhone.test(phone) && !isNaN(Number(phone)) &&
+    phone.length === 10;
 }
 
 
@@ -100,7 +101,8 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var entry = findEntryByPhone(phone);
-    if (entry !== -1 && testPhone(phone)) {
+    if (entry !== -1 && testPhone(phone) && !(phoneBook[entry][0] === name ||
+        phoneBook[entry][2] === email)) {
         if (testEmail(email)) {
             phoneBook[entry][0] = name;
             phoneBook[entry][2] = email;
@@ -147,7 +149,6 @@ exports.findAndRemove = function (query) {
             newPhoneBook.push(phoneBook[entry2]);
         }
     }
-    phoneBook = newPhoneBook;
 
     return counter;
 };
