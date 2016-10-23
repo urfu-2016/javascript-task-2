@@ -1,23 +1,12 @@
 'use strict';
 
-function strAndEmp(phone, name) {
-    var isString = typeof name !== 'string';
-    var isEmpty = name === '' || phone === '';
-    var isUndefuned = typeof name === 'undefined';
-
-    return isString || isEmpty || isUndefuned;
-}
-
 function check(phone, name) {
-    var isStringP = isNaN(Number(phone));
-    var isPositive = phone === '';
-    var reg = !(/^\d{10}$/.test(phone)) || isPositive;
-    if (phone.length !== 10 || strAndEmp(phone, name) || isStringP || reg) {
-
+    if (typeof name !== 'string' || name === '') {
         return false;
     }
-
-    return true;
+    if (checkPhone(phone)) {
+        return false;
+    }
 }
 
 function checkPhone(phone) {
@@ -42,12 +31,7 @@ function addEmail(email) {
 }
 
 exports.add = function (phone, name, email) {
-     if (typeof name !== 'string' || name === '') {
-        return false;
-    }
-    if (notCorrectPhone(phone)) {
-        return false;
-    }
+    check(phone, name);
     var indexP = phoneBook.phone.indexOf(phone) === -1;
     if (indexP) {
         var correctEmail = addEmail(email);
@@ -62,12 +46,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if (typeof name !== 'string' || name === '') {
-        return false;
-    }
-    if (checkPhone(phone)) {
-        return false;
-    }
+    check(phone, name);
     var index = phoneBook.phone.indexOf(phone);
     if (index !== -1) {
         phoneBook.name[index] = name;
