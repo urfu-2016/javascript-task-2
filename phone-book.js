@@ -36,7 +36,7 @@ function testPhone(phone) {
 
 
 function testEmail(email) {
-    var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/;
+    var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/i;
 
     return regvalidEmail.test(email) || email === undefined;
 }
@@ -117,7 +117,7 @@ exports.update = function (phone, name, email) {
 
 
 function getBadQuery(query) {
-    if (query === '' || query === undefined) {
+    if (typeof(query) !== 'string' || query === '' || query === undefined) {
         return true;
     }
 
@@ -147,7 +147,7 @@ exports.findAndRemove = function (query) {
             newPhoneBook.push(phoneBook[entry2]);
         }
     }
-    phoneBook = newPhoneBook;
+    phoneBook = sortArray(newPhoneBook);
 
     return counter;
 };
@@ -188,7 +188,8 @@ function sortArray(array) {
 
 function findEntry(query, ent) {
     for (var field = 0; field < phoneBook[ent].length; field++) {
-        if (phoneBook[ent][field] !== undefined && phoneBook[ent][field].search(query) !== -1) {
+        if (query === '*' ||
+            (phoneBook[ent][field] !== undefined && phoneBook[ent][field].search(query) !== -1)) {
             return ent;
         }
     }
