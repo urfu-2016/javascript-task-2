@@ -20,6 +20,10 @@ function check(phone, name) {
     return true;
 }
 
+function checkPhone(phone) {
+    return (phone.match(/^\d+$/) === null || phone.length !== 10 || isNaN(Number(phone)));
+}
+
 exports.isStar = true;
 
 var phoneBook = {
@@ -55,14 +59,18 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if (check(phone, name)) {
-        var index = phoneBook.phone.indexOf(phone);
-        if (index !== -1) {
-            phoneBook.name[index] = name;
-            phoneBook.email[index] = addEmail(email);
+    if (typeof name !== 'string' || name === '') {
+        return false;
+    }
+    if (checkPhone(phone)) {
+        return false;
+    }
+    var index = phoneBook.phone.indexOf(phone);
+    if (index !== -1) {
+        phoneBook.name[index] = name;
+        phoneBook.email[index] = addEmail(email);
 
-            return true;
-        }
+        return true;
     }
 
     return false;
