@@ -9,7 +9,7 @@ exports.isStar = false;
 function checkQuery(query) {
 
     var typeQuery = typeof query !== 'string';
-    var emptyQuery = query === '' || query === ' ';
+    var emptyQuery = query === '' || query === null;
     var undefQuery = typeof query === 'undefined';
     var undQuery = query === undefined;
 
@@ -21,10 +21,6 @@ function checkQuery(query) {
     return true;
 }
 
-function isEmptyQuery(query) {
-
-    return query === undefined;
-}
 
 function checkPhone(phone) {
     var reg = /^(\d{10})$/;
@@ -129,15 +125,15 @@ function checkEntry(phone) {
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
-    uName = isEmptyQuery(name) ? false : name.trim();
+    uName = !checkQuery(name) ? false : name.trim();
 
-    if (phone === null || phone === undefined) {
+    if (!checkQuery(phone)) {
 
         return false;
     }
 
     uPhone = phone.trim();
-    var checkEmail = isEmptyQuery(email) ? '' : email.trim();
+    var checkEmail = !checkQuery(email) ? '' : email.trim();
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
 
@@ -165,8 +161,8 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var upPhone = '';
-    var checkEmail = isEmptyQuery(email) ? '' : email.trim();
-    var fixName = isEmptyQuery(name) ? false : name.trim();
+    var checkEmail = !checkQuery(email) ? '' : email.trim();
+    var fixName = !checkQuery(name) ? false : name.trim();
     var fixPhone;
 
     if (phone === null || phone === undefined) {
@@ -207,6 +203,7 @@ exports.findAndRemove = function (query) {
 
     var counter = 0;
     var copyBook = phoneBook.slice();
+    var remResult = [];
 
     if (checkQuery(query)) {
 
@@ -226,9 +223,9 @@ exports.findAndRemove = function (query) {
 
             if (findIndex(query, findPhone, findName, findEmail)) {
 
-                phoneBook.splice(index, 1, '');
+                remResult.push(phoneBook[index]);
 
-                counter++;
+                counter = remResult.length;
             }
 
         });
@@ -247,7 +244,7 @@ exports.find = function (query) {
     var convertedPhone = '';
     var concatResult = '';
 
-    if (query === undefined || query === null || !checkQuery(query)) {
+    if (!checkQuery(query)) {
 
         return [];
     }
@@ -299,9 +296,6 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
-    // Парсим csv
-    // Добавляем в телефонную книгу
-    // Либо обновляем, если запись с таким телефоном уже существует
 
     return csv.split('\n').length;
 };
