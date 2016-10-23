@@ -101,7 +101,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var entry = findEntryByPhone(phone);
-    if (entry !== -1 && testPhone(phone) && !(phoneBook[entry][0] === name ||
+    if (entry !== -1 && testPhone(phone) && !(phoneBook[entry][0] === name &&
         phoneBook[entry][2] === email)) {
         if (testEmail(email)) {
             phoneBook[entry][0] = name;
