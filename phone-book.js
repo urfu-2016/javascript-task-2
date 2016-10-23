@@ -36,7 +36,7 @@ function testPhone(phone) {
 
 
 function testEmail(email) {
-    var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/i;
+    var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/ig;
 
     return regvalidEmail.test(email) || email === undefined;
 }
