@@ -33,13 +33,14 @@ function addEmail(email) {
 }
 
 exports.add = function (phone, name, email) {
-    if (check(phone, name)){
+    if (check(phone, name)) {
         var indexP = phoneBook.phone.indexOf(phone) === -1;
         if (indexP) {
             var correctEmail = addEmail(email);
             phoneBook.phone.push(phone);
             phoneBook.name.push(name);
             phoneBook.email.push(correctEmail);
+
             return true;
         }
     }
@@ -48,7 +49,7 @@ exports.add = function (phone, name, email) {
 };
 
 exports.update = function (phone, name, email) {
-    if (check(phone, name)){
+    if (check(phone, name)) {
         var index = phoneBook.phone.indexOf(phone);
         if (index !== -1) {
             phoneBook.name[index] = name;
@@ -57,6 +58,7 @@ exports.update = function (phone, name, email) {
             return true;
         }
     }
+
     return false;
 };
 
