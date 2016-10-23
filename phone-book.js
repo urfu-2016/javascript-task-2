@@ -214,7 +214,8 @@ exports.find = function (query) {
         var entry = entry2;
         var foundEntry = findEntry(query, entry);
         if (foundEntry !== -1) {
-            result.push(phoneBook[entry]);
+            result.push([phoneBook[entry][0], getPhoneForOut(phoneBook[entry][1]),
+            phoneBook[entry][2]]);
         }
     }
 
