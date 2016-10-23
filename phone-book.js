@@ -44,8 +44,7 @@ function addEmail(email) {
 exports.add = function (phone, name, email) {
     if (check(phone, name)) {
         var indexP = phoneBook.phone.indexOf(phone) === -1;
-        var indexN = phoneBook.name.indexOf(name) === -1;
-        if (indexN && indexP) {
+        if (indexP) {
             var correctEmail = addEmail(email);
             phoneBook.phone.push(phone);
             phoneBook.name.push(name);
