@@ -182,7 +182,7 @@ function sortArray(array) {
 function findEntry(query, ent) {
     for (var field = 0; field < phoneBook[ent].length; field++) {
         if (query === '*' ||
-            (phoneBook[ent][field] !== undefined && phoneBook[ent][field].search(query) !== -1)) {
+            (phoneBook[ent][field] !== undefined && phoneBook[ent][field].indexOf(query) !== -1)) {
             return ent;
         }
     }
