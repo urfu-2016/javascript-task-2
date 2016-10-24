@@ -36,13 +36,6 @@ function testPhone(phone) {
 }
 
 
-function testEmail(email) {
-    var regvalidEmail = /^[0-9a-zа-яё_-]+@[0-9a-zа-яё_-]+\.[a-zа-яё]{2,6}$/ig;
-
-    return regvalidEmail.test(email) || email === undefined;
-}
-
-
 function addEntry(name, phone, email) {
     if (email === undefined) {
         phoneBook.push([name, phone]);
@@ -55,7 +48,7 @@ function addEntry(name, phone, email) {
 
 
 function getBadArguments(phone, name) {
-    if (name === undefined || typeof(name) !== 'string' || typeof(phone) !== 'string') {
+    if (name === undefined || typeof(name) !== 'string') {
         return true;
     }
     if (name.length < 1) {
@@ -68,10 +61,10 @@ exports.add = function (phone, name, email) {
     if (getBadArguments(phone, name)) {
         return false;
     }
-    if (testEmail(email) && testPhone(phone) && phoneBook.length === 0) {
+    if (testPhone(phone) && phoneBook.length === 0) {
         return addEntry(name, phone, email);
     }
-    if (testEmail(email) && testPhone(phone) && phoneBook.length !== 0 && !checkExist(phone)) {
+    if (testPhone(phone) && phoneBook.length !== 0 && !checkExist(phone)) {
         return addEntry(name, phone, email);
     }
 
@@ -102,12 +95,11 @@ exports.update = function (phone, name, email) {
     }
     var entry = findEntryByPhone(phone);
     if (entry !== -1 && testPhone(phone)) {
-        if (testEmail(email)) {
-            phoneBook[entry][0] = name;
-            phoneBook[entry][2] = email;
-        }
         if (email === undefined) {
             phoneBook[entry] = [name, phone];
+        } else {
+            phoneBook[entry][0] = name;
+            phoneBook[entry][2] = email;
         }
 
         return true;
