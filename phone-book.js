@@ -91,6 +91,7 @@ function correctUpdate(phone, name, email) {
         return false;
     }
     if (name === null) {
+
         return false;
     }
 
