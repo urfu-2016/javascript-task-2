@@ -9,11 +9,10 @@ exports.isStar = false;
 function checkQuery(query) {
 
     var typeQuery = typeof query !== 'string';
-    var emptyQuery = query === '' || query === null;
+    var emptyQuery = query === '' || query === ' ';
     var undefQuery = typeof query === 'undefined';
-    var undQuery = query === undefined;
 
-    if (typeQuery || emptyQuery || undefQuery || undQuery) {
+    if (typeQuery || emptyQuery || undefQuery) {
 
         return false;
     }
@@ -21,9 +20,13 @@ function checkQuery(query) {
     return true;
 }
 
+function isEmptyQuery(query) {
+
+    return query === undefined;
+}
 
 function checkPhone(phone) {
-    var reg = /^(555\d{7})$/;
+    var reg = /^(\d{10})$/;
 
     return reg.test(phone);
 }
@@ -78,7 +81,8 @@ function findIndex(query, phone, name, email) {
         return false;
 
     }
-    if (email.indexOf(query) !== -1 || phone.indexOf(query) !== -1 || name.indexOf(query) !== -1) {
+
+    if (phone.indexOf(query) !== -1 || name.indexOf(query) !== -1 || email.indexOf(query) !== -1) {
 
         return true;
     }
@@ -90,8 +94,6 @@ function findIndex(query, phone, name, email) {
  * Телефонная книга
  */
 var phoneBook = [];
-
-var uPhone;
 var uName;
 
 function checkEntry(phone) {
@@ -125,20 +127,13 @@ function checkEntry(phone) {
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
-    uName = !checkQuery(name) ? false : name;
+    uName = isEmptyQuery(name) ? false : name;
+    var checkEmail = isEmptyQuery(email) ? '' : email;
 
-    if (!checkQuery(phone)) {
-
-        return false;
-    }
-
-    uPhone = phone;
-    var checkEmail = !checkQuery(email) ? '' : email;
-
-    if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
+    if (checkPhone(phone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(phone)) {
 
         bookObj = {
-            number: uPhone,
+            number: phone,
             username: uName,
             mail: checkEmail
         };
@@ -161,24 +156,16 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var upPhone = '';
-    var checkEmail = !checkQuery(email) ? '' : email;
+    var checkEmail = isEmptyQuery(email) ? '' : email;
     var fixName = !checkQuery(name) ? false : name;
-    var fixPhone;
 
-    if (phone === null || phone === undefined) {
-
-        return false;
-    }
-
-    fixPhone = phone;
-
-    if (checkPhone(fixPhone) && valEmail(checkEmail) && checkQuery(fixName)) {
+    if (checkPhone(phone) && valEmail(checkEmail)) {
 
         phoneBook.forEach(function (object, index) {
 
             upPhone = phoneBook[index].number;
 
-            if (upPhone.indexOf(fixPhone) !== -1) {
+            if (upPhone.indexOf(phone) !== -1) {
 
                 phoneBook[index].username = fixName;
                 phoneBook[index].mail = checkEmail;
@@ -200,17 +187,14 @@ exports.update = function (phone, name, email) {
  * @returns {Number} - Число удаленных записей
  */
 exports.findAndRemove = function (query) {
-
+    var removed = [];
     var counter = 0;
-    var copyBook = phoneBook.slice();
-    var remResult = [];
 
     if (checkQuery(query)) {
 
         if (query === '*') {
 
-            var bookLength = copyBook.length;
-            copyBook = [];
+            var bookLength = phoneBook.slice().length;
 
             return bookLength;
         }
@@ -223,9 +207,8 @@ exports.findAndRemove = function (query) {
 
             if (findIndex(query, findPhone, findName, findEmail)) {
 
-                remResult.push(phoneBook[index]);
-
-                counter = remResult.length;
+                removed.push(index);
+                counter = removed.length;
             }
 
         });
@@ -244,21 +227,30 @@ exports.find = function (query) {
     var convertedPhone = '';
     var concatResult = '';
 
-    if (!checkQuery(query)) {
+    if (checkQuery(query)) {
 
-        return [];
-    }
+        if (query === '*') {
 
-    var fixQuery = query;
+            phoneBook.forEach(function (object, index) {
+                var findName = phoneBook[index].username;
+                var findEmail = phoneBook[index].mail;
+                convertedPhone = formatPhone(phoneBook[index].number);
+                concatResult = concatString(findName, convertedPhone, findEmail);
 
-    if (checkQuery(fixQuery) && fixQuery !== '*') {
+                searchResult.push(concatResult);
+
+            });
+
+            return searchResult.sort();
+
+        }
 
         phoneBook.forEach(function (object, index) {
             var findPhone = phoneBook[index].number;
             var findName = phoneBook[index].username;
             var findEmail = phoneBook[index].mail;
 
-            if (findIndex(fixQuery, findPhone, findName, findEmail)) {
+            if (findIndex(query, findPhone, findName, findEmail)) {
 
                 convertedPhone = formatPhone(findPhone);
                 concatResult = concatString(findName, convertedPhone, findEmail);
@@ -271,22 +263,7 @@ exports.find = function (query) {
         return searchResult.sort();
     }
 
-    if (fixQuery === '*') {
-
-        phoneBook.forEach(function (object, index) {
-            var findName = phoneBook[index].username;
-            var findEmail = phoneBook[index].mail;
-            convertedPhone = formatPhone(phoneBook[index].number);
-            concatResult = concatString(findName, convertedPhone, findEmail);
-
-            searchResult.push(concatResult);
-
-        });
-
-        return searchResult.sort();
-
-    }
-
+    return [];
 };
 
 /**
@@ -296,6 +273,9 @@ exports.find = function (query) {
  * @returns {Number} – количество добавленных и обновленных записей
  */
 exports.importFromCsv = function (csv) {
+    // Парсим csv
+    // Добавляем в телефонную книгу
+    // Либо обновляем, если запись с таким телефоном уже существует
 
     return csv.split('\n').length;
 };
