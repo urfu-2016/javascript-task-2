@@ -25,7 +25,7 @@ function phoneNotCorrect(phone) {
     return (phone.match(/^\d+$/) === null || phone.length !== 10 || isNaN(Number(phone)));
 }
 
-/**
+/*
  * Добавление записи в телефонную книгу
  * @param {String} phone
  * @param {String} name
@@ -49,12 +49,12 @@ exports.add = function (phone, name, email) {
     return false;
 };
 
-/**
- * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
- */
+
+//Обновление записи в телефонной книге
+//@param {String} phone
+//@param {String} name
+//@param {String} email
+ 
 exports.update = function (phone, name, email) {
     if (typeof name !== 'string' || name === '') {
         return false;
@@ -75,10 +75,9 @@ exports.update = function (phone, name, email) {
     return false;
 };
 
-/**
- * Удаление записей по запросу из телефонной книги
- * @param {String} query
- */
+//Удаление записей по запросу из телефонной книги
+// @param {String} query
+
 exports.findAndRemove = function (query) {
     var otherIndex = findIndexs(query);
     var temporaryPhoneBook = [];
@@ -108,9 +107,8 @@ function createFindBook(indexes) {
             newBook.push(str);
         }
     });
-
-            return newBook;
-            }
+    return newBook;
+}
 
 function findIndexs(query) {
 
@@ -140,20 +138,18 @@ function findIndexs(query) {
     return otherIndex;
 }
 
-/**
- * Поиск записей по запросу в телефонной книге
- * @param {String} query
- */
+//Поиск записей по запросу в телефонной книге
+// @param {String} query
+
 exports.find = function (query) {
     return createFindBook(findIndexs(query)).sort();
 };
 
-/**
- * Импорт записей из csv-формата
- * @star
- * @param {String} csv
- * @returns {Number} – количество добавленных и обновленных записей
- */
+//Импорт записей из csv-формата
+// @star
+// @param {String} csv
+// @returns {Number} – количество добавленных и обновленных записей
+
 exports.importFromCsv = function (csv) {
     var count = 0;
     csv = csv.split('\n');
@@ -164,7 +160,7 @@ exports.importFromCsv = function (csv) {
         var email = values[2];
         if (!exports.update(phone, name, email)) {
             if (exports.add(phone, name, email)) {
-                    count++;
+                count++;
             }
         } else {
             count++;
