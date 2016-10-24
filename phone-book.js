@@ -17,11 +17,14 @@ function valueOfKey(key) {
     phoneBook.forEach(function takePhones(point) {
         onePhone.push(point[key]);
     });
+
     return onePhone;
 }
-function phoneDontCorrect(phone) {
+
+function phoneNotCorrect(phone) {
     return (phone.match(/^\d+$/) === null || phone.length !== 10 || isNaN(Number(phone)));
 }
+
 /**
  * Добавление записи в телефонную книгу
  * @param {String} phone
@@ -32,11 +35,14 @@ exports.add = function (phone, name, email) {
     if (typeof name !== 'string' || name === '') {
         return false;
     }
-    if (phoneDontCorrect(phone)) {
+
+    if (phoneNotCorrect(phone)) {
         return false;
     }
+
     if (valueOfKey('phone').indexOf(phone) === -1) {
-          phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
+        phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
+
         return true;
     }
 
@@ -53,17 +59,19 @@ exports.update = function (phone, name, email) {
     if (typeof name !== 'string' || name === '') {
         return false;
     }
-    if (phoneDontCorrect(phone)) {
+    if (phoneNotCorrect(phone)) {
         return false;
     }
 
     var index = valueOfKey('phone').indexOf(phone);
+
     if (index !== -1) {
         phoneBook[index].name = name;
         phoneBook[index].email = email;
 
         return true;
     }
+
     return false;
 };
 
@@ -80,12 +88,13 @@ exports.findAndRemove = function (query) {
         }
     });
     phoneBook = temporaryPhoneBook;
+
     return otherIndex.length;
 };
 
 function correctFormatPhone(phone) {
-    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6)
-        + '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
+    return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
+        '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
 }
 function createFindBook(indexes) {
     var newBook = [];
@@ -94,10 +103,11 @@ function createFindBook(indexes) {
         if (indexes.indexOf(indexNumber) !== -1) {
             var email = phoneBook[indexNumber].email;
             email = typeof email === 'undefined' ? '' : ', ' + email;
-            str = phoneBook[indexNumber].name + ', ' + correctFormatPhone(phoneBook[indexNumber].phone) + email;
+            str = phoneBook[indexNumber].name + ', ' +
+                correctFormatPhone(phoneBook[indexNumber].phone) + email;
             newBook.push(str);
-            }
-            });
+        }
+    });
 
             return newBook;
             }
@@ -126,6 +136,7 @@ function findIndexs(query) {
             }
         });
     }
+
     return otherIndex;
 }
 
@@ -159,5 +170,6 @@ exports.importFromCsv = function (csv) {
             count++;
         }
     });
+
     return count;
 };
