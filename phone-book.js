@@ -23,7 +23,7 @@ function checkQuery(query) {
 
 
 function checkPhone(phone) {
-    var reg = /^(\d{10})$/;
+    var reg = /^(555\d\d\d\d\d\d\d)$/;
 
     return reg.test(phone);
 }
