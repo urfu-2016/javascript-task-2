@@ -104,7 +104,7 @@ function createFindBook(indexes) {
             newBook.push(str);
         }
     });
-    
+
     return newBook;
 }
 
