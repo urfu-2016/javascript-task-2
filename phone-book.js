@@ -23,7 +23,7 @@ function checkQuery(query) {
 
 
 function checkPhone(phone) {
-    var reg = /^(555\d\d\d\d\d\d\d)$/;
+    var reg = /^(555\d{7})$/;
 
     return reg.test(phone);
 }
@@ -125,15 +125,15 @@ function checkEntry(phone) {
  */
 exports.add = function (phone, name, email) {
     var bookObj = {};
-    uName = !checkQuery(name) ? false : name.trim();
+    uName = !checkQuery(name) ? false : name;
 
     if (!checkQuery(phone)) {
 
         return false;
     }
 
-    uPhone = phone.trim();
-    var checkEmail = !checkQuery(email) ? '' : email.trim();
+    uPhone = phone;
+    var checkEmail = !checkQuery(email) ? '' : email;
 
     if (checkPhone(uPhone) && checkQuery(uName) && valEmail(checkEmail) && checkEntry(uPhone)) {
 
@@ -161,8 +161,8 @@ exports.add = function (phone, name, email) {
  */
 exports.update = function (phone, name, email) {
     var upPhone = '';
-    var checkEmail = !checkQuery(email) ? '' : email.trim();
-    var fixName = !checkQuery(name) ? false : name.trim();
+    var checkEmail = !checkQuery(email) ? '' : email;
+    var fixName = !checkQuery(name) ? false : name;
     var fixPhone;
 
     if (phone === null || phone === undefined) {
@@ -170,7 +170,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    fixPhone = phone.trim();
+    fixPhone = phone;
 
     if (checkPhone(fixPhone) && valEmail(checkEmail) && checkQuery(fixName)) {
 
@@ -249,7 +249,7 @@ exports.find = function (query) {
         return [];
     }
 
-    var fixQuery = query.trim();
+    var fixQuery = query;
 
     if (checkQuery(fixQuery) && fixQuery !== '*') {
 
