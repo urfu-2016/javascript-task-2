@@ -35,7 +35,7 @@ function areValuesValid(phone, name, email) {
         return false;
     }
 
-    if (!isNonEmptyString(email) && typeof email !== 'undefined') {
+    if (typeof email !== 'string' && typeof email !== 'undefined') {
         return false;
     }
 
@@ -55,7 +55,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
-    if (phoneBook.hasOwnProperty(phone)) {
+    if (Object.prototype.hasOwnProperty.call(phoneBook, phone)) {
         return false;
     }
 
@@ -77,7 +77,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    if (!phoneBook.hasOwnProperty(phone)) {
+    if (!Object.prototype.hasOwnProperty.call(phoneBook, phone)) {
         return false;
     }
 
