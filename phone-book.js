@@ -4,7 +4,7 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = false; // true
+exports.isStar = true;
 
 /**
  * Телефонная книга
@@ -14,13 +14,13 @@ var phoneBook = [];
 var recPhoneBook;
 
 
-function removeSpace(str) {
+function removeSpace (str) {
 
     // replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
     return str.trim();
 }
 
-function correctName(str) {
+function correctName (str) {
 
     if (typeof str !== 'string') {
 
@@ -31,7 +31,7 @@ function correctName(str) {
     return str.length !== 0;
 }
 
-function correctEmail(str) {
+function correctEmail (str) {
 
     if (typeof str !== 'string') {
 
@@ -44,7 +44,7 @@ function correctEmail(str) {
 
 }
 
-function searchInPhoneBook(phone) {
+function searchInPhoneBook (phone) {
 
     for (var i = 0; i < phoneBook.length; i++) {
         recPhoneBook = phoneBook[i];
@@ -57,7 +57,7 @@ function searchInPhoneBook(phone) {
     return false;
 }
 
-function findQuery(query) {
+function findQuery (query) {
 
     for (var key in recPhoneBook) {
         if (recPhoneBook[key] !== undefined &&
@@ -70,13 +70,13 @@ function findQuery(query) {
     return false;
 }
 
-function formatPhone(phone) {
+function formatPhone (phone) {
 
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
         '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
 }
 
-function returnRec() {
+function returnRec () {
 
     return recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
         ((recPhoneBook.email !== '') ? (', ' + recPhoneBook.email) : (''));
