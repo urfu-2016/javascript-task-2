@@ -26,7 +26,7 @@ function correctName(str) {
 
         return false;
     }
-    str = str.trim();
+    // str = str.trim();
 
     return str.length !== 0;
 }
@@ -38,7 +38,7 @@ function correctEmail(str) {
         return false;
     }
     // str = /^[a-z0-9_\.-]+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(str);
-    str = str.trim();
+    // str = str.trim();
 
     return str.length !== 0 && str.indexOf('@') !== -1;
 
@@ -105,7 +105,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
-    name = name.trim(); // removeSpace(name);
+    // name = name.trim(); // removeSpace(name);
 
     phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
 
@@ -127,7 +127,7 @@ exports.update = function (phone, name, email) {
     }
 
     if (correctName(name)) {
-        recPhoneBook.name = name.trim(); // removeSpace(name);
+        recPhoneBook.name = name; // .trim(); // removeSpace(name);
     }
 
     if (correctEmail(email)) {
