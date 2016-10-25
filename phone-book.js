@@ -125,9 +125,11 @@ exports.update = function (phone, name, email) {
         return false;
     }
 
-    if (correctName(name)) {
-        recPhoneBook.name = name; // .trim(); // removeSpace(name);
+    if (!correctName(name)) {
+
+        return false;
     }
+    recPhoneBook.name = name; // .trim(); // removeSpace(name);
 
     if (correctEmail(email)) {
         recPhoneBook.email = email;
