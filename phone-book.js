@@ -10,8 +10,7 @@ exports.isStar = true;
  * Телефонная книга
  */
 var phoneBook = [];
-
-var recPhoneBook;
+var recPhoneBook = {};
 
 
 // function removeSpace(str) {
