@@ -14,24 +14,24 @@ var phoneBook = [];
 var recPhoneBook;
 
 
-function removeSpace (str) {
+// function removeSpace(str) {
 
     // replace(/(^\s+)|(\s+$)/g, ''); // .replace(/\s+/g, ' ');
-    return str.trim();
-}
+//    return str.trim();
+// }
 
-function correctName (str) {
+function correctName(str) {
 
     if (typeof str !== 'string') {
 
         return false;
     }
-    str = removeSpace(str);
+    str = str.trim();
 
     return str.length !== 0;
 }
 
-function correctEmail (str) {
+function correctEmail(str) {
 
     if (typeof str !== 'string') {
 
@@ -44,7 +44,7 @@ function correctEmail (str) {
 
 }
 
-function searchInPhoneBook (phone) {
+function searchInPhoneBook(phone) {
 
     for (var i = 0; i < phoneBook.length; i++) {
         recPhoneBook = phoneBook[i];
@@ -57,7 +57,7 @@ function searchInPhoneBook (phone) {
     return false;
 }
 
-function findQuery (query) {
+function findQuery(query) {
 
     for (var key in recPhoneBook) {
         if (recPhoneBook[key] !== undefined &&
@@ -70,13 +70,13 @@ function findQuery (query) {
     return false;
 }
 
-function formatPhone (phone) {
+function formatPhone(phone) {
 
     return '+7 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) +
         '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
 }
 
-function returnRec () {
+function returnRec() {
 
     return recPhoneBook.name + ', ' + formatPhone(recPhoneBook.phone) +
         ((recPhoneBook.email !== '') ? (', ' + recPhoneBook.email) : (''));
@@ -91,12 +91,7 @@ function returnRec () {
  */
 exports.add = function (phone, name, email) {
 
-    if (typeof phone !== 'string' || !(/^[0-9]{10}$/.test(phone))) {
-
-        return false;
-    }
-
-    if (!correctName(name)) {
+    if (typeof phone !== 'string' || !(/^[0-9]{10}$/.test(phone)) || !correctName(name)) {
 
         return false;
     }
@@ -110,7 +105,7 @@ exports.add = function (phone, name, email) {
         return false;
     }
 
-    name = removeSpace(name);
+    name = name.trim(); // removeSpace(name);
 
     phoneBook.push({ 'phone': phone, 'name': name, 'email': email });
 
@@ -132,7 +127,7 @@ exports.update = function (phone, name, email) {
     }
 
     if (correctName(name)) {
-        recPhoneBook.name = removeSpace(name);
+        recPhoneBook.name = name.trim(); // removeSpace(name);
     }
 
     if (correctEmail(email)) {
