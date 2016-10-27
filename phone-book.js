@@ -46,10 +46,10 @@ exports.findAndRemove = function (query) {
 
         return (phoneBook.length - 1);
     }
-    else if (query === '') {
+    if (query === '') {
 
-            return 0;
-        }
+        return 0;
+    }
     var s = 0;
     var foundRegExp = new RegExp(query);
     for (var i = phoneBook.length - 1; i >= 0; i--) {
@@ -67,10 +67,10 @@ exports.find = function (query) {
 
         return null;
     }
-    else if (query === '*') {
+    if (query === '*') {
 
-            return phoneBookToCustomView(phoneBook);
-        }
+        return phoneBookToCustomView(phoneBook);
+    }
     var foundRegExp = new RegExp(query);
     var arrayOfFounded = [];
     for (var i = 0; i < phoneBook.length; i++) {
