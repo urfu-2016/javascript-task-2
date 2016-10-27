@@ -108,8 +108,12 @@ function phoneBookToCustomView(book) {
         '-' +
         splittedPhone[8] +
         splittedPhone[9];
-        if ((book[i])[2] === undefined) {bookWithCustomPhones.push([(book[i])[1], customPhone]);}
-        else {bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);}
+        if ((book[i])[2] === undefined) {
+            bookWithCustomPhones.push([(book[i])[1], customPhone]);
+        }
+        else {
+            bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);
+        }
     }
     var sortedBookWithCustomPhones = bookWithCustomPhones.sort();
     var customBook = [];
