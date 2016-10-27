@@ -110,10 +110,9 @@ function phoneBookToCustomView(book) {
         splittedPhone[9];
         if ((book[i])[2] === undefined) {
             bookWithCustomPhones.push([(book[i])[1], customPhone]);
+            break;
         }
-        else {
-                bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);
-            }
+        bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);
     }
     var sortedBookWithCustomPhones = bookWithCustomPhones.sort();
     var customBook = [];
