@@ -46,22 +46,20 @@ exports.findAndRemove = function (query) {
 
         return (phoneBook.length - 1);
     }
-    else {
-        if (query === '') {
+    if ((query !== '*') && (query === '')) {
 
-            return 0;
-        }
-        var s = 0;
-        var foundRegExp = new RegExp(query);
-        for (var i = phoneBook.length - 1; i >= 0; i--) {
-            if (anyOfArray(phoneBook[i], foundRegExp)) {
-                phoneBook.splice(i, 1);
-                s++;
-            }
-        }
-
-        return s;
+        return 0;
     }
+    var s = 0;
+    var foundRegExp = new RegExp(query);
+    for (var i = phoneBook.length - 1; i >= 0; i--) {
+        if (anyOfArray(phoneBook[i], foundRegExp)) {
+            phoneBook.splice(i, 1);
+            s++;
+        }
+    }
+
+    return s;
 };
 
 exports.find = function (query) {
@@ -69,21 +67,19 @@ exports.find = function (query) {
 
         return phoneBookToCustomView(phoneBook);
     }
-    else {
-        if (query === '') {
+    if ((query !== '*') && (query === '')) {
 
-            return null;
-        }
-        var foundRegExp = new RegExp(query);
-        var arrayOfFounded = [];
-        for (var i = 0; i < phoneBook.length; i++) {
-            if (anyOfArray(phoneBook[i], foundRegExp)) {
-                arrayOfFounded.push(phoneBook[i]);
-            }
-        }
-
-        return phoneBookToCustomView(arrayOfFounded);
+        return null;
     }
+    var foundRegExp = new RegExp(query);
+    var arrayOfFounded = [];
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (anyOfArray(phoneBook[i], foundRegExp)) {
+            arrayOfFounded.push(phoneBook[i]);
+        }
+    }
+
+    return phoneBookToCustomView(arrayOfFounded);
 };
 
 function anyOfArray(phoneBookI, foundRegExp) {
