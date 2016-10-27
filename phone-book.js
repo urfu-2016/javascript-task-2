@@ -48,12 +48,12 @@ exports.findAndRemove = function (query) {
     }
     else if (query === '') {
 
-        return 0;
-    }
+            return 0;
+        }
     var s = 0;
     var foundRegExp = new RegExp(query);
     for (var i = phoneBook.length - 1; i >= 0; i--) {
-        if (anyOfArray(phoneBook[i],foundRegExp)) {
+        if (anyOfArray(phoneBook[i], foundRegExp)) {
             phoneBook.splice(i, 1);
             s++;
         }
@@ -69,12 +69,12 @@ exports.find = function (query) {
     }
     else if (query === '*') {
 
-        return phoneBookToCustomView(phoneBook);
-    }
+            return phoneBookToCustomView(phoneBook);
+        }
     var foundRegExp = new RegExp(query);
     var arrayOfFounded = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        if (anyOfArray(phoneBook[i],foundRegExp)) {
+        if (anyOfArray(phoneBook[i], foundRegExp)) {
             arrayOfFounded.push(phoneBook[i]);
         }
     }
@@ -82,7 +82,7 @@ exports.find = function (query) {
     return phoneBookToCustomView(arrayOfFounded);
 };
 
-function anyOfArray(phoneBookI,foundRegExp) {
+function anyOfArray(phoneBookI, foundRegExp) {
 
     return (foundRegExp.test(phoneBookI[0]) ||
     foundRegExp.test(phoneBookI[1]) ||
