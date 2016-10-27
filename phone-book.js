@@ -112,8 +112,8 @@ function phoneBookToCustomView(book) {
             bookWithCustomPhones.push([(book[i])[1], customPhone]);
         }
         else {
-            bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);
-        }
+                bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);
+            }
     }
     var sortedBookWithCustomPhones = bookWithCustomPhones.sort();
     var customBook = [];
