@@ -13,7 +13,7 @@ function isPhone(phone) {
 // Добавление записи в телефонную книгу
 exports.add = function (phone, name, email) {
     function isName() {
-        return name === '' || name === undefined || typeof name !== 'string';
+        return name === '' || typeof name !== 'string';
     }
 
     if (isName() || isPhone(phone) || email === '') {
@@ -34,7 +34,7 @@ exports.add = function (phone, name, email) {
 // Обновление записи в телефонной книге
 exports.update = function (phone, name, email) {
     var found = false;
-    if (name === '' || name === undefined || typeof name !== 'string' ||
+    if (name === '' || typeof name !== 'string' ||
         isPhone(phone) || email === '') {
         return false;
     }
