@@ -13,7 +13,7 @@ exports.add = function (phone, name, email) {
         return name === '' || typeof name !== 'string';
     }
 
-    if (isName() || isPhone(phone) || email === '') {
+    if (isName() || isPhone(phone)) {
         return false;
     }
 
@@ -32,7 +32,7 @@ exports.add = function (phone, name, email) {
 exports.update = function (phone, name, email) {
     var found = false;
     if (name === '' || typeof name !== 'string' ||
-        isPhone(phone) || email === '') {
+        isPhone(phone)) {
         return false;
     }
 
@@ -53,7 +53,7 @@ function formatedQ(q) {
         return '';
     }
     if (q === '') {
-        return 0;
+        return false;
     }
 
     return q;
