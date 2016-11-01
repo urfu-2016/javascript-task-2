@@ -16,8 +16,7 @@ exports.add = function (phone, name, email) {
         return name === '' || name === undefined;
     }
 
-    if (isName() || email === '' ||
-    isPhone(phone)) {
+    if (isName() || isPhone(phone)) {
         return false;
     }
 
@@ -35,8 +34,7 @@ exports.add = function (phone, name, email) {
 // Обновление записи в телефонной книге
 exports.update = function (phone, name, email) {
     var found = false;
-    if (name === '' || name === undefined || isPhone(phone) ||
-    email === '') {
+    if (name === '' || name === undefined || isPhone(phone)) {
         return false;
     }
 
