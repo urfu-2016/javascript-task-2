@@ -3,7 +3,7 @@ exports.isStar = false;
 var phoneBook = [];
 
 function isPhone(phone) {
-    if (phone === '' || phone === undefined) {
+    if (phone === '' || phone === undefined || !isNaN(Number(phone))) {
         return false;
     }
 
