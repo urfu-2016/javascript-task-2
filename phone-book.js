@@ -3,7 +3,8 @@ exports.isStar = false;
 var phoneBook = [];
 
 function isPhone(phone) {
-    return (phone.match(/^[0-9]{10}$/) === null || phone === '' || phone === undefined);
+    return (phone.match(/^[0-9]{10}$/) === null || phone === '' ||
+    isNaN(Number(phone)) || phone.length !== 10);
 }
 
 // Добавление записи в телефонную книгу
