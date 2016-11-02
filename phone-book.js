@@ -176,20 +176,12 @@ exports.find = function (query) {
         }
         return 0;
     });
+    var i = 0;
     if (query !== '*') {
-        var i = 0;
         while (i < copy.length) {
-            if (copy[i].phone.indexOf(query) !== -1) {
+            if (findMatches(query, copy[i])) {
                 i++;
                 continue;
-            } else if (copy[i].name.indexOf(query) !== -1) {
-                i++;
-                continue;
-            } else if (copy[i].email !== undefined) {
-                if (copy[i].email.indexOf(query) !== -1) {
-                    i++;
-                    continue;
-                }
             }
             copy.splice(i, 1);
         }
