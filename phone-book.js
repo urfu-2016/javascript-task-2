@@ -14,30 +14,37 @@ var phoneBook = [];
  /**
   * Поиск записи в книге по телефону
   * @param {String} query
+  * @return {Number} result
   */
-function findByPhone (query) {
-    for (var i=0; i<phoneBook.length; i++) {
-        if (phoneBook[i].phone == query) {
+function findByPhone(query) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phoneBook[i].phone === query) {
+
             return i;
         }
     }
+
     return -1;
 };
 
 /**
  * Проверка номера
  * @param {String} phone
+ * @return {boolean} result
  */
-function phoneIsGood (phone) {
+function phoneIsGood(phone) {
     if (phone.length == 10) {
         var regex = /[0-9]+/; // похоже неверно
         if (phone.match(regex)==null) {
+
             return false;
         }
     }
     else {
+
         return false;
     }
+
     return true;
 };
 
@@ -46,21 +53,28 @@ function phoneIsGood (phone) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
- * @returns {bool} result
+ * @returns {boolean} result
  */
 exports.add = function (phone, name, email) {
-    if (name === undefined) { return false; }
-    if (!phoneIsGood(phone)) {
+    if (name === undefined) {
+
         return false;
     }
-    if (findByPhone(phone)!=-1) { return false; }
+    if (!phoneIsGood(phone)) {
+
+        return false;
+    }
+    if (findByPhone(phone)!=-1) {
+
+        return false;
+    }
     var note = {
         phone: phone,
         name: name,
         email: email
     };
-    console.info('add');
     phoneBook.push(note);
+
     return true;
 };
 
@@ -71,9 +85,15 @@ exports.add = function (phone, name, email) {
  * @param {String} email
  */
 exports.update = function (phone, name, email) {
-    if (!phoneIsGood(phone)) { return false; }
+    if (!phoneIsGood(phone)) {
+
+        return false;
+    }
     var ind = findByPhone(phone);
-    if (ind == -1) { return false; }
+    if (ind == -1) {
+
+        return false;
+    }
     if (name !== undefined) {
         phoneBook[ind].name = name;
     }
@@ -83,13 +103,14 @@ exports.update = function (phone, name, email) {
     else {
         phoneBook[ind].email = email;
     }
-    console.info('update');
+
     return true;
 };
 
 /**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
+ * @return {Number} result
  */
 exports.findAndRemove = function (query) {
     if (query === undefined) { return 0; }
@@ -97,6 +118,7 @@ exports.findAndRemove = function (query) {
     if (query == '*') {
         res = phoneBook.length;
         phoneBook.splice(0, res);
+
         return res;
     }
     var i=0;
@@ -120,19 +142,20 @@ exports.findAndRemove = function (query) {
         }
         i++;
     }
-    //console.info(res);
+
     return res;
 };
 
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
+ * @return {Array} result
  */
 exports.find = function (query) {
-    var res = [];
-    if (query === undefined) { return res; }
-    res = phoneBook;
-    res.sort(function (a, b) {
+    var copy = [];
+    if (query === undefined) { return copy; }
+    copy = phoneBook;
+    copy.sort(function (a, b) {
         if (a.name > b.name) {
             return 1;
         }
@@ -141,24 +164,35 @@ exports.find = function (query) {
         }
         return 0;
     });
-    if (query == '*') { return res; }
-    var i=0;
-    while(i < res.length) {
-        if (res[i].phone.indexOf(query) != -1) {
-            i++;
-            continue;
-        }
-        else if (res[i].name.indexOf(query) != -1){
-            i++;
-            continue;
-        }
-        else if (res[i].email !== undefined){
-            if (res[i].email.indexOf(query) != -1){
+    if (query != '*') {
+        var i = 0;
+        while (i < copy.length) {
+            if (copy[i].phone.indexOf(query) != -1) {
                 i++;
                 continue;
             }
+            else if (copy[i].name.indexOf(query) != -1) {
+                i++;
+                continue;
+            }
+            else if (copy[i].email !== undefined) {
+                if (copy[i].email.indexOf(query) != -1) {
+                    i++;
+                    continue;
+                }
+            }
+            copy.splice(i, 1);
         }
-        res.splice(i, 1);
+        var temp = '';
+        for (i = 0; i < copy.length; i++) {
+            temp = '+7 (' + copy[i].phone.slice(0, 3) + ') ' + copy[i].phone.slice(3, 6) + '-';
+            temp += copy[i].phone.slice(6, 8) + '-' + copy[i].phone.slice(8, 10);
+            copy[i].phone = temp;
+        }
+    }
+    var res = [];
+    for (i = 0; i < copy.length; i++) {
+        res.push(copy[i].name + ', ' + copy[i].phone + ', ' + copy[i].email);
     }
     return res;
 };
