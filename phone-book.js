@@ -14,7 +14,7 @@ var phoneBook = [];
  /**
   * Поиск записи в книге по телефону
   * @param {String} query
-  * @return {Number} result
+  * @returns {Number} result
   */
 function findByPhone(query) {
     for (var i = 0; i < phoneBook.length; i++) {
@@ -25,28 +25,27 @@ function findByPhone(query) {
     }
 
     return -1;
-};
+}
 
 /**
  * Проверка номера
  * @param {String} phone
- * @return {boolean} result
+ * @returns {boolean} result
  */
 function phoneIsGood(phone) {
-    if (phone.length == 10) {
+    if (phone.length === 10) {
         var regex = /[0-9]+/; // похоже неверно
-        if (phone.match(regex)==null) {
+        if (phone.match(regex) === null) {
 
             return false;
         }
-    }
-    else {
+    } else {
 
         return false;
     }
 
     return true;
-};
+}
 
 /**
  * Добавление записи в телефонную книгу
@@ -64,7 +63,7 @@ exports.add = function (phone, name, email) {
 
         return false;
     }
-    if (findByPhone(phone)!=-1) {
+    if (findByPhone(phone) !== -1) {
 
         return false;
     }
@@ -83,6 +82,7 @@ exports.add = function (phone, name, email) {
  * @param {String} phone
  * @param {String} name
  * @param {String} email
+ * @returns {boolean} result
  */
 exports.update = function (phone, name, email) {
     if (!phoneIsGood(phone)) {
@@ -90,7 +90,7 @@ exports.update = function (phone, name, email) {
         return false;
     }
     var ind = findByPhone(phone);
-    if (ind == -1) {
+    if (ind === -1) {
 
         return false;
     }
@@ -99,8 +99,7 @@ exports.update = function (phone, name, email) {
     }
     if (email === undefined) {
         phoneBook[ind].email = '';
-    }
-    else {
+    } else {
         phoneBook[ind].email = email;
     }
 
@@ -115,7 +114,7 @@ exports.update = function (phone, name, email) {
 exports.findAndRemove = function (query) {
     if (query === undefined) { return 0; }
     var res = 0;
-    if (query == '*') {
+    if (query === '*') {
         res = phoneBook.length;
         phoneBook.splice(0, res);
 
@@ -123,18 +122,16 @@ exports.findAndRemove = function (query) {
     }
     var i=0;
     while(i < phoneBook.length) {
-        if (phoneBook[i].phone.indexOf(query) != -1) {
+        if (phoneBook[i].phone.indexOf(query) !== -1) {
             res++;
             phoneBook.splice(i, 1);
             continue;
-        }
-        else if (phoneBook[i].name.indexOf(query) != -1){
+        } else if (phoneBook[i].name.indexOf(query) !== -1){
             res ++;
             phoneBook.splice(i, 1);
             continue;
-        }
-        else if (phoneBook[i].email !== undefined){
-            if (phoneBook[i].email.indexOf(query) != -1){
+        } else if (phoneBook[i].email !== undefined){
+            if (phoneBook[i].email.indexOf(query) !== -1){
                 res ++;
                 phoneBook.splice(i, 1);
                 continue;
@@ -164,18 +161,16 @@ exports.find = function (query) {
         }
         return 0;
     });
-    if (query != '*') {
+    if (query !== '*') {
         var i = 0;
         while (i < copy.length) {
             if (copy[i].phone.indexOf(query) != -1) {
                 i++;
                 continue;
-            }
-            else if (copy[i].name.indexOf(query) != -1) {
+            } else if (copy[i].name.indexOf(query) != -1) {
                 i++;
                 continue;
-            }
-            else if (copy[i].email !== undefined) {
+            } else if (copy[i].email !== undefined) {
                 if (copy[i].email.indexOf(query) != -1) {
                     i++;
                     continue;
@@ -194,6 +189,7 @@ exports.find = function (query) {
     for (i = 0; i < copy.length; i++) {
         res.push(copy[i].name + ', ' + copy[i].phone + ', ' + copy[i].email);
     }
+    
     return res;
 };
 
