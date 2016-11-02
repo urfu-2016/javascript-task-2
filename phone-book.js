@@ -107,9 +107,30 @@ exports.update = function (phone, name, email) {
 };
 
 /**
+ * Поиск записи в книге по телефону
+ * @param {String} query
+ * @param {Object} note
+ * @returns {boolean} result
+ */
+function findMatches(query, note) {
+    if (note.phone.indexOf(query) !== -1) {
+        return true;
+    }
+    if (note.name.indexOf(query) !== -1) {
+        return true;
+    }
+    if (phoneBook[i].email !== undefined) {
+        if (note.email.indexOf(query) !== -1) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Удаление записей по запросу из телефонной книги
  * @param {String} query
- * @return {Number} result
+ * @returns {Number} result
  */
 exports.findAndRemove = function (query) {
     if (query === undefined) { return 0; }
@@ -121,21 +142,11 @@ exports.findAndRemove = function (query) {
         return res;
     }
     var i=0;
-    while(i < phoneBook.length) {
-        if (phoneBook[i].phone.indexOf(query) !== -1) {
+    while (i < phoneBook.length) {
+        if (findMatches(query, phoneBook[i])) {
             res++;
             phoneBook.splice(i, 1);
             continue;
-        } else if (phoneBook[i].name.indexOf(query) !== -1){
-            res ++;
-            phoneBook.splice(i, 1);
-            continue;
-        } else if (phoneBook[i].email !== undefined){
-            if (phoneBook[i].email.indexOf(query) !== -1){
-                res ++;
-                phoneBook.splice(i, 1);
-                continue;
-            }
         }
         i++;
     }
@@ -146,7 +157,7 @@ exports.findAndRemove = function (query) {
 /**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
- * @return {Array} result
+ * @returns {Array} result
  */
 exports.find = function (query) {
     var copy = [];
@@ -189,7 +200,7 @@ exports.find = function (query) {
     for (i = 0; i < copy.length; i++) {
         res.push(copy[i].name + ', ' + copy[i].phone + ', ' + copy[i].email);
     }
-    
+
     return res;
 };
 
