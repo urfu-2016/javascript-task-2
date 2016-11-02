@@ -159,6 +159,21 @@ exports.findAndRemove = function (query) {
 };
 
 /**
+ * Поиск записи в книге по телефону
+ * @param {Object} copy
+ * @returns {Array} result
+ */
+function changeFormat(copy) {
+    var temp = [];
+    for (var i = 0; i < copy.length; i++) {
+        temp[i] = '+7 (' + copy[i].phone.slice(0, 3) + ') ' + copy[i].phone.slice(3, 6) + '-';
+        temp[i] += copy[i].phone.slice(6, 8) + '-' + copy[i].phone.slice(8, 10);
+    }
+
+    return temp;
+}
+
+/**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
  * @returns {Array} result
@@ -166,14 +181,19 @@ exports.findAndRemove = function (query) {
 exports.find = function (query) {
     var copy = [];
     if (query === undefined) { return copy; }
-    copy = phoneBook;
+    for (var key in phoneBook) {
+        copy[key] = phoneBook[key];
+    }
     copy.sort(function (a, b) {
         if (a.name > b.name) {
+
             return 1;
         }
         if (a.name < b.name) {
+
             return -1;
         }
+
         return 0;
     });
     var i = 0;
@@ -185,16 +205,11 @@ exports.find = function (query) {
             }
             copy.splice(i, 1);
         }
-        var temp = '';
-        for (i = 0; i < copy.length; i++) {
-            temp = '+7 (' + copy[i].phone.slice(0, 3) + ') ' + copy[i].phone.slice(3, 6) + '-';
-            temp += copy[i].phone.slice(6, 8) + '-' + copy[i].phone.slice(8, 10);
-            copy[i].phone = temp;
-        }
     }
+    var newPhones=changeFormat(copy);
     var res = [];
     for (i = 0; i < copy.length; i++) {
-        res.push(copy[i].name + ', ' + copy[i].phone + ', ' + copy[i].email);
+        res.push(copy[i].name + ', ' + newPhones[i] + ', ' + copy[i].email);
     }
 
     return res;
