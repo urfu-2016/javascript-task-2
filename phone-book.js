@@ -107,7 +107,7 @@ exports.update = function (phone, name, email) {
 };
 
 /**
- * Поиск записи в книге по телефону
+ * Поиск совпадений в данной записи
  * @param {String} query
  * @param {Object} note
  * @returns {boolean} result
@@ -162,7 +162,7 @@ exports.findAndRemove = function (query) {
 };
 
 /**
- * Поиск записи в книге по телефону
+ * Изменение формата новера телефона
  * @param {Object} copy
  * @returns {Array} result
  */
@@ -177,7 +177,7 @@ function changeFormat(copy) {
 }
 
 /**
- * Поиск записи в книге по телефону
+ * Вспомогательная функция для сортировки по имени
  * @param {Object} a
  * @param {Object} b
  * @returns {Number} result
@@ -196,17 +196,29 @@ function sortByName(a, b) {
 }
 
 /**
+ * Копирование телефонной книги
+ * @param {Object} a
+ * @returns {Object} result
+ */
+function Copy(a) {
+    var result = [];
+    for (var key in phoneBook) {
+        result[key] = phoneBook[key];
+    }
+    result.sort(sortByName);
+    return result;
+}
+
+/**
  * Поиск записей по запросу в телефонной книге
  * @param {String} query
  * @returns {Array} result
  */
 exports.find = function (query) {
-    var copy = [];
-    if (query === undefined) { return copy; }
-    for (var key in phoneBook) {
-        copy[key] = phoneBook[key];
+    if (query === undefined) {
+        return [];
     }
-    copy.sort(sortByName);
+    var copy = Copy(phoneBook);
     var i = 0;
     if (query !== '*') {
         while (i < copy.length) {
