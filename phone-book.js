@@ -4,96 +4,137 @@ exports.isStar = false;
 
 var phoneBook = [];
 
+function isNotEmptyString(arg) {
+    if (arg !== '') {
+
+        return true;
+    }
+
+    return false;
+}
+
+function isNotUndefined(arg) {
+    if (arg !== undefined) {
+
+        return true;
+    }
+
+    return false;
+}
+
+function isInPhoneBook(phone) {
+    var _phone = new RegExp(phone);
+    if (_phone.exec(phoneBook)) {
+
+        return true;
+    }
+
+    return false;
+}
+
+function isCorrectPhone(phone) {
+    var _phone = /^\d{10}$/;
+    if (_phone.test(phone)) {
+
+        return true;
+    }
+
+    return false;
+}
+
+function canBeAdded(phone, name, email) {
+    if (isNotEmptyString(name) && isNotUndefined(name) && isCorrectPhone(phone) && !isInPhoneBook(phone)) {
+
+        return true;
+    }
+
+    return false;
+}
+
 exports.add = function (phone, name, email) {
-    var phoneRegEx = /^\d{10}$/;
-    var currentPhone = new RegExp(phone);
-    if ((!phoneRegEx.test(phone)) ||
-        (name === '') ||
-        (name === undefined) ||
-        (currentPhone.exec(phoneBook))) {
+    if (canBeAdded(phone, name, email)) {
+        phoneBook.push([phone, name, email]);
 
-        return false;
-    }
-    phoneBook.push([phone, name, email]);
-
-    return true;
-};
-
-exports.update = function (phone, name, email) {
-    var phoneRegEx = /^\d{10}$/;
-    var currentPhone = new RegExp(phone);
-    if ((!phoneRegEx.test(phone)) ||
-        (name === '') ||
-        (name === undefined)) {
-
-        return false;
-    }
-    for (var i = 0; i < phoneBook.length; i++) {
-        if (currentPhone.exec(phoneBook[i])) {
-            phoneBook.splice(i, 1);
-            phoneBook.splice(i, 0, [phone, name, email]);
-
-            return true;
-        }
+        return true;
     }
 
     return false;
 };
 
-exports.findAndRemove = function (query) {
-    if (query === '*') {
-        phoneBook = [];
-
-        return (phoneBook.length - 1);
-    }
-    if ((query !== '*') && (query === '')) {
-
-        return 0;
-    }
-    var s = 0;
-    var foundRegExp = new RegExp(query);
-    for (var i = phoneBook.length - 1; i >= 0; i--) {
-        if (anyOfArray(phoneBook[i], foundRegExp)) {
-            phoneBook.splice(i, 1);
-            s++;
+function updateSpeciousColumnByPhone(phone, index, data) {
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (phone === phoneBook[i][0]) {
+            phoneBook[i][index] = data;
         }
     }
+}
 
-    return s;
+function updatePhoneBook(phone, name, email) {
+    if (isNotEmptyString(name) && isNotUndefined(name)) {
+        updateSpeciousColumnByPhone(phone, 1, name)
+    }
+    updateSpeciousColumnByPhone(phone, 2, email)
+}
+
+exports.update = function (phone, name, email) {
+    if (isCorrectPhone(phone) && isInPhoneBook(phone)) {
+        updatePhoneBook(phone, name, email)
+
+        return true;
+    }
+
+    return false;
 };
 
-exports.find = function (query) {
+function findQueryInPhoneBook(query) {
     if (query === '*') {
 
-        return phoneBookToCustomView(phoneBook);
+        return phoneBook;
     }
-    if ((query !== '*') && (query === '')) {
+    if (query === '') {
 
         return null;
     }
-    var foundRegExp = new RegExp(query);
-    var arrayOfFounded = [];
+    var _query = new RegExp(query);
+    var foundByQuery = [];
     for (var i = 0; i < phoneBook.length; i++) {
-        if (anyOfArray(phoneBook[i], foundRegExp)) {
-            arrayOfFounded.push(phoneBook[i]);
+        if (_query.exec(phoneBook[i])) {
+            foundByQuery.push(phoneBook[i]);
         }
     }
 
-    return phoneBookToCustomView(arrayOfFounded);
-};
-
-function anyOfArray(phoneBookI, foundRegExp) {
-
-    return (foundRegExp.test(phoneBookI[0]) ||
-    foundRegExp.test(phoneBookI[1]) ||
-    foundRegExp.test(phoneBookI[2]));
+    return foundByQuery;
 }
 
-function phoneBookToCustomView(book) {
-    var bookWithCustomPhones = [];
-    for (var i = 0; i < book.length; i++) {
-        var splittedPhone = ((book[i])[0]).split('');
-        var customPhone =
+function removeUselessContact(uselessContact) {
+    var _uselessContact = new RegExp(uselessContact);
+    for (var i = 0; i < phoneBook.length; i++) {
+        if (_uselessContact.exec(phoneBook[i])) {
+            phoneBook.splice(i,1);
+        }
+    }
+}
+
+function removeAllUselessContacts(uselessContacts) {
+    for (var i = 0; i < uselessContacts.length; i++) {
+        removeUselessContact(uselessContacts[i]);
+    }
+}
+
+exports.findAndRemove = function (query) {
+    var uselessContacts = findQueryInPhoneBook(query)
+    if (findQueryInPhoneBook(query) === null) {
+
+        return 0;
+    }
+    removeAllUselessContacts(uselessContacts);
+
+     return uselessContacts.length;
+};
+
+function phoneToCorrectView(phone) {
+    var splittedPhone = phone.split('');
+    var correctPhone =
         '+7 (' +
         splittedPhone[0] +
         splittedPhone[1] +
@@ -108,20 +149,37 @@ function phoneBookToCustomView(book) {
         '-' +
         splittedPhone[8] +
         splittedPhone[9];
-        if ((book[i])[2] === undefined) {
-            bookWithCustomPhones.push([(book[i])[1], customPhone]);
+
+    return correctPhone;
+}
+
+function bookToCorrectView(book) {
+    var bookWithCorrectPhones = [];
+    for (var i = 0; i < book.length; i++) {
+    	var correctPhone = phoneToCorrectView(book[i][0]);
+        if (book[i][2] === undefined) {
+            bookWithCorrectPhones.push([book[i][1], correctPhone]);
             break;
         }
-        bookWithCustomPhones.push([(book[i])[1], customPhone, (book[i])[2]]);
+        bookWithCorrectPhones.push([book[i][1], correctPhone, book[i][2]]);
     }
-    var sortedBookWithCustomPhones = bookWithCustomPhones.sort();
-    var customBook = [];
-    for (var j = 0; j < sortedBookWithCustomPhones.length; j++) {
-        customBook.push((sortedBookWithCustomPhones[j]).join(', '));
+    var sortedBookWithCorrectPhones = bookWithCorrectPhones.sort();
+    var correctBook = [];
+    for (var i = 0; i < sortedBookWithCorrectPhones.length; i++) {
+        correctBook.push((sortedBookWithCorrectPhones[i]).join(', '));
     }
 
-    return customBook;
+    return correctBook;
 }
+
+exports.find = function (query) {
+    if (findQueryInPhoneBook(query) === null) {
+
+        return null;
+    }
+
+    return bookToCorrectView(findQueryInPhoneBook(query));
+};
 
 exports.importFromCsv = function (csv) {
     // Парсим csv
