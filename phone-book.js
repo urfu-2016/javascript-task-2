@@ -4,6 +4,8 @@ exports.isStar = false;
 
 var phoneBook = [];
 
+var i;
+
 function isNotEmptyString(arg) {
     if (arg !== '') {
 
@@ -42,8 +44,9 @@ function isCorrectPhone(phone) {
     return false;
 }
 
-function canBeAdded(phone, name, email) {
-    if (isNotEmptyString(name) && isNotUndefined(name) && isCorrectPhone(phone) && !isInPhoneBook(phone)) {
+function canBeAdded(phone, name) {
+    if (isNotEmptyString(name) && isNotUndefined(name) &&
+    	isCorrectPhone(phone) && !isInPhoneBook(phone)) {
 
         return true;
     }
@@ -52,7 +55,7 @@ function canBeAdded(phone, name, email) {
 }
 
 exports.add = function (phone, name, email) {
-    if (canBeAdded(phone, name, email)) {
+    if (canBeAdded(phone, name)) {
         phoneBook.push([phone, name, email]);
 
         return true;
@@ -71,14 +74,14 @@ function updateSpeciousColumnByPhone(phone, index, data) {
 
 function updatePhoneBook(phone, name, email) {
     if (isNotEmptyString(name) && isNotUndefined(name)) {
-        updateSpeciousColumnByPhone(phone, 1, name)
+        updateSpeciousColumnByPhone(phone, 1, name);
     }
-    updateSpeciousColumnByPhone(phone, 2, email)
+    updateSpeciousColumnByPhone(phone, 2, email);
 }
 
 exports.update = function (phone, name, email) {
     if (isCorrectPhone(phone) && isInPhoneBook(phone)) {
-        updatePhoneBook(phone, name, email)
+        updatePhoneBook(phone, name, email);
 
         return true;
     }
@@ -110,7 +113,7 @@ function removeUselessContact(uselessContact) {
     var _uselessContact = new RegExp(uselessContact);
     for (var i = 0; i < phoneBook.length; i++) {
         if (_uselessContact.exec(phoneBook[i])) {
-            phoneBook.splice(i,1);
+            phoneBook.splice(i, 1);
         }
     }
 }
@@ -122,14 +125,14 @@ function removeAllUselessContacts(uselessContacts) {
 }
 
 exports.findAndRemove = function (query) {
-    var uselessContacts = findQueryInPhoneBook(query)
+    var uselessContacts = findQueryInPhoneBook(query);
     if (findQueryInPhoneBook(query) === null) {
 
         return 0;
     }
     removeAllUselessContacts(uselessContacts);
 
-     return uselessContacts.length;
+    return uselessContacts.length;
 };
 
 function phoneToCorrectView(phone) {
@@ -155,8 +158,8 @@ function phoneToCorrectView(phone) {
 
 function bookToCorrectView(book) {
     var bookWithCorrectPhones = [];
-    for (var i = 0; i < book.length; i++) {
-    	var correctPhone = phoneToCorrectView(book[i][0]);
+    for (i = 0; i < book.length; i++) {
+        var correctPhone = phoneToCorrectView(book[i][0]);
         if (book[i][2] === undefined) {
             bookWithCorrectPhones.push([book[i][1], correctPhone]);
             break;
@@ -165,7 +168,7 @@ function bookToCorrectView(book) {
     }
     var sortedBookWithCorrectPhones = bookWithCorrectPhones.sort();
     var correctBook = [];
-    for (var i = 0; i < sortedBookWithCorrectPhones.length; i++) {
+    for (i = 0; i < sortedBookWithCorrectPhones.length; i++) {
         correctBook.push((sortedBookWithCorrectPhones[i]).join(', '));
     }
 
