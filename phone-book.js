@@ -4,47 +4,38 @@
  * Сделано задание на звездочку
  * Реализован метод importFromCsv
  */
-exports.isStar = true;
-
-/**
- * Телефонная книга
- */
-var phoneBook;
+exports.isStar = false;
 
 /**
  * Добавление записи в телефонную книгу
- * @param {String} phone
- * @param {String} name
- * @param {String} email
+ * @returns {Boolean}
  */
-exports.add = function (phone, name, email) {
-
+exports.add = function () {
+    return true;
 };
 
 /**
  * Обновление записи в телефонной книге
- * @param {String} phone
- * @param {String} name
- * @param {String} email
+ * @returns {Boolean}
  */
-exports.update = function (phone, name, email) {
-
+exports.update = function () {
+    return true;
 };
 
 /**
  * Удаление записей по запросу из телефонной книги
- * @param {String} query
+ * @returns {Array}
  */
-exports.findAndRemove = function (query) {
-
+exports.findAndRemove = function () {
+    return [];
 };
 
 /**
  * Поиск записей по запросу в телефонной книге
- * @param {String} query
+ * @returns {Array}
  */
-exports.find = function (query) {
-
+exports.find = function () {
+    return [];
 };
 
 /**
